@@ -27,11 +27,12 @@ dotnet publish "$prjPath" -o "$outputPath" --runtime linux-x64 --self-contained 
 function update_version {
     here=$(pwd)
     cd "$1"
-    version=$(git describe --tags $(git rev-list --tags --max-count=1))
+    version=$(git describe --tags $(git rev-list --tags --max-count=1) || echo "x.x.x")
     cd "$here"
 
     property="AppVersion"
     sed -i "s/\"$property\": \"\"/\"$property\": \"$version\"/g" "$1/appsettings.Development.json"
+    sed -i "s/\"$property\": \"\"/\"$property\": \"$version\"/g" "$1/appsettings.json"
 }
 
-# update_version "$outputPath"
+update_version "$outputPath"
