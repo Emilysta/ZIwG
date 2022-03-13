@@ -7,22 +7,22 @@ Repository created for the purpose of academic course "Zastosowanie Informatyki 
   - [Table of contents](#table-of-contents)
   - [Authors](#authors)
   - [Specification](#specification)
-  - [Deploy](#deploy)
+  - [Deploy on our server](#deploy-on-our-server)
 
 ## Authors
-- Emilia Szymańska,
+- Emilia Starczyk,
 - Arek Kacperski,
 - Michał Łopatka,
-- Górka Mateusz
+- Mateusz Górka
 
 
 ## Specification
 - Backend: ASP.NET Core,
-- Frontend: React.js
+- Frontend: React
 
 
-## Deploy
-In directory `bash` create file `config.sh` based on template:
+## Deploy on our server
+In directory `bash` create file `config.sh` based on template with correct credentials:
 
 ```sh
 user="user name"
@@ -32,7 +32,11 @@ port="your ssh port"
 
 Run:
 ```sh
-./bash/deploy.sh
+./bash/deploy-backend.sh
+```
+
+```sh
+./bash/deploy-frontend.sh
 ```
 
 <!--
