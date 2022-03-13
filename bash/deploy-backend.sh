@@ -8,4 +8,4 @@ $root/../bash/build-server-component.sh backend/src
 scp -P "$port" -r $root/../~build/* "$user@$domain:/var/ziwg/";
 
 # run
-ssh "$user@$domain" -p "$port" /opt/ziwg-bash/publish.sh
+ssh "$user@$domain" -p "$port" /opt/ziwg-bash/publish-backend.sh
