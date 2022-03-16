@@ -9,6 +9,7 @@
         "moduleResolution": "Node"
     },
     "include": [
-        "./custom.d.ts"
+        "src/App",
+        "custom.d.ts"
     ]
 }

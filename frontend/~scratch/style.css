@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+main {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Scratch */
+.space-around-row {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.huge-text {
+    font-size: 36px;
+}
+
+/* General */
+p,
+a,
+div,
+h1,
+h2,
+h3,
+h4,
+h4,
+input {
+    font-family: Poppins;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    font-weight: 300;
+    color: #3D5A80;
+}
+
+a:hover {
+    color: #98C1D9;
+}
+
+/* Buttons */
+.Button {
+    width: 234px;
+    height: 72px;
+    border-radius: 39px;
+    border: 2px solid #000;
+    font-family: Poppins, sans-serif;
+    font-size: 36px;
+    font-weight: 300;
+    font-style: normal;
+    color: #fff;
+}
+
+.Primary {
+    background-color: #3D5A80;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.Primary:hover {
+    background-color: #98C1D9;
+}
+
+.Secondary {
+    background-color: #fff;
+    color: #3D5A80;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.Secondary:hover {
+    color: #98C1D9;
+    border-color: #98C1D9;
+}
+
+input[type="text"] {
+    width: 234px;
+    height: 36px;
+    font-size:23px;
+    border: 0px;
+    border-radius: 39px;
+    padding: 16px;
+    background-color: #C4C4C476;
+    color:#3D5A80;
+}
+
+input.Hint {
+    font-size:28px;
+    color:#3D5A8076;
+}
