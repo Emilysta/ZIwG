@@ -18,12 +18,21 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginDTO model)
+        {
+            if (await _loggingService.Login(model))
+                return Ok();
+            return BadRequest();
+        }
+
+        [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register(RegisterDTO model)
         {
-                if (await _loggingService.Register(model))
-                    return Ok(model.FirstName);
-                return BadRequest();
-            }
+            if (await _loggingService.Register(model))
+                return Ok();
+            return BadRequest();
+        }
     }
 }

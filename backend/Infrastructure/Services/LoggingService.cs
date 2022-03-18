@@ -14,6 +14,17 @@ namespace Infrastructure.Services
         {
             _userManager = userManager;
         }
+        public async Task<bool> Login(LoginDTO model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Email);
+
+            if (user != null)
+            {
+                var signInResult = await _userManager.CheckPasswordAsync(user, model.Password);
+                return signInResult;
+            }
+            return false;
+        }
 
         public async Task<bool> Register(RegisterDTO model)
         {

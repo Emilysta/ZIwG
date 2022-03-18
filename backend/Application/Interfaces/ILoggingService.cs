@@ -6,5 +6,7 @@ namespace Application.Interfaces
     public interface ILoggingService
     {
         public Task<bool> Register(RegisterDTO model);
+        public Task<bool> Login(LoginDTO model);
+
     }
 }
