@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Domain.Entities;
 using Domain.Contexts;
-using Domain.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
+using Application.Interfaces;
+using Infrastructure.Services;
 
 namespace ziwg
 {
@@ -27,18 +23,31 @@ namespace ziwg
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddDbContext<DataBaseContext>(options =>
-           {
-              options.UseSqlServer(Configuration["Connectionstrings:DefaultConnection"]);
-           });
+            services.AddTransient<ILoggingService, LoggingService>();
 
-        services.AddIdentityCore<User>()
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "swagger ziwg api", Version = "v1" });
+            });
+
+            services.AddDbContext<DataBaseContext>(options =>
+            {
+              options.UseSqlServer(Configuration["Connectionstrings:DefaultConnection"]);
+            });
+
+            services.AddIdentityCore<User>()
              .AddEntityFrameworkStores<DataBaseContext>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ziwg"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -48,10 +57,7 @@ namespace ziwg
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }
