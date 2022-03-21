@@ -1,0 +1,55 @@
+.HeadBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    /* todo */
+    border-bottom: 2px solid #000;
+    background-color: #fff;
+    /* todo background bool effect */
+}
+
+.HeadBar nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    margin: 5px 8%;
+}
+
+.TopMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    list-style: none;
+}
+
+.TopMenu ul {
+    display: inline;
+    margin: auto;
+    padding: 0;
+    margin-left: 18px;
+}
+
+.Logotype {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-content: center;
+}
+
+.Logotype * {
+    margin: auto;
+}
+
+.Logotype a {
+    font-size: 20px;
+}
+
+.Logo {
+    width: 64px;
+    height: 64px;
+}
