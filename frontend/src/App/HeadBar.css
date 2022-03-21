@@ -19,7 +19,7 @@
     margin: 5px 8%;
 }
 
-.TopMenu {
+.VerticalMenu {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -27,11 +27,17 @@
     list-style: none;
 }
 
-.TopMenu ul {
-    display: inline;
+.VerticalMenu ul {
+    display: flex;
+    align-content: center;
     margin: auto;
     padding: 0;
     margin-left: 18px;
+}
+
+.VerticalMenu a img {
+    vertical-align: middle;
+    margin-right: 1px;
 }
 
 .Logotype {
@@ -50,6 +56,6 @@
 }
 
 .Logo {
-    width: 64px;
-    height: 64px;
+    width: 46px;
+    height: 46px;
 }

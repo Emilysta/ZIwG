@@ -8,7 +8,8 @@ h2,
 h3,
 h4,
 h4,
-input {
+input,
+label {
     font-family: Poppins;
 }
 
@@ -16,8 +17,17 @@ a {
     text-decoration: none;
     font-weight: 300;
     color: #3D5A80;
+    cursor: pointer;
 }
 
 a:hover {
     color: #98C1D9;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    height: calc(100vh-100px);
+    flex-direction: column;
+    margin-top: 100px;
 }
