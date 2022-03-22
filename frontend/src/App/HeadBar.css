@@ -6,9 +6,7 @@
     width: 100%;
 
     /* todo */
-    border-bottom: 2px solid #000;
-    background-color: #fff;
-    /* todo background bool effect */
+    border-bottom: 3px groove rgba(0, 0, 0, 0.25);
 }
 
 .HeadBar nav {
@@ -33,11 +31,14 @@
     margin: auto;
     padding: 0;
     margin-left: 18px;
+    font-size: 22px;
 }
 
 .VerticalMenu a img {
+    width: 30px;
+    height: 30px;
+    margin-right: 4px;
     vertical-align: middle;
-    margin-right: 1px;
 }
 
 .Logotype {
@@ -52,10 +53,16 @@
 }
 
 .Logotype a {
-    font-size: 20px;
+    font-size: 26px;
 }
 
 .Logo {
-    width: 46px;
-    height: 46px;
+    width: 72px;
+    height: 72px;
+}
+
+.VerticalMenu .highlighted {
+    border: 2px solid #EE6C4D;
+    padding: 2px 6px;
+    border-radius: 36px;
 }

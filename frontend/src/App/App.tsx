@@ -25,11 +25,8 @@ class Logotype extends React.Component {
 
 class VerticalMenu extends React.Component {
   render(): React.ReactNode {
-    const list = ["Marisa", "Julianne", "Jakob"]
     return <li className='VerticalMenu'>
-      {list.map((name, i) => {
-        return <MenuItem key={i}>{name}</MenuItem>
-      })}
+      <MenuItem>Events</MenuItem>
       <HeaderUserArea />
     </li>
   }
@@ -38,6 +35,12 @@ class VerticalMenu extends React.Component {
 class MenuItem extends React.Component {
   render(): React.ReactNode {
     return <ul><a>{this.props.children}</a></ul>
+  }
+}
+
+class HighlightedMenuItem extends React.Component {
+  render(): React.ReactNode {
+    return <ul><a className='highlighted'>{this.props.children}</a></ul>
   }
 }
 
@@ -61,11 +64,14 @@ class HeaderUserArea extends React.Component<any, any> {
   render(): React.ReactNode {
     if (this.state.logged)
       return <MenuItem>
-        <img width="20px" height="20px"></img>
+        <img />
         Logout
       </MenuItem>
     else
-      return <MenuItem>Sign In</MenuItem>
+      return <>
+        <MenuItem>Log In</MenuItem>
+        <HighlightedMenuItem>Sign In</HighlightedMenuItem>
+      </>
   }
 }
 
