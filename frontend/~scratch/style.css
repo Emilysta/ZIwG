@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-
 main {
     display: flex;
     width: 100%;
@@ -18,30 +16,6 @@ main {
 
 .huge-text {
     font-size: 36px;
-}
-
-/* General */
-p,
-a,
-div,
-h1,
-h2,
-h3,
-h4,
-h4,
-input {
-    font-family: Poppins;
-}
-
-/* Links */
-a {
-    text-decoration: none;
-    font-weight: 300;
-    color: #3D5A80;
-}
-
-a:hover {
-    color: #98C1D9;
 }
 
 /* Buttons */
@@ -75,22 +49,4 @@ a:hover {
 .Secondary:hover {
     color: #98C1D9;
     border-color: #98C1D9;
-}
-
-input[type="text"] {
-    width: 234px;
-    height: 36px;
-    font-size: 23px;
-    border: 0px;
-    border-radius: 39px;
-    padding: 16px;
-    background-color: #C4C4C476;
-    color: #3D5A80;
-}
-
-input[type="text"]:focus {}
-
-input.Hint {
-    font-size: 28px;
-    color: #3D5A8076;
 }
