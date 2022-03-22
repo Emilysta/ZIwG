@@ -119,7 +119,7 @@ class LoginForm extends React.Component {
     return <section className="LoginSection">
       <h1>Login</h1>
       <p>Welcome back! Login to access full functionality in EventColab.</p>
-      <p>Did you <a href="">forget your password?</a></p>
+      <p>Did you <a href="" className='highlighted'>forget your password?</a></p>
 
       <form onSubmit={this.handleSubmit} className="LoginForm">
         <TextInput placeHolder='Login' />

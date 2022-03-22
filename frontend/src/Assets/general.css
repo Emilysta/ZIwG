@@ -29,9 +29,13 @@ a:hover {
     color: #98C1D9;
 }
 
-a.highlighted {
+.highlighted {
     color: #EE6C4D;
     font-weight: 600;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 main {
