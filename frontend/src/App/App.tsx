@@ -2,7 +2,7 @@ import logo from '../images/logo.svg';
 import '../Assets/general.css'
 import './App.css';
 import './HeadBar.css'
-import './TextInput.css'
+import './Input.css'
 import './LoginForm.css'
 import * as React from "react";
 
@@ -110,11 +110,17 @@ class LoginForm extends React.Component {
   }
 
   render(): React.ReactNode {
-    return <form onSubmit={this.handleSubmit} className="LoginForm">
-      <TextInput placeHolder='Login' name="login" />
-      <TextInput placeHolder='Password' name="password" overrideType="password" />
-      <input type="submit" value="submit" />
-    </form>
+    return <section className="LoginSection">
+      <h1>Login</h1>
+      <p>Welcome back! Login to access full functionality in EventColab.</p>
+      <p>Did you <a href="">forget your password?</a></p>
+
+      <form onSubmit={this.handleSubmit} className="LoginForm">
+        <TextInput placeHolder='Login' />
+        <TextInput placeHolder='Password' overrideType="password" />
+        <input type="submit" value="submit" />
+      </form>
+    </section>
   }
 }
 

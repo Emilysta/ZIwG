@@ -11,6 +11,11 @@ h4,
 input,
 label {
     font-family: Poppins;
+    color: #3D5A80;
+}
+
+p, a, label, input {
+    font-size: 14px;
 }
 
 a {
@@ -24,10 +29,16 @@ a:hover {
     color: #98C1D9;
 }
 
+p a {
+    color: #EE6C4D;
+    font-weight: 600;
+}
+
 main {
     display: flex;
     width: 100%;
-    height: calc(100vh-100px);
+    height: 100vh;
     flex-direction: column;
-    margin-top: 100px;
+    justify-content: center;
+    align-content: center;
 }
