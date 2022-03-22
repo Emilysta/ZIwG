@@ -7,6 +7,8 @@ namespace Application.Interfaces
     {
         public Task<bool> Register(RegisterDTO model);
         public Task<bool> Login(LoginDTO model);
+        public bool Modify(ModifyDTO @model, string id);
+        public Task<bool> SaveChangesAsync();
 
     }
 }
