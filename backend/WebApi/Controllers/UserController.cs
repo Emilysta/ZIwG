@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.UserDTOs;
 using Application.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -32,6 +33,21 @@ namespace WebApi.Controllers
         {
             if (await _loggingService.Register(model))
                 return Ok();
+            return BadRequest();
+        }
+
+        [HttpPatch]
+        [Route("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Put([FromBody] ModifyDTO @event, [FromRoute] string id)
+        {
+            if (@event == null)
+                return BadRequest();
+
+            if (_loggingService.Modify(@event, id))
+                if (await _loggingService.SaveChangesAsync())
+                    return Ok();
+
             return BadRequest();
         }
     }

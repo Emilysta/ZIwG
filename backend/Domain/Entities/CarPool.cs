@@ -14,7 +14,7 @@ namespace Domain.Entities
         public List<User> Users { get; set; }
         public string Description { get; set; }
         public decimal TotalCost { get; set; }
-        public string DriverId { get; set; }
+        public User Driver { get; set; }
 
     }
 }

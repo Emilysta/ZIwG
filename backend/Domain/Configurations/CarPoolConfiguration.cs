@@ -27,16 +27,13 @@ namespace Domain.Configurations
             builder.Property(t => t.Destination)
                 .IsRequired()
                 .HasMaxLength(60);
-            builder.HasMany(u => u.Users)
-            .WithMany(t => t.CarPools);
             builder.Property(t => t.Description)
                 .IsRequired()
                 .HasMaxLength(200);
+            builder.HasOne(u => u.Driver)
+            .WithMany(t => t.CarPools);
             builder.Property(t => t.TotalCost)
                 .IsRequired().HasColumnType("decimal(18,4)");
-            builder.Property(t => t.Origin)
-                .IsRequired()
-                .HasMaxLength(10);
         }
     }
 }

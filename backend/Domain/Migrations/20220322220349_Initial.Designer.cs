@@ -4,35 +4,22 @@ using Domain.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220322220349_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CarPoolUser", b =>
-                {
-                    b.Property<int>("CarPoolsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CarPoolsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("CarPoolUser");
-                });
 
             modelBuilder.Entity("Domain.Entities.CarPool", b =>
                 {
@@ -52,15 +39,15 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("DriverId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("FinishDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Origin")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -72,6 +59,8 @@ namespace Domain.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
 
                     b.ToTable("CarPools");
                 });
@@ -102,8 +91,6 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("OrganiserId")
-                        .IsRequired()
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Place")
@@ -116,6 +103,8 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganiserId");
+
                     b.ToTable("Events");
                 });
 
@@ -127,11 +116,19 @@ namespace Domain.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CarPoolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -140,6 +137,9 @@ namespace Domain.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -184,52 +184,57 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CarPoolId");
+
+                    b.HasIndex("EventId");
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EventUser", b =>
+            modelBuilder.Entity("Domain.Entities.CarPool", b =>
                 {
-                    b.Property<int>("EventsId")
-                        .HasColumnType("int");
+                    b.HasOne("Domain.Entities.User", "Driver")
+                        .WithMany("CarPools")
+                        .HasForeignKey("DriverId");
 
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("EventsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("EventUser");
+                    b.Navigation("Driver");
                 });
 
-            modelBuilder.Entity("CarPoolUser", b =>
+            modelBuilder.Entity("Domain.Entities.Event", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "Organiser")
+                        .WithMany("Events")
+                        .HasForeignKey("OrganiserId");
+
+                    b.Navigation("Organiser");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.HasOne("Domain.Entities.CarPool", null)
-                        .WithMany()
-                        .HasForeignKey("CarPoolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Users")
+                        .HasForeignKey("CarPoolId");
 
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Domain.Entities.Event", null)
+                        .WithMany("Users")
+                        .HasForeignKey("EventId");
                 });
 
-            modelBuilder.Entity("EventUser", b =>
+            modelBuilder.Entity("Domain.Entities.CarPool", b =>
                 {
-                    b.HasOne("Domain.Entities.Event", null)
-                        .WithMany()
-                        .HasForeignKey("EventsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Users");
+                });
 
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("Domain.Entities.Event", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("CarPools");
+
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

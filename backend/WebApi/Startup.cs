@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Application.Interfaces;
 using Infrastructure.Services;
+using Infrastructure.MappingProfiles;
 
 namespace ziwg
 {
@@ -23,7 +24,9 @@ namespace ziwg
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(UserMappingProfile));
             services.AddTransient<ILoggingService, LoggingService>();
+            
 
             services.AddControllers();
 
