@@ -13,6 +13,6 @@ namespace Domain.Entities
         public DateTime Date { get; set; }
         public int UsersLimit { get; set; }
         public List<User> Users { get; set; }
-        public string OrganiserId { get; set; }
+        public User Organiser { get; set; }
     }
 }

@@ -27,13 +27,10 @@ namespace Domain.Configurations
                 .HasMaxLength(60);
             builder.Property(t => t.UsersLimit)
                 .IsRequired();
-            builder.HasMany(u => u.Users)
-            .WithMany(t => t.Events);
             builder.Property(t => t.Date)
                 .IsRequired();
-            builder.Property(t => t.OrganiserId)
-                .IsRequired()
-                .HasMaxLength(450);
+            builder.HasOne(u => u.Organiser)
+            .WithMany(t => t.Events);
         }
     }
 }

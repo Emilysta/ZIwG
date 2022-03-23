@@ -25,8 +25,10 @@ namespace Domain.Configurations
                 .IsRequired().HasMaxLength(50);
             builder.Property(t => t.PhoneNumber)
                 .HasMaxLength(14);
-            builder.HasMany(u => u.Events)
-                .WithMany(t => t.Users);
+            builder.Property(t => t.DisplayName)
+                .IsRequired()
+                .HasMaxLength(25);
+            
         }
     }
 }
