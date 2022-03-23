@@ -1,10 +1,19 @@
 import * as React from "react";
 import '../../Assets/Input.css'
 
-export type TextInputProps = { placeHolder: string, name?: string, overrideType?: string }
+export type TextInputProps = {
+  placeHolder: string,
+  name?: string,
+  overrideType?: string,
+  onChange?: any
+}
 export type TextInputState = { value: string }
 
 export class TextInput extends React.Component<TextInputProps, TextInputState> {
+  get value() {
+    return this.state.value
+  }
+
   constructor(props: any) {
     super(props);
     this.state = { value: "" };
@@ -14,6 +23,8 @@ export class TextInput extends React.Component<TextInputProps, TextInputState> {
   handleChange(event: React.FormEvent<HTMLInputElement>) {
     const currentValue = event.currentTarget.value;
     this.setState({ value: currentValue });
+    if (this.props.onChange)
+      this.props.onChange(this)
   }
 
   render(): React.ReactNode {
