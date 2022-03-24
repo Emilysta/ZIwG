@@ -40,3 +40,15 @@ input[type="submit"]:active,
 input[type="button"]:active {
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.5);
 }
+
+input.Active {
+
+}
+
+input.Inactive {
+    background-color: gray;
+}
+
+input.Inactive:hover {
+    background-color: gray;
+}
