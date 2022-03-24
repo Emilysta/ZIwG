@@ -7,4 +7,4 @@ function LoginPage() {
     )
 }
 
-export { LoginPage };
+export default LoginPage;

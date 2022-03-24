@@ -14,10 +14,10 @@ export class Navbar extends React.Component {
           </div>
           <ul className="navbarList">
             <li>
-              <Link to="/">Events</Link>
+              <Link to="/events">Events</Link>
             </li>
             <li>
-              <Link to="/">Join Us</Link>
+              <Link to="/logIn">Join Us</Link>
             </li>
             <li>
               <Link to="/">Sign Up</Link>
