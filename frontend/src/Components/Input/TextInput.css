@@ -5,7 +5,7 @@ input[type="password"] {
     border-radius: 39px;
     padding: 8px 16px;
     min-width: 80px;
-    margin: 2px;
+    margin: unset auto;
     background-color: #C4C4C476;
     color: #3D5A80;
 }
