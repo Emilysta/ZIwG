@@ -1,4 +1,3 @@
-import '../Assets/general.css';
 import * as React from "react";
 import { LoginPage } from '../Pages/LoginPage';
 import { Navbar } from "../Components/Navbar/Navbar";

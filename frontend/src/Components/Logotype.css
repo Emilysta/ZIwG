@@ -12,12 +12,12 @@
 
 .logoTypeText {
     font-weight: 300;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .iconStyle{
-    width: 70;
-    height: 70;
-    padding: 0.5em;
+    width: 20px;
+    height: 20px;
+    padding: 0.3em;
     fill: var(--main-color);
 }

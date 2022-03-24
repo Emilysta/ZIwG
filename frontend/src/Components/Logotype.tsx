@@ -7,7 +7,7 @@ export class Logotype extends React.Component {
   render(): React.ReactNode {
     return <div className='Logotype'>
       <Calendar3 className='iconStyle' />
-      <Link to="/" className="logoTypeText">EventColab</Link>
+      <Link to="/" className="logoTypeText">Event Colab</Link>
     </div>;
   }
 }
