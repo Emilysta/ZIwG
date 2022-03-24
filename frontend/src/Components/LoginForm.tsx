@@ -2,6 +2,7 @@ import * as React from "react";
 import './LoginForm.css'
 import { TextInput } from "./Input/TextInput";
 import { Button, ButtonStateEnum } from "./Input/Button";
+import { Link } from 'react-router-dom';
 
 export class LoginForm extends React.Component {
   login: React.RefObject<TextInput> = React.createRef()
@@ -30,7 +31,7 @@ export class LoginForm extends React.Component {
     return <section className="LoginSection">
       <h1>Login</h1>
       <p>Welcome back! Login to access full functionality in EventColab.</p>
-      <p>Did you <a href="" className='highlighted'>forget your password?</a></p>
+      <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
 
       <form onSubmit={this.handleSubmit} className="LoginForm">
         <TextInput ref={this.login} placeHolder='Login' onChange={this.handleChange} />
