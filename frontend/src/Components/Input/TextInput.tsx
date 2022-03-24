@@ -1,5 +1,5 @@
 import * as React from "react";
-import '../../Assets/Input.css'
+import './TextInput.css'
 
 export type TextInputProps = { placeHolder: string, name?: string, overrideType?: string }
 export type TextInputState = { value: string }
