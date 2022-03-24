@@ -1,4 +1,4 @@
-import '../Assets/General.css'
+import '../Assets/general.css';
 import * as React from "react";
 import { LoginPage } from '../Pages/LoginPage';
 import { Navbar } from "../Components/Navbar/Navbar";
@@ -10,15 +10,13 @@ function App({ num }: AppProps) {
   return (
     <div>
       <BrowserRouter>
-        <div>
-          <Routes>
-            <Route path='/' element={<Navbar />}>
-              <Route index element={<LoginPage />} />
-              <Route path="logIn" element={<LoginPage />} />
-              {/* <Route path="*" element={<NoPage />} /> */}
-            </Route>
-          </Routes>
-        </div>
+        <Routes>
+          <Route path='/' element={<Navbar />}>
+            <Route index element={<LoginPage />} />
+            <Route path="logIn" element={<LoginPage />} />
+            {/* <Route path="*" element={<NoPage />} /> */}
+          </Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );

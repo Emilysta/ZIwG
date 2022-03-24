@@ -15,8 +15,6 @@
         "src/Components/Input/TextInput.tsx",
         "src/Components/HeadBar.tsx",
         "src/Components/Logotype.tsx",
-        "src/Components/Logo.tsx",
-        "src/Components/HeadBar/VerticalMenu.tsx",
         "src/Components/HeadBar/MenuItem.tsx",
         "src/Components/HeadBar/HeaderUserArea.tsx",
         "src/Components/HeadBar/HighlightedMenuItem.tsx"
