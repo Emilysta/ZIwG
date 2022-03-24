@@ -6,9 +6,16 @@
         "target": "es5",
         "jsx": "react",
         "allowJs": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "node",
+        "baseUrl": "src",
+        "paths": {
+            "Components/*": [
+                "Components/*"
+            ]
+        }
     },
     "include": [
         "custom.d.ts",
+        "src/**/*"
     ]
 }
