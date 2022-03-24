@@ -1,0 +1,23 @@
+
+.Logotype {
+    display: flex;
+    align-items: center;
+}
+
+.Logotype:hover
+{
+    color: var(--main-lighter-color);
+    fill: var(--main-lighter-color);
+}
+
+.logoTypeText {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.iconStyle{
+    width: 20px;
+    height: 20px;
+    padding: 0.3em;
+    fill: var(--main-color);
+}

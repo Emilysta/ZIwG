@@ -6,19 +6,16 @@
         "target": "es5",
         "jsx": "react",
         "allowJs": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "node",
+        "baseUrl": "src",
+        "paths": {
+            "Components/*": [
+                "Components/*"
+            ]
+        }
     },
     "include": [
-        "src/App",
         "custom.d.ts",
-        "src/Components/LoginForm.tsx",
-        "src/Components/Input/TextInput.tsx",
-        "src/Components/HeadBar.tsx",
-        "src/Components/Logotype.tsx",
-        "src/Components/Logo.tsx",
-        "src/Components/HeadBar/VerticalMenu.tsx",
-        "src/Components/HeadBar/MenuItem.tsx",
-        "src/Components/HeadBar/HeaderUserArea.tsx",
-        "src/Components/HeadBar/HighlightedMenuItem.tsx"
+        "src/**/*"
     ]
 }
