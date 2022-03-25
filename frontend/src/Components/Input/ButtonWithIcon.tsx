@@ -1,21 +1,21 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import './ButtonWithIcon.css';
 
 type ButtonWithIconProps = {
-    icon?: object,
+    icon?: any,
     text: string,
     isVisible: boolean,
     link: string
 }
 
 export default function ButtonWithIcon(props: ButtonWithIconProps) {
+    const icon = props.icon;
     return (
-        <div>
-            <Link to={props.link}>
-                {props.icon}
-                {props.isVisible && <p>{props.text} </p>}
-            </Link>
-        </div>
+        <Link to={props.link} className='linkBox'>
+            <div className='linkElement'>{icon}</div>
+            {props.isVisible && <div className='linkElement'>{props.text} </div>}
+        </Link>
     )
 }
 

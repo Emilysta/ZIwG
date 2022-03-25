@@ -1,17 +1,17 @@
 import * as React from "react";
-import './Navbar/Navbar.css'
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { CreditCard2Front, Person, Calendar } from 'react-bootstrap-icons'
 import ButtonWithIcon from "./Input/ButtonWithIcon";
+import './VerticalUserNavbar.css';
 
 
 export function VerticalUserNavbar() {
     const location = useLocation();
     const options = [
-        { icon: Person, name: "UserData", link: '/data' },
-        { icon: Calendar, name: "Calendar", link: '/calendar' },
-        { icon: CreditCard2Front, name: "Tickets", link: '/tickets' }];
+        { icon: <Person />, name: "UserData", link: 'data' },
+        { icon: <Calendar />, name: "Calendar", link: 'calendar' },
+        { icon: <CreditCard2Front />, name: "Tickets", link: 'tickets' }];
     let [list, setList] = React.useState([false, true, false]);
 
     useEffect(() => {
@@ -29,11 +29,11 @@ export function VerticalUserNavbar() {
     }, [location])
 
     const changeNavbar = (
-        <div className='HeadBar'>
-            <ul className="navbarList">
+        <div className='userNavbarBox'>
+            <ul className="userNavbarList">
                 {options.map((row, i) => {
                     return (
-                        <ButtonWithIcon text={row.name} isVisible={list[i]} link={row.link} />
+                        <li><ButtonWithIcon icon={row.icon} text={row.name} isVisible={list[i]} link={row.link} /></li>
                     )
                 })}
             </ul>
@@ -43,7 +43,6 @@ export function VerticalUserNavbar() {
     return (
         <>
             {changeNavbar}
-            <Outlet />
         </>
     )
 }
