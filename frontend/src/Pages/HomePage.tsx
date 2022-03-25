@@ -4,26 +4,26 @@ import peopleImage from '../images/pexels-tima-miroshnichenko-6615107_edited.png
 
 function HomePage() {
     return (
-        <div className='horizontalContainer'>
-            <section className="leftContainer">
-                <div>
-                    <h1 className='highlighted title'>Find Intreating Events</h1>
-                    <div className='content'>
-                        <span>
-                            <p>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
-                        </span>
-                        <span>
-                            <input type="button" value="See Events" />
-                        </span>
+        <div className='wholePageLayout'>
+            <div className='horizontalContainer'>
+                <section className="leftContainer">
+                    <div>
+                        <h1 className='highlighted title'>Find Interesting Events</h1>
+                        <div className='content'>
+                            <span>
+                                <p>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
+                            </span>
+                            <span>
+                                <input type="button" className='centered' value="See Events" />
+                            </span>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <section className="rightContainer">
-                <div>
+                <section className="rightContainer">
                     <img id="peopleImage" src={peopleImage} />
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
     )
 }

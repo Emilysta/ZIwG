@@ -1,24 +1,25 @@
 .horizontalContainer {
-    width: 100%;
-    margin: 0;
-    background-color: #00000040;
+    width: 80%;
+    margin: auto;
 }
 
-.horizontalContainer:first {
-    margin-top: 100px;
-}
-
-.leftContainer {
+.leftContainer,
+.rightContainer {
     display: flex;
-    justify-content: right;
-    margin: auto 10% auto auto;
-    text-align: right;
+    position: relative;
     font-size: 22px;
     font-weight: 300;
 }
 
-.leftContainer .title {
-    font-size: 52px;
+.leftContainer {
+    justify-content: right;
+    text-align: right;
+    margin-top: 170px;
+}
+
+.rightContainer {
+    justify-content: left;
+    text-align: left;
 }
 
 .leftContainer .content {
@@ -30,11 +31,9 @@
     white-space: nowrap;
 }
 
-.leftContainer .content input {
+.leftContainer .content .centered {
     margin: auto;
     justify-self: center;
-    padding: 4px 30px;
-    font-size: 18px;
 }
 
 .leftContainer .title,
@@ -49,11 +48,18 @@
     justify-content: center;
 }
 
-.rightContainer {
-    position: relative;
+.leftContainer .title {
+    font-size: 52px;
+}
+
+.leftContainer input {
+    padding: 4px 30px;
+    font-size: 18px;
 }
 
 .rightContainer #peopleImage {
-    width: 600px;
-
+    position: absolute;
+    top: -30px;
+    left: -50px;
+    width: 550px;
 }
