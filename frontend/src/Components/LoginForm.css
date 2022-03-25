@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.LoginSection h1, p {
+.LoginSection h1, .LoginSection p {
     margin: auto;
     padding: auto;
 }

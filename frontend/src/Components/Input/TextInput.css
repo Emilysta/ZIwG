@@ -3,11 +3,12 @@ input[type="password"] {
     font-size: 12px;
     border: 0px;
     border-radius: 39px;
-    padding: 8px 16px;
+    padding: 6px 20px;
     min-width: 80px;
     margin: 0 auto;
-    background-color: #C4C4C476;
+    background-color: #C4C4C433;
     color: var(--main-color);
+    font-weight: 300;
 }
 
 input[type="text"]::placeholder,
@@ -18,15 +19,13 @@ input[type="password"]::placeholder {
 input[type="text"]:focus-visible,
 input[type="password"]:focus-visible {
     outline: 1px groove var(--main-color);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
 }
 
 input[type="submit"],
 input[type="button"] {
     background-color: var(--main-color);
-    border-radius: 15px;
+    border-radius: 20px;
     color: #fff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
     border: 0px;
     font-weight: 200;
 }
@@ -41,10 +40,6 @@ input[type="button"]:active {
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.5);
 }
 
-input.Active {
-
-}
-
 input.Inactive {
     background-color: gray;
 }
@@ -53,7 +48,7 @@ input.Inactive:hover {
     background-color: gray;
 }
 
-.inputBox{
+.inputBox {
     display: block;
     overflow: auto;
     flex-direction: column;
@@ -62,9 +57,11 @@ input.Inactive:hover {
     width: fit-content;
 }
 
-.inputError{
-    color: #FF7777;
-    font-size: 15px;
-    font-weight: 200;
-    padding-left: 15px;
+.inputError {
+    color: var(--error-color);
+    font-size: 13px;
+    font-weight: 300;
+    padding-left: 20px;
+    margin: 0;
+    height: 15px
 }

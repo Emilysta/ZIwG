@@ -44,7 +44,7 @@ export class TextInput extends React.Component<TextInputProps, TextInputState> {
   private renderInput(): React.ReactNode {
     return <div className="inputBox">
       <input type={this.props.overrideType ?? "text"} value={this.state.value} placeholder={this.props.placeHolder} onChange={this.handleChange} />
-      {this.state.error && <p className="inputError">{this.state.error}</p>}
+      <p className="inputError">{this.state.error}</p>
     </div>
   }
 }

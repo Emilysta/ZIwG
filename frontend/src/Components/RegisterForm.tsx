@@ -1,13 +1,10 @@
-
 import * as React from "react";
 import './RegisterForm.css'
 import { TextInput } from "./Input/TextInput";
-import { Button, ButtonStateEnum } from "./Input/Button";
+import { Button } from "./Input/Button";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
-import { getValue } from "@testing-library/user-event/dist/utils";
-
-
+import { Divider } from "./Divider";
 
 export function RegisterForm() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,14 +16,6 @@ export function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmpassword, setConfirmPassword] = useState('');
-
-    // const handleChange = (event: React.FormEvent<HTMLFormElement>) => {
-    //     const minimalLength = 0;
-    //     if (this.login.current.value.length > minimalLength && this.password.current.value.length > minimalLength)
-    //         this.submit.current.setState({ state: ButtonStateEnum.Active })
-    //     else
-    //         this.submit.current.setState({ state: ButtonStateEnum.Inactive })
-    // };
 
     const checkIfError = (inputValue: string) => {
         if (inputValue.length < 5)
@@ -55,9 +44,10 @@ export function RegisterForm() {
     return (
         <section className="RegisterSection">
             <h1>Sign Up</h1>
-            <p>Sign up to access full functionality in EventColab</p>
+            <p className="text1">Sign up to access full functionality in EventColab</p>
             {renderForm}
-            <p>Already have an account?<Link to='/logIn' className='highlighted'>Login Here</Link></p>
+            <Divider text='Or' size={360} />
+            <p className="text2">Already have an account?<Link to='/logIn' className='highlighted'> Login Here</Link></p>
         </section>
     );
 }
