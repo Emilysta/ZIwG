@@ -63,3 +63,10 @@
     left: -50px;
     width: 550px;
 }
+
+.homePage #circle-2 {
+    border: 1px solid #98C1D9;
+    box-shadow: 8px 6px 43px 4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+    background: rgba(61, 90, 128, 0.3);
+}

@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { BlendedCircle } from 'Components/BlendedCircle'
 import './HomePage.css'
 import peopleImage from '../images/pexels-tima-miroshnichenko-6615107_edited.png'
 
 function HomePage() {
     return (
-        <div className='wholePageLayout'>
+        <div className='wholePageLayout homePage'>
             <div className='horizontalContainer'>
                 <section className="leftContainer">
                     <div>
@@ -22,6 +23,7 @@ function HomePage() {
 
                 <section className="rightContainer">
                     <img id="peopleImage" src={peopleImage} />
+                    <BlendedCircle id="circle-2" size={260} left="500px" top="300px"/>
                 </section>
             </div>
         </div>
