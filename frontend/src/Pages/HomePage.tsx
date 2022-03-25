@@ -23,7 +23,7 @@ function HomePage() {
 
                 <section className="rightContainer">
                     <img id="peopleImage" src={peopleImage} />
-                    <BlendedCircle id="circle-2" size={260} left="500px" top="300px"/>
+                    <BlendedCircle id="circle-2" size={260} left="40vw" top="330px" />
                 </section>
             </div>
         </div>

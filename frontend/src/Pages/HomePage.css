@@ -1,6 +1,7 @@
 .horizontalContainer {
     width: 80%;
     margin: auto;
+    flex-direction: row;
 }
 
 .leftContainer,
@@ -59,9 +60,9 @@
 
 .rightContainer #peopleImage {
     position: absolute;
-    top: -30px;
+    top: -6vw;
     left: -50px;
-    width: 550px;
+    width: 45vw;
 }
 
 .homePage #circle-2 {
