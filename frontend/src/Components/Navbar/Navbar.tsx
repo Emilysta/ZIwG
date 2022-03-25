@@ -47,7 +47,9 @@ export function Navbar() {
   return (
     <>
       {changeNavbar}
-      <Outlet />
+      <main id="main">
+        <Outlet />
+      </main>
     </>
   )
 }
