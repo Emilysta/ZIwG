@@ -22,8 +22,9 @@
 
 .RegisterForm input {
     margin: 5px auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
     font-size: 18px;
-    height: 28px;
 }
 
 .RegisterForm input[type="text"],
@@ -36,6 +37,7 @@
     min-width: 50%;
     height: 35px;
     margin-top: 10px;
+    padding: 0;
 }
 
 .text1 {
