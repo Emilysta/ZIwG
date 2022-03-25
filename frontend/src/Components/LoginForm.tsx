@@ -19,7 +19,7 @@ export class LoginForm extends React.Component {
     event.preventDefault();
   }
 
-  handleChange(input: TextInput) {
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const minimalLength = 0;
     if (this.login.current.value.length > minimalLength && this.password.current.value.length > minimalLength)
       this.submit.current.setState({ state: ButtonStateEnum.Active })
@@ -36,8 +36,9 @@ export class LoginForm extends React.Component {
       <form onSubmit={this.handleSubmit} className="LoginForm">
         <TextInput ref={this.login} placeHolder='Login' onChange={this.handleChange} />
         <TextInput ref={this.password} placeHolder='Password' overrideType="password" onChange={this.handleChange} />
-        <Button ref={this.submit} type="submit" value="submit" />
+        <Button ref={this.submit} type="submit" value="Submit" />
       </form>
+      <p><Link to='/register' className='highlighted'>No account?</Link></p>
     </section>;
   }
 }

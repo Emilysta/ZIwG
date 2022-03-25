@@ -1,0 +1,50 @@
+.RegisterSection {
+    margin: auto;
+    min-width: 300px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.RegisterSection h1 {
+    margin-bottom: 16px;
+    font-size: 44px;
+}
+
+.RegisterForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.RegisterForm input {
+    margin: 5px auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
+}
+
+.RegisterForm input[type="text"],
+.RegisterForm input[type="password"] {
+    width: 320px;
+}
+
+.RegisterForm input[type="button"],
+.RegisterForm input[type="submit"] {
+    min-width: 50%;
+    height: 35px;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.text1 {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.text2 {
+    margin: 0;
+}

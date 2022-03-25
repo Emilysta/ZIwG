@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Navbar } from "../Components/Navbar/Navbar";
+import { Navbar } from "Components/Navbar/Navbar";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from "../Pages/HomePage";
-import EventsPage from "../Pages/EventsPage";
-import LoginPage from '../Pages/LoginPage';
+import HomePage from "Pages/HomePage";
+import EventsPage from "Pages/EventsPage";
+import LoginPage from 'Pages/LoginPage';
+import RegisterPage from 'Pages/RegisterPage';
 
 type AppProps = { num: number };
 
@@ -16,6 +17,7 @@ function App({ num }: AppProps) {
             <Route index element={<HomePage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="logIn" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
             {/* <Route path="*" element={<NoPage />} /> */}
           </Route>
         </Routes>

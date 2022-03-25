@@ -5,9 +5,10 @@ export type TextInputProps = {
   placeHolder: string,
   name?: string,
   overrideType?: string,
-  onChange?: any
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  checkIfError?: (inputValue: string) => string
 }
-export type TextInputState = { value: string }
+export type TextInputState = { value: string, error: string }
 
 export class TextInput extends React.Component<TextInputProps, TextInputState> {
   get value() {
@@ -16,15 +17,18 @@ export class TextInput extends React.Component<TextInputProps, TextInputState> {
 
   constructor(props: any) {
     super(props);
-    this.state = { value: "" };
+    this.state = { value: "", error: '' };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event: React.FormEvent<HTMLInputElement>) {
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const currentValue = event.currentTarget.value;
     this.setState({ value: currentValue });
     if (this.props.onChange)
-      this.props.onChange(this)
+      this.props.onChange(event)
+    if (this.props.checkIfError) {
+      this.setState({ error: this.props.checkIfError(this.state.value) })
+    }
   }
 
   render(): React.ReactNode {
@@ -33,12 +37,14 @@ export class TextInput extends React.Component<TextInputProps, TextInputState> {
         <label>{this.props.name}</label>
         {this.renderInput()}
       </>;
-
     else
       return this.renderInput();
   }
 
   private renderInput(): React.ReactNode {
-    return <input type={this.props.overrideType ?? "text"} value={this.state.value} placeholder={this.props.placeHolder} onChange={this.handleChange} />;
+    return <div className="inputBox">
+      <input type={this.props.overrideType ?? "text"} value={this.state.value} placeholder={this.props.placeHolder} onChange={this.handleChange} />
+      <p className="inputError">{this.state.error}</p>
+    </div>
   }
 }

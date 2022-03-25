@@ -9,9 +9,12 @@
         "moduleResolution": "node",
         "baseUrl": "src",
         "paths": {
+            "Pages/*": [
+                "Pages/*"
+            ],
             "Components/*": [
                 "Components/*"
-            ]
+            ],
         }
     },
     "include": [

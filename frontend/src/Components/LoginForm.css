@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.LoginSection h1, p {
+.LoginSection h1, .LoginSection p {
     margin: auto;
     padding: auto;
 }
@@ -26,6 +26,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .LoginForm input {

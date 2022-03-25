@@ -1,0 +1,24 @@
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-weight: 200;
+    color: #B8B8B8;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #B8B8B8;
+}
+
+.separator:not(:empty)::before {
+    margin-right: 2em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: 2em;
+}

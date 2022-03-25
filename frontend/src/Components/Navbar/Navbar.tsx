@@ -1,31 +1,53 @@
 import * as React from "react";
 import './Navbar.css'
 import { Logotype } from "../Logotype";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
+const onlyEvents = [{ link: "/events", name: "Events" }];
+const onlyLogIn = [{ link: "/logIn", name: "Join Us" }];
 
-export class Navbar extends React.Component {
-  render() {
-    return (
-      <>
-        <div className='HeadBar'>
-          <div className="logoTypeItem">
-            <Logotype />
-          </div>
-          <ul className="navbarList">
+export function Navbar() {
+  const location = useLocation();
+  let [list, setList] = React.useState(onlyLogIn.concat(onlyEvents));
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/logIn':
+        setList(onlyEvents);
+        break;
+      case '/register':
+        setList(onlyEvents);
+        break;
+      case '/events':
+        setList(onlyLogIn);
+        break;
+      default:
+        setList(onlyLogIn.concat(onlyEvents));
+        break;
+    }
+  }, [location])
+
+  const changeNavbar = (
+    <div className='HeadBar'>
+      <div className="logoTypeItem">
+        <Logotype />
+      </div>
+      <ul className="navbarList">
+        {list.map((singleLink) => {
+          return (
             <li>
-              <Link to="/events">Events</Link>
+              <Link to={singleLink.link}>{singleLink.name}</Link>
             </li>
-            <li>
-              <Link to="/logIn">Join Us</Link>
-            </li>
-            <li>
-              <Link to="/">Sign Up</Link>
-            </li>
-          </ul>
-        </div>
-        <Outlet />
-      </>
-    )
-  }
+          )
+        })}
+      </ul>
+    </div>
+  )
+  return (
+    <>
+      {changeNavbar}
+      <Outlet />
+    </>
+  )
 }
