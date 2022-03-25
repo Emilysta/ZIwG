@@ -1,4 +1,4 @@
-.LoginSection {
+.RegisterSection {
     margin: auto;
     min-width: 300px;
     max-width: 600px;
@@ -7,21 +7,21 @@
     justify-content: center;
 }
 
-.LoginSection h1, p {
+.RegisterSection h1, p {
     margin: auto;
     padding: auto;
 }
 
-.LoginSection h1 {
+.RegisterSection h1 {
     margin-bottom: 16px;
     font-size: 44px;
 }
 
-.LoginSection p {
+.RegisterSection p {
     margin-bottom: 6px;
 }
 
-.LoginForm {
+.RegisterForm {
     margin: 16px 0px;
     display: flex;
     flex-direction: column;
@@ -29,18 +29,18 @@
     align-items: center;
 }
 
-.LoginForm input {
-    margin: 12px auto;
+.RegisterForm input {
+    margin: 5px auto;
     font-size: 18px;
     height: 36px;
 }
 
-.LoginForm input[type="text"],
-.LoginForm input[type="password"] {
+.RegisterForm input[type="text"],
+.RegisterForm input[type="password"] {
     width: 320px;
 }
 
-.LoginForm input[type="button"],
-.LoginForm input[type="submit"] {
+.RegisterForm input[type="button"],
+.RegisterForm input[type="submit"] {
     min-width: 50%;
 }

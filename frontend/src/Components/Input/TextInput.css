@@ -5,7 +5,7 @@ input[type="password"] {
     border-radius: 39px;
     padding: 8px 16px;
     min-width: 80px;
-    margin: unset auto;
+    margin: 0 auto;
     background-color: #C4C4C476;
     color: var(--main-color);
 }
@@ -51,4 +51,20 @@ input.Inactive {
 
 input.Inactive:hover {
     background-color: gray;
+}
+
+.inputBox{
+    display: block;
+    overflow: auto;
+    flex-direction: column;
+    justify-content: left;
+    padding: 10px;
+    width: fit-content;
+}
+
+.inputError{
+    color: #FF7777;
+    font-size: 15px;
+    font-weight: 200;
+    padding-left: 15px;
 }
