@@ -35,4 +35,4 @@ function update_version {
     sed -i "s/\"$property\": \"\"/\"$property\": \"$version\"/g" "$1/appsettings.json"
 }
 
-update_version "$outputPath"
+# update_version "$outputPath"
