@@ -40,10 +40,10 @@ namespace ziwg
 
             services.AddDbContext<DataBaseContext>(options =>
             {
-                if (Environment.IsProduction())
-                    options.UseMySQL(Configuration["MySQL"]);
-                else
+                if (Environment.IsDevelopment())
                     options.UseSqlServer(Configuration["Connectionstrings:DefaultConnection"]);
+                else
+                    options.UseMySQL(Configuration["MySQL"]);
             });
 
             services.AddIdentityCore<User>()
