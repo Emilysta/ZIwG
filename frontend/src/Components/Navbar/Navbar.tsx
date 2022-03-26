@@ -3,6 +3,7 @@ import './Navbar.css'
 import { Logotype } from "../Logotype";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { BlendedCircle } from "Components/BlendedCircle";
 
 const onlyEvents = [{ link: "/events", name: "Events" }];
 const onlyLogIn = [{ link: "/logIn", name: "Join Us" }];
@@ -32,6 +33,7 @@ export function Navbar() {
     <div className='HeadBar'>
       <div className="logoTypeItem">
         <Logotype />
+        <BlendedCircle id="circle-1" size={160} left="210px" top="80px"/>
       </div>
       <ul className="navbarList">
         {list.map((singleLink) => {
@@ -47,7 +49,9 @@ export function Navbar() {
   return (
     <>
       {changeNavbar}
-      <Outlet />
+      <main id="main">
+        <Outlet />
+      </main>
     </>
   )
 }
