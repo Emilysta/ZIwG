@@ -9,7 +9,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult Test()
         {
-            return Ok("Is working");
+            return Ok("It's working");
         }
     }
 }
