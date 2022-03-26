@@ -19,11 +19,8 @@ function HomePage() {
                             </span>
                         </div>
                     </div>
-                </section>
-
-                <section className="rightContainer">
+                    <BlendedCircle id="circle-2" size={260} left="min(680px, 60vw)" bottom="-40vh" />
                     <img id="peopleImage" src={peopleImage} />
-                    <BlendedCircle id="circle-2" size={260} left="40vw" top="330px" />
                 </section>
             </div>
         </div>
