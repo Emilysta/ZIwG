@@ -1,5 +1,5 @@
 import * as React from "react";
-import './Navbar.css'
+import './Navbar.scss'
 import { Logotype } from "../Logotype";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -33,7 +33,7 @@ export function Navbar() {
     <div className='HeadBar'>
       <div className="logoTypeItem">
         <Logotype />
-        <BlendedCircle id="circle-1" size={160} left="210px" top="80px"/>
+        <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
       </div>
       <ul className="navbarList">
         {list.map((singleLink, i) => {

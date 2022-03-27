@@ -1,0 +1,27 @@
+@use 'lib' as *;
+.Logotype {
+    display: flex;
+    align-items: center;
+}
+
+.Logotype:hover
+{
+    @include customize(color) {
+        color: getValue(main-lighter-color); 
+        fill: getValue(main-lighter-color);
+      }
+}
+
+.logoTypeText {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.iconStyle{
+    width: 20px;
+    height: 20px;
+    padding: 0.3em;
+    @include customize(color) {
+        fill: getValue(main-color);
+      }
+}

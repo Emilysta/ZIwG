@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import UserCalendarPage from './UserCalendarPage'
 import UserDataPage from './UserDataPage'
 import UserTicketsPage from './UserTicketsPage'
-import './UserPage.css'
+import './UserPage.scss'
 
 export default function UserPage() {
     return (

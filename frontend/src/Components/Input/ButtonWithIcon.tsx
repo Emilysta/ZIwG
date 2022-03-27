@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import './ButtonWithIcon.css';
+import './ButtonWithIcon.scss';
 
 type ButtonWithIconProps = {
     icon?: any,

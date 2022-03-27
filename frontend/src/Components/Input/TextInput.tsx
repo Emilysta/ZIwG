@@ -1,5 +1,5 @@
 import * as React from "react";
-import './TextInput.css'
+import './TextInput.scss'
 
 export type TextInputProps = {
   placeHolder: string,

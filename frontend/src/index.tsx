@@ -1,11 +1,14 @@
-import './index.css';
+import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { App } from "./App/App";
 
 ReactDOM.render(
-  <App num={1337} />, document.getElementById('root')
+  <div className='theme-dark'>
+    <App num={1337} />
+  </div>,
+  document.getElementById('root')
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

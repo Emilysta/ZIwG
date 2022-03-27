@@ -1,3 +1,4 @@
+@use 'lib' as *;
 input[type="text"],
 input[type="password"] {
     font-size: 12px;
@@ -7,23 +8,31 @@ input[type="password"] {
     min-width: 80px;
     margin: 0 auto;
     background-color: #C4C4C433;
-    color: var(--main-color);
+    @include customize(color) {
+        color: getValue(main-color); 
+      }
     font-weight: 300;
 }
 
 input[type="text"]::placeholder,
 input[type="password"]::placeholder {
-    color: var(--main-color);
+    @include customize(color) {
+        color: getValue(main-color); 
+      }
 }
 
 input[type="text"]:focus-visible,
 input[type="password"]:focus-visible {
-    outline: 1px groove var(--main-color);
+    @include customize(color) {
+        outline: 1px groove getValue(main-color); 
+      }
 }
 
 input[type="submit"],
 input[type="button"] {
-    background-color: var(--main-color);
+    @include customize(color) {
+        background-color: getValue(main-color); 
+      }
     border-radius: 20px;
     color: #fff;
     border: 0px;
@@ -32,7 +41,9 @@ input[type="button"] {
 
 input[type="submit"]:hover,
 input[type="button"]:hover {
-    background-color: var(--main-lighter-color);
+    @include customize(color) {
+        background-color: getValue(main-lighter-color); 
+      }
 }
 
 input[type="submit"]:active,
@@ -58,7 +69,9 @@ input.Inactive:hover {
 }
 
 .inputError {
-    color: var(--error-color);
+    @include customize(color) {
+        color: getValue(error-color); 
+      }
     font-size: 13px;
     font-weight: 300;
     padding-left: 20px;
