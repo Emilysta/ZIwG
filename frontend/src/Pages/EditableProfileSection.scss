@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: row;
     align-content: flex-start;
+    padding: 20px 0;
 }
 
 .profileSection .rightColumn,
@@ -21,7 +22,6 @@
 
 .profileSection .rightColumn {
     width: 100%;
-    ;
 }
 
 .profileSection .rightColumn div,
@@ -34,6 +34,7 @@
 
 
 .profileSection .profileData {
+    margin-top: 5px;
 }
 
 .profileSection .profileData label,
@@ -43,47 +44,51 @@
 }
 
 .profileSection .profileData label {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 300;
 }
 
 .profileSection .profileData input,
-.profileSection .profileData textarea {
+.profileSection .profileData .textarea {
     background-color: #00000000;
-    // background-color: #ff000060;
     border-radius: 0px;
-    padding: 4px;
-    width: calc(100% - 8px);
+    padding: 4px 0px;
+    width: 100%;
     border: 0;
+    word-wrap: break-word;
 }
 
 .profileSection .profileData input {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
-.profileSection .profileData input:enabled,
-.profileSection .profileData .editable {
-    border: 1px solid #000;
-    background-color: $light-greyish-color;
-    color: #fff;
-    font-weight: 400;
-    padding-left: 15px;
-    margin: -1px;
-    width: calc(100% - 8px - 15px);
-}
-
-.profileSection .profileData textarea {
+.profileSection .profileData .textarea {
+    // todo
     font-size: 16px;
     font-weight: 600;
     overflow: hidden;
     resize: none;
 }
 
+.profileSection .profileData input:enabled,
+.profileSection .profileData .editable {
+    // todo
+    border: 1px solid #000;
+    background-color: $light-greyish-color;
+    color: #fff;
+    font-weight: 400;
+    padding: 4px 0 4px 8px;
+    margin: -1px;
+    width: calc(100% - 8px);
+}
+
 .profileSection #profilePicture {
-    width: 180px;
-    height: 180px;
-    margin: auto 20px;
+    width: 140px;
+    height: 140px;
+    margin: auto 30px;
+    border-radius: 140px;
+    border: 4px solid $main-color;
 }
 
 .profileSection #buttonMenu {

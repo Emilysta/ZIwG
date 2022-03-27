@@ -1,0 +1,21 @@
+.statsContainer {
+    margin: 30px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.statsContainer div * {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.statsContainer div label {
+}
+
+.statsContainer div a {
+    font-size: 54px;
+    font-weight: 600;
+}
