@@ -6,7 +6,7 @@ $themes: (
     dark-greyish-color: #293241,
     light-greyish-color: #AFB6C1,
     error-color: #ff0000,
-    backgroundColor: white,
+    backgroundColor: none,
     
   ),
   dark: ( //toDo define dark mode
@@ -20,8 +20,9 @@ $themes: (
   ),
 );
 
-
-@mixin customize($arg: theme) {
+/*copied from: https://medium.com/@sanuthadathil/theme-and-color-scheme-sass-way-a62d68614ef3
+modified for our usage*/
+@mixin customize() {
   $array: $themes;
   $prefix: theme;
 

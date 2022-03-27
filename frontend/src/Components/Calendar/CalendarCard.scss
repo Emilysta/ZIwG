@@ -9,25 +9,25 @@
 }
 
 .cardNormal {
-    @include customize(color) {
+    @include customize() {
         border-color: getValue(main-lighter-color); 
       }
     background-color: white;
 }
 
 .cardFilled {
-    @include customize(color) {
+    @include customize() {
         background-color: getValue(main-lighter-color); 
       }
-    @include customize(color) {
+    @include customize() {
         border-color: getValue(main-color); 
       }
 }
 .cardSelected {
-    @include customize(color) {
+    @include customize() {
         background-color: getValue(second-main-color); 
       }
-    @include customize(color) {
+    @include customize() {
         border-color: getValue(second-main-color); 
       }
     border-width: 2px;

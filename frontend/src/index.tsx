@@ -5,8 +5,8 @@ import * as ReactDOM from 'react-dom';
 import { App } from "./App/App";
 
 ReactDOM.render(
-  <div className='theme-dark'>
-    <App num={1337} />
+  <div className='theme-light'>
+    <App />
   </div>,
   document.getElementById('root')
 );

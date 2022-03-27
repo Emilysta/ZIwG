@@ -5,10 +5,10 @@
 * {
   font-family: 'Poppins', sans-serif, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
-  @include customize(color) {
+  @include customize() {
     color: getValue(main-color); 
   }
-  @include customize(color) {
+  @include customize() {
     background-color: getValue(backgroundColor); 
   }
 }
@@ -20,20 +20,20 @@ body {
 a {
   text-decoration: none;
   font-weight: 300;
-  @include customize(theme) {
+  @include customize() {
     color: getValue(main-color); 
   }
   cursor: pointer;
 }
 
 a:hover {
-  @include customize(theme) {
+  @include customize() {
     color: getValue(main-lighter-color); 
   }
 }
 
 .highlighted {
-  @include customize(color) {
+  @include customize() {
     color: getValue(second-main-color); 
   }
   font-weight: 600;

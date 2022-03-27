@@ -8,7 +8,7 @@ input[type="password"] {
     min-width: 80px;
     margin: 0 auto;
     background-color: #C4C4C433;
-    @include customize(color) {
+    @include customize() {
         color: getValue(main-color); 
       }
     font-weight: 300;
@@ -16,21 +16,21 @@ input[type="password"] {
 
 input[type="text"]::placeholder,
 input[type="password"]::placeholder {
-    @include customize(color) {
+    @include customize() {
         color: getValue(main-color); 
       }
 }
 
 input[type="text"]:focus-visible,
 input[type="password"]:focus-visible {
-    @include customize(color) {
+    @include customize() {
         outline: 1px groove getValue(main-color); 
       }
 }
 
 input[type="submit"],
 input[type="button"] {
-    @include customize(color) {
+    @include customize() {
         background-color: getValue(main-color); 
       }
     border-radius: 20px;
@@ -41,7 +41,7 @@ input[type="button"] {
 
 input[type="submit"]:hover,
 input[type="button"]:hover {
-    @include customize(color) {
+    @include customize() {
         background-color: getValue(main-lighter-color); 
       }
 }
@@ -69,7 +69,7 @@ input.Inactive:hover {
 }
 
 .inputError {
-    @include customize(color) {
+    @include customize() {
         color: getValue(error-color); 
       }
     font-size: 13px;

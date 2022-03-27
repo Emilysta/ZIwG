@@ -6,7 +6,7 @@
 
 .Logotype:hover
 {
-    @include customize(color) {
+    @include customize() {
         color: getValue(main-lighter-color); 
         fill: getValue(main-lighter-color);
       }
@@ -21,7 +21,7 @@
     width: 20px;
     height: 20px;
     padding: 0.3em;
-    @include customize(color) {
+    @include customize() {
         fill: getValue(main-color);
       }
 }
