@@ -1,0 +1,10 @@
+.linkBox {
+    display: flex;
+    width: fit-content;
+}
+
+.linkElement {
+    width: fit-content;
+    display: inline;
+    padding: 5px;
+}

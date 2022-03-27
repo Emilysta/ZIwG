@@ -1,0 +1,15 @@
+.userNavbarBox {
+    width: 200px;
+}
+
+.userNavbarList {
+    display: flex;
+    flex-direction: column;
+}
+
+.userNavbarList li {
+    display: inline;
+    width: fit-content;
+    margin: 0px;
+    padding: 0px;
+}
