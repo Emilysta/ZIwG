@@ -36,9 +36,9 @@ export function Navbar() {
         <BlendedCircle id="circle-1" size={160} left="210px" top="80px"/>
       </div>
       <ul className="navbarList">
-        {list.map((singleLink) => {
+        {list.map((singleLink, i) => {
           return (
-            <li>
+            <li key={i}>
               <Link to={singleLink.link}>{singleLink.name}</Link>
             </li>
           )
