@@ -1,0 +1,76 @@
+.horizontalContainer {
+    width: 80%;
+    margin: auto;
+    flex-direction: row;
+}
+
+.leftContainer,
+.rightContainer {
+    display: flex;
+    position: relative;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.leftContainer {
+    justify-content: right;
+    text-align: right;
+    margin-top: 170px;
+}
+
+.rightContainer {
+    justify-content: left;
+    text-align: left;
+}
+
+.leftContainer .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    width: min-content;
+    margin: 0 0 0 auto;
+    white-space: nowrap;
+}
+
+.leftContainer .content .centered {
+    margin: auto;
+    justify-self: center;
+}
+
+.leftContainer .title,
+.leftContainer .content span {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.leftContainer .content span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.leftContainer .title {
+    font-size: 52px;
+}
+
+.leftContainer input {
+    padding: 4px 30px;
+    font-size: 18px;
+}
+
+.homePage #peopleImage {
+    position: absolute;
+    bottom: -45vh;
+    left: 0vw;
+    z-index: -2;
+    width: 60vw;
+    max-width: 680px;
+}
+
+.homePage #circle-2 {
+    z-index: -1;
+    border: 1px solid #98C1D9;
+    box-shadow: 8px 6px 43px 4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+    background: #3d5a804d;
+}

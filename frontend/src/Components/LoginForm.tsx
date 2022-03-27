@@ -12,11 +12,33 @@ export class LoginForm extends React.Component {
   constructor(props: any) {
     super(props);
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    console.log("submit");
+    // todo it's test code
     event.preventDefault();
+    console.log("submit");
+
+    const body = JSON.stringify({
+      email: this.password.current.value,
+      password: this.password.current.value,
+    });
+
+    fetch("api/user/login", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body,
+    })
+      .then((e) => {
+        console.log(e)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
