@@ -1,5 +1,5 @@
 import * as React from "react";
-import './LoginForm.css'
+import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { Button, ButtonStateEnum } from "./Input/Button";
 import { Link } from 'react-router-dom';

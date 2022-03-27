@@ -1,3 +1,4 @@
+@use 'lib' as *;
 .calendarCardBase {
     border-radius: 5px;
     border-style: solid;
@@ -8,17 +9,16 @@
 }
 
 .cardNormal {
-    border-color: var(--main-lighter-color);
+    border-color: $main-lighter-color;
     background-color: white;
 }
 
 .cardFilled {
-    background-color: rgba(var(--main-lighter-color), 0);
-    border-color: var(--main-color);
+    background-color: rgba($main-lighter-color, 0);
+    border-color: $main-color;
 }
-
 .cardSelected {
-    background-color: rgba(var(--second-main-color), 0.08);
-    border-color: rgba(var(--second-main-color), 0.8);
+    background-color: rgba($second-main-color, .08);
+    border-color: rgba($second-main-color, 0.8);
     border-width: 2px;
 }
