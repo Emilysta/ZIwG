@@ -1,0 +1,24 @@
+@use 'lib' as *;
+.calendarCardBase {
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    width: 150px;
+    height: 150px;
+    box-shadow: 1px 1px 8px #00000064;
+}
+
+.cardNormal {
+    border-color: $main-lighter-color;
+    background-color: white;
+}
+
+.cardFilled {
+    background-color: rgba($main-lighter-color, 0);
+    border-color: $main-color;
+}
+.cardSelected {
+    background-color: rgba($second-main-color, .08);
+    border-color: rgba($second-main-color, 0.8);
+    border-width: 2px;
+}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import './Logotype.css';
+import './Logotype.scss';
 import { Link } from "react-router-dom";
 import { Calendar3 } from 'react-bootstrap-icons';
 

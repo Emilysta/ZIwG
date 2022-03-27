@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './BlendedCircle.css'
+import './BlendedCircle.scss'
 
 type CircleProps = {
     id?: string,
@@ -12,8 +12,7 @@ type CircleProps = {
     color?: string
 }
 
-export function BlendedCircle(props: CircleProps)
-{
+export function BlendedCircle(props: CircleProps) {
     const style: React.CSSProperties = {
         width: props.size,
         height: props.size,
@@ -30,6 +29,6 @@ export function BlendedCircle(props: CircleProps)
         marginBottom: props.bottom ? (-props.size / 2) + "px" : null,
     }
     return (
-        <div className={'Circle ' + props.className} id={props.id} style={style}/>
+        <div className={'Circle ' + props.className} id={props.id} style={style} />
     )
 }
