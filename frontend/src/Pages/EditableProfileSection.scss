@@ -1,0 +1,93 @@
+@use 'lib' as *;
+
+.profileSection {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+}
+
+.profileSection .rightColumn,
+.profileSection .leftColumn {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileSection .rightColumn div,
+.profileSection .leftColumn div {
+    width: 100%;
+}
+
+.profileSection .rightColumn {
+    width: 100%;
+    ;
+}
+
+.profileSection .rightColumn div,
+.profileSection .rightColumn hr {
+    max-width: 800px;
+}
+
+.profileSection .leftColumn {}
+
+
+
+.profileSection .profileData {
+}
+
+.profileSection .profileData label,
+.profileSection .profileData span {
+    display: inline-block;
+    width: 100%;
+}
+
+.profileSection .profileData label {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.profileSection .profileData input,
+.profileSection .profileData textarea {
+    background-color: #00000000;
+    // background-color: #ff000060;
+    border-radius: 0px;
+    padding: 4px;
+    width: calc(100% - 8px);
+    border: 0;
+}
+
+.profileSection .profileData input {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.profileSection .profileData input:enabled,
+.profileSection .profileData .editable {
+    border: 1px solid #000;
+    background-color: $light-greyish-color;
+    color: #fff;
+    font-weight: 400;
+    padding-left: 15px;
+    margin: -1px;
+    width: calc(100% - 8px - 15px);
+}
+
+.profileSection .profileData textarea {
+    font-size: 16px;
+    font-weight: 600;
+    overflow: hidden;
+    resize: none;
+}
+
+.profileSection #profilePicture {
+    width: 180px;
+    height: 180px;
+    margin: auto 20px;
+}
+
+.profileSection #buttonMenu {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

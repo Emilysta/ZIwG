@@ -1,0 +1,14 @@
+@use 'lib' as *;
+
+.userDataSection {
+    padding: 5px;
+    border: 1px solid $light-greyish-color;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.userDataSection hr {
+    border: 1px solid $light-greyish-color;
+    width: 90%;
+    margin-left: 0;
+}

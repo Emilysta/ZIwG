@@ -1,7 +1,7 @@
 import * as React from "react";
 import './RegisterForm.scss'
 import { TextInput } from "./Input/TextInput";
-import { Button } from "./Input/Button";
+import { StateButton } from "./Input/Button";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { Divider } from "./Divider";
@@ -37,7 +37,7 @@ export function RegisterForm() {
             <TextInput placeHolder='E-mail' onChange={(e) => setEmail(e.target.value)} checkIfError={checkIfError} />
             <TextInput placeHolder='Confirm password' overrideType="password" onChange={(e) => setPassword(e.target.value)} checkIfError={checkIfError} />
             <TextInput placeHolder='Password' overrideType="password" onChange={(e) => setConfirmPassword(e.target.value)} checkIfError={checkPasswordError} />
-            <Button type="submit" value="Create account" />
+            <StateButton type="submit" value="Create account" />
         </form>
     );
 
