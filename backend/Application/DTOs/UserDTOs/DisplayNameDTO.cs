@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs.UserDTOs
 {
-    public class ModifyDTO
+    public class DisplayNameDTO
     {
         public string DisplayName { get; set; }
 
