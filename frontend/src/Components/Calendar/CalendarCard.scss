@@ -9,16 +9,26 @@
 }
 
 .cardNormal {
-    border-color: $main-lighter-color;
+    @include customize(color) {
+        border-color: getValue(main-lighter-color); 
+      }
     background-color: white;
 }
 
 .cardFilled {
-    background-color: rgba($main-lighter-color, 0);
-    border-color: $main-color;
+    @include customize(color) {
+        background-color: getValue(main-lighter-color); 
+      }
+    @include customize(color) {
+        border-color: getValue(main-color); 
+      }
 }
 .cardSelected {
-    background-color: rgba($second-main-color, .08);
-    border-color: rgba($second-main-color, 0.8);
+    @include customize(color) {
+        background-color: getValue(second-main-color); 
+      }
+    @include customize(color) {
+        border-color: getValue(second-main-color); 
+      }
     border-width: 2px;
 }
