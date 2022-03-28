@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { EditableProfileSection } from './EditableProfileSection'
-import { ProfileStats } from './ProfileStats'
+import { EditableProfileSection } from './UserDataPage/EditableProfileSection'
+import { ProfileStats } from './UserDataPage/ProfileStats'
 import './UserDataPage.scss'
 
 export default function UserDataPage() {

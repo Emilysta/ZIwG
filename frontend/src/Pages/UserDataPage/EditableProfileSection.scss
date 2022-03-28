@@ -29,10 +29,6 @@
     max-width: 800px;
 }
 
-.profileSection .leftColumn {}
-
-
-
 .profileSection .profileData {
     margin-top: 5px;
 }
@@ -93,6 +89,6 @@
 
 .profileSection #buttonMenu {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 0;
+    right: 0;
 }
