@@ -44,7 +44,7 @@
     font-weight: 300;
 }
 
-.profileSection .profileData input,
+.profileSection .profileData input[type="text"],
 .profileSection .profileData .textarea {
     background-color: #00000000;
     border-radius: 0px;
@@ -54,7 +54,7 @@
     word-wrap: break-word;
 }
 
-.profileSection .profileData input {
+.profileSection .profileData input[type="text"] {
     font-size: 22px;
     font-weight: 700;
 }
@@ -67,7 +67,11 @@
     resize: none;
 }
 
-.profileSection .profileData input:enabled,
+.profileSection .profileData input[type="button"] {
+    margin: 0 10px 0 0;
+}
+
+.profileSection .profileData input[type="text"]:enabled,
 .profileSection .profileData .editable {
     // todo
     border: 1px solid #000;
@@ -91,4 +95,8 @@
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.profileSection #buttonMenu * {
+    margin-left: 5px;
 }

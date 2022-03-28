@@ -64,8 +64,17 @@ export function EditableProfileSection(props: any) {
                         <ToggleTextarea disabled={state.disabled} value={state.description} name="description" onChange={onChange} />
                     </span>
                 </div>
+
+                <div className='profileData' hidden={state.disabled}>
+                    <label>Options</label>
+                    <MenuButton value="Change password" onClick={null} />
+                    <MenuButton value="Delete account" onClick={null} />
+                </div>
             </div>
             <div id="buttonMenu">
+                <span hidden={state.disabled}>
+                    <MenuButton value="Cancel" onClick={null} />
+                </span>
                 <MenuButton value={state.disabled ? "Edit profile" : "Save"} onClick={onClick} />
             </div>
         </section>
