@@ -2,23 +2,36 @@ import * as React from 'react';
 import ContentEditable from 'react-contenteditable';
 
 type State = {
+    name: string
     value: string
 }
 
 type Props = {
+    value?: string
+    name?: string
     disabled?: boolean,
-    onValueChange?: (state: State) => void
+    onChange?: (state: any) => void
 }
 
 export default function ToggleTextarea(props: Props) {
-    const [state, setState]: [State, any] = React.useState({value: ''})
+    const [state, setState]: [State, any] = React.useState({
+        value: props.value,
+        name: props.name
+    })
 
-    const onChange = (e: React.FormEvent<HTMLSpanElement>) => {
-    }
+    const onChange = (e: React.FormEvent<HTMLSpanElement>) => { }
 
     const onBlur = (e: React.FormEvent<HTMLSpanElement>) => {
-        setState({ value: e.currentTarget.innerText })
-        props.onValueChange(state)
+        setState({
+            ...state,
+            value: e.currentTarget.innerText
+        })
+        props.onChange({
+            target: {
+                name: state.name,
+                value: state.value
+            }
+        })
     }
 
     return (

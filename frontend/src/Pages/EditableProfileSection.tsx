@@ -4,12 +4,35 @@ import { Person } from 'react-bootstrap-icons';
 import "./EditableProfileSection.scss"
 import ToggleTextarea from './ToggleTextarea';
 
+type State = {
+    disabled: boolean,
+    name: string,
+    location: string,
+    description: string
+}
+
 export function EditableProfileSection(props: any) {
 
-    const [state, setState] = React.useState({disabled: true})
+    const [state, setState]: [State, any] = React.useState({
+        disabled: true,
+        name: "Jan Kowalski",
+        location: "Wrocław, Dolnośląskie, Polska",
+        description: "Voluptate a debitis ipsum eum quis enim iure. Sunt voluptatem in ad ut voluptatem maiores nihil. Eos sapiente accusantium quis ut quae. Officiis quos aut sit eos nesciunt alias similique similique."
+    })
 
     const onClick = () => {
-        setState({disabled: !state.disabled})
+        setState({
+            ...state,
+            disabled: !state.disabled
+        })
+        console.log(state)
+    }
+
+    const onChange = (e: any) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
     }
 
     return (
@@ -23,13 +46,13 @@ export function EditableProfileSection(props: any) {
                 <div className='profileData'>
                     <label>Name</label>
                     <span>
-                        <input type="text" disabled={state.disabled} defaultValue='Jan Kowalski' />
+                        <input type="text" disabled={state.disabled} value={state.name} name="name" onChange={onChange} />
                     </span>
                 </div>
                 <div className='profileData'>
                     <label>Location</label>
                     <span>
-                        <input type="text" disabled={state.disabled} defaultValue='Wrocław, Woj. Dolnośląskie, Polska' />
+                        <input type="text" disabled={state.disabled} value={state.location} name="location" onChange={onChange} />
                     </span>
                 </div>
 
@@ -38,7 +61,7 @@ export function EditableProfileSection(props: any) {
                 <div className='profileData'>
                     <label>Description</label>
                     <span>
-                        <ToggleTextarea disabled={state.disabled} />
+                        <ToggleTextarea disabled={state.disabled} value={state.description} name="description" onChange={onChange} />
                     </span>
                 </div>
             </div>
