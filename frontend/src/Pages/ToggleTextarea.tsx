@@ -19,9 +19,7 @@ export default function ToggleTextarea(props: Props) {
         name: props.name
     })
 
-    const onChange = (e: React.FormEvent<HTMLSpanElement>) => { }
-
-    const onBlur = (e: React.FormEvent<HTMLSpanElement>) => {
+    const onChange = (e: React.FormEvent<HTMLSpanElement>) => {
         setState({
             ...state,
             value: e.currentTarget.innerText
@@ -33,6 +31,8 @@ export default function ToggleTextarea(props: Props) {
             }
         })
     }
+
+    const onBlur = (e: React.FormEvent<HTMLSpanElement>) => { }
 
     return (
         <ContentEditable
