@@ -2,7 +2,7 @@ import { MenuButton } from 'Components/Input/MenuButton';
 import * as React from 'react';
 import { Person } from 'react-bootstrap-icons';
 import "./EditableProfileSection.scss"
-import { ToggleTextarea } from './ToggleTextarea';
+import ToggleTextarea from './ToggleTextarea';
 
 export function EditableProfileSection(props: any) {
 
@@ -38,7 +38,7 @@ export function EditableProfileSection(props: any) {
                 <div className='profileData'>
                     <label>Description</label>
                     <span>
-                        <ToggleTextarea disabled={state.disabled}/>
+                        <ToggleTextarea disabled={state.disabled} />
                     </span>
                 </div>
             </div>
