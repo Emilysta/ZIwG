@@ -1,0 +1,102 @@
+@use 'lib' as *;
+
+.profileSection {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    padding: 20px 0;
+}
+
+.profileSection .rightColumn,
+.profileSection .leftColumn {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileSection .rightColumn div,
+.profileSection .leftColumn div {
+    width: 100%;
+}
+
+.profileSection .rightColumn {
+    width: 100%;
+}
+
+.profileSection .rightColumn div,
+.profileSection .rightColumn hr {
+    max-width: 800px;
+}
+
+.profileSection .profileData {
+    margin-top: 5px;
+}
+
+.profileSection .profileData label,
+.profileSection .profileData span {
+    display: inline-block;
+    width: 100%;
+}
+
+.profileSection .profileData label {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.profileSection .profileData input[type="text"],
+.profileSection .profileData .textarea {
+    background-color: #00000000;
+    border-radius: 0px;
+    padding: 4px 0px;
+    width: 100%;
+    border: 0;
+    word-wrap: break-word;
+}
+
+.profileSection .profileData input[type="text"] {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profileSection .profileData .textarea {
+    // todo
+    font-size: 16px;
+    font-weight: 600;
+    overflow: hidden;
+    resize: none;
+}
+
+.profileSection .profileData input[type="button"] {
+    margin: 0 10px 0 0;
+}
+
+.profileSection .profileData input[type="text"]:enabled,
+.profileSection .profileData .editable {
+    // todo
+    border: 1px solid #000;
+    background-color: $light-greyish-color;
+    color: #fff;
+    font-weight: 400;
+    padding: 4px 0 4px 8px;
+    margin: -1px;
+    width: calc(100% - 8px);
+}
+
+.profileSection #profilePicture {
+    width: 140px;
+    height: 140px;
+    margin: auto 30px;
+    border-radius: 140px;
+    border: 4px solid $main-color;
+}
+
+.profileSection #buttonMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.profileSection #buttonMenu * {
+    margin-left: 5px;
+}
