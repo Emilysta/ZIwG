@@ -1,0 +1,31 @@
+// idea to Nav
+.navBarDistance {
+    min-height: 150px;
+    width: 100%;
+}
+
+.userPage {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    width: 84%;
+    max-width: 1400px;
+    flex-direction: row;
+    margin: auto;
+}
+
+.userMenu,
+.userContent {
+    margin: 0;
+}
+
+.userMenu {
+    width: fit-content;
+}
+
+.userContent {
+    width: 100%;
+}

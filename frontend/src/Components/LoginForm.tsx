@@ -1,13 +1,13 @@
 import * as React from "react";
-import './LoginForm.css'
+import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
-import { Button, ButtonStateEnum } from "./Input/Button";
+import { StateButton, ButtonStateEnum } from "./Input/Button";
 import { Link } from 'react-router-dom';
 
 export class LoginForm extends React.Component {
   login: React.RefObject<TextInput> = React.createRef()
   password: React.RefObject<TextInput> = React.createRef()
-  submit: React.RefObject<Button> = React.createRef()
+  submit: React.RefObject<StateButton> = React.createRef()
 
   constructor(props: any) {
     super(props);
@@ -58,7 +58,7 @@ export class LoginForm extends React.Component {
       <form onSubmit={this.handleSubmit} className="LoginForm">
         <TextInput ref={this.login} placeHolder='Login' onChange={this.handleChange} />
         <TextInput ref={this.password} placeHolder='Password' overrideType="password" onChange={this.handleChange} />
-        <Link to='/user'><Button ref={this.submit} type="submit" value="Submit" /></Link>
+        <Link to='/user' className="buttonLink"><StateButton ref={this.submit} type="submit" value="Submit" /></Link>
       </form>
       <p><Link to='/register' className='highlighted'>No account?</Link></p>
     </section>;

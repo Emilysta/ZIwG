@@ -8,7 +8,7 @@ export enum ButtonStateEnum {
 type ButtonProps = { type: string, value: string }
 type ButtonState = { state: ButtonStateEnum }
 
-export class Button extends React.Component<ButtonProps, ButtonState> {
+export class StateButton extends React.Component<ButtonProps, ButtonState> {
   constructor(props: ButtonProps) {
     super(props)
     this.state = { state: ButtonStateEnum.Inactive }
@@ -22,3 +22,4 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return ButtonStateEnum[this.state.state];
   }
 }
+

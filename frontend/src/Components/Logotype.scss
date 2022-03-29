@@ -1,4 +1,4 @@
-
+@use 'lib' as *;
 .Logotype {
     display: flex;
     align-items: center;
@@ -6,8 +6,8 @@
 
 .Logotype:hover
 {
-    color: var(--main-lighter-color);
-    fill: var(--main-lighter-color);
+    color: $main-lighter-color;
+    fill: $main-lighter-color;
 }
 
 .logoTypeText {
@@ -19,5 +19,5 @@
     width: 20px;
     height: 20px;
     padding: 0.3em;
-    fill: var(--main-color);
+    fill: $main-color;
 }
