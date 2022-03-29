@@ -75,7 +75,9 @@
 .profileSection .profileData .editable {
     // todo
     border: 1px solid #000;
-    background-color: $light-greyish-color;
+    @include customize() {
+        background-color: getValue(light-greyish-color); 
+      }
     color: #fff;
     font-weight: 400;
     padding: 4px 0 4px 8px;
@@ -88,7 +90,9 @@
     height: 140px;
     margin: auto 30px;
     border-radius: 140px;
-    border: 4px solid $main-color;
+    @include customize() {
+        border: 4px solid getValue(main-color); 
+      }
 }
 
 .profileSection #buttonMenu {

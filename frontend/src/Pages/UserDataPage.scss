@@ -2,13 +2,17 @@
 
 .userDataSection {
     padding: 10px;
-    border: 1px solid $light-greyish-color;
+    @include customize() {
+        border: 1px solid getValue(light-greyish-color); 
+      }
     border-radius: 10px;
     margin-bottom: 20px;
 }
 
 .userDataSection hr {
-    border: 1px solid $light-greyish-color;
+    @include customize() {
+        border: 1px solid getValue(light-greyish-color); 
+      }
     width: 90%;
     margin-left: 0;
 }
