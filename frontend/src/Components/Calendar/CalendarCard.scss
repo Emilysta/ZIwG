@@ -6,19 +6,62 @@
     width: 150px;
     height: 150px;
     box-shadow: 1px 1px 8px #00000064;
+    margin: 4px;
 }
 
 .cardNormal {
-    border-color: $main-lighter-color;
-    background-color: white;
+    @include customize() {
+        border-color: getValue(main-lighter-color); 
+      }
+    background-color: none;
 }
 
 .cardFilled {
-    background-color: rgba($main-lighter-color, 0);
-    border-color: $main-color;
+    @include customize() {
+        background-color: rgba(getValue(main-lighter-color),0.15); 
+      }
+    @include customize() {
+        border-color: getValue(main-color); 
+      }
 }
+
 .cardSelected {
-    background-color: rgba($second-main-color, .08);
-    border-color: rgba($second-main-color, 0.8);
+    @include customize() {
+        background-color: rgba(getValue(second-main-color),0.08); 
+      }
+    @include customize() {
+        border-color: rgba(getValue(second-main-color),0.8); 
+      }
     border-width: 2px;
+}
+
+.cardNotInMonth {
+
+  @include customize() {
+      border-color: rgba(#B9B9B9,0.8); 
+    }
+  background-color: none; 
+  border-width: 2px;
+}
+
+.textStack{
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.dayNumber{
+  margin: 0px;
+}
+
+.text{
+  margin: 0px;
+  padding: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tasksNumer{
+  color: #B9B9B9;
 }

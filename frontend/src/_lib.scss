@@ -1,7 +1,45 @@
-$main-color: #3D5A80;
-$second-main-color: #EE6C4D;
-$main-lighter-color: #98C1D9;
-$dark-greyish-color: #293241;
-$light-greyish-color: #AFB6C1;
-$error-color: #ff0000;
+$themes: (
+  light: (
+    main-color: #3D5A80,
+    second-main-color: #EE6C4D,
+    main-lighter-color: #98C1D9,
+    dark-greyish-color: #293241,
+    light-greyish-color: #AFB6C1,
+    error-color: #ff0000,
+    backgroundColor: none,
+    
+  ),
+  dark: ( //toDo define dark mode
+    main-color: #3D5A80,
+    second-main-color: #EE6C4D,
+    main-lighter-color: #98C1D9,
+    dark-greyish-color: #293241,
+    light-greyish-color: #AFB6C1,
+    error-color: #ff0000,
+    backgroundColor: #202020,
+  ),
+);
 
+/*copied from: https://medium.com/@sanuthadathil/theme-and-color-scheme-sass-way-a62d68614ef3
+modified for our usage*/
+@mixin customize() {
+  $array: $themes;
+  $prefix: theme;
+
+  @each $theme, $map in $array {
+    .#{$prefix}-#{$theme} & {
+      $array-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($array, $theme), '#{$key}');
+        $array-map: map-merge($array-map, ($key: $value)) !global;
+      }
+
+      @content;
+      $array-map: null !global;
+    }
+  }
+}
+
+@function getValue($key) {
+  @return map-get($array-map, $key);
+}

@@ -15,9 +15,6 @@
             "Components/*": [
                 "Components/*"
             ],
-            "indexSCSS": [
-                "index.scss"
-            ],
         }
     },
     "include": [
