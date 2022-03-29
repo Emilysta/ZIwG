@@ -764,3 +764,6 @@ $RECYCLE.BIN/
 ### Custom ###
 /~**
 /bash/config.sh
+/backend/Domain/Migrations/20220327190824_displayname.cs
+/backend/Domain/Migrations/20220327190824_displayname.Designer.cs
+/backend/Domain/Migrations/DataBaseContextModelSnapshot.cs

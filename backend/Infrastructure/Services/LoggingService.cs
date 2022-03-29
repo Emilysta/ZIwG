@@ -50,26 +50,5 @@ namespace Infrastructure.Services
                 return true;
             return false;
         }
-
-        public bool Modify(ModifyDTO @model, string id)
-        {
-            var userToModify = _userManager.Users.Where(x => x.Id == id).SingleOrDefault();
-            if (userToModify == null)
-                return false;
-
-            userToModify = _mapper.Map(@model, userToModify);
-            _context.Users.Update(userToModify);
-            return true;
-        }
-        
-        public async Task<bool> SaveChangesAsync()
-        {
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
     }
 }

@@ -1,14 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Application.Interfaces;
+using Infrastructure.MappingProfiles;
 using Domain.Contexts;
 using Domain.Entities;
-using Infrastructure.MappingProfiles;
+
+
 using Infrastructure.Services;
 
 namespace ziwg
@@ -30,8 +38,25 @@ namespace ziwg
         {
             services.AddAutoMapper(typeof(UserMappingProfile));
             services.AddTransient<ILoggingService, LoggingService>();
-
+            services.AddTransient<IUserService, UserService>();
+            
             services.AddControllers();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/api/user/google-login";
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "827727851412-6rvoiprug86jmva1t1q37s8jva6pit4h.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
+                    options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -61,8 +86,11 @@ namespace ziwg
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

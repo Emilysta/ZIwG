@@ -14,8 +14,7 @@ namespace Infrastructure.MappingProfiles
     {
         public UserMappingProfile()
         {
-            CreateMap<ModifyDTO, User>();
-
+            CreateMap<DisplayNameDTO, User>();
         }
     }
 }
