@@ -1,14 +1,13 @@
-﻿using Application.DTOs.UserDTOs;
-using Application.Interfaces;
-using Domain.Contexts;
-using Domain.Entities;
+﻿using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.DTOs.UserDTOs;
+using Application.Interfaces;
+using Domain.Contexts;
 
 namespace WebApi.Controllers
 {
@@ -17,15 +16,13 @@ namespace WebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly DataBaseContext _context;
         private readonly ILoggingService _loggingService;
         private readonly IUserService _userService;
 
-        public UserController(ILoggingService loggingService, IUserService userService, DataBaseContext context)
+        public UserController(ILoggingService loggingService, IUserService userService)
         {
             _loggingService = loggingService;
             _userService = userService;
-            _context = context;
         }
 
         [HttpPost]
@@ -61,32 +58,9 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var claims = result.Principal.Identities.FirstOrDefault()
-                .Claims.Select(claim => new
-                {
-                    claim.Issuer,
-                    claim.OriginalIssuer,
-                    claim.Type,
-                    claim.Value
-                });
-
-            var email = claims.ElementAt(4).Value;
-            var checkUser = _context.Users.Where(x => x.Email == email).SingleOrDefault();
-            if (checkUser == null)
-            {
-                var usertoadd = new User
-                {
-                    DisplayName = claims.ElementAt(1).Value,
-                    FirstName = claims.ElementAt(2).Value,
-                    LastName = claims.ElementAt(3).Value,
-                    UserName = email,
-                    Email = email
-                };
-                await _context.Users.AddAsync(usertoadd);
-                await _userService.SaveChangesAsync();
-                return Ok();
-            }
+            if (await _loggingService.RegisterWithGoogle(result))
+                if (await _loggingService.SaveChangesAsync())
+                    return Ok();
             return Ok();
         }
 
