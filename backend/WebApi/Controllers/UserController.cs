@@ -1,5 +1,7 @@
 ﻿using Application.DTOs.UserDTOs;
 using Application.Interfaces;
+using Domain.Contexts;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -15,13 +17,15 @@ namespace WebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly DataBaseContext _context;
         private readonly ILoggingService _loggingService;
         private readonly IUserService _userService;
 
-        public UserController(ILoggingService loggingService, IUserService userService)
+        public UserController(ILoggingService loggingService, IUserService userService, DataBaseContext context)
         {
             _loggingService = loggingService;
             _userService = userService;
+            _context = context;
         }
 
         [HttpPost]
@@ -67,7 +71,23 @@ namespace WebApi.Controllers
                     claim.Value
                 });
 
-            return Ok(claims);
+            var email = claims.ElementAt(4).Value;
+            var checkUser = _context.Users.Where(x => x.Email == email).SingleOrDefault();
+            if (checkUser == null)
+            {
+                var usertoadd = new User
+                {
+                    DisplayName = claims.ElementAt(1).Value,
+                    FirstName = claims.ElementAt(2).Value,
+                    LastName = claims.ElementAt(3).Value,
+                    UserName = email,
+                    Email = email
+                };
+                await _context.Users.AddAsync(usertoadd);
+                await _userService.SaveChangesAsync();
+                return Ok();
+            }
+            return Ok();
         }
 
         [HttpPatch]
