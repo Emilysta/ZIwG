@@ -35,17 +35,12 @@ namespace Infrastructure.Services
 
         public async Task<bool> Register(RegisterDTO model)
         {
-            var user = new User
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                DisplayName = model.DisplayName,
-                Email = model.Email,
-                UserName= model.Email,
-                DateOfBirth = model.DateOfBirth,
+            var userToRegister = new User {
+                UserName = model.Email
             };
+            userToRegister = _mapper.Map(model, userToRegister);
 
-            var createAccountResult = await _userManager.CreateAsync(user, model.Password);
+            var createAccountResult = await _userManager.CreateAsync(userToRegister, model.Password);
             if (createAccountResult.Succeeded)
                 return true;
             return false;
