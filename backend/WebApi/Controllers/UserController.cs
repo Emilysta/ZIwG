@@ -1,12 +1,13 @@
-﻿using Application.DTOs.UserDTOs;
-using Application.Interfaces;
+﻿using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.DTOs.UserDTOs;
+using Application.Interfaces;
+using Domain.Contexts;
 
 namespace WebApi.Controllers
 {
@@ -57,17 +58,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var claims = result.Principal.Identities.FirstOrDefault()
-                .Claims.Select(claim => new
-                {
-                    claim.Issuer,
-                    claim.OriginalIssuer,
-                    claim.Type,
-                    claim.Value
-                });
-
-            return Ok(claims);
+            if (await _loggingService.RegisterWithGoogle(result))
+                if (await _loggingService.SaveChangesAsync())
+                    return Ok();
+            return Ok();
         }
 
         [HttpPatch]

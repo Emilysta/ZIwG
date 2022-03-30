@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Application.Interfaces;
-using Domain.Entities;
-using System.Threading.Tasks;
-using Application.DTOs.UserDTOs;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
 using System.Linq;
 using AutoMapper;
+using Application.Interfaces;
+using Application.DTOs.UserDTOs;
+using Domain.Entities;
 using Domain.Contexts;
 
 namespace Infrastructure.Services
@@ -35,19 +36,52 @@ namespace Infrastructure.Services
 
         public async Task<bool> Register(RegisterDTO model)
         {
-            var user = new User
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                DisplayName = model.DisplayName,
-                Email = model.Email,
-                UserName= model.Email,
-                DateOfBirth = model.DateOfBirth,
+            var userToRegister = new User {
+                UserName = model.Email
             };
+            userToRegister = _mapper.Map(model, userToRegister);
 
-            var createAccountResult = await _userManager.CreateAsync(user, model.Password);
+            var createAccountResult = await _userManager.CreateAsync(userToRegister, model.Password);
             if (createAccountResult.Succeeded)
                 return true;
+            return false;
+        }
+
+        public async Task<bool> RegisterWithGoogle(AuthenticateResult result)
+        {
+            var claims = result.Principal.Identities.FirstOrDefault()
+                .Claims.Select(claim => new
+                {
+                    claim.Issuer,
+                    claim.OriginalIssuer,
+                    claim.Type,
+                    claim.Value
+                });
+
+            var email = claims.ElementAt(4).Value;
+            var checkUser = _context.Users.Where(x => x.Email == email).SingleOrDefault();
+            if (checkUser == null)
+            {
+                var usertoadd = new User
+                {
+                    DisplayName = claims.ElementAt(1).Value,
+                    FirstName = claims.ElementAt(2).Value,
+                    LastName = claims.ElementAt(3).Value,
+                    UserName = email,
+                    Email = email
+                };
+                await _context.Users.AddAsync(usertoadd);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
             return false;
         }
     }

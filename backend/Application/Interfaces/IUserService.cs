@@ -1,5 +1,5 @@
-﻿using Application.DTOs.UserDTOs;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Application.DTOs.UserDTOs;
 
 namespace Application.Interfaces
 {
