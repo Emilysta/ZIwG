@@ -10,12 +10,10 @@ export default function UserTicketsPage() {
     return (
         <div className='ticketPage'>
             <header>
-                <div>
-                    <nav>
-                        <LinkAbc to="validated" selected> Validated ticket </LinkAbc>
-                        <LinkAbc to="archived"> Archived ticket </LinkAbc>
-                    </nav>
-                </div>
+                <nav>
+                    <LinkAbc to="validated" selected> Validated ticket </LinkAbc>
+                    <LinkAbc to="archived"> Archived ticket </LinkAbc>
+                </nav>
             </header>
             <main>
                 <TicketsList type={typeString} />

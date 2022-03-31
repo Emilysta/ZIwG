@@ -3,7 +3,7 @@
 .userDataSection {
     padding: 10px;
     @include customize() {
-        border: 1px solid getValue(light-greyish-color); 
+        border: 1px solid getValue(light-greyish-color);
       }
     border-radius: 10px;
     margin-bottom: 20px;

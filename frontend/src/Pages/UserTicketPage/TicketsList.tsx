@@ -7,9 +7,15 @@ type TicketListProps = { type: string }
 export function TicketsList(props: TicketListProps) {
     return (
         <div className='ticketListContainer'>
-            <Ticket />
-            <Ticket />
-            <Ticket />
+            {props.type == "validated" ? <>
+                <Ticket />
+            </> : <>
+                <Ticket />
+                <Ticket />
+                <Ticket />
+                <Ticket />
+            </>
+            }
         </div>
     );
 }
