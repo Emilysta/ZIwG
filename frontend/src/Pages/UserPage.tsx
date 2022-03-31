@@ -16,6 +16,7 @@ export default function UserPage() {
                     <Routes>
                         <Route path="/calendar" element={<UserCalendarPage />} />
                         <Route path="/tickets" element={<UserTicketsPage />} />
+                        <Route path="/tickets/:type" element={<UserTicketsPage />} />
                         <Route path="/data" element={<UserDataPage />} />
                     </Routes>
                 </div>
