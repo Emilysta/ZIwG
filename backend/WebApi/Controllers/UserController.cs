@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.UserDTOs;
 using Application.Interfaces;
-using Domain.Contexts;
 
 namespace WebApi.Controllers
 {
@@ -24,7 +23,7 @@ namespace WebApi.Controllers
             _loggingService = loggingService;
             _userService = userService;
         }
-
+        
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(LoginDTO model)

@@ -14,12 +14,14 @@ namespace Infrastructure.Services
     {
         private readonly DataBaseContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
 
-        public LoggingService(UserManager<User> userManager, IMapper mapper, DataBaseContext context)
+        public LoggingService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, DataBaseContext context)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _signInManager = signInManager;
             _context = context;
         }
         public async Task<bool> Login(LoginDTO model)
@@ -28,8 +30,12 @@ namespace Infrastructure.Services
 
             if (user != null)
             {
-                var signInResult = await _userManager.CheckPasswordAsync(user, model.Password);
-                return signInResult;
+                var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                if (signInResult.Succeeded)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -43,6 +49,7 @@ namespace Infrastructure.Services
 
             var createAccountResult = await _userManager.CreateAsync(userToRegister, model.Password);
             if (createAccountResult.Succeeded)
+                await _signInManager.SignInAsync(userToRegister, isPersistent: false);
                 return true;
             return false;
         }
@@ -71,9 +78,11 @@ namespace Infrastructure.Services
                     Email = email
                 };
                 await _context.Users.AddAsync(usertoadd);
+                await _signInManager.SignInAsync(usertoadd, isPersistent: false);
                 return true;
             }
-            return false;
+            await _signInManager.SignInAsync(checkUser, isPersistent: false);
+            return true;
         }
 
         public async Task<bool> SaveChangesAsync()

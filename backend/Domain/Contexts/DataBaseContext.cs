@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Domain.Contexts
 {
-    public class DataBaseContext : DbContext
+    public class DataBaseContext : IdentityDbContext
     {
         public DataBaseContext(DbContextOptions<DataBaseContext> options)
             : base(options)
         {
 
         }
-        public DbSet<User> Users { get; set; }
+        new public DbSet<User> Users { get; set; }
         public DbSet<CarPool> CarPools { get; set; }
         public DbSet<Event> Events { get; set; }
 

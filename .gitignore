@@ -767,3 +767,5 @@ $RECYCLE.BIN/
 /backend/Domain/Migrations/20220327190824_displayname.cs
 /backend/Domain/Migrations/20220327190824_displayname.Designer.cs
 /backend/Domain/Migrations/DataBaseContextModelSnapshot.cs
+/backend/Domain/Migrations/20220331220514_Init.Designer.cs
+/backend/Domain/Migrations/20220331220514_Init.cs
