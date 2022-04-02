@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ValidationFun } from "Utils/TextInputValidation";
 import './TextInput.scss'
 
 export type TextInputProps = {
@@ -6,8 +7,9 @@ export type TextInputProps = {
   name?: string,
   overrideType?: string,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  checkIfError?: (inputValue: string) => string
+  validate?: ValidationFun[]
 }
+
 export type TextInputState = { value: string, error: string }
 
 export class TextInput extends React.Component<TextInputProps, TextInputState> {
@@ -21,14 +23,24 @@ export class TextInput extends React.Component<TextInputProps, TextInputState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  validation(value: string) {
+    for (let fun of this.props.validate) {
+      let val = fun(value)
+      if (val != null)
+        return val
+    }
+    return null
+  }
+
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const currentValue = event.currentTarget.value;
-    this.setState({ value: currentValue });
+    this.setState({
+      ...this.state,
+      value: currentValue,
+      error: this.validation(currentValue)
+    })
     if (this.props.onChange)
       this.props.onChange(event)
-    if (this.props.checkIfError) {
-      this.setState({ error: this.props.checkIfError(this.state.value) })
-    }
   }
 
   render(): React.ReactNode {

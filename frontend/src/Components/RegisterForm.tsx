@@ -5,6 +5,7 @@ import { StateButton } from "./Input/Button";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { Divider } from "./Divider";
+import { validLogin, validEmail, passwordValidate } from "Utils/TextInputValidation";
 
 export function RegisterForm() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -15,28 +16,20 @@ export function RegisterForm() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmpassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const checkIfError = (inputValue: string) => {
-        if (inputValue.length < 5)
-            return 'tooShort';
-        else
-            return '';
-    }
-
-    const checkPasswordError = (inputValue: string) => {
-        if (password.length !== 0 && confirmpassword.length !== 0 && password !== confirmpassword)
-            return 'Passwords do not match';
-        else
-            return '';
+    const checkConfirm = (inputValue: string) => {
+        return password.length !== 0 && confirmPassword.length !== 0 && password !== confirmPassword
+            ? 'Passwords do not match'
+            : null
     }
 
     const renderForm = (
         <form onSubmit={handleSubmit} className="RegisterForm">
-            <TextInput placeHolder='Username' onChange={(e) => setUsername(e.target.value)} checkIfError={checkIfError} />
-            <TextInput placeHolder='E-mail' onChange={(e) => setEmail(e.target.value)} checkIfError={checkIfError} />
-            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(e) => setPassword(e.target.value)} checkIfError={checkIfError} />
-            <TextInput placeHolder='Password' overrideType="password" onChange={(e) => setConfirmPassword(e.target.value)} checkIfError={checkPasswordError} />
+            <TextInput placeHolder='Username' onChange={(e) => setUsername(e.target.value)} validate={[validLogin]} />
+            <TextInput placeHolder='E-mail' onChange={(e) => setEmail(e.target.value)} validate={[validEmail]} />
+            <TextInput placeHolder='Password' overrideType="password" onChange={(e) => setConfirmPassword(e.target.value)} validate={passwordValidate} />
+            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(e) => setPassword(e.target.value)} validate={[checkConfirm]} />
             <StateButton type="submit" value="Create account" />
         </form>
     );
