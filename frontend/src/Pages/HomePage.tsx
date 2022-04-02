@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BlendedCircle } from 'Components/BlendedCircle'
-import './HomePage.css'
+import './HomePage.scss'
 import peopleImage from '../images/pexels-tima-miroshnichenko-6615107_edited.png'
 
 function HomePage() {

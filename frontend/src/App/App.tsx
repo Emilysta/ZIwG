@@ -7,9 +7,7 @@ import LoginPage from 'Pages/LoginPage';
 import RegisterPage from 'Pages/RegisterPage';
 import UserPage from "Pages/UserPage";
 
-type AppProps = { num: number };
-
-function App({ num }: AppProps) {
+function App() {
   return (
     <div>
       <BrowserRouter>

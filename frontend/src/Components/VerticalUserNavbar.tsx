@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { CreditCard2Front, Person, Calendar } from 'react-bootstrap-icons'
 import ButtonWithIcon from "./Input/ButtonWithIcon";
-import './VerticalUserNavbar.css';
+import './VerticalUserNavbar.scss';
 
 
 export function VerticalUserNavbar() {

@@ -64,7 +64,7 @@ namespace ziwg
             services.AddDbContext<DataBaseContext>(options =>
             {
                 if (Environment.IsDevelopment())
-                    options.UseSqlServer(Configuration["Connectionstrings:DefaultConnection"]);
+                    options.UseMySQL(Configuration["Connectionstrings:MySQLConnection"]);
                 else
                     options.UseMySQL(Configuration["MySQL"]);
             });
