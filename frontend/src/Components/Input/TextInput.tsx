@@ -12,51 +12,43 @@ export type TextInputProps = {
 
 export type TextInputState = { value: string, error: string }
 
-export class TextInput extends React.Component<TextInputProps, TextInputState> {
-  get value() {
-    return this.state.value
-  }
+export function TextInput(props: TextInputProps) {
 
-  constructor(props: any) {
-    super(props);
-    this.state = { value: "", error: '' };
-    this.handleChange = this.handleChange.bind(this);
-  }
+  const [state, setState]: [TextInputState, any] = React.useState({ value: '', error: '' })
 
-  validation(value: string) {
-    for (let fun of this.props.validate) {
-      let val = fun(value)
-      if (val != null)
-        return val
-    }
+  const validation = (value: string) => {
+    if (props.validate)
+      for (let fun of props.validate) {
+        let val = fun(value)
+        if (val != null)
+          return val
+      }
     return null
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentValue = event.currentTarget.value;
-    this.setState({
-      ...this.state,
+    setState({
+      ...state,
       value: currentValue,
-      error: this.validation(currentValue)
+      error: validation(currentValue)
     })
-    if (this.props.onChange)
-      this.props.onChange(event)
+    if (props.onChange)
+      props.onChange(event)
   }
 
-  render(): React.ReactNode {
-    if (this.props.name)
-      return <>
-        <label>{this.props.name}</label>
-        {this.renderInput()}
-      </>;
-    else
-      return this.renderInput();
-  }
-
-  private renderInput(): React.ReactNode {
+  const renderInput = () => {
     return <div className="inputBox">
-      <input type={this.props.overrideType ?? "text"} value={this.state.value} placeholder={this.props.placeHolder} onChange={this.handleChange} />
-      <p className="inputError">{this.state.error}</p>
+      <input type={props.overrideType ?? "text"} value={state.value} placeholder={props.placeHolder} onChange={handleChange} />
+      <p className="inputError">{state.error}</p>
     </div>
   }
+
+  if (props.name)
+    return <>
+      <label>{props.name}</label>
+      {renderInput()}
+    </>
+  else
+    return renderInput()
 }

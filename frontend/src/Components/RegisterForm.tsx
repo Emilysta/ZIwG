@@ -1,7 +1,7 @@
 import * as React from "react";
 import './RegisterForm.scss'
 import { TextInput } from "./Input/TextInput";
-import { StateButton } from "./Input/Button";
+import { StateButton } from "./Input/StateButton";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { Divider } from "./Divider";

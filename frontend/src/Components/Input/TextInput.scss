@@ -1,4 +1,7 @@
 @use 'lib' as *;
+
+// todo fix and some move to general file
+
 input[type="text"],
 input[type="password"] {
     font-size: 12px;
@@ -28,37 +31,6 @@ input[type="password"]:focus-visible {
       }
 }
 
-input[type="submit"],
-input[type="button"] {
-    @include customize() {
-        background-color: getValue(main-color); 
-      }
-    border-radius: 20px;
-    color: #fff;
-    border: 0px;
-    font-weight: 200;
-}
-
-input[type="submit"]:hover,
-input[type="button"]:hover {
-    @include customize() {
-        background-color: getValue(main-lighter-color); 
-      }
-}
-
-input[type="submit"]:active,
-input[type="button"]:active {
-    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.5);
-}
-
-input.Inactive {
-    background-color: gray;
-}
-
-input.Inactive:hover {
-    background-color: gray;
-}
-
 .inputBox {
     display: block;
     overflow: auto;
@@ -70,7 +42,7 @@ input.Inactive:hover {
 
 .inputError {
     @include customize() {
-        color: getValue(error-color); 
+        color: getValue(error-color);
       }
     font-size: 13px;
     font-weight: 300;
