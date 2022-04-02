@@ -1,6 +1,6 @@
 import * as React from "react";
 import './Navbar.scss'
-import { Logotype } from "../Logotype";
+import Logotype from "../Logotype";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { BlendedCircle } from "Components/BlendedCircle";
