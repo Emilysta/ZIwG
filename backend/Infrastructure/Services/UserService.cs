@@ -20,7 +20,7 @@ namespace Infrastructure.Services
             _context = context;
         }
         
-        public bool ChangeDisplayName(DisplayNameDTO model, string id)
+        public bool ChangeDisplayData(DisplayDataDTO model, string id)
         {
             var userToModify = _context.Users.Where(x => x.Id == id).SingleOrDefault();
             if (userToModify == null)
@@ -29,6 +29,19 @@ namespace Infrastructure.Services
             userToModify = _mapper.Map(@model, userToModify);
             _context.Users.Update(userToModify);
             return true;
+        }
+        
+        public bool DeleteUser(string id)
+        {
+            var userToDelete = _context.Users.Where(x => x.Id == id).SingleOrDefault();
+            if (userToDelete == null)
+                return false;
+
+            else
+            {
+                _context.Users.Remove(userToDelete);
+                return true;
+            }
         }
 
         public async Task<bool> SaveChangesAsync()

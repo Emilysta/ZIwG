@@ -64,18 +64,28 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch]
-        [Route("changeDisplayName/{id}")]
+        [Route("changeUserData/{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> ChangeDisplayName([FromBody] DisplayNameDTO diplayName, [FromRoute] string id)
+        public async Task<IActionResult> ChangeUserData([FromBody] DisplayDataDTO diplayData, [FromRoute] string id)
         {
-            if (diplayName == null)
+            if (diplayData == null)
                 return BadRequest();
 
-            if (_userService.ChangeDisplayName(diplayName, id))
+            if (_userService.ChangeDisplayData(diplayData, id))
                 if (await _userService.SaveChangesAsync())
                     return Ok();
 
             return BadRequest();
+        }
+        [HttpDelete]
+        [Route("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Delete([FromRoute] string id)
+        {
+            if (_userService.DeleteUser(id))
+                if (await _userService.SaveChangesAsync())
+                    return NoContent();
+            return NotFound();
         }
     }
 }
