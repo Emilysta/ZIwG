@@ -30,6 +30,19 @@ namespace Infrastructure.Services
             _context.Users.Update(userToModify);
             return true;
         }
+        
+        public bool DeleteUser(string id)
+        {
+            var userToDelete = _context.Users.Where(x => x.Id == id).SingleOrDefault();
+            if (userToDelete == null)
+                return false;
+
+            else
+            {
+                _context.Users.Remove(userToDelete);
+                return true;
+            }
+        }
 
         public async Task<bool> SaveChangesAsync()
         {

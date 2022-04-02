@@ -77,5 +77,15 @@ namespace WebApi.Controllers
 
             return BadRequest();
         }
+        [HttpDelete]
+        [Route("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Delete([FromRoute] string id)
+        {
+            if (_userService.DeleteUser(id))
+                if (await _userService.SaveChangesAsync())
+                    return NoContent();
+            return NotFound();
+        }
     }
 }
