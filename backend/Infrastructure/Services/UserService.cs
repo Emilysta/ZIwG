@@ -20,7 +20,7 @@ namespace Infrastructure.Services
             _context = context;
         }
         
-        public bool ChangeDisplayName(DisplayNameDTO model, string id)
+        public bool ChangeDisplayData(DisplayDataDTO model, string id)
         {
             var userToModify = _context.Users.Where(x => x.Id == id).SingleOrDefault();
             if (userToModify == null)

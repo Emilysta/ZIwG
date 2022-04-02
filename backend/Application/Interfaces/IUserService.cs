@@ -5,7 +5,7 @@ namespace Application.Interfaces
 {
     public interface IUserService
     {
-        public bool ChangeDisplayName(DisplayNameDTO model, string id);
+        public bool ChangeDisplayData(DisplayDataDTO model, string id);
         public Task<bool> SaveChangesAsync();
     }
 }
