@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -71,8 +69,8 @@ namespace ziwg
                     options.UseMySQL(Configuration["MySQL"]);
             });
 
-            services.AddIdentityCore<User>()
-             .AddEntityFrameworkStores<DataBaseContext>();
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<DataBaseContext>();
 
         }
 
