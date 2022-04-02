@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ValidationFun } from "Utils/TextInputValidation";
+import { Validator } from "Utils/TextInputValidation";
 import './TextInput.scss'
 
 export type TextInputProps = {
@@ -7,40 +7,32 @@ export type TextInputProps = {
   name?: string,
   overrideType?: string,
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  validate?: ValidationFun[]
+  validate?: Validator
 }
 
-export type TextInputState = { value: string, error: string }
-
 export function TextInput(props: TextInputProps) {
+  const [value, setValue]: [string, any] = React.useState('');
+  const [error, setError]: [string, any] = React.useState('');
 
-  const [state, setState]: [TextInputState, any] = React.useState({ value: '', error: '' })
+  if (props.validate)
+    props.validate.injectSource(() => value)
 
-  const validation = (value: string) => {
-    if (props.validate)
-      for (let fun of props.validate) {
-        let val = fun(value)
-        if (val != null)
-          return val
-      }
-    return null
-  }
+  React.useEffect(() => {
+    if (value.length > 0)
+      setError(props.validate?.validate())
+  }, [value])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentValue = event.currentTarget.value;
-    setState({
-      ...state,
-      value: currentValue,
-      error: validation(currentValue)
-    })
+    setValue(currentValue)
     if (props.onChange)
       props.onChange(event)
   }
 
   const renderInput = () => {
     return <div className="inputBox">
-      <input type={props.overrideType ?? "text"} value={state.value} placeholder={props.placeHolder} onChange={handleChange} />
-      <p className="inputError">{state.error}</p>
+      <input type={props.overrideType ?? "text"} value={value} placeholder={props.placeHolder} onChange={handleChange} />
+      <p className="inputError">{error}</p>
     </div>
   }
 
