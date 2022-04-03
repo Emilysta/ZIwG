@@ -8,8 +8,7 @@ import './UserPage.scss'
 
 export default function UserPage() {
     return (
-        <div className='wholePageLayout userPage'>
-            <div className='navBarDistance'></div>
+        <div className='wholePageLayout userPage navbarMargin'>
             <div className='box'>
                 <div className='userMenu'><VerticalUserNavbar /></div>
                 <div className='userContent'>

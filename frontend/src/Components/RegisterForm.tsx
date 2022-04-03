@@ -1,43 +1,57 @@
 import * as React from "react";
 import './RegisterForm.scss'
 import { TextInput } from "./Input/TextInput";
-import { StateButton } from "./Input/Button";
+import { StateButton } from "./Input/StateButton";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { Divider } from "./Divider";
+import { validLogin, validEmail, passwordValidate, ValidationFun } from "Utils/TextInputValidation";
+import { Validator } from "Utils/Validator";
+import { postJson } from "Utils/FetchUtils";
 
 export function RegisterForm() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const getDefaultUsername = () => (firstName || lastName) && firstName + ' ' + lastName
+    const [username, setUsername] = useState('');
+    const [defaultUsername, setDefault] = useState(getDefaultUsername())
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState('')
+
+    React.useEffect(() => setDefault(getDefaultUsername()), [firstName, lastName])
+
+    const checkConfirm = (value: string) =>
+        password.length !== 0 && value.length !== 0 && password !== value
+            ? 'Passwords do not match'
+            : null
+
+    const firstNameCheck = new Validator()
+    const lastNameCheck = new Validator()
+    const userNameCheck = new Validator(validLogin)
+    const emailCheck = new Validator(validEmail)
+    const passwdCheck = new Validator(...passwordValidate)
+    const confirmedPasswdCheck = new Validator(checkConfirm)
+
+    const validations = [firstNameCheck, lastNameCheck, userNameCheck, emailCheck, passwdCheck, confirmedPasswdCheck]
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         console.log("submit");
         event.preventDefault();
-    };
-
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmpassword, setConfirmPassword] = useState('');
-
-    const checkIfError = (inputValue: string) => {
-        if (inputValue.length < 5)
-            return 'tooShort';
-        else
-            return '';
-    }
-
-    const checkPasswordError = (inputValue: string) => {
-        if (password.length !== 0 && confirmpassword.length !== 0 && password !== confirmpassword)
-            return 'Passwords do not match';
-        else
-            return '';
+        validateAndSend();
     }
 
     const renderForm = (
         <form onSubmit={handleSubmit} className="RegisterForm">
-            <TextInput placeHolder='Username' onChange={(e) => setUsername(e.target.value)} checkIfError={checkIfError} />
-            <TextInput placeHolder='E-mail' onChange={(e) => setEmail(e.target.value)} checkIfError={checkIfError} />
-            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(e) => setPassword(e.target.value)} checkIfError={checkIfError} />
-            <TextInput placeHolder='Password' overrideType="password" onChange={(e) => setConfirmPassword(e.target.value)} checkIfError={checkPasswordError} />
+            <TextInput placeHolder='First name' onChange={(v) => setFirstName(v)} validate={firstNameCheck} />
+            <TextInput placeHolder='Last name' onChange={(v) => setLastName(v)} validate={lastNameCheck} />
+            <TextInput placeHolder='Username' defaultValue={defaultUsername} onChange={(v) => setUsername(v)} validate={userNameCheck} />
+            <TextInput placeHolder='E-mail' onChange={(v) => setEmail(v)} validate={emailCheck} />
+            <TextInput placeHolder='Password' overrideType="password" onChange={(v) => setPassword(v)} validate={passwdCheck} />
+            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(v) => setConfirmPassword(v)} validate={confirmedPasswdCheck} />
             <StateButton type="submit" value="Create account" />
+            {errorMsg.length > 0 && <p className='inputError errorBox'>{errorMsg}</p>}
         </form>
     );
 
@@ -50,4 +64,29 @@ export function RegisterForm() {
             <p className="text2">Already have an account?<Link to='/logIn' className='highlighted'> Login Here</Link></p>
         </section>
     );
+
+    function validateAndSend() {
+        const isValid = validations.every((v) => v.isValid())
+        if (isValid) sendRequest()
+    }
+
+    function sendRequest() {
+        postJson('/api/user/register', {
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            displayName: username,
+            dateOfBirth: "2020-01-01T10:00:00.000Z", // todo handle date of birth
+            email: email
+        }).then(data => {
+            if (data.ok) {
+                window.location.href = '/login'
+            }
+            else {
+                setErrorMsg("Error");
+            }
+        }).catch(() => {
+            setErrorMsg("Communication error");
+        });
+    }
 }
