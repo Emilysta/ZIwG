@@ -37,7 +37,7 @@ namespace ziwg
             services.AddAutoMapper(typeof(UserMappingProfile));
             services.AddTransient<ILoggingService, LoggingService>();
             services.AddTransient<IUserService, UserService>();
-            
+            services.AddTransient<IEventService, EventService>();
             services.AddControllers();
 
             services.AddAuthentication(options =>
