@@ -3,35 +3,31 @@ import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
 import { Link } from 'react-router-dom';
+import { postJson } from "Utils/FetchUtils";
 
 export function LoginForm() {
-  const [email, setLogin] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // todo it's test code
     event.preventDefault();
     console.log("submit");
 
-    const body = JSON.stringify({
+    window.location.href = '/user'
+    return; // todo disabled login request
+
+    postJson("api/user/login", {
       email: email,
       password: password,
-    });
-
-    fetch("api/user/login", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: body,
+    }).then((data) => {
+      console.log(data)
+      if (data.ok) {
+      }
+      else {
+      }
+    }).catch((reason) => {
+      console.log(reason)
     })
-      .then((e) => {
-        console.log(e)
-      })
-      .catch((e) => {
-        console.error(e)
-      })
   }
 
   const minimalLength = 0;
@@ -46,12 +42,11 @@ export function LoginForm() {
     <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
 
     <form onSubmit={handleSubmit} className="LoginForm">
-      <TextInput placeHolder='Login' onChange={v => setLogin(v)} />
+      <TextInput placeHolder='Email' onChange={v => setEmail(v)} />
       <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
-      <Link to='/user' className="buttonLink">
-        <StateButton state={buttonState} type="submit" value="Submit" />
-      </Link>
+      <StateButton state={buttonState} type="submit" value="Submit" />
     </form>
+
     <p><Link to='/register' className='highlighted'>No account?</Link></p>
   </section >;
 }

@@ -23,7 +23,7 @@ namespace WebApi.Controllers
             _loggingService = loggingService;
             _userService = userService;
         }
-        
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(LoginDTO model)
