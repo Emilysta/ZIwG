@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Validator } from "Utils/TextInputValidation";
+import { Validator } from "Utils/Validator";
 import './TextInput.scss'
 
 export type TextInputProps = {

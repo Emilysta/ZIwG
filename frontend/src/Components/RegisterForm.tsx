@@ -5,7 +5,9 @@ import { StateButton } from "./Input/StateButton";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { Divider } from "./Divider";
-import { validLogin, validEmail, passwordValidate, ValidationFun, Validator } from "Utils/TextInputValidation";
+import { validLogin, validEmail, passwordValidate, ValidationFun } from "Utils/TextInputValidation";
+import { Validator } from "Utils/Validator";
+import { postJson } from "Utils/FetchUtils";
 
 export function RegisterForm() {
     const [firstName, setFirstName] = useState('');
@@ -69,22 +71,13 @@ export function RegisterForm() {
     }
 
     function sendRequest() {
-        const body = JSON.stringify({
+        postJson('/api/user/register', {
             firstName: firstName,
             lastName: lastName,
             password: password,
             displayName: username,
             dateOfBirth: "2020-01-01T10:00:00.000Z", // todo handle date of birth
             email: email
-        });
-
-        fetch('/api/user/register', {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: body,
         }).then(data => {
             if (data.ok) {
                 window.location.href = '/login'
