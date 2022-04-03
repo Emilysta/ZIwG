@@ -22,6 +22,25 @@ namespace Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Place = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsersLimit = table.Column<int>(type: "int", nullable: false),
+                    OrganiserId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -124,25 +143,6 @@ namespace Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Place = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsersLimit = table.Column<int>(type: "int", nullable: false),
-                    OrganiserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -151,11 +151,10 @@ namespace Domain.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     Location = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CarPoolId = table.Column<int>(type: "int", nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -180,12 +179,30 @@ namespace Domain.Migrations
                         principalTable: "CarPools",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventUser",
+                columns: table => new
+                {
+                    EventsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventUser", x => new { x.EventsId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Events_EventId",
-                        column: x => x.EventId,
+                        name: "FK_EventUser_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventUser_Events_EventsId",
+                        column: x => x.EventsId,
                         principalTable: "Events",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -226,11 +243,6 @@ namespace Domain.Migrations
                 column: "CarPoolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_EventId",
-                table: "AspNetUsers",
-                column: "EventId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -243,9 +255,9 @@ namespace Domain.Migrations
                 column: "DriverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_OrganiserId",
-                table: "Events",
-                column: "OrganiserId");
+                name: "IX_EventUser_UsersId",
+                table: "EventUser",
+                column: "UsersId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserRoles_AspNetUsers_UserId",
@@ -286,14 +298,6 @@ namespace Domain.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Events_AspNetUsers_OrganiserId",
-                table: "Events",
-                column: "OrganiserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -301,10 +305,6 @@ namespace Domain.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_CarPools_AspNetUsers_DriverId",
                 table: "CarPools");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Events_AspNetUsers_OrganiserId",
-                table: "Events");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -322,16 +322,19 @@ namespace Domain.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "EventUser");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "CarPools");
-
-            migrationBuilder.DropTable(
-                name: "Events");
         }
     }
 }

@@ -38,6 +38,7 @@ namespace ziwg
             services.AddTransient<ILoggingService, LoggingService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IEventUsersService, EventUsersService>();
             services.AddControllers();
 
             services.AddAuthentication(options =>
