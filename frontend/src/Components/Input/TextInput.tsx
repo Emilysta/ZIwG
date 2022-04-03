@@ -19,8 +19,8 @@ export function TextInput(props: TextInputProps) {
     props.validate.injectSource(() => value)
 
   React.useEffect(() => {
-    if (value && value.length > 0) setError(props.validate?.validate())
     if (props.onChange) props.onChange(value)
+    if (value && value.length > 0) setError(props.validate?.validate())
   }, [value])
 
   React.useEffect(() => props.defaultValue && setValue(props.defaultValue), [props.defaultValue])

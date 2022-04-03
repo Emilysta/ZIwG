@@ -20,11 +20,10 @@ export function RegisterForm() {
 
     React.useEffect(() => setDefault(getDefaultUsername()), [firstName, lastName])
 
-    const checkConfirm = (inputValue: string) => {
-        return password.length !== 0 && confirmPassword.length !== 0 && password !== confirmPassword
+    const checkConfirm = (value: string) =>
+        password.length !== 0 && value.length !== 0 && password !== value
             ? 'Passwords do not match'
             : null
-    }
 
     const firstNameCheck = new Validator()
     const lastNameCheck = new Validator()
