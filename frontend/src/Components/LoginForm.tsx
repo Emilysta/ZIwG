@@ -46,8 +46,8 @@ export function LoginForm() {
     <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
 
     <form onSubmit={handleSubmit} className="LoginForm">
-      <TextInput placeHolder='Login' onChange={e => setLogin(e.target.value)} />
-      <TextInput placeHolder='Password' overrideType="password" onChange={e => setPasswd(e.target.value)} />
+      <TextInput placeHolder='Login' onChange={v => setLogin(v)} />
+      <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
       <Link to='/user' className="buttonLink">
         <StateButton state={buttonState} type="submit" value="Submit" />
       </Link>

@@ -4,9 +4,10 @@ import './TextInput.scss'
 
 export type TextInputProps = {
   placeHolder: string,
+  defaultValue?: string
   name?: string,
   overrideType?: string,
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onChange?: (value: string) => void,
   validate?: Validator
 }
 
@@ -18,20 +19,17 @@ export function TextInput(props: TextInputProps) {
     props.validate.injectSource(() => value)
 
   React.useEffect(() => {
-    if (value.length > 0)
-      setError(props.validate?.validate())
+    if (value && value.length > 0) setError(props.validate?.validate())
+    if (props.onChange) props.onChange(value)
   }, [value])
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentValue = event.currentTarget.value;
-    setValue(currentValue)
-    if (props.onChange)
-      props.onChange(event)
-  }
+  React.useEffect(() => props.defaultValue && setValue(props.defaultValue), [props.defaultValue])
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
 
   const renderInput = () => {
     return <div className="inputBox">
-      <input type={props.overrideType ?? "text"} value={value} placeholder={props.placeHolder} onChange={handleChange} />
+      <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} />
       <p className="inputError">{error}</p>
     </div>
   }

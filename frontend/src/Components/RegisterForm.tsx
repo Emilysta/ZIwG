@@ -8,11 +8,17 @@ import { Divider } from "./Divider";
 import { validLogin, validEmail, passwordValidate, ValidationFun, Validator } from "Utils/TextInputValidation";
 
 export function RegisterForm() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const getDefaultUsername = () => (firstName || lastName) && firstName + ' ' + lastName
     const [username, setUsername] = useState('');
+    const [defaultUsername, setDefault] = useState(getDefaultUsername())
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState('')
+
+    React.useEffect(() => setDefault(getDefaultUsername()), [firstName, lastName])
 
     const checkConfirm = (inputValue: string) => {
         return password.length !== 0 && confirmPassword.length !== 0 && password !== confirmPassword
@@ -20,12 +26,14 @@ export function RegisterForm() {
             : null
     }
 
+    const firstNameCheck = new Validator()
+    const lastNameCheck = new Validator()
     const userNameCheck = new Validator(validLogin)
     const emailCheck = new Validator(validEmail)
     const passwdCheck = new Validator(...passwordValidate)
     const confirmedPasswdCheck = new Validator(checkConfirm)
 
-    const validations = [userNameCheck, emailCheck, passwdCheck, confirmedPasswdCheck]
+    const validations = [firstNameCheck, lastNameCheck, userNameCheck, emailCheck, passwdCheck, confirmedPasswdCheck]
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         console.log("submit");
@@ -35,10 +43,12 @@ export function RegisterForm() {
 
     const renderForm = (
         <form onSubmit={handleSubmit} className="RegisterForm">
-            <TextInput placeHolder='Username' onChange={(e) => setUsername(e.target.value)} validate={userNameCheck} />
-            <TextInput placeHolder='E-mail' onChange={(e) => setEmail(e.target.value)} validate={emailCheck} />
-            <TextInput placeHolder='Password' overrideType="password" onChange={(e) => setPassword(e.target.value)} validate={passwdCheck} />
-            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(e) => setConfirmPassword(e.target.value)} validate={confirmedPasswdCheck} />
+            <TextInput placeHolder='First name' onChange={(v) => setFirstName(v)} validate={firstNameCheck} />
+            <TextInput placeHolder='Last name' onChange={(v) => setLastName(v)} validate={lastNameCheck} />
+            <TextInput placeHolder='Username' defaultValue={defaultUsername} onChange={(v) => setUsername(v)} validate={userNameCheck} />
+            <TextInput placeHolder='E-mail' onChange={(v) => setEmail(v)} validate={emailCheck} />
+            <TextInput placeHolder='Password' overrideType="password" onChange={(v) => setPassword(v)} validate={passwdCheck} />
+            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(v) => setConfirmPassword(v)} validate={confirmedPasswdCheck} />
             <StateButton type="submit" value="Create account" />
             {errorMsg.length > 0 && <p className='inputError errorBox'>{errorMsg}</p>}
         </form>
