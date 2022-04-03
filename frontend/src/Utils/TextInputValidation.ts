@@ -50,4 +50,4 @@ export const validLogin: ValidationFun = (value) =>
 export const validEmail: ValidationFun = (value) =>
     value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/) ? null : "Wrong email"
 
-export const passwordValidate = [passwordLength, containLower, containUpper, containNumber, containSymbol]
+export const passwordValidate = [containLower, containUpper, containNumber, containSymbol, passwordLength]

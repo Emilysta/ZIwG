@@ -65,17 +65,17 @@ export function RegisterForm() {
 
     function validateAndSend() {
         const isValid = validations.every((v) => v.isValid())
-        console.log(isValid)
+        if (isValid) sendRequest()
     }
 
     function sendRequest() {
         const body = JSON.stringify({
-            firstName: "string",
-            lastName: "string",
-            password: "string",
-            displayName: "string",
-            dateOfBirth: "2022-04-02T18:22:55.829Z",
-            email: "string"
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            displayName: username,
+            dateOfBirth: "2020-01-01T10:00:00.000Z", // todo handle date of birth
+            email: email
         });
 
         fetch('/api/user/register', {
@@ -87,7 +87,7 @@ export function RegisterForm() {
             body: body,
         }).then(data => {
             if (data.ok) {
-                // todo handle registration
+                window.location.href = '/login'
             }
             else {
                 setErrorMsg("Error");
