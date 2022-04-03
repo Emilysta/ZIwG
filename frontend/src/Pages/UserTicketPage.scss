@@ -1,0 +1,43 @@
+@use 'lib'as *;
+
+.ticketPage header,
+.ticketPage main {
+    width: 100%;
+}
+
+.ticketPage header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.ticketPage header nav {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+.ticketPage header nav a {
+    display: block;
+    padding: 12px 26px;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.ticketPage header nav a.selected {
+    font-weight: 700;
+    border-bottom: 2px solid #000;
+}
+
+.ticketPage main {
+    height: 70vh;
+    overflow-y: auto;
+    border-radius: 10px;
+
+    @include customize() {
+        border: 1px solid getValue(light-greyish-color);
+    }
+}
