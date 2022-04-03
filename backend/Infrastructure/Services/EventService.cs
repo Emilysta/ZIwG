@@ -30,6 +30,17 @@ namespace Infrastructure.Services
             await _context.Events.AddAsync(eventToAdd);
             return true;
         }
+        public bool DeleteEvent(int id)
+        {
+            var eventToDelete = _context.Events.Where(x => x.Id == id).SingleOrDefault();
+            if (eventToDelete == null)
+                return false;
+            else
+            {
+                _context.Events.Remove(eventToDelete);
+                return true;
+            }
+        }
 
         public async Task<bool> SaveChangesAsync()
         {
