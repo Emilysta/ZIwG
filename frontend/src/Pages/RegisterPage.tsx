@@ -3,7 +3,9 @@ import * as React from 'react'
 
 const RegisterPage = () => {
     return (
-        <RegisterForm />
+        <div className="wholePageLayout navbarMargin">
+            <RegisterForm />
+        </div>
     )
 }
 
