@@ -33,7 +33,7 @@ export function VerticalUserNavbar() {
             <ul className="userNavbarList">
                 {options.map((row, i) => {
                     return (
-                        <li><ButtonWithIcon icon={row.icon} text={row.name} isActive={list[i]} link={row.link} /></li>
+                        <li key={i}><ButtonWithIcon icon={row.icon} text={row.name} isActive={list[i]} link={row.link} /></li>
                     )
                 })}
             </ul>

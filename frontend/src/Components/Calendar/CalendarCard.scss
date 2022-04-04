@@ -1,60 +1,81 @@
-@use 'lib' as *;
+@use 'lib'as *;
+
 .calendarCardBase {
-    border-radius: 5px;
-    border-style: solid;
-    border-width: 1px;
-    width: 150px;
-    height: 150px;
-    box-shadow: 1px 1px 8px #00000064;
-    margin: 4px;
+  border-radius: 5px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-width: 1px;
+  width: 120px;
+  height: 120px;
+  box-shadow: 1px 1px 8px #00000064;
+  margin: 4px;
+  aspect-ratio: 1 /1;
 }
 
 .cardNormal {
-    @include customize() {
-        border-color: getValue(main-lighter-color); 
-      }
-    background-color: none;
+  @include customize() {
+    border-color: getValue(main-lighter-color);
+  }
+
+  background-color: none;
 }
 
 .cardFilled {
-    @include customize() {
-        background-color: rgba(getValue(main-lighter-color),0.15); 
-      }
-    @include customize() {
-        border-color: getValue(main-color); 
-      }
+  @include customize() {
+    background-color: rgba(getValue(main-lighter-color), 0.15);
+  }
+
+  @include customize() {
+    border-color: getValue(main-color);
+  }
 }
 
 .cardSelected {
-    @include customize() {
-        background-color: rgba(getValue(second-main-color),0.08); 
-      }
-    @include customize() {
-        border-color: rgba(getValue(second-main-color),0.8); 
-      }
-    border-width: 2px;
+  @include customize() {
+    background-color: rgba(getValue(second-main-color), 0.08);
+  }
+
+  @include customize() {
+    border-color: rgba(getValue(second-main-color), 0.8);
+  }
+
+  border-width: 2px;
+}
+
+.cardSelected p,
+.cardSelected h1 {
+  @include customize() {
+    color: getValue(second-main-color);
+  }
 }
 
 .cardNotInMonth {
 
   @include customize() {
-      border-color: rgba(#B9B9B9,0.8); 
-    }
-  background-color: none; 
+    border-color: rgba(#B9B9B9, 0.8);
+  }
+
+  background-color: none;
   border-width: 2px;
 }
 
-.textStack{
+.cardNotInMonth p,
+.cardNotInMonth h1 {
+  font-weight: 200;
+  color: #ABABAB;
+}
+
+.textStack {
   display: flex;
   flex-direction: column;
   margin: 10px;
 }
 
-.dayNumber{
+.dayNumber {
   margin: 0px;
 }
 
-.text{
+.text {
   margin: 0px;
   padding: 0px;
   text-overflow: ellipsis;
@@ -62,6 +83,6 @@
   white-space: nowrap;
 }
 
-.tasksNumer{
+.tasksNumer {
   color: #B9B9B9;
 }
