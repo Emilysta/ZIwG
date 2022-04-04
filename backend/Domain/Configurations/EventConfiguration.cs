@@ -29,8 +29,9 @@ namespace Domain.Configurations
                 .IsRequired();
             builder.Property(t => t.Date)
                 .IsRequired();
-            builder.HasOne(u => u.Organiser)
-            .WithMany(t => t.Events);
+            builder.Property(t => t.OrganiserId)
+                .IsRequired()
+                .HasMaxLength(100);
         }
     }
 }

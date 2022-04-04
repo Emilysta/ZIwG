@@ -34,5 +34,14 @@ namespace WebApi.Controllers
                 }
             return BadRequest();
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            if (_eventService.DeleteEvent(id))
+                if (await _eventService.SaveChangesAsync())
+                    return NoContent();
+            return NotFound();
+        }
     }
 }
