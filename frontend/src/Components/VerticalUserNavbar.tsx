@@ -12,7 +12,7 @@ export function VerticalUserNavbar() {
         { icon: <Person />, name: "UserData", link: 'data' },
         { icon: <Calendar />, name: "Calendar", link: 'calendar' },
         { icon: <CreditCard2Front />, name: "Tickets", link: 'tickets' }];
-    let [list, setList] = React.useState([false, true, false]);
+    let [list, setList] = React.useState([true, false, false]);
 
     useEffect(() => {
         switch (location.pathname) {
@@ -33,7 +33,7 @@ export function VerticalUserNavbar() {
             <ul className="userNavbarList">
                 {options.map((row, i) => {
                     return (
-                        <li><ButtonWithIcon icon={row.icon} text={row.name} isVisible={list[i]} link={row.link} /></li>
+                        <li><ButtonWithIcon icon={row.icon} text={row.name} isActive={list[i]} link={row.link} /></li>
                     )
                 })}
             </ul>

@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.DTOs;
-using Application.DTOs.UserDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Application.DTOs.EventDTOs;
 
 namespace Infrastructure.MappingProfiles
 {
-    public class UserMappingProfile : Profile
+    public class EventMappingProfile: Profile
     {
-        public UserMappingProfile()
+        public EventMappingProfile()
         {
-            CreateMap<DisplayDataDTO, User>();
-            CreateMap<RegisterDTO, User>();
+            CreateMap<CreateDTO, Event>();
+            CreateMap<Event, CreateDTO>();
         }
     }
 }

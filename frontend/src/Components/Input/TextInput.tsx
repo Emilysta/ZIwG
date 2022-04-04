@@ -1,50 +1,44 @@
 import * as React from "react";
+import { Validator } from "Utils/Validator";
 import './TextInput.scss'
 
 export type TextInputProps = {
   placeHolder: string,
+  defaultValue?: string
   name?: string,
   overrideType?: string,
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  checkIfError?: (inputValue: string) => string
+  onChange?: (value: string) => void,
+  validate?: Validator
 }
-export type TextInputState = { value: string, error: string }
 
-export class TextInput extends React.Component<TextInputProps, TextInputState> {
-  get value() {
-    return this.state.value
-  }
+export function TextInput(props: TextInputProps) {
+  const [value, setValue]: [string, any] = React.useState('');
+  const [error, setError]: [string, any] = React.useState('');
 
-  constructor(props: any) {
-    super(props);
-    this.state = { value: "", error: '' };
-    this.handleChange = this.handleChange.bind(this);
-  }
+  if (props.validate)
+    props.validate.injectSource(() => value)
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const currentValue = event.currentTarget.value;
-    this.setState({ value: currentValue });
-    if (this.props.onChange)
-      this.props.onChange(event)
-    if (this.props.checkIfError) {
-      this.setState({ error: this.props.checkIfError(this.state.value) })
-    }
-  }
+  React.useEffect(() => {
+    if (props.onChange) props.onChange(value)
+    if (value && value.length > 0) setError(props.validate?.validate())
+  }, [value])
 
-  render(): React.ReactNode {
-    if (this.props.name)
-      return <>
-        <label>{this.props.name}</label>
-        {this.renderInput()}
-      </>;
-    else
-      return this.renderInput();
-  }
+  React.useEffect(() => props.defaultValue && setValue(props.defaultValue), [props.defaultValue])
 
-  private renderInput(): React.ReactNode {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
+
+  const renderInput = () => {
     return <div className="inputBox">
-      <input type={this.props.overrideType ?? "text"} value={this.state.value} placeholder={this.props.placeHolder} onChange={this.handleChange} />
-      <p className="inputError">{this.state.error}</p>
+      <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} />
+      <p className="inputError">{error}</p>
     </div>
   }
+
+  if (props.name)
+    return <>
+      <label>{props.name}</label>
+      {renderInput()}
+    </>
+  else
+    return renderInput()
 }

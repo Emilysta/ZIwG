@@ -1,66 +1,52 @@
 import * as React from "react";
 import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
-import { StateButton, ButtonStateEnum } from "./Input/Button";
+import { StateButton, ButtonStateEnum } from "./Input/StateButton";
 import { Link } from 'react-router-dom';
+import { postJson } from "Utils/FetchUtils";
 
-export class LoginForm extends React.Component {
-  login: React.RefObject<TextInput> = React.createRef()
-  password: React.RefObject<TextInput> = React.createRef()
-  submit: React.RefObject<StateButton> = React.createRef()
+export function LoginForm() {
+  const [email, setEmail] = React.useState('');
+  const [password, setPasswd] = React.useState('');
 
-  constructor(props: any) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    // todo it's test code
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit");
 
-    const body = JSON.stringify({
-      email: this.password.current.value,
-      password: this.password.current.value,
-    });
+    window.location.href = '/user'
+    return; // todo disabled login request
 
-    fetch("api/user/login", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: body,
+    postJson("api/user/login", {
+      email: email,
+      password: password,
+    }).then((data) => {
+      console.log(data)
+      if (data.ok) {
+      }
+      else {
+      }
+    }).catch((reason) => {
+      console.log(reason)
     })
-      .then((e) => {
-        console.log(e)
-      })
-      .catch((e) => {
-        console.error(e)
-      })
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const minimalLength = 0;
-    if (this.login.current.value.length > minimalLength && this.password.current.value.length > minimalLength)
-      this.submit.current.setState({ state: ButtonStateEnum.Active })
-    else
-      this.submit.current.setState({ state: ButtonStateEnum.Inactive })
-  }
+  const minimalLength = 0;
 
-  render(): React.ReactNode {
-    return <section className="LoginSection">
-      <h1>Login</h1>
-      <p>Welcome back! Login to access full functionality in EventColab.</p>
-      <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
+  const buttonState = (email.length > minimalLength && password.length > minimalLength)
+    ? ButtonStateEnum.Active
+    : ButtonStateEnum.Inactive
 
-      <form onSubmit={this.handleSubmit} className="LoginForm">
-        <TextInput ref={this.login} placeHolder='Login' onChange={this.handleChange} />
-        <TextInput ref={this.password} placeHolder='Password' overrideType="password" onChange={this.handleChange} />
-        <Link to='/user' className="buttonLink"><StateButton ref={this.submit} type="submit" value="Submit" /></Link>
-      </form>
-      <p><Link to='/register' className='highlighted'>No account?</Link></p>
-    </section>;
-  }
+  return <section className="LoginSection">
+    <h1>Login</h1>
+    <p>Welcome back! Login to access full functionality in EventColab.</p>
+    <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
+
+    <form onSubmit={handleSubmit} className="LoginForm">
+      <TextInput placeHolder='Email' onChange={v => setEmail(v)} />
+      <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
+      <StateButton state={buttonState} type="submit" value="Submit" />
+    </form>
+
+    <p><Link to='/register' className='highlighted'>No account?</Link></p>
+  </section >;
 }

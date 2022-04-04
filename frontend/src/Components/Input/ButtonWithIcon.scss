@@ -8,3 +8,12 @@
     display: inline;
     padding: 5px;
 }
+
+.linkActive div {
+    font-weight: 400;
+}
+
+.linkIsntActive div {
+    font-weight: 300;
+    opacity: 0.5;
+}

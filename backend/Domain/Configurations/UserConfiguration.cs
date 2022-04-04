@@ -28,6 +28,10 @@ namespace Domain.Configurations
             builder.Property(t => t.DisplayName)
                 .IsRequired()
                 .HasMaxLength(25);
+            builder.Property(t => t.Description)
+                .HasMaxLength(150);
+            builder.Property(t => t.Location)
+                .HasMaxLength(25);
             
         }
     }

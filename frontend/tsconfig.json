@@ -15,6 +15,9 @@
             "Components/*": [
                 "Components/*"
             ],
+            "Utils/*": [
+                "Utils/*"
+            ]
         }
     },
     "include": [
