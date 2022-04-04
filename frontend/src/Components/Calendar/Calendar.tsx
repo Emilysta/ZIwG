@@ -5,6 +5,7 @@ import * as dateFns from 'date-fns';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import { types } from 'sass';
+import CalendarEventStack from './CalendarEventStack';
 
 
 export default function Calendar() {
@@ -67,15 +68,18 @@ export default function Calendar() {
     }
 
     return (
-        <div className='calendarBox'>
-            <div className='monthBar'>
-                <ChevronLeft className='changeMonthIcon' onClick={getPrevMonth} />
-                <p>{currentMonth.toLocaleString('en', { month: 'long', year: 'numeric' })}</p>
-                <ChevronRight className='changeMonthIcon' onClick={getNextMonth} />
+        <>
+            <div className='calendarBox'>
+                <div className='monthBar'>
+                    <ChevronLeft className='changeMonthIcon' onClick={getPrevMonth} />
+                    <p>{currentMonth.toLocaleString('en', { month: 'long', year: 'numeric' })}</p>
+                    <ChevronRight className='changeMonthIcon' onClick={getNextMonth} />
+                </div>
+                <div className='container'>
+                    {generateCards()}
+                </div>
             </div>
-            <div className='container'>
-                {generateCards()}
-            </div>
-        </div>
+            <CalendarEventStack eventsList={[{ hours: "12-14", eventName: "Otwarcie" }, { hours: "16-18", eventName: "Otwarcie" }, { hours: "10-20", eventName: "Otwarcie" }]} />
+        </>
     )
 }
