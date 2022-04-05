@@ -17,6 +17,8 @@ namespace Infrastructure.MappingProfiles
             CreateMap<Event, CreateDTO>();
             CreateMap<ModifyDTO, Event>();
             CreateMap<Event, ModifyDTO>();
+            CreateMap<ReturnDTO, Event>();
+            CreateMap<Event, ReturnDTO>();
         }
     }
 }
