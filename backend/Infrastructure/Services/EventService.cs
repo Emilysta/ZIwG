@@ -44,6 +44,19 @@ namespace Infrastructure.Services
             }
         }
 
+        public bool ModifyEvent(ModifyDTO @event, int id)
+        {
+            var eventToModify = _context.Events.Where(x => x.Id == id).SingleOrDefault();
+
+            if (eventToModify == null)
+                return false;
+
+            eventToModify = _mapper.Map(@event, eventToModify);
+
+            _context.Events.Update(eventToModify);
+            return true;
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             if (await _context.SaveChangesAsync() > 0)

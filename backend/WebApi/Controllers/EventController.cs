@@ -43,5 +43,20 @@ namespace WebApi.Controllers
                     return NoContent();
             return NotFound();
         }
+
+        [HttpPatch]
+        [Route("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Put([FromBody] ModifyDTO @event, [FromRoute] int id)
+        {
+            if (@event == null)
+                return BadRequest();
+
+            if (_eventService.ModifyEvent(@event, id))
+                if (await _eventService.SaveChangesAsync())
+                    return Ok();
+
+            return BadRequest();
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Application.Interfaces
     {
         public Task<bool> AddEvent(CreateDTO @event);
         public bool DeleteEvent(int id);
+        public bool ModifyEvent(ModifyDTO @event, int id);
         public Task<bool> SaveChangesAsync();
     }
 }
