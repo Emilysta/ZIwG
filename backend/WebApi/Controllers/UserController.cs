@@ -17,11 +17,13 @@ namespace WebApi.Controllers
     {
         private readonly ILoggingService _loggingService;
         private readonly IUserService _userService;
+        private readonly IEventUsersService _eventUsersService;
 
-        public UserController(ILoggingService loggingService, IUserService userService)
+        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService)
         {
             _loggingService = loggingService;
             _userService = userService;
+            _eventUsersService = eventUsersService;
         }
 
         [HttpPost]
@@ -86,6 +88,29 @@ namespace WebApi.Controllers
                 if (await _userService.SaveChangesAsync())
                     return NoContent();
             return NotFound();
+        }
+
+        [HttpPost]
+        [Route("sign/{eventId}")]
+        [AllowAnonymous]
+        public IActionResult SignToEvent([FromRoute] int eventId)
+        {
+            var result = _eventUsersService.SignCurrentUserToEvent(eventId);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
+        [HttpDelete]
+        [Route("signout/{eventId}")]
+        [AllowAnonymous]
+        public IActionResult SignOutFromfEvent([FromRoute] int eventId)
+        {
+            var result = _eventUsersService.SignOutCurrentUserFromEvent(eventId);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
         }
     }
 }
