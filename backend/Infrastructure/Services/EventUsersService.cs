@@ -45,5 +45,18 @@ namespace Infrastructure.Services
             _context.Users.Update(userToSign);
             return _context.SaveChanges() > 0;
         }
+
+        public bool SignOutCurrentUserFromEvent(int eventId)
+        {
+            var userToSign = GetCurrentUser();
+            var eventToSign = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).SingleOrDefault();
+            if (userToSign == null || eventToSign == null)
+                return false;
+            eventToSign.Users.Remove(userToSign);
+            _context.Events.Update(eventToSign);
+            userToSign.Events.Remove(eventToSign);
+            _context.Users.Update(userToSign);
+            return _context.SaveChanges() > 0;
+        }
     }
 }

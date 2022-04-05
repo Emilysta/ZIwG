@@ -101,5 +101,16 @@ namespace WebApi.Controllers
             else
                 return BadRequest();
         }
+        [HttpDelete]
+        [Route("signout/{eventId}")]
+        [AllowAnonymous]
+        public IActionResult SignOutFromfEvent([FromRoute] int eventId)
+        {
+            var result = _eventUsersService.SignOutCurrentUserFromEvent(eventId);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
     }
 }
