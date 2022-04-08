@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.DTOs.EventDTOs
 {
-    public class Event
+    public class ModifyDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
         public string Place { get; set; }
         public DateTime Date { get; set; }
         public int UsersLimit { get; set; }
-        public List<User> Users { get; set; }
-        public string OrganiserId { get; set; }
     }
 }

@@ -89,7 +89,9 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("OrganiserId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Place")
                         .IsRequired()
@@ -101,9 +103,22 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganiserId");
-
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EventUser", b =>
+                {
+                    b.Property<int>("EventsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("EventsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("EventUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -321,16 +336,13 @@ namespace Domain.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
-
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -348,8 +360,6 @@ namespace Domain.Migrations
 
                     b.HasIndex("CarPoolId");
 
-                    b.HasIndex("EventId");
-
                     b.HasDiscriminator().HasValue("User");
                 });
 
@@ -362,13 +372,19 @@ namespace Domain.Migrations
                     b.Navigation("Driver");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Event", b =>
+            modelBuilder.Entity("EventUser", b =>
                 {
-                    b.HasOne("Domain.Entities.User", "Organiser")
-                        .WithMany("Events")
-                        .HasForeignKey("OrganiserId");
+                    b.HasOne("Domain.Entities.Event", null)
+                        .WithMany()
+                        .HasForeignKey("EventsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Organiser");
+                    b.HasOne("Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -427,10 +443,6 @@ namespace Domain.Migrations
                     b.HasOne("Domain.Entities.CarPool", null)
                         .WithMany("Users")
                         .HasForeignKey("CarPoolId");
-
-                    b.HasOne("Domain.Entities.Event", null)
-                        .WithMany("Users")
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("Domain.Entities.CarPool", b =>
@@ -438,16 +450,9 @@ namespace Domain.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Event", b =>
-                {
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("CarPools");
-
-                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

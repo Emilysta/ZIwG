@@ -15,5 +15,6 @@ namespace Application.DTOs.EventDTOs
         public string Place { get; set; }
         public DateTime Date { get; set; }
         public int UsersLimit { get; set; }
+        public string OrganiserId { get; set; }
     }
 }
