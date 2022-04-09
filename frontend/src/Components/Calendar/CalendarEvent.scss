@@ -1,10 +1,13 @@
 .textElement {
     margin: 0;
     padding: 0;
-    color:#6C6C6C
+    color: #6C6C6C;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-.hoursElement{
+.hoursElement {
     margin: 0;
     padding: 0;
     color: #B9B9B9;

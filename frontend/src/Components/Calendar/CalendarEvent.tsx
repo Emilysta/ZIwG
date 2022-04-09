@@ -7,7 +7,9 @@ export type CalendarEventProps = {
 
 export default function CalendarEvent(props: CalendarEventProps) {
     return (
-        <div><p className='hoursElement'>{props.hours}</p>
-            <h1 className='textElement'>{props.eventName}</h1></div>
+        <>
+            <p className='hoursElement'>{props.hours}</p>
+            <h2 className='textElement'>{props.eventName}</h2>
+        </>
     )
 }
