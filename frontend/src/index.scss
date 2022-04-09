@@ -30,7 +30,7 @@ a {
   cursor: pointer;
 }
 
-a:hover {
+a[href]:hover {
   @include customize() {
     color: getValue(main-lighter-color);
   }
