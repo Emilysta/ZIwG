@@ -1,0 +1,60 @@
+.popupBlend {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 11;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #00000050;
+}
+
+.popupContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    width: 90%;
+    max-width: 700px;
+    max-height: 94%;
+    overflow: auto;
+    border-radius: 8px;
+    border: 1px solid #000;
+    background-color: #fff;
+}
+
+.popupBlend .fixedButtons {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    justify-self: center;
+    height: 40px;
+    width: 100%;
+}
+
+.popupBlend header,
+.popupBlend main,
+.popupBlend footer {
+    display: flex;
+    widows: 100%;
+}
+
+.popupBlend header {
+    order: 0;
+}
+
+.popupBlend main {
+    order: 1;
+}
+
+.popupBlend footer {
+    order: 2;
+}

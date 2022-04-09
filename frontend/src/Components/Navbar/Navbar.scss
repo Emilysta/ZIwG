@@ -1,6 +1,7 @@
 .HeadBar {
     display: flex;
     position: absolute;
+    z-index: 10;
     top: 0;
     width: 100%;
     box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.25);
