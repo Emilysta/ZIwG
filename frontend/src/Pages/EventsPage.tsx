@@ -1,8 +1,16 @@
 import * as React from 'react';
+import Popup from 'Components/Popup';
+import { GaleryPopup } from "Components/GaleryPopup";
 
 function EventsPage() {
+    const [popupOpened, openPopup] = React.useState(false);
+
     return (
-        <div>EventsPage</div>
+        <>
+            <div>EventsPage</div>
+            <input type='button' value="open popup" onClick={() => openPopup(true)} />
+            <GaleryPopup open={popupOpened} onClose={() => openPopup(false)}/>
+        </>
     )
 }
 

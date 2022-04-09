@@ -1,0 +1,54 @@
+@use 'lib'as *;
+
+.GaleryPopup {}
+
+.GaleryPopup .fixedButtons {
+    top: 12px;
+    right: 12px;
+    height: 34px;
+}
+
+.GaleryPopup .popupContainer {
+    padding: 8px 20px;
+}
+
+.GaleryPopup header,
+.GaleryPopup main,
+.GaleryPopup footer {
+    margin-bottom: 12px;
+}
+
+.GaleryPopup header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 36px;
+}
+
+.GaleryPopup header * {
+    margin: auto;
+}
+
+.GaleryPopup header .title {
+    font-size: 32px;
+}
+
+.GaleryPopup header .subtitle {
+    @include customize() {
+        color: getValue(second-main-color);
+    }
+}
+
+.GaleryPopup .horizontalGalery {
+    min-height: 200px;
+    width: 100%;
+    background-color: #ff000030;
+}
+
+.GaleryPopup .dropFiles {
+    border-radius: 6px;
+    min-height: 120px;
+    width: 100%;
+    background-color: #00ff0030;
+}

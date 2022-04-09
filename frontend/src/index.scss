@@ -30,7 +30,7 @@ a {
   cursor: pointer;
 }
 
-a:hover {
+a[href]:hover {
   @include customize() {
     color: getValue(main-lighter-color);
   }
@@ -69,4 +69,35 @@ a:hover {
 
 .navbarMargin {
   padding-top: 120px;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+
+  @include customize() {
+    scrollbar-color: getValue(light-greyish-color) #ffffff00;
+  }
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  @include customize() {
+    // background-color: getValue(light-greyish-color);
+    border-left: 1px solid getValue(light-greyish-color);
+  }
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  border: none;
+
+  @include customize() {
+    background-color: getValue(light-greyish-color);
+  }
 }
