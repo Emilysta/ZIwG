@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { EventData } from './Calendar';
 import './CalendarCard.scss';
 
 export enum CalendarCardStyle {
@@ -9,7 +10,7 @@ export enum CalendarCardStyle {
 }
 
 type CalendarCardProps = {
-    tasks: string[],
+    events: EventData[],
     dayNumber: number,
     column: number,
     row: number,
@@ -22,9 +23,9 @@ export default function CalendarCard(props: CalendarCardProps) {
         <div className={`calendarCardBase ${props.style}`} onClick={props.onClickAction}>
             <div className='textStack'>
                 <h1 className='text dayNumber'>{props.dayNumber < 10 ? '0' + props.dayNumber : props.dayNumber}</h1>
-                {props.tasks.slice(0, 2).map((task: string, i: number) =>
-                    <p className='text' key={i}> {task} </p>)}
-                {props.tasks.length > 2 && <p className='text tasksNumer'>{props.tasks.length - 2} more </p>}
+                {props.events.slice(0, 2).map((event: EventData, i: number) =>
+                    <p className='text' key={i}> {event.name} </p>)}
+                {props.events.length > 2 && <p className='text tasksNumer'>{props.events.length - 2} more </p>}
             </div>
         </div >
     );

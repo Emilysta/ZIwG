@@ -1,9 +1,10 @@
 import * as React from 'react'
-import CalendarEvent, { CalendarEventProps } from './CalendarEvent'
+import { EventData } from './Calendar'
+import CalendarEvent from './CalendarEvent'
 import './CalendarEventStack.scss'
 
 type CalendarEventStackProps = {
-    eventsList: CalendarEventProps[],
+    eventsList: EventData[],
     className?: string,
 }
 
@@ -11,9 +12,9 @@ export default function CalendarEventStack(props: CalendarEventStackProps) {
     return (
         <>
             <h1 className='yourDayHeader'>Your Day</h1>
-            <div className='eventStackList'>{props.eventsList.map((event: CalendarEventProps, i) => {
+            <div className='eventStackList'>{props.eventsList.map((event: EventData, i) => {
                 return (
-                    <CalendarEvent hours={event.hours} eventName={event.eventName} key={i} />
+                    <CalendarEvent eventData={event} key={i} />
                 )
             })}</div>
         </>
