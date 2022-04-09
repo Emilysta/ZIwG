@@ -5,6 +5,7 @@ import * as dateFns from 'date-fns';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import CalendarEventStack from './CalendarEventStack';
+import { useMediaQuery } from 'react-responsive'
 
 export type EventData = {
     name: string,
@@ -26,6 +27,7 @@ function isSameDate(date1: Date, date2: Date): boolean {
 }
 
 export default function Calendar() {
+    const isBigScreen = useMediaQuery({ query: '(min-width: 980px)' })
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedCard, setSelectedCard] = useState<number>(null);
     const [currentEvents, setCurrentEvents] = useState<EventData[]>(new Array<EventData>());
@@ -106,9 +108,9 @@ export default function Calendar() {
                         {generateCards()}
                     </div>
                 </div>
-                <div className='myCalendarEventsStack'>
+                {isBigScreen && <div className='myCalendarEventsStack'>
                     <CalendarEventStack eventsList={currentEvents} />
-                </div>
+                </div>}
             </div>
 
         </>
