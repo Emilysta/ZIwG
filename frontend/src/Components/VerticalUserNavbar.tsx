@@ -11,19 +11,23 @@ export function VerticalUserNavbar() {
     const options = [
         { icon: <Person />, name: "UserData", link: 'data' },
         { icon: <Calendar />, name: "Calendar", link: 'calendar' },
-        { icon: <CreditCard2Front />, name: "Tickets", link: 'tickets' }];
-    let [list, setList] = React.useState([true, false, false]);
+        { icon: <CreditCard2Front />, name: "Tickets", link: 'tickets' },
+        { icon: <Calendar />, name: "My Events", link: 'userEvents' }];
+    let [list, setList] = React.useState([true, false, false, false]);
 
     useEffect(() => {
         switch (location.pathname) {
             case '/user/data':
-                setList([true, false, false]);
+                setList([true, false, false, false]);
                 break;
             case '/user/calendar':
-                setList([false, true, false]);
+                setList([false, true, false, false]);
                 break;
             case '/user/tickets':
-                setList([false, false, true]);
+                setList([false, false, true, false]);
+                break;
+            case '/user/userEvents':
+                setList([false, false, false, true]);
                 break;
         }
     }, [location])
