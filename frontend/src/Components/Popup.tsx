@@ -4,17 +4,17 @@ import { IconButton } from './IconButton';
 import './Popup.scss'
 
 type PopupProps = {
-    children: string | React.ReactNode
+    children?: string | React.ReactNode,
+    open?: boolean,
+    onClose?: (state: boolean) => void,
 }
 
 export default function Popup(props: PopupProps) {
-    const [active, setActive]: [boolean, any] = React.useState(true)
-
-    return active ? (
+    return props.open ? (
         <div className='popupBlend'>
             <div className='popupContainer'>
                 <nav className='fixedButtons'>
-                    <IconButton img={<Backspace size='100%' />} />
+                    <IconButton img={<Backspace size='100%' />} onClick={props.onClose} />
                 </nav>
                 {props.children}
             </div>
