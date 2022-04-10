@@ -1,37 +1,35 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { EventData } from './Calendar';
 import './CalendarCard.scss';
+import { useMediaQuery } from 'react-responsive'
+
+export enum CalendarCardStyle {
+    Normal = 'cardNormal',
+    Filled = 'cardFilled',
+    NotInMonth = 'cardNotInMonth',
+    Selected = 'cardSelected',
+}
+
 type CalendarCardProps = {
-    tasks: string[],
+    events: EventData[],
     dayNumber: number,
     column: number,
     row: number,
-    notInMonth?: boolean
+    style: CalendarCardStyle,
+    onClickAction?: (event: React.MouseEvent<HTMLDivElement>) => void,
 }
 
 export default function CalendarCard(props: CalendarCardProps) {
-    const [style, setStyle] = useState(props.notInMonth ? 'cardNotInMonth' : (props.tasks.length > 0 ? 'cardFilled' : 'cardNormal'));
-
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        console.log("click");
-        setStyle('cardSelected');
-        event.preventDefault();
-    };
-
-    let generateTasks;// = (
-    generateTasks = props.tasks.slice(0, 2).map((task: string) => {
-        return <p className='text' > {task} </p>
-    });
-
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1335px)' })
     return (
-        <div className={`calendarCardBase ${style}`} onClick={handleClick} style={{
-            gridArea: `${props.column} / ${props.row}`
-        }}>
+        <div className={`calendarCardBase ${props.style}`} onClick={props.onClickAction}>
             <div className='textStack'>
-                <h1 className='text dayNumber'>{props.dayNumber}</h1>
-                {generateTasks}
-                {props.tasks.length > 2 && <p className='text tasksNumer'>{props.tasks.length - 2} more </p>}
+                <h1 className='text dayNumber'>{props.dayNumber < 10 ? '0' + props.dayNumber : props.dayNumber}</h1>
+                {isBigScreen &&
+                    props.events.slice(0, 2).map((event: EventData, i: number) =>
+                        <p className='text' key={i}> {event.name} </p>)}
+                {props.events.length > 2 && <p className='text tasksNumer'>{props.events.length - 2} more </p>}
             </div>
         </div >
-    )
+    );
 }

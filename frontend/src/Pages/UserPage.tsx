@@ -5,6 +5,7 @@ import UserCalendarPage from './UserCalendarPage'
 import UserDataPage from './UserDataPage'
 import UserTicketsPage from './UserTicketsPage'
 import './UserPage.scss'
+import UserEventsPage from './UserEventsPage'
 
 export default function UserPage() {
     return (
@@ -16,6 +17,7 @@ export default function UserPage() {
                         <Route path="/calendar" element={<UserCalendarPage />} />
                         <Route path="/tickets" element={<UserTicketsPage />} />
                         <Route path="/tickets/:type" element={<UserTicketsPage />} />
+                        <Route path="/userEvents" element={<UserEventsPage />} />
                         <Route path="/data" element={<UserDataPage />} />
                         <Route path="/" element={<UserDataPage />} />
                     </Routes>
