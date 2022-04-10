@@ -2,10 +2,11 @@ import * as React from 'react';
 import './UserEventCard.scss';
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
+import { Link } from 'react-router-dom';
 
 type UserEventCardProps = {
     loading: boolean,
-    eventID?: string,
+    eventID: string,
     eventName?: string,
     eventLocation?: string,
     eventDate?: Date,
@@ -23,9 +24,8 @@ export function UserEventCard(props: UserEventCardProps) {
             </div>
 
             <div className='secondaryCon'>
-                {props.loading ? <Skeleton containerClassName='my' width={200} /> : <a> Show information</a>}
+                {props.loading ? <Skeleton containerClassName='my' width={200} /> : <Link to={'/user/userEvents/' + props.eventID}> Show information</Link>}
             </div>
-
         </div >
     );
 }

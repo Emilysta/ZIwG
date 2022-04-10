@@ -17,12 +17,16 @@ export function UserEventsList(props: UserEventsListProps) {
     return (
         <div className='listContainer'>
             {props.type == "validated" ? <>
-                <UserEventCard loading={loading} />
+                <UserEventCard loading={loading} eventID='1' />
             </> : <>
-                <UserEventCard loading={loading} />
-                <UserEventCard loading={loading} />
-                <UserEventCard loading={loading} />
-                <UserEventCard loading={loading} />
+                <UserEventCard loading={loading} eventID='1' />
+                <UserEventCard loading={loading} eventID='2' />
+                <UserEventCard loading={loading} eventID='3' />
+                <UserEventCard loading={loading} eventID='4' />
+                <UserEventCard loading={loading} eventID='5' />
+                <UserEventCard loading={loading} eventID='6' />
+                <UserEventCard loading={loading} eventID='7' />
+                <UserEventCard loading={loading} eventID='8' />
             </>
             }
         </div>
