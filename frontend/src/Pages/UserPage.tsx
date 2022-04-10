@@ -18,6 +18,7 @@ export default function UserPage() {
                         <Route path="/tickets" element={<UserTicketsPage />} />
                         <Route path="/tickets/:type" element={<UserTicketsPage />} />
                         <Route path="/userEvents" element={<UserEventsPage />} />
+                        <Route path="/userEvents/:type" element={<UserEventsPage />} />
                         <Route path="/data" element={<UserDataPage />} />
                         <Route path="/" element={<UserDataPage />} />
                     </Routes>
