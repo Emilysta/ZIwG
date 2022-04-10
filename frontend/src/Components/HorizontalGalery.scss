@@ -2,7 +2,8 @@
 
 .horizontalGalery {
     position: relative;
-    height: 200px;
+    height: 280px;
+    width: 100%;
 }
 
 .horizontalGalery .galeryContainer {
@@ -12,7 +13,7 @@
 }
 
 .horizontalGalery .galeryRows {
-    height: 90%;
+    height: 262px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -27,7 +28,7 @@
 .horizontalGalery .galeryFade {
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: 18px;
     left: 0;
     right: 0;
     background: linear-gradient(90deg, #ffffff 0%, #ffffff00 6%, #ffffff00 94%, #ffffff 100%);
