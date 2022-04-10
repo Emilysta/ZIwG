@@ -3,7 +3,7 @@ import Popup from 'Components/Popup';
 import { GaleryPopup } from "Components/GaleryPopup";
 
 function EventsPage() {
-    const [popupOpened, openPopup] = React.useState(false);
+    const [popupOpened, openPopup] = React.useState(true);
 
     return (
         <>

@@ -13,6 +13,7 @@
   @include customize() {
     background-color: getValue(backgroundColor);
   }
+
 }
 
 body {
@@ -71,6 +72,62 @@ a[href]:hover {
   padding-top: 120px;
 }
 
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 1vh;
+  height: 1vh;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @include customize() {
+    background: getValue(main-color);
+  }
+
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-button:single-button {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Up */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%233D5A80' viewBox='0 0 16 16'> <path d='m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z'/> </svg>");
+}
+
+/* Down */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%233D5A80' viewBox='0 0 16 16'> <path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/> </svg>");
+}
+
+/* Left */
+::-webkit-scrollbar-button:horizontal:single-button:decrement {
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%233D5A80' viewBox='0 0 16 16'> <path d='m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z'/> </svg>");
+}
+
+/* Right
+ */
+::-webkit-scrollbar-button:horizontal:single-button:increment {
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%233D5A80' viewBox='0 0 16 16'> <path d='m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z'/> </svg>");
+}
+
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
 * {
@@ -81,24 +138,23 @@ a[href]:hover {
   }
 }
 
-/* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  height: 12px;
-  width: 12px;
-}
+// /* Chrome, Edge, and Safari */
+// *::-webkit-scrollbar {
+//   width: 12px;
+// }
 
-*::-webkit-scrollbar-track {
-  @include customize() {
-    // background-color: getValue(light-greyish-color);
-    border-left: 1px solid getValue(light-greyish-color);
-  }
-}
+// *::-webkit-scrollbar-track {
+//   @include customize() {
+//     // background-color: getValue(light-greyish-color);
+//     border-left: 1px solid getValue(light-greyish-color);
+//   }
+// }
 
-*::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  border: none;
+// *::-webkit-scrollbar-thumb {
+//   border-radius: 0;
+//   border: none;
 
-  @include customize() {
-    background-color: getValue(light-greyish-color);
-  }
-}
+//   @include customize() {
+//     background-color: getValue(light-greyish-color);
+//   }
+// }
