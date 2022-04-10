@@ -2,12 +2,7 @@ import * as React from 'react';
 import Popup from 'Components/Popup';
 import './GaleryPopup.scss'
 import { HorizontalGalery } from './HorizontalGalery';
-
-function DropFilesBox(props: any) {
-    return (
-        <div className={props.className}></div>
-    )
-}
+import { DropFilesBox } from './DropFilesBox';
 
 export type GaleryPopupProps = {
     open?: boolean,
