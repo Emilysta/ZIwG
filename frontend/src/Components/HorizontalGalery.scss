@@ -1,0 +1,39 @@
+@use 'lib'as *;
+
+.horizontalGalery {
+    position: relative;
+    height: 200px;
+}
+
+.horizontalGalery .galeryRow {
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: row;
+    // justify-content: flex-start;
+}
+
+.horizontalGalery .galeryRow .box {
+    height: 100%;
+    width: min-content;
+}
+
+.horizontalGalery .galeryFade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #ffffff 0%, #ffffff00 6%, #ffffff00 94%, #ffffff 100%);
+    pointer-events: none;
+}
+
+.horizontalGalery * {}
+
+/* Chrome, Edge, and Safari */
+.horizontalGalery *::-webkit-scrollbar {}
+
+.horizontalGalery *::-webkit-scrollbar-track {}
+
+.horizontalGalery *::-webkit-scrollbar-thumb {}
