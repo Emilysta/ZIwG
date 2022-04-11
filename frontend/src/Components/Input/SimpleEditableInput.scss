@@ -1,0 +1,36 @@
+@use '_lib'as *;
+
+.simpleInput {
+    background-color: transparent;
+    font-size: xx-large;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 1em;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px;
+    border-style: solid;
+
+    @include customize() {
+        border-color: getValue(light-greyish-color);
+    }
+}
+
+.simpleInput:read-only {
+    border-bottom: 0;
+}
+
+.simpleInput:read-only:focus {
+    outline: none;
+}
+
+.simpleInput:focus {
+    outline: none;
+    border-width: 0 0 2px 0;
+
+    @include customize() {
+        border-color: getValue(second-main-color);
+    }
+}

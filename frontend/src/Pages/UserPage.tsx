@@ -7,6 +7,7 @@ import UserTicketsPage from './UserTicketsPage'
 import './UserPage.scss'
 import UserEventsPage from './UserEventsPage'
 import UserEventPage from './UserEventPage'
+import UserAddEventPage from './UserAddEventPage'
 
 export default function UserPage() {
     return (
@@ -19,6 +20,7 @@ export default function UserPage() {
                         <Route path="/tickets" element={<UserTicketsPage />} />
                         <Route path="/tickets/:type" element={<UserTicketsPage />} />
                         <Route path="/userEvents" element={<UserEventsPage />} />
+                        <Route path="/userEvents/add" element={<UserAddEventPage />} />
                         <Route path="/userEvents/:id" element={<UserEventPage />} />
                         <Route path="/data" element={<UserDataPage />} />
                         <Route path="/" element={<UserDataPage />} />

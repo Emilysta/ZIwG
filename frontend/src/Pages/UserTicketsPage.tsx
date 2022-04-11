@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Link, Route, Router, Routes, useMatch, useParams } from 'react-router-dom'
-import { TicketsList } from './UserTicketPage/TicketsList'
+import { Link, useParams } from 'react-router-dom'
+import { TicketsList } from 'Components/UserTicketPage/TicketsList'
 import './UserTicketPage.scss'
 
 export default function UserTicketsPage() {

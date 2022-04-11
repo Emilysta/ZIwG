@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { UserEventsList } from './UserEventsPage/UserEventsList'
+import { UserEventsList } from 'Components/UserEventsPage/UserEventsList'
 import './UserEventsPage.scss'
 
 export default function UserEventsPage() {

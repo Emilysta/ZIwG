@@ -1,0 +1,28 @@
+@use 'lib'as *;
+
+.userAddEventPage {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 10px;
+
+    height: 70vh;
+    overflow-y: auto;
+    border-radius: 10px;
+
+    @include customize() {
+        border: 1px solid getValue(light-greyish-color);
+    }
+}
+
+.mainBox {
+    width: calc(100% - 20px);
+    padding: 10px;
+    grid-column: 1;
+}
+
+.sideBox {
+    width: calc(100% - 20px);
+    padding: 10px;
+    grid-column: 2;
+}
