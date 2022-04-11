@@ -1,33 +1,34 @@
 import * as React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { UserEventsList } from './UserEventsPage/UserEventsList'
 import './UserEventsPage.scss'
 
 export default function UserEventsPage() {
-    const params = useParams()
-    let typeString: string = params.type ?? "validated"
+    const [isArchived, setIsArchived] = React.useState(false);
+
+
+    function selectedListChanged(event: React.MouseEvent<HTMLAnchorElement>, archived: boolean) {
+        event.preventDefault();
+
+        setIsArchived(archived);
+    }
 
     return (
         <div className='userEventsPage'>
-            <h1> USER EVENTS PAGE -  TO DO</h1>
             <header>
                 <nav>
-                    <LinkAbc to="validated" selected> Validated ticket </LinkAbc>
-                    <LinkAbc to="archived"> Archived ticket </LinkAbc>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a onClick={(e) => { selectedListChanged(e, false) }} > Validated ticket </a>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a onClick={(e) => { selectedListChanged(e, true) }}> Archived ticket </a>
                 </nav>
+                <Link className='addEventLink' to='/user/userEvents/add'> + Add Event </Link>
             </header>
             <main>
-                <UserEventsList type={typeString} />
+                <UserEventsList isArchived={isArchived} />
             </main>
-        </div>
+        </div >
     )
 }
 
-type LinkAbcProps = { to: string, selected?: boolean, children: string }
 
-function LinkAbc(props: LinkAbcProps) {
-    const to = props.to
-    const urlParam = useParams()
-    const selected = urlParam.type ? urlParam.type === to : props.selected
-    return <Link to={"/user/userEvents/" + to} className={selected ? "selected" : ""}> {props.children}</Link>
-}

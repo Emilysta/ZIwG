@@ -3,7 +3,7 @@ import './UserEventsList.scss'
 import { UserEventCard } from './UserEventCard';
 import { useEffect } from 'react';
 
-type UserEventsListProps = { type: string }
+type UserEventsListProps = { isArchived: boolean }
 
 export function UserEventsList(props: UserEventsListProps) {
     const [loading, setLoading] = React.useState(false);
@@ -16,7 +16,7 @@ export function UserEventsList(props: UserEventsListProps) {
     }, []);
     return (
         <div className='listContainer'>
-            {props.type == "validated" ? <>
+            {!props.isArchived ? <>
                 <UserEventCard loading={loading} eventID='1' />
             </> : <>
                 <UserEventCard loading={loading} eventID='1' />

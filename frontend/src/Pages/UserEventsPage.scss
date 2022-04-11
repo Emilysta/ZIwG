@@ -25,11 +25,17 @@
     padding: 12px 26px;
     font-size: 22px;
     font-weight: 500;
+
+    @include customize() {
+        color: getValue(main-color);
+    }
 }
 
-.userEventsPage header nav a.selected {
-    font-weight: 700;
-    border-bottom: 2px solid #000;
+.userEventsPage header nav a:hover {
+
+    @include customize() {
+        color: getValue(main-lighter-color);
+    }
 }
 
 .userEventsPage main {
@@ -40,4 +46,8 @@
     @include customize() {
         border: 1px solid getValue(light-greyish-color);
     }
+}
+
+.addEventLink {
+    align-self: center;
 }
