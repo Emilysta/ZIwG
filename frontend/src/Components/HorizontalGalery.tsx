@@ -34,7 +34,7 @@ export const HorizontalGalery = React.forwardRef((props: HorizontalGaleryProps, 
         const rows = []
         for (let r = 0; r < props.rows; r++) {
             rows.push((
-                <div className='row'>
+                <div key={r} className='row'>
                     <div className='box'>
                         {images.map((value, i) => (i % props.rows == r) ? <Image key={i} src={value} /> : null)}
                     </div>
