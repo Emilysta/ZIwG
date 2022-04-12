@@ -24,7 +24,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
             </div>
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} />
+                <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={""}/>
                 vndvbirgiuergi
                 <SimpleEditableInput defaultValue='Lolo' id={"eventName"} onChangeAction={handleInputChange} />
             </div>
