@@ -1,0 +1,27 @@
+@use "_lib"as *;
+
+.tagBox {
+    position: relative;
+    color: white;
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: 200;
+
+    @include customize() {
+        background-color: getValue(main-color);
+    }
+}
+
+.tagClose {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+
+    @include customize() {
+        fill: getValue(second-main-color);
+    }
+
+    background-color: white;
+    border-radius: 50%;
+}

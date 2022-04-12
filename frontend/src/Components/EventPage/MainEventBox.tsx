@@ -3,6 +3,7 @@ import './MainEventBox.scss';
 import { Images } from 'react-bootstrap-icons';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import { useState } from 'react';
+import TagList from './TagList';
 
 type MainEventBoxProps = {
     className?: string,
@@ -24,9 +25,11 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
             </div>
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={""}/>
-                vndvbirgiuergi
-                <SimpleEditableInput defaultValue='Lolo' id={"eventName"} onChangeAction={handleInputChange} />
+                <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' />
+
+                <TagList tags={["xd", "meh", "buu"]} isEditable={false} />
+
+                <SimpleEditableInput defaultValue='Description' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} />
             </div>
         </div>
     )
