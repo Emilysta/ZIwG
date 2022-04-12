@@ -10,6 +10,10 @@ export type GaleryPopupProps = {
 }
 
 export function GaleryPopup(props: GaleryPopupProps) {
+    const galeryRef: any = React.useRef()
+
+    const onImageUpload = (fileUrl: string) => galeryRef.current.addImage(fileUrl)
+
     return (
         <Popup open={props.open} onClose={props.onClose} className='GaleryPopup'>
             <header>
@@ -21,10 +25,10 @@ export function GaleryPopup(props: GaleryPopupProps) {
                 </a>
             </header>
             <main>
-                <HorizontalGalery rows={2} className='horizontalGalery'/>
+                <HorizontalGalery ref={galeryRef} rows={2} className='horizontalGalery' />
             </main>
             <footer>
-                <DropFilesBox className='dropFiles'/>
+                <DropFilesBox className='dropFiles' onImageUpload={onImageUpload} />
             </footer>
         </Popup>
     );

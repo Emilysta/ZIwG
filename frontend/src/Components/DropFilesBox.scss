@@ -16,6 +16,14 @@
         border: 3px dashed #949494
     }
 }
+.dropFiles:hover {
+    @include customize {
+        // background-color: getValue(light-greyish-color);
+        // border: 2px dashed getValue(dark-greyish-color);
+        background-color: #f3f3f3;
+        border: 3px dashed #949494
+    }
+}
 
 .dropFiles .dropCenter {
     margin: auto;
