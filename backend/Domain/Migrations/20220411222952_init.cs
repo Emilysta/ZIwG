@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Domain.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -153,6 +153,7 @@ namespace Domain.Migrations
                     DisplayName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     Location = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CarPoolId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

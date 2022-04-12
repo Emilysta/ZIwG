@@ -7,6 +7,8 @@ using Application.Interfaces;
 using Application.DTOs.UserDTOs;
 using Domain.Entities;
 using Domain.Contexts;
+using System.Net;
+using System.IO;
 
 namespace Infrastructure.Services
 {
@@ -48,9 +50,10 @@ namespace Infrastructure.Services
             userToRegister = _mapper.Map(model, userToRegister);
 
             var createAccountResult = await _userManager.CreateAsync(userToRegister, model.Password);
-            if (createAccountResult.Succeeded)
+            if (createAccountResult.Succeeded) {
                 await _signInManager.SignInAsync(userToRegister, isPersistent: false);
                 return true;
+            }
             return false;
         }
 
@@ -77,7 +80,17 @@ namespace Infrastructure.Services
                     UserName = email,
                     Email = email
                 };
+                var imageUrl = claims.ElementAt(5).Value;
+                WebClient client = new WebClient();
+                Stream stream = client.OpenRead(imageUrl);
+                var ms = new MemoryStream();
+                ms.Flush();
+                ms.Position = 0;
+                await stream.CopyToAsync(ms);
+                var fileBytes = ms.ToArray();
+                usertoadd.Photo = fileBytes;
                 await _context.Users.AddAsync(usertoadd);
+                await SaveChangesAsync();
                 await _signInManager.SignInAsync(usertoadd, isPersistent: false);
                 return true;
             }

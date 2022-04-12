@@ -358,6 +358,9 @@ namespace Domain.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasIndex("CarPoolId");
 
                     b.HasDiscriminator().HasValue("User");
