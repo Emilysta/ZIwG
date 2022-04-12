@@ -7,16 +7,17 @@ import { render } from '@testing-library/react';
 type DropFilesProps = {
     className: string,
     onImageUpload?: (url: string) => void,
-};  
+};
 
 export function DropFilesBox(props: DropFilesProps) {
     const onDrop = React.useCallback(acceptedFiles => {
         if (props.onImageUpload) {
-            var renderer = new FileReader()
-            renderer.onload = (e: any) => props.onImageUpload(e.target.result)
 
-            for (const file of acceptedFiles)
+            for (const file of acceptedFiles) {
+                let renderer = new FileReader()
+                renderer.onload = (e: any) => props.onImageUpload(e.target.result)
                 renderer.readAsDataURL(file)
+            }
         }
     }, [])
 
