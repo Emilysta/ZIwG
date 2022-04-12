@@ -17,7 +17,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
         setValues({ ...values, [inputId]: value });
     };
     return (
-        <div className='mainEventBox ${props.className}'>
+        <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
                 <div className='galleryIconWithText'>
                     <Images className='galleryIcon' />
@@ -27,7 +27,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             <div className='inputEventStack'>
                 <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' />
 
-                <TagList tags={["xd", "meh", "buu"]} isEditable={false} />
+                <TagList tags={["test", "test 2", "test 3"]} isEditable={true} />
 
                 <SimpleEditableInput defaultValue='Description' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} />
             </div>
