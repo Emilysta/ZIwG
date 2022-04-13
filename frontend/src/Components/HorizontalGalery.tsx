@@ -5,43 +5,23 @@ import './HorizontalGalery.scss'
 type HorizontalGaleryProps = {
     rows: number,
     className?: string,
+    images: string[]
 }
 
-export const HorizontalGalery = React.forwardRef((props: HorizontalGaleryProps, ref: any) => {
-    const [images, setImages] = React.useState([
-        "https://images.unsplash.com/photo-1518972559570-7cc1309f3229",
-        "https://images.unsplash.com/photo-1583897251569-657efb696b21",
-        "https://images.unsplash.com/photo-1534840641466-b1cdb8fb155e",
-        "https://images.unsplash.com/photo-1529392960549-df4af50eac23",
-        "https://images.unsplash.com/photo-1583897251569-657efb696b21",
-        "https://images.unsplash.com/photo-1534840641466-b1cdb8fb155e",
-        "https://images.unsplash.com/photo-1529392960549-df4af50eac23",
-        "https://images.unsplash.com/photo-1518972559570-7cc1309f3229",
-        "https://images.unsplash.com/photo-1568993703320-07e80bc8e7ab",
-        "https://images.unsplash.com/photo-1517353334933-3365be5c8ec3",
-    ])
-
-    React.useImperativeHandle(ref, () => ({
-        addImage: (file: string) => {
-            let list = images
-            list.unshift(file)
-            setImages([])
-            setImages(list)
-        }
-    }))
-
+export function HorizontalGalery(props: HorizontalGaleryProps) {
+    console.log("Horizontal gallery render with " + props.images.length)
     const renderRows = () => {
-        const rows = []
+        const imageRows = []
         for (let r = 0; r < props.rows; r++) {
-            rows.push((
+            imageRows.push((
                 <div key={r} className='row'>
                     <div className='box'>
-                        {images.map((value, i) => (i % props.rows == r) ? <Image key={i} src={value} /> : null)}
+                        {props.images.map((value, i) => (i % props.rows === r) ? <Image key={i} src={value} /> : null)}
                     </div>
                 </div>
             ))
         }
-        return rows
+        return imageRows
     }
 
     return (
@@ -54,4 +34,4 @@ export const HorizontalGalery = React.forwardRef((props: HorizontalGaleryProps, 
             </div>
         </div>
     );
-})
+}

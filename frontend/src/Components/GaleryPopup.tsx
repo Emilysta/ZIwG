@@ -10,9 +10,22 @@ export type GaleryPopupProps = {
 }
 
 export function GaleryPopup(props: GaleryPopupProps) {
-    const galeryRef: any = React.useRef()
+    const [images, setImages] = React.useState([
+        "https://images.unsplash.com/photo-1518972559570-7cc1309f3229",
+        "https://images.unsplash.com/photo-1583897251569-657efb696b21",
+        "https://images.unsplash.com/photo-1534840641466-b1cdb8fb155e",
+        "https://images.unsplash.com/photo-1529392960549-df4af50eac23",
+        "https://images.unsplash.com/photo-1583897251569-657efb696b21",
+        "https://images.unsplash.com/photo-1534840641466-b1cdb8fb155e",
+        "https://images.unsplash.com/photo-1529392960549-df4af50eac23",
+        "https://images.unsplash.com/photo-1518972559570-7cc1309f3229",
+        "https://images.unsplash.com/photo-1568993703320-07e80bc8e7ab",
+        "https://images.unsplash.com/photo-1517353334933-3365be5c8ec3",
+    ])
 
-    const onImageUpload = (fileUrl: string) => galeryRef.current.addImage(fileUrl)
+    function onImageUpload(fileUrl: string) {
+        setImages(prevImages => [fileUrl, ...prevImages]);
+    }
 
     return (
         <Popup open={props.open} onClose={props.onClose} className='GaleryPopup'>
@@ -25,7 +38,7 @@ export function GaleryPopup(props: GaleryPopupProps) {
                 </a>
             </header>
             <main>
-                <HorizontalGalery ref={galeryRef} rows={2} className='horizontalGalery' />
+                <HorizontalGalery rows={2} className='horizontalGalery' images={images} />
             </main>
             <footer>
                 <DropFilesBox className='dropFiles' onImageUpload={onImageUpload} />
