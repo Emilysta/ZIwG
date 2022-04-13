@@ -1,6 +1,7 @@
 @use 'lib'as *;
 
-.GaleryPopup {}
+.GaleryPopup {
+}
 
 .GaleryPopup .fixedButtons {
     top: 12px;
@@ -9,12 +10,14 @@
 }
 
 .GaleryPopup .popupContainer {
+    max-width: 900px;
     padding: 8px 20px;
 }
 
 .GaleryPopup header,
 .GaleryPopup main,
 .GaleryPopup footer {
+    margin-top: 6px;
     margin-bottom: 12px;
 }
 
@@ -38,17 +41,4 @@
     @include customize() {
         color: getValue(second-main-color);
     }
-}
-
-.GaleryPopup .horizontalGalery {
-    min-height: 200px;
-    width: 100%;
-    background-color: #ff000030;
-}
-
-.GaleryPopup .dropFiles {
-    border-radius: 6px;
-    min-height: 120px;
-    width: 100%;
-    background-color: #00ff0030;
 }

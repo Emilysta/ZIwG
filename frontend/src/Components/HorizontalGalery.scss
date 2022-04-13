@@ -1,0 +1,62 @@
+@use 'lib'as *;
+
+.horizontalGalery {
+    position: relative;
+    height: 280px;
+    width: 100%;
+}
+
+.horizontalGalery * {
+    box-sizing: border-box;
+}
+
+.horizontalGalery .galeryContainer {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 18px;
+    overflow-x: auto;
+}
+
+.horizontalGalery .galeryRows {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.horizontalGalery .galeryRows .row {
+    height: 50%;
+    margin: 3px 0px;
+}
+
+.horizontalGalery .galeryRows .box {
+    height: 100%;
+    width: min-content;
+    margin: 0;
+}
+
+.horizontalGalery .galeryFade {
+    position: absolute;
+    top: 0;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #ffffff 0%, #ffffff00 6%, #ffffff00 94%, #ffffff 100%);
+    pointer-events: none;
+}
+
+.horizontalGalery *::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontalGalery *::-webkit-scrollbar-track {}
+
+.horizontalGalery *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    border: 2px solid #ffffff00;
+}
+
+.horizontalGalery .image {
+    margin: 0px 3px;
+    border-radius: 8px;
+}

@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.UserDTOs;
 using Application.Interfaces;
+using Application.DTOs;
+using Newtonsoft.Json;
+using Domain.Entities;
+using System.IO;
+using Domain.Contexts;
 
 namespace WebApi.Controllers
 {
@@ -18,12 +23,25 @@ namespace WebApi.Controllers
         private readonly ILoggingService _loggingService;
         private readonly IUserService _userService;
         private readonly IEventUsersService _eventUsersService;
+        private readonly DataBaseContext _context;
 
-        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService)
+        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService, DataBaseContext context)
         {
             _loggingService = loggingService;
             _userService = userService;
             _eventUsersService = eventUsersService;
+            _context = context;
+        }
+
+        [HttpPost]
+        [Route("savePhoto/{id}")]
+        public async Task<IActionResult> SavePhoto([FromRoute] string id, [FromForm] FileUpload fileObj)
+        {
+            if (await _userService.UploadProfilePicture(fileObj, id))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpPost]

@@ -11,8 +11,10 @@ type PopupProps = {
 }
 
 export default function Popup(props: PopupProps) {
-    return props.open ? (
-        <div className={'popupBlend ' + props.className ?? ''}>
+    const style: React.CSSProperties = !props.open ? { display: "none" } : {}
+
+    return (
+        <div className={'popupBlend ' + props.className ?? ''} style={style}>
             <div className='popupContainer'>
                 <nav className='fixedButtons'>
                     <IconButton img={<XLg size='100%' />} onClick={props.onClose} />
@@ -20,7 +22,5 @@ export default function Popup(props: PopupProps) {
                 {props.children}
             </div>
         </div>
-    ) : (
-        <></>
     )
 }
