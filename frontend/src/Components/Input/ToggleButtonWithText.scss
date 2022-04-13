@@ -1,0 +1,29 @@
+@use '_lib'as *;
+
+.toggleWrap {
+    // width: fit-content;
+    // height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+.toggleWrap p {
+    margin: 0;
+    padding: 0;
+}
+
+.icon {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    
+}
+
+.toggleElement {
+    width: fit-content;
+}

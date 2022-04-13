@@ -1,0 +1,68 @@
+@use '_lib'as *;
+
+.simpleInput {
+    background-color: transparent;
+    font-size: xx-large;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    line-height: auto;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+    resize: none;
+    text-align: left;
+
+    @include customize() {
+        border-color: getValue(light-greyish-color);
+    }
+}
+
+.simpleInput:read-only {
+    border-bottom: 0;
+}
+
+.simpleInput:read-only:focus {
+    outline: none;
+}
+
+.simpleInput:focus {
+    outline: none;
+    border-width: 0 0 2px 0;
+
+    @include customize() {
+        border-color: getValue(second-main-color);
+    }
+}
+
+.simpleInput:required {}
+
+.simpleInputBox {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.simpleInputError {
+    @include customize() {
+        color: getValue(error-color);
+    }
+
+    font-size: 13px;
+    font-weight: 300;
+    margin: 0;
+    height: 15px
+}
+
+.simpleInputDesc {
+    @include customize() {
+        color: getValue(light-greyish-color);
+    }
+
+    font-size: 13px;
+    font-weight: 300;
+    padding-left: 0px;
+    margin: 0;
+}
