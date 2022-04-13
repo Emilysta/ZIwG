@@ -1,0 +1,67 @@
+@use 'lib'as *;
+
+.userEventCard {
+    min-height: 100px;
+    max-height: 150px;
+    margin: 5px;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+
+    @include customize() {
+        border: 1px solid getValue(light-greyish-color);
+    }
+}
+
+.userEventCard .mainCon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 75%;
+    padding: 10px;
+}
+
+.userEventCard .secondaryCon {
+    padding: 10px;
+    padding-right: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.userEventCard .title {
+    margin-top: 5px;
+    font-size: 35px;
+    font-weight: 800;
+}
+
+.userEventCard .location,
+.userEventCard .date {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.textCon {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.image {
+    aspect-ratio: 1/1;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.visualiseImage {
+    background-color: gray;
+    color: grey;
+}
+
+.my span {
+    line-height: unset;
+    min-height: 1rem;
+    height: 100%;
+    min-width: 50px;
+    width: 100%;
+}

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20220403172506_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220411222952_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -359,6 +359,9 @@ namespace Domain.Migrations
                     b.Property<string>("Location")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasIndex("CarPoolId");
 

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Application.Interfaces;
-using Domain.Entities;
-using System.Threading.Tasks;
-using Application.DTOs.UserDTOs;
+﻿using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using AutoMapper;
+using Application.Interfaces;
+using Application.DTOs.UserDTOs;
+using Domain.Entities;
 using Domain.Contexts;
+using System.IO;
 
 namespace Infrastructure.Services
 {
@@ -19,7 +20,29 @@ namespace Infrastructure.Services
             _mapper = mapper;
             _context = context;
         }
-        
+
+        public async Task<bool> UploadProfilePicture(FileUpload fileObj, string id)
+        {
+            if (fileObj.files.Length > 0)
+            {
+                User user = _context.Users.Where(x => x.Id == id).SingleOrDefault();
+                if (user == null)
+                    return false;
+                using (var ms = new MemoryStream())
+                {
+                    ms.Flush();
+                    ms.Position = 0;
+                    await fileObj.files.CopyToAsync(ms);
+                    var fileBytes = ms.ToArray();
+                    user.Photo = fileBytes;
+                    _context.Users.Update(user);
+                    if (await SaveChangesAsync())
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public bool ChangeDisplayData(DisplayDataDTO model, string id)
         {
             var userToModify = _context.Users.Where(x => x.Id == id).SingleOrDefault();

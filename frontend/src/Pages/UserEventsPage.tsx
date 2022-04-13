@@ -1,33 +1,34 @@
 import * as React from 'react'
-import { Link, Route, Router, Routes, useMatch, useParams } from 'react-router-dom'
-import { TicketsList } from './UserTicketPage/TicketsList'
-import './UserTicketPage.scss'
+import { Link } from 'react-router-dom'
+import { UserEventsList } from 'Components/UserEventsPage/UserEventsList'
+import './UserEventsPage.scss'
 
 export default function UserEventsPage() {
-    const params = useParams()
-    let typeString: string = params.type ?? "validated"
+    const [isArchived, setIsArchived] = React.useState(false);
+
+
+    function selectedListChanged(event: React.MouseEvent<HTMLAnchorElement>, archived: boolean) {
+        event.preventDefault();
+
+        setIsArchived(archived);
+    }
 
     return (
-        <div className='ticketPage'>
-            <h1> USER EVENTS PAGE -  TO DO</h1>
-            {/* <header>
+        <div className='userEventsPage'>
+            <header>
                 <nav>
-                    <LinkAbc to="validated" selected> Validated ticket </LinkAbc>
-                    <LinkAbc to="archived"> Archived ticket </LinkAbc>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a onClick={(e) => { selectedListChanged(e, false) }} > Validated ticket </a>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a onClick={(e) => { selectedListChanged(e, true) }}> Archived ticket </a>
                 </nav>
+                <Link className='addEventLink' to='/user/userEvents/add'> + Add Event </Link>
             </header>
             <main>
-                <TicketsList type={typeString} />
-            </main> */}
-        </div>
+                <UserEventsList isArchived={isArchived} />
+            </main>
+        </div >
     )
 }
 
-//type LinkAbcProps = { to: string, selected?: boolean, children: string }
 
-// function LinkAbc(props: LinkAbcProps) {
-//     const to = props.to
-//     const urlParam = useParams()
-//     const selected = urlParam.type ? urlParam.type === to : props.selected
-//     return <Link to={"/user/tickets/" + to} className={selected ? "selected" : ""}> {props.children}</Link>
-// }
