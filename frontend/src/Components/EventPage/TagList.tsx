@@ -59,7 +59,14 @@ export default function TagList(props: TagListProps) {
             <ChevronLeft onClick={tagIndexLeft} />
             <ul className='tagListUL'>
                 {
-                    tags.slice(tagPage * 3, (tagPage * 3) + 3).map((value, index) => { return (<li key={index} className='tagListLI'><Tag text={value} isCloseable={props.isEditable} id={index} onCloseAction={onTagClose} /></li>) })}
+                    tags.slice(tagPage * 3, (tagPage * 3) + 3).map((value, index) => {
+                        return (
+                            <li key={index} className='tagListLI'>
+                                <Tag text={value} isCloseable={props.isEditable} id={index} onCloseAction={onTagClose} />
+                            </li>
+                        )
+                    })
+                }
             </ul>
             <ChevronRight onClick={tagIndexRight} />
             {props.isEditable && isAddButtonVisible && <Plus className='addTagButton' onClick={showInput} />}
