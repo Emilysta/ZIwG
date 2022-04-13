@@ -1,0 +1,33 @@
+.eventPage {
+    width: 96%;
+    height: 100vh;
+    max-width: 1020px;
+    margin: auto;
+}
+
+.eventPage>* {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.eventPage .eventNav {
+    margin-bottom: 20px;
+
+    background-color: #ff00ff30;
+}
+
+.eventPage .eventList {
+    display: grid;
+    max-height: 75vh;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 5%;
+    row-gap: 18px;
+    overflow: auto;
+}
+
+.eventPage .eventList>* {
+    justify-self: stretch;
+}

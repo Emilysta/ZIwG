@@ -1,0 +1,23 @@
+.eventTile {
+    box-sizing: border-box;
+    display: block;
+    padding: 20px;
+    background-color: #EFEFEF;
+    border-radius: 18px;
+
+}
+
+.eventTile span {
+    display: block;
+    margin: 0;
+}
+
+.eventTile .imageCon {
+    min-height: 80px;
+}
+
+.eventTile .title {}
+
+.eventTile .organizer {}
+
+.eventTile .details {}
