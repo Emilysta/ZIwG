@@ -4,8 +4,13 @@ import { Image } from 'Components/Image'
 import { Link } from 'react-router-dom';
 import { BoxArrowRight } from 'react-bootstrap-icons';
 
+type LinkButtonProps = { to: string };
 
-export function EventTile(props: any) {
+function LinkButton(props: LinkButtonProps) {
+    return <Link to={props.to}><BoxArrowRight /></Link>;
+}
+
+export default function EventTile(props: any) {
     return (
         <div className='eventTile'>
             <div className='imageCon'>
@@ -24,7 +29,7 @@ export function EventTile(props: any) {
                     To: <strong>21.05.2022</strong>
                 </div>
                 <div>
-                    <Link to='event-xyz'><BoxArrowRight/></Link>
+                    <LinkButton to='' />
                 </div>
             </div>
         </div>

@@ -1,3 +1,5 @@
+@use 'lib'as *;
+
 .eventPage {
     width: 96%;
     height: 100vh;
@@ -9,14 +11,25 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0;
     padding: 0;
 }
 
 .eventPage .eventNav {
+    min-height: 80px;
     margin-bottom: 20px;
+}
 
-    background-color: #ff00ff30;
+.eventPage .eventNav .tagBox {
+    border-radius: 24px;
+    height: 24px;
+
+    @include customize {
+        background-color: #fff;
+        color: getValue(main-color);
+        border: 2px solid getValue(main-color);
+    }
 }
 
 .eventPage .eventList {

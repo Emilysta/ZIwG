@@ -1,9 +1,16 @@
 import * as React from 'react';
 import { GaleryPopup } from "Components/GaleryPopup";
 import './EventPage.scss'
-import { EventTile } from 'Components/EventTile';
+import EventTile from 'Components/EventTile';
+import TagList from 'Components/EventPage/TagList';
 
-function EventsPage() {
+function SearchField(props: any) {
+    // todo search field
+    return <input type="text" placeholder='Search todo' />
+}
+
+
+export default function EventsPage() {
     const [popupOpened, openPopup] = React.useState(false);
 
     return (
@@ -11,16 +18,15 @@ function EventsPage() {
             <div className='eventPage navbarMargin'>
                 <div className='eventNav'>
                     <div>
-                        Tag list...
-                        <input type='button' value="open popup" onClick={() => openPopup(true)} />
+                        <TagList tags={["Concert", "Workshops", "Conference"]} isEditable={false} />
                     </div>
                     <div>
-                        search
+                        <SearchField />
                     </div>
                 </div>
                 <div className='eventList'>
                     {[...new Array(11)].map((e, i) => <EventTile key={i} />)}
-                    <div><a>💙</a></div>
+                    <input type='button' value="open popup" onClick={() => openPopup(true)} />
                 </div>
             </div>
 
@@ -28,5 +34,3 @@ function EventsPage() {
         </>
     )
 }
-
-export default EventsPage;
