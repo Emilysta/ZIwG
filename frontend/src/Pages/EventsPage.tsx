@@ -19,7 +19,8 @@ function EventsPage() {
                     </div>
                 </div>
                 <div className='eventList'>
-                    {[...new Array(11)].map((e, i) => <EventTile key={i}/>)}
+                    {[...new Array(11)].map((e, i) => <EventTile key={i} />)}
+                    <div><a>💙</a></div>
                 </div>
             </div>
 

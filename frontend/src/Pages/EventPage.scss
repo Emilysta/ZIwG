@@ -22,12 +22,17 @@
 .eventPage .eventList {
     display: grid;
     max-height: 75vh;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 5%;
+    grid-template-columns: repeat(3, 32%);
+    column-gap: 2%;
     row-gap: 18px;
-    overflow: auto;
+    place-items: center;
 }
 
 .eventPage .eventList>* {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     justify-self: stretch;
+    width: 100%;
 }
