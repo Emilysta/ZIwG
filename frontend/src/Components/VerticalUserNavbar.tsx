@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { CreditCard2Front, Person, Calendar } from 'react-bootstrap-icons'
-import ButtonWithIcon from "./Input/ButtonWithIcon";
+import ButtonWithIcon, { ButtonStyle } from "./Input/ButtonWithIcon";
 import './VerticalUserNavbar.scss';
 
 
@@ -37,7 +37,7 @@ export function VerticalUserNavbar() {
             <ul className="userNavbarList">
                 {options.map((row, i) => {
                     return (
-                        <li key={i}><ButtonWithIcon icon={row.icon} text={row.name} isActive={list[i]} link={row.link} /></li>
+                        <li key={i}><ButtonWithIcon style={ButtonStyle.Simple} icon={row.icon} text={row.name} isActive={list[i]} link={row.link} /></li>
                     )
                 })}
             </ul>

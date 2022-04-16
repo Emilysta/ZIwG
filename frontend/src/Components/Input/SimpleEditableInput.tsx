@@ -41,7 +41,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
 
     return (
         <div className='simpleInputBox'>
-            {props.inputDescription !== null && <p className='simpleInputDesc'>{props.inputDescription}</p>}
+            {props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}
 
             <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef}
             />

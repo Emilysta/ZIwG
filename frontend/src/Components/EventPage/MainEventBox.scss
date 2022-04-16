@@ -55,6 +55,9 @@
     flex: 1 1 auto;
     margin: 10px;
     margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
 }
 
 .eventNameInput {
@@ -66,6 +69,17 @@
 .descriptionInput {
     font-size: 20px !important;
     font-weight: 400;
-    height: 3.6em !important;
-    line-height: 1.2em !important;
+    height: 4.6em !important;
+}
+
+
+.descText {
+    @include customize() {
+        color: getValue(light-greyish-color);
+    }
+
+    font-size: 13px;
+    font-weight: 300;
+    padding-left: 0px;
+    margin: 0;
 }

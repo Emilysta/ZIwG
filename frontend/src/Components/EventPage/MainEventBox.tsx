@@ -4,10 +4,13 @@ import { Images } from 'react-bootstrap-icons';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import { useState } from 'react';
 import TagList from './TagList';
+import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
+import { PinMapFill } from 'react-bootstrap-icons';
+import EventDatePicker from 'Components/DatePicker';
 
 type MainEventBoxProps = {
     className?: string,
-    isInEditing: boolean,
+    isReadOnly?: boolean,
 }
 
 export default function MainEventBox(props: MainEventBoxProps) {
@@ -16,6 +19,12 @@ export default function MainEventBox(props: MainEventBoxProps) {
     const handleInputChange = (inputId: string, value: string) => {
         setValues({ ...values, [inputId]: value });
     };
+
+    function pickCalendarDate(updateDate: [Date, Date]) {
+        setValues({ ...values, ['startDate']: updateDate[0] });
+        setValues({ ...values, ['endDate']: updateDate[1] });
+    }
+
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
@@ -25,11 +34,21 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
             </div>
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' />
+                <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} />
 
-                <TagList tags={["test", "test 2", "test 3"]} isEditable={true} />
+                <TagList tags={["test", "test 2", "test 3"]} isEditable={props.isReadOnly} />
 
-                <SimpleEditableInput defaultValue='Description' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} />
+                <div>
+                    <p className='descText'>Location</p>
+                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} />
+                </div>
+
+                <div>
+                    <p className='descText'>Start date - end date</p>
+                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} />
+                </div>
+
+                <SimpleEditableInput defaultValue='Description' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} />
             </div>
         </div>
     )

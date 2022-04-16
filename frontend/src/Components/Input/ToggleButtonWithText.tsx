@@ -5,6 +5,7 @@ import './ToggleButtonWithText.scss';
 type ToggleButtonWithTextProps = {
     startIsToggled: boolean,
     fieldDesc: string,
+    isReadOnly?: boolean,
 }
 
 
@@ -12,7 +13,8 @@ export default function ToggleButtonWithText(props: ToggleButtonWithTextProps) {
     const [isToggled, setIsToggled] = React.useState(props.startIsToggled);
 
     const toggleStateChanged = () => {
-        setIsToggled(!isToggled);
+        if (!props.isReadOnly)
+            setIsToggled(!isToggled);
     }
 
     return (
