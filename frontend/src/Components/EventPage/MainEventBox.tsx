@@ -7,6 +7,7 @@ import TagList from './TagList';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { PinMapFill } from 'react-bootstrap-icons';
 import EventDatePicker from 'Components/DatePicker';
+import { GaleryPopup } from 'Components/GaleryPopup';
 
 type MainEventBoxProps = {
     className?: string,
@@ -15,6 +16,7 @@ type MainEventBoxProps = {
 
 export default function MainEventBox(props: MainEventBoxProps) {
     const [values, setValues] = useState({});
+    const [popupOpened, setPopupOpened] = useState(false);
 
     const handleInputChange = (inputId: string, value: string) => {
         setValues({ ...values, [inputId]: value });
@@ -25,14 +27,20 @@ export default function MainEventBox(props: MainEventBoxProps) {
         setValues({ ...values, ['endDate']: updateDate[1] });
     }
 
+    function onDropBoxClick(event: React.MouseEvent<HTMLDivElement>) {
+        event.preventDefault();
+        setPopupOpened(true)
+    }
+
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
-                <div className='galleryIconWithText'>
+                <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)}>
                     <Images className='galleryIcon' />
                     <p>Drop images or click</p>
                 </div>
             </div>
+            <GaleryPopup open={popupOpened} onClose={() => setPopupOpened(false)} />
             <div className='inputEventStack'>
                 <SimpleEditableInput defaultValue='Event Name' id={"eventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} />
 

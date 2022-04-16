@@ -9,7 +9,6 @@ type HorizontalGaleryProps = {
 }
 
 export function HorizontalGalery(props: HorizontalGaleryProps) {
-    console.log("Horizontal gallery render with " + props.images.length)
     const renderRows = () => {
         const imageRows = []
         for (let r = 0; r < props.rows; r++) {
