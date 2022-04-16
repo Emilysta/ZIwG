@@ -25,13 +25,15 @@ namespace WebApi.Controllers
         private readonly ILoggingService _loggingService;
         private readonly IUserService _userService;
         private readonly IEventUsersService _eventUsersService;
+        private readonly ICarpoolUsersService _carpoolUsersService;
         private readonly DataBaseContext _context;
 
-        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService, DataBaseContext context)
+        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService, ICarpoolUsersService carpoolUsersService, DataBaseContext context)
         {
             _loggingService = loggingService;
             _userService = userService;
             _eventUsersService = eventUsersService;
+            _carpoolUsersService = carpoolUsersService;
             _context = context;
         }
         /// <summary>
@@ -173,6 +175,40 @@ namespace WebApi.Controllers
         public IActionResult SignOutFromfEvent([FromRoute] int eventId)
         {
             var result = _eventUsersService.SignOutCurrentUserFromEvent(eventId);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
+        /// <summary>
+        /// Signs current logged user to carpool
+        /// </summary>
+        /// <param name="carpoolId"></param> 
+        /// <response code="204">Success, user added</response>
+        /// <response code="400">Wrong EventID or no logged user</response> 
+        [HttpPost]
+        [Route("joinRide/{carpoolId}")]
+        [AllowAnonymous]
+        public IActionResult SignToCarpool([FromRoute] int carpoolId)
+        {
+            var result = _carpoolUsersService.SignCurrentUserToCarpool(carpoolId);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
+        /// <summary>
+        /// Removes current logged user from carpool
+        /// </summary>
+        /// <param name="carpoolId"></param> 
+        /// <response code="204">Success user removed</response>
+        /// <response code="400">If wrong ID or no logged user</response> 
+        [HttpDelete]
+        [Route("leaveRide/{carpoolId}")]
+        [AllowAnonymous]
+        public IActionResult SignOutFromfCarpool([FromRoute] int carpoolId)
+        {
+            var result = _carpoolUsersService.SignOutCurrentUserFromCarpool(carpoolId);
             if (result)
                 return NoContent();
             else

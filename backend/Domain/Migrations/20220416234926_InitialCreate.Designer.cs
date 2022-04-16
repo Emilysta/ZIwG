@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20220415141715_InitialCreate")]
+    [Migration("20220416234926_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,22 @@ namespace Domain.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Domain.Entities.CarPool", b =>
+            modelBuilder.Entity("CarpoolUser", b =>
+                {
+                    b.Property<int>("CarpoolsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CarpoolsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CarpoolUser");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Carpool", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +54,9 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("DriverId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("FinishDate")
                         .HasColumnType("datetime2");
@@ -60,9 +77,7 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
-
-                    b.ToTable("CarPools");
+                    b.ToTable("Carpools");
                 });
 
             modelBuilder.Entity("Domain.Entities.Event", b =>
@@ -331,9 +346,6 @@ namespace Domain.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int?>("CarPoolId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -363,18 +375,22 @@ namespace Domain.Migrations
                     b.Property<byte[]>("Photo")
                         .HasColumnType("varbinary(max)");
 
-                    b.HasIndex("CarPoolId");
-
                     b.HasDiscriminator().HasValue("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.CarPool", b =>
+            modelBuilder.Entity("CarpoolUser", b =>
                 {
-                    b.HasOne("Domain.Entities.User", "Driver")
-                        .WithMany("CarPools")
-                        .HasForeignKey("DriverId");
+                    b.HasOne("Domain.Entities.Carpool", null)
+                        .WithMany()
+                        .HasForeignKey("CarpoolsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Driver");
+                    b.HasOne("Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EventUser", b =>
@@ -441,23 +457,6 @@ namespace Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.User", b =>
-                {
-                    b.HasOne("Domain.Entities.CarPool", null)
-                        .WithMany("Users")
-                        .HasForeignKey("CarPoolId");
-                });
-
-            modelBuilder.Entity("Domain.Entities.CarPool", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Domain.Entities.User", b =>
-                {
-                    b.Navigation("CarPools");
                 });
 #pragma warning restore 612, 618
         }

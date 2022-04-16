@@ -9,9 +9,9 @@ using Domain.Entities;
 
 namespace Domain.Configurations
 {
-    class CarPoolConfiguration : IEntityTypeConfiguration<CarPool>
+    class CarpoolConfiguration : IEntityTypeConfiguration<Carpool>
     {
-        public void Configure(EntityTypeBuilder<CarPool> builder)
+        public void Configure(EntityTypeBuilder<Carpool> builder)
         {
             builder.HasKey(t => t.Id);
 
@@ -30,8 +30,9 @@ namespace Domain.Configurations
             builder.Property(t => t.Description)
                 .IsRequired()
                 .HasMaxLength(200);
-            builder.HasOne(u => u.Driver)
-            .WithMany(t => t.CarPools);
+            builder.Property(t => t.DriverId)
+                .IsRequired()
+                .HasMaxLength(100);
             builder.Property(t => t.TotalCost)
                 .IsRequired().HasColumnType("decimal(18,4)");
         }

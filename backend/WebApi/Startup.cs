@@ -40,6 +40,8 @@ namespace ziwg
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IEventUsersService, EventUsersService>();
+            services.AddTransient<ICarpoolService, CarpoolService>();
+            services.AddTransient<ICarpoolUsersService, CarpoolUsersService>();
             services.AddControllers();
 
             services.AddAuthentication(options =>
