@@ -1,4 +1,5 @@
 @use 'lib'as *;
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
 .horizontalGalery {
     position: relative;
@@ -49,8 +50,6 @@
     height: 8px;
 }
 
-.horizontalGalery *::-webkit-scrollbar-track {}
-
 .horizontalGalery *::-webkit-scrollbar-thumb {
     border-radius: 4px;
     border: 2px solid #ffffff00;
@@ -59,4 +58,34 @@
 .horizontalGalery .image {
     margin: 0px 3px;
     border-radius: 8px;
+}
+
+.horizontalGalery .selected {
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #ececec;
+}
+
+.horizontalGalery .selected::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/> </svg>');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.horizontalGalery .selected::after {
+    content: 'Main photo';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    color: #ececec;
+    background-color: #00000088;
+    text-align: center;
 }
