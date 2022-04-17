@@ -1,14 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.IO;
+using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
-using System.Linq;
 using AutoMapper;
 using Application.Interfaces;
 using Application.DTOs.UserDTOs;
 using Domain.Entities;
 using Domain.Contexts;
-using System.Net;
-using System.IO;
+
 
 namespace Infrastructure.Services
 {
@@ -57,16 +58,21 @@ namespace Infrastructure.Services
             return false;
         }
 
-        public async Task<bool> RegisterWithGoogle(AuthenticateResult result)
+        public AuthenticationProperties LoginWithGoogle(string redirectUrl)
         {
-            var claims = result.Principal.Identities.FirstOrDefault()
-                .Claims.Select(claim => new
-                {
-                    claim.Issuer,
-                    claim.OriginalIssuer,
-                    claim.Type,
-                    claim.Value
-                });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return properties;
+        }
+        public async Task<bool> GetGoogleResponse()
+        {
+            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
+            var claims = info.Principal.Claims.Select(claim => new
+            {
+                claim.Issuer,
+                claim.OriginalIssuer,
+                claim.Type,
+                claim.Value
+            });
 
             var email = claims.ElementAt(4).Value;
             var checkUser = _context.Users.Where(x => x.Email == email).SingleOrDefault();
