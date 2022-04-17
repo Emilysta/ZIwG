@@ -4,6 +4,15 @@ import './EventPageSearchSuggestions.scss'
 
 export default class EventPageSearchSuggestions implements ISearchSuggestions {
     protected dictionary: string[];
+    protected currentList: string[]
+
+    public get suggestions() {
+        return this.currentList
+    }
+
+    public get first() {
+        return this.suggestions[0]
+    }
 
     constructor(words: string[]) {
         this.dictionary = words
@@ -13,9 +22,9 @@ export default class EventPageSearchSuggestions implements ISearchSuggestions {
         if (!search) return [];
 
         const reg = new RegExp(search, 'ig')
-        const list = this.dictionary.filter((term) => term.match(reg) ? term : undefined);
+        this.currentList = this.dictionary.filter((term) => term.match(reg) ? term : undefined);
 
-        return list.map((word, i) => {
+        return this.currentList.map((word, i) => {
             const start: number = word.search(reg)
             const finish: number = start + search.length;
             return <li key={i}>

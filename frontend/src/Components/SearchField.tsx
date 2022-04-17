@@ -3,11 +3,8 @@ import { Search } from 'react-bootstrap-icons';
 import './SearchField.scss'
 
 export interface ISearchSuggestions {
-    print(search: string): React.ReactNode
-}
-
-export const mockSuggestionsLogic: ISearchSuggestions = {
-    print: (search: string) => [...new Array(5)].map(() => (<>{search} <br /></>))
+    print(search: string): React.ReactNode,
+    get first(): string
 }
 
 type SearchFieldProps = {
@@ -24,12 +21,15 @@ export function SearchField(props: SearchFieldProps) {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') alert(props.suggestions.first)
+    }
 
     React.useEffect(() => setExpanded(search && search.length > 0), [search])
 
     return (
         <span className={`searchField ${props.className}`}>
-            <input type="text" placeholder='Search' defaultValue={search} onChange={handleChange} />
+            <input type="text" placeholder='Search' defaultValue={search} onChange={handleChange} onKeyUp={handleKeyUp} />
             <Search />
             {
                 props.suggestions &&
