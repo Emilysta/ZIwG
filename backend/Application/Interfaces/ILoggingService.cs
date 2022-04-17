@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Application.DTOs.UserDTOs;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Application.Interfaces
 {
@@ -8,7 +8,8 @@ namespace Application.Interfaces
     {
         public Task<bool> Register(RegisterDTO model);
         public Task<bool> Login(LoginDTO model);
-        public Task<bool> RegisterWithGoogle(AuthenticateResult result);
+        public Task<bool> GetGoogleResponse();
+        public AuthenticationProperties LoginWithGoogle(string redirectUrl);
         public Task<bool> SaveChangesAsync();
     }
 }

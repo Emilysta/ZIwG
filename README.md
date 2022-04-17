@@ -1,5 +1,13 @@
 # ZIwG
-Repository created for the purpose of academic course "Zastosowanie Informatyki w Gospodarce"
+Repository created for the purpose of academic course "Zastosowanie Informatyki w Gospodarce".
+
+## Table of contents
+- [ZIwG](#ziwg)
+  - [Table of contents](#table-of-contents)
+  - [Główne funkcjonalności aplikacji](#główne-funkcjonalności-aplikacji)
+  - [Lista pomysłów](#lista-pomysłów)
+  - [Authors](#authors)
+  - [Specification](#specification)
 
 ___
 [PL]
@@ -26,45 +34,17 @@ Projekt ma na celu stworzenie aplikacji pozwalającej na tworzenie i zarządzani
 
 ___
 
-## Table of contents
-- [ZIwG](#ziwg)
-  - [Główne funkcjonalności aplikacji](#główne-funkcjonalności-aplikacji)
-  - [Lista pomysłów](#lista-pomysłów)
-  - [Table of contents](#table-of-contents)
-  - [Authors](#authors)
-  - [Specification](#specification)
-  - [Deploy on our server](#deploy-on-our-server)
-
 
 ## Authors
-- Emilia Starczyk,
-- Arek Kacperski,
-- Michał Łopatka,
-- Mateusz Górka
+- [Emilia Starczyk](https://github.com/Emilysta),
+- [Arek Kacperski](https://github.com/),
+- [Michał Łopatka](https://github.com/MichalLopatka),
+- [Mateusz Górka](https://github.com/goorkamateusz)
 
 
 ## Specification
 - Backend: ASP.NET Core,
 - Frontend: React
-
-
-## Deploy on our server
-In directory `bash` create file `config.sh` based on template with correct credentials:
-
-```sh
-user="user name"
-domain="your.domain"
-port="your ssh port"
-```
-
-Run:
-```sh
-./bash/deploy-backend.sh
-```
-
-```sh
-./bash/deploy-frontend.sh
-```
 
 <!--
 ## License

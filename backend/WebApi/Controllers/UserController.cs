@@ -1,18 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.UserDTOs;
 using Application.Interfaces;
-using Application.DTOs;
-using Newtonsoft.Json;
-using Domain.Entities;
-using System.IO;
-using Domain.Contexts;
-using Microsoft.AspNetCore.Http;
+
 
 namespace WebApi.Controllers
 {
@@ -26,15 +19,15 @@ namespace WebApi.Controllers
         private readonly IUserService _userService;
         private readonly IEventUsersService _eventUsersService;
         private readonly ICarpoolUsersService _carpoolUsersService;
-        private readonly DataBaseContext _context;
 
-        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService, ICarpoolUsersService carpoolUsersService, DataBaseContext context)
+        public UserController(ILoggingService loggingService, IUserService userService, IEventUsersService eventUsersService, ICarpoolUsersService carpoolUsersService)
+
         {
             _loggingService = loggingService;
             _userService = userService;
             _eventUsersService = eventUsersService;
             _carpoolUsersService = carpoolUsersService;
-            _context = context;
+
         }
         /// <summary>
         /// Add profile picture 
@@ -85,30 +78,25 @@ namespace WebApi.Controllers
         /// Login with google
         /// </summary>
         /// <response code="400">Something went wrong</response>
-        //localhost:44394/api/user/google-login
         [HttpGet]
         [Route("google-login")]
         public IActionResult GoogleLogin()
         {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
-
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+            string redirectUrl = Url.Action("GoogleResponse", "User");
+            var properties = _loggingService.LoginWithGoogle(redirectUrl);
+            return new ChallengeResult("Google", properties);
         }
         /// <summary>
-        /// Change user data by id
+        /// Register with google
         /// </summary>
-        /// <response code="200">Success, registered</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
-        [Route("google-response")]
         public async Task<IActionResult> GoogleResponse()
         {
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            if (await _loggingService.RegisterWithGoogle(result))
-                if (await _loggingService.SaveChangesAsync())
-                    return Ok();
-            return Ok();
-        }
+            if(await _loggingService.GetGoogleResponse())
+                return Ok();
+            return BadRequest();
+        }        
         /// <summary>
         /// Change user data by id
         /// </summary>
