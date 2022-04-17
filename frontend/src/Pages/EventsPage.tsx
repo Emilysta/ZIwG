@@ -3,29 +3,26 @@ import { GaleryPopup } from "Components/GaleryPopup";
 import './EventPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
-
-function SearchField(props: any) {
-    // todo search field
-    return <input type="text" placeholder='Search todo' />
-}
-
+import { SearchField } from '../Components/SearchField';
 
 export default function EventsPage() {
     const [popupOpened, openPopup] = React.useState(false);
+
+    const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
 
     return (
         <>
             <div className='eventPage navbarMargin'>
                 <div className='eventNav'>
                     <div>
-                        <TagList tags={["Concert", "Workshops", "Conference"]} isEditable={false} />
+                        <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} />
                     </div>
                     <div>
                         <SearchField />
                     </div>
                 </div>
                 <div className='eventList'>
-                    {[...new Array(11)].map((e, i) => <EventTile key={i} />)}
+                    {events}
                     <input type='button' value="open popup" onClick={() => openPopup(true)} />
                 </div>
             </div>
