@@ -78,18 +78,18 @@ namespace WebApi.Controllers
             return BadRequest();
         }
         /// <summary>
-        /// Get events, can specify Location, number of month by order and user 
+        /// Get events, can specify Location, exact month in m/yyyy format and user 
         /// </summary>
         /// <param name="Location"></param>
-        /// <param name="MonthId"></param> 
+        /// <param name="MonthAndYear"></param> 
         /// <param name="UserId"></param> 
         /// <response code="200">Success, events returned</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetEvents(string Location = null, string MonthId= null, string UserId= null)
+        public async Task<IActionResult> GetEvents(string Location = null, string MonthAndYear= null, string UserId= null)
         {
-            var events = await _eventService.GetEvents(Location, MonthId, UserId);
+            var events = await _eventService.GetEvents(Location, MonthAndYear, UserId);
             return Ok(events);
         }
     }
