@@ -3,12 +3,36 @@ import { GaleryPopup } from "Components/GaleryPopup";
 import './EventPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
-import { SearchField, mockSuggestionsLogic } from '../Components/SearchField';
+import { SearchField } from 'Components/SearchField';
+import EventPageSearchSuggestions from 'Components/EventPageSearchSuggestions';
+
+const mockWordList = [
+    "Amet",
+    "deleniti",
+    "maxime",
+    "quisquam",
+    "Libero",
+    "laborum",
+    "architecto",
+    "sint",
+    "quia",
+    "excepturi",
+    "aliquam",
+    "Voluptatibus",
+    "sapiente",
+    "corrupti",
+    "vitae",
+    "Quis",
+    "consequuntur",
+    "autem",
+    "aperiam",
+]
 
 export default function EventsPage() {
     const [popupOpened, openPopup] = React.useState(false);
 
     const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
+    const searchSuggestions = new EventPageSearchSuggestions(mockWordList)
 
     return (
         <>
@@ -18,7 +42,7 @@ export default function EventsPage() {
                         <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} />
                     </div>
                     <div>
-                        <SearchField suggestions={mockSuggestionsLogic} />
+                        <SearchField suggestions={searchSuggestions} />
                     </div>
                 </div>
                 <div className='eventList'>
