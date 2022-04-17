@@ -1,6 +1,7 @@
 @use 'lib'as *;
 
 .searchField {
+    position: relative;
     display: inline-block;
     box-sizing: border-box;
     padding: 6px 12px;
@@ -33,4 +34,16 @@
 .searchField svg {
     height: 20px;
     width: 20px;
+}
+
+.searchField .expandable {
+    position: absolute;
+    top: calc(100% - 4px);
+    left: 4px;
+    right: 4px;
+
+    @include customize() {
+        background-color: #fff;
+        color: getValue(main-color);
+    }
 }

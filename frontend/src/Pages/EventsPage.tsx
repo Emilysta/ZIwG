@@ -3,7 +3,7 @@ import { GaleryPopup } from "Components/GaleryPopup";
 import './EventPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
-import { SearchField } from '../Components/SearchField';
+import { SearchField, mockSuggestionsLogic } from '../Components/SearchField';
 
 export default function EventsPage() {
     const [popupOpened, openPopup] = React.useState(false);
@@ -18,7 +18,7 @@ export default function EventsPage() {
                         <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} />
                     </div>
                     <div>
-                        <SearchField />
+                        <SearchField suggestions={mockSuggestionsLogic} />
                     </div>
                 </div>
                 <div className='eventList'>
