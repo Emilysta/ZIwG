@@ -19,7 +19,7 @@ namespace Domain.Contexts
 
         }
         new public DbSet<User> Users { get; set; }
-        public DbSet<CarPool> CarPools { get; set; }
+        public DbSet<Carpool> Carpools { get; set; }
         public DbSet<Event> Events { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
