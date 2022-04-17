@@ -20,7 +20,12 @@ namespace WebApi.Controllers
         {
             _eventService = eventService;
         }
-
+        /// <summary>
+        /// Add event, organiserID is taken from logged user, no need to send it in body
+        /// </summary>
+        /// <param name="event"></param> 
+        /// <response code="204">Success, event added</response>
+        /// <response code="400">Something went wrong</response>
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> Post([FromBody] CreateDTO @event)
@@ -36,6 +41,12 @@ namespace WebApi.Controllers
                 }
             return BadRequest();
         }
+        /// <summary>
+        /// Delete event 
+        /// </summary>
+        /// <param name="id"></param> 
+        /// <response code="204">Success, event deleted</response>
+        /// <response code="400">Something went wrong</response>
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -45,7 +56,13 @@ namespace WebApi.Controllers
                     return NoContent();
             return NotFound();
         }
-
+        /// <summary>
+        /// Modify event 
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="id"></param> 
+        /// <response code="200">Success, event modified</response>
+        /// <response code="400">Something went wrong</response>
         [HttpPatch]
         [Route("{id}")]
         [AllowAnonymous]
@@ -60,7 +77,14 @@ namespace WebApi.Controllers
 
             return BadRequest();
         }
-
+        /// <summary>
+        /// Get events, can specify Location, number of month by order and user 
+        /// </summary>
+        /// <param name="Location"></param>
+        /// <param name="MonthId"></param> 
+        /// <param name="UserId"></param> 
+        /// <response code="200">Success, events returned</response>
+        /// <response code="400">Something went wrong</response>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetEvents(string Location = null, string MonthId= null, string UserId= null)

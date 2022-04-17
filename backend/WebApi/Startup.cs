@@ -13,9 +13,10 @@ using Application.Interfaces;
 using Infrastructure.MappingProfiles;
 using Domain.Contexts;
 using Domain.Entities;
-
-
 using Infrastructure.Services;
+using System.Reflection;
+using System.IO;
+using System;
 
 namespace ziwg
 {
@@ -60,7 +61,12 @@ namespace ziwg
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "swagger ziwg api", Version = "v1" });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
+
 
             services.AddDbContext<DataBaseContext>(options =>
             {

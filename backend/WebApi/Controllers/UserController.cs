@@ -12,9 +12,11 @@ using Newtonsoft.Json;
 using Domain.Entities;
 using System.IO;
 using Domain.Contexts;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Controllers
 {
+    
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
@@ -32,7 +34,13 @@ namespace WebApi.Controllers
             _eventUsersService = eventUsersService;
             _context = context;
         }
-
+        /// <summary>
+        /// Add profile picture 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileObj"></param> 
+        /// <response code="200">Success, photo added</response>
+        /// <response code="400">Wrong user ID</response>
         [HttpPost]
         [Route("savePhoto/{id}")]
         public async Task<IActionResult> SavePhoto([FromRoute] string id, [FromForm] FileUpload fileObj)
@@ -43,7 +51,12 @@ namespace WebApi.Controllers
             }
             return BadRequest();
         }
-
+        /// <summary>
+        /// Login user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <response code="200">Success, user logged in</response>
+        /// <response code="400">Something went wrong</response>
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(LoginDTO model)
@@ -52,7 +65,12 @@ namespace WebApi.Controllers
                 return Ok();
             return BadRequest();
         }
-
+        /// <summary>
+        /// Register user, password requires a lowercase and uppercase letter, numeric and special character and at least 6 character length.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <response code="200">Success, user created</response>
+        /// <response code="400">Something went wrong</response>
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register(RegisterDTO model)
@@ -61,7 +79,10 @@ namespace WebApi.Controllers
                 return Ok();
             return BadRequest();
         }
-
+        /// <summary>
+        /// Login with google
+        /// </summary>
+        /// <response code="400">Something went wrong</response>
         //localhost:44394/api/user/google-login
         [HttpGet]
         [Route("google-login")]
@@ -71,7 +92,11 @@ namespace WebApi.Controllers
 
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
-
+        /// <summary>
+        /// Change user data by id
+        /// </summary>
+        /// <response code="200">Success, registered</response>
+        /// <response code="400">Something went wrong</response>
         [HttpGet]
         [Route("google-response")]
         public async Task<IActionResult> GoogleResponse()
@@ -82,7 +107,13 @@ namespace WebApi.Controllers
                     return Ok();
             return Ok();
         }
-
+        /// <summary>
+        /// Change user data by id
+        /// </summary>
+        /// <param name="diplayData"></param>
+        /// <param name="id"></param> 
+        /// <response code="200">Success, user modified</response>
+        /// <response code="400">Wrong user ID</response>
         [HttpPatch]
         [Route("changeUserData/{id}")]
         [AllowAnonymous]
@@ -97,6 +128,12 @@ namespace WebApi.Controllers
 
             return BadRequest();
         }
+        /// <summary>
+        /// Delete user by id
+        /// </summary>
+        /// <param name="id"></param> 
+        /// <response code="204">Success, user removed</response>
+        /// <response code="400">Wrong user ID</response> 
         [HttpDelete]
         [Route("{id}")]
         [AllowAnonymous]
@@ -107,7 +144,12 @@ namespace WebApi.Controllers
                     return NoContent();
             return NotFound();
         }
-
+        /// <summary>
+        /// Signs current logged user to an event
+        /// </summary>
+        /// <param name="eventId"></param> 
+        /// <response code="204">Success, user added</response>
+        /// <response code="400">Wrong EventID or no logged user</response> 
         [HttpPost]
         [Route("sign/{eventId}")]
         [AllowAnonymous]
@@ -119,6 +161,12 @@ namespace WebApi.Controllers
             else
                 return BadRequest();
         }
+        /// <summary>
+        /// Removes current logged user from an event
+        /// </summary>
+        /// <param name="eventId"></param> 
+        /// <response code="204">Success user removed</response>
+        /// <response code="400">If wrong ID or no logged user</response> 
         [HttpDelete]
         [Route("signout/{eventId}")]
         [AllowAnonymous]

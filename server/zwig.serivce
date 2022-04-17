@@ -1,0 +1,23 @@
+## Linux service configuration file
+## Target directory: /etc/systemd/system
+##
+[Unit]
+Description=ZIwG
+Group=ziwg
+
+[Service]
+WorkingDirectory=/opt/ziwg
+ExecStart=/usr/bin/dotnet /opt/ziwg/WebApi.dll --urls=http://localhost:5010 --mySql="server=localhost;port=Port;database=Database;uid=User;password=Password;"
+SyslogIdentifier=ZIwG
+User=www
+
+RestartSec=10
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
