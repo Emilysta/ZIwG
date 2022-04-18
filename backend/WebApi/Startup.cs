@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
@@ -13,9 +11,10 @@ using Application.Interfaces;
 using Infrastructure.MappingProfiles;
 using Domain.Contexts;
 using Domain.Entities;
-
-
 using Infrastructure.Services;
+using System.Reflection;
+using System.IO;
+using System;
 
 namespace ziwg
 {
@@ -39,28 +38,28 @@ namespace ziwg
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IEventUsersService, EventUsersService>();
+            services.AddTransient<ICarpoolService, CarpoolService>();
+            services.AddTransient<ICarpoolUsersService, CarpoolUsersService>();
             services.AddControllers();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            })
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/api/user/google-login";
-                })
+            services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = "827727851412-6rvoiprug86jmva1t1q37s8jva6pit4h.apps.googleusercontent.com";
-                    options.ClientSecret = "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";
+                    options.ClientId = "827727851412-fbdd0d3f7a1mqga5e3d4muhml20m7ftr.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
                     options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
                 });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "swagger ziwg api", Version = "v1" });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
+            
 
             services.AddDbContext<DataBaseContext>(options =>
             {
@@ -86,6 +85,7 @@ namespace ziwg
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
+            app.UseCookiePolicy();
             app.UseRouting();
 
             app.UseAuthentication();

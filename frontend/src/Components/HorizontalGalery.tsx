@@ -4,18 +4,29 @@ import './HorizontalGalery.scss'
 
 type HorizontalGaleryProps = {
     rows: number,
+    images: string[],
     className?: string,
-    images: string[]
 }
 
 export function HorizontalGalery(props: HorizontalGaleryProps) {
+    const [selected, setSelected]: [string, any] = React.useState(null)
+
+    console.log("Horizontal gallery render with " + props.images.length)
+
+    const getImageClass = (src: string) => src === selected ? "selected" : ""
+    const choose = (e: React.MouseEvent<HTMLDivElement>, img: string) => setSelected(img)
+
     const renderRows = () => {
         const imageRows = []
         for (let r = 0; r < props.rows; r++) {
             imageRows.push((
                 <div key={r} className='row'>
                     <div className='box'>
-                        {props.images.map((value, i) => (i % props.rows === r) ? <Image key={i} src={value} /> : null)}
+                        {
+                            props.images.map((value, i) => (i % props.rows === r)
+                                ? <Image className={getImageClass(value)} onClick={choose} key={i} src={value} />
+                                : null)
+                        }
                     </div>
                 </div>
             ))

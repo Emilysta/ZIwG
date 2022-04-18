@@ -14,7 +14,7 @@ namespace Domain.Entities
         public byte[] Photo { get; set; }
         public DateTime DateOfBirth { get; set; }
         public List<Event> Events { get; set; }
-        public List<CarPool> CarPools { get; set; }
+        public List<Carpool> Carpools { get; set; }
 
     }
 }
