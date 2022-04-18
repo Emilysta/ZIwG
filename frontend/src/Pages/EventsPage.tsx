@@ -4,7 +4,6 @@ import './EventPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
 import { SearchField } from 'Components/SearchField';
-import EventPageSearchSuggestions from 'Components/EventPageSearchSuggestions';
 
 const mockWordList = [
     "Amet",
@@ -33,7 +32,6 @@ export default function EventsPage() {
 
     const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
     const onSearch = (search: string) => alert(search)
-    const searchSuggestions = new EventPageSearchSuggestions(mockWordList, onSearch)
 
     return (
         <>
@@ -43,7 +41,7 @@ export default function EventsPage() {
                         <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} />
                     </div>
                     <div>
-                        <SearchField suggestions={searchSuggestions} />
+                        <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
                     </div>
                 </div>
                 <div className='eventList'>

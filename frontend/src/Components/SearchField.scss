@@ -49,3 +49,27 @@
         box-shadow: 0 0 2px 0 #fff;
     }
 }
+
+.eventPageSearchSuggestions {
+    display: block;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+}
+
+.eventPageSearchSuggestions li {}
+
+.eventPageSearchSuggestions li:hover {
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+.eventPageSearchSuggestions li * {
+    display: inline;
+    vertical-align: baseline;
+    font-weight: 300;
+}
+
+.eventPageSearchSuggestions li b {
+    font-weight: 600;
+}
