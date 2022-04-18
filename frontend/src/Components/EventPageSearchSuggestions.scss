@@ -7,6 +7,11 @@
 
 .eventPageSearchSuggestions li {}
 
+.eventPageSearchSuggestions li:hover {
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
 .eventPageSearchSuggestions li * {
     display: inline;
     vertical-align: baseline;

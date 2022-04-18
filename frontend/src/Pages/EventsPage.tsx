@@ -32,7 +32,8 @@ export default function EventsPage() {
     const [popupOpened, openPopup] = React.useState(false);
 
     const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
-    const searchSuggestions = new EventPageSearchSuggestions(mockWordList)
+    const onSearch = (search: string) => alert(search)
+    const searchSuggestions = new EventPageSearchSuggestions(mockWordList, onSearch)
 
     return (
         <>

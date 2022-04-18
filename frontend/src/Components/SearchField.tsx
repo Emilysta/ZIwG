@@ -3,6 +3,7 @@ import { Search } from 'react-bootstrap-icons';
 import './SearchField.scss'
 
 export interface ISearchSuggestions {
+    chooseFirst(): void,
     print(search: string): React.ReactNode,
     get first(): string
 }
@@ -22,7 +23,7 @@ export function SearchField(props: SearchFieldProps) {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)
     const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') alert(props.suggestions.first)
+        if (props.suggestions && e.key === 'Enter') props.suggestions.chooseFirst()
     }
 
     React.useEffect(() => setExpanded(search && search.length > 0), [search])
