@@ -6,6 +6,8 @@ type ToggleButtonWithTextProps = {
     startIsToggled: boolean,
     fieldDesc: string,
     isReadOnly?: boolean,
+    id?: string,
+    onValueChange?: (id: string, value: boolean) => void,
 }
 
 
@@ -13,8 +15,11 @@ export default function ToggleButtonWithText(props: ToggleButtonWithTextProps) {
     const [isToggled, setIsToggled] = React.useState(props.startIsToggled);
 
     const toggleStateChanged = () => {
-        if (!props.isReadOnly)
+        if (!props.isReadOnly) {
             setIsToggled(!isToggled);
+            if (props.onValueChange)
+                props.onValueChange(props.id, !isToggled);
+        }
     }
 
     return (

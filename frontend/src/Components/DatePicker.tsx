@@ -9,11 +9,13 @@ type EventDatePickerProps = {
     isReadOnly?: boolean,
     className?: string,
     onDateChange?: (value: [Date, Date]) => void,
+    startDate: Date,
+    endDate: Date,
 }
 
 export default function EventDatePicker(props: EventDatePickerProps) {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(props.startDate);
+    const [endDate, setEndDate] = useState(props.endDate);
 
     const filterPassedTime = (time: Date) => {
         const currentDate = new Date();

@@ -14,7 +14,7 @@ type SimpleEditableInputProps = {
     rows?: number,
     isClearOnEnter?: boolean,
     onChangeAction?: (id: string, value: string) => void,
-    validationAction?: () => string,
+    validationAction?: (value: string) => string,
     onKeyDownAction?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void,
 }
 export default function SimpleEditableInput(props: SimpleEditableInputProps) {
@@ -23,7 +23,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
 
     function onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         if (props.validationAction) {
-            setValidationText(props.validationAction());
+            setValidationText(props.validationAction(event.target.value));
         }
         if (props.onChangeAction) {
             props.onChangeAction(props.id, event.target.value);

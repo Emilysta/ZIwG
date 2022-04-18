@@ -8,6 +8,7 @@ type ButtonWithIconProps = {
     text: string,
     isActive?: boolean,
     link?: string,
+    replaceLink?: boolean,
     onClickAction?: () => void,
 }
 
@@ -32,7 +33,7 @@ export default function ButtonWithIcon(props: ButtonWithIconProps) {
 
     if (props.link) {
         return (
-            <Link to={props.link} className={getClass()}>
+            <Link to={props.link} className={getClass()} replace={props.replaceLink}>
                 <div className='buttonElement'>{icon}</div>
                 <div className='buttonElement'>{props.text} </div>
             </Link>
