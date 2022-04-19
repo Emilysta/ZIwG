@@ -5,21 +5,8 @@ import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import * as React from 'react';
 import { useState } from 'react';
 import { XLg, PlusLg } from 'react-bootstrap-icons';
+import { EventData } from 'Utils/EventData';
 import './UserAddEventPage.scss';
-
-export type EventData = {
-    EventName: string,
-    Description: string,
-    StartDate: Date,
-    EndDate: Date,
-    Tags: string[],
-    IsPublicEvent: boolean,
-    IsPaidTicket: boolean,
-    TicketPrice: string,
-    IsTicketLimit: boolean,
-    TicketCount: string,
-    Images: string[],
-}
 
 export default function UserAddEventPage() {
     const [values, setValues] = useState<EventData>(
@@ -37,6 +24,7 @@ export default function UserAddEventPage() {
             Images: [],
         });
 
+    
     function addEvent() {
         console.log("added event");
         console.log(values);

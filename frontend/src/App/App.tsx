@@ -16,7 +16,7 @@ function App() {
           <Route path='/' element={<Navbar />}>
             <Route index element={<HomePage />} />
             <Route path="events" element={<EventsPage />} />
-            <Route path="event/:id" element={<EventPage />} />
+            <Route path="events/:id" element={<EventPage />} />
             <Route path="logIn" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="user/*" element={<UserPage />} />

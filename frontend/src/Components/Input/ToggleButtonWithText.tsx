@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Square, CheckSquareFill } from 'react-bootstrap-icons';
+import Skeleton from 'react-loading-skeleton';
 import './ToggleButtonWithText.scss';
 
 type ToggleButtonWithTextProps = {
@@ -8,6 +9,7 @@ type ToggleButtonWithTextProps = {
     isReadOnly?: boolean,
     id?: string,
     onValueChange?: (id: string, value: boolean) => void,
+    loading?: boolean,
 }
 
 
@@ -25,10 +27,12 @@ export default function ToggleButtonWithText(props: ToggleButtonWithTextProps) {
     return (
         <div className='toggleWrap'>
             <div className='icon toggleElement' onClick={toggleStateChanged}>
-                {isToggled && <CheckSquareFill className="" />}
-                {!isToggled && <Square />}
+                {props.loading && <Skeleton containerClassName='my' width={25} />}
+                {!props.loading && isToggled && <CheckSquareFill className="" />}
+                {!props.loading && !isToggled && <Square />}
             </div>
-            <p className='toggleElement'>{props.fieldDesc}</p>
+            {props.loading && <Skeleton containerClassName='my toggleElement' width={100} height={20} />}
+            {!props.loading && <p className='toggleElement'>{props.fieldDesc}</p>}
         </div>
     )
 }

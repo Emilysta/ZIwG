@@ -39,7 +39,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (startDate === null)
             return (<p className='noPaddingMargin'>No date selected</p>)
         else
-            return (<p className='noPaddingMargin'>{startDate} — {endDate}</p>)
+            return (<p className='noPaddingMargin'>{startDate.toDateString()} — {endDate.toDateString()}</p>)
     }
     else {
         return (

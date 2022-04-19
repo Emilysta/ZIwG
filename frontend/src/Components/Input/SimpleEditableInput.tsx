@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import './SimpleEditableInput.scss'
 
 type SimpleEditableInputProps = {
@@ -16,6 +17,7 @@ type SimpleEditableInputProps = {
     onChangeAction?: (id: string, value: string) => void,
     validationAction?: (value: string) => string,
     onKeyDownAction?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void,
+    loading?: boolean,
 }
 export default function SimpleEditableInput(props: SimpleEditableInputProps) {
     const [validationText, setValidationText] = React.useState("");
@@ -38,17 +40,19 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
             textAreaRef.current.value = "";
         }
     }
+    if (props.loading)
+        return (<div className='simpleInputBox'><Skeleton containerClassName='my' /></div>)
+    else
+        return (
+            <div className='simpleInputBox'>
+                {props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}
 
-    return (
-        <div className='simpleInputBox'>
-            {props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}
+                <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef}
+                />
 
-            <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef}
-            />
-
-            {validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
-        </div>
-    )
+                {validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
+            </div>
+        )
 
 
 }

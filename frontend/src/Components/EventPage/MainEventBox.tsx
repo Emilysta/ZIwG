@@ -8,13 +8,14 @@ import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { PinMapFill } from 'react-bootstrap-icons';
 import EventDatePicker from 'Components/DatePicker';
 import { GaleryPopup } from 'Components/GaleryPopup';
-import { EventData } from 'Pages/UserAddEventPage';
+import { EventData } from 'Utils/EventData';
 
 type MainEventBoxProps = {
     className?: string,
     isReadOnly?: boolean,
     values: EventData,
     onValuesChange?: (id: string, value: any) => void,
+    loading?: boolean,
 }
 
 export default function MainEventBox(props: MainEventBoxProps) {
@@ -39,7 +40,9 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
     function onDropBoxClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();
-        setPopupOpened(true)
+        if (!props.isReadOnly) {
+            setPopupOpened(true)
+        }
     }
 
     function onGalleryPopupClose(state: boolean, images: string[]) {
@@ -55,7 +58,8 @@ export default function MainEventBox(props: MainEventBoxProps) {
             <div className='galleryBox'>
                 <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)}>
                     <Images className='galleryIcon' />
-                    <p>Drop images or click</p>
+                    {props.isReadOnly && <p>No images</p>}
+                    {!props.isReadOnly && <p>Drop images or click</p>}
                 </div>
             </div>
 
@@ -63,11 +67,15 @@ export default function MainEventBox(props: MainEventBoxProps) {
             <div className='inputEventStack'>
                 <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} />
 
-                <TagList tags={values.Tags} isEditable={props.isReadOnly} />
+                <div>
+                    <p className='descText'>Tags</p>
+                    <TagList tags={values.Tags} isReadOnly={props.isReadOnly} />
+                </div>
 
                 <div>
                     <p className='descText'>Location</p>
-                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} />
+                    <p className='sizedText'> location</p>
+                    {/* <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} /> */}
                 </div>
 
                 <div>
@@ -75,7 +83,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                     <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={values.StartDate} endDate={values.EndDate} />
                 </div>
 
-                <SimpleEditableInput defaultValue={values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} />
+                <SimpleEditableInput defaultValue={values.Description === '' ? 'No description' : values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} />
             </div>
         </div>
     )
