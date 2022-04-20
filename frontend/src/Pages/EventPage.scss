@@ -30,6 +30,16 @@
         color: getValue(main-color);
         border: 2px solid getValue(main-color);
     }
+
+    cursor: pointer;
+}
+
+.eventPage .eventNav .tagBox:hover {
+    @include customize {
+        background-color: getValue(main-color);
+        color: #fff;
+        border: 2px solid getValue(main-color);
+    }
 }
 
 .eventPage .eventList {
