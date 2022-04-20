@@ -37,7 +37,7 @@ namespace Infrastructure.Services
         {
             var userToSign = GetCurrentUser();
             var carpoolToSign = _context.Carpools.Where(x => x.Id == carpoolId).Include(x => x.Users).SingleOrDefault();
-            if (userToSign == null || carpoolToSign == null)
+            if (userToSign == null || carpoolToSign == null || carpoolToSign.Users.Count() == carpoolToSign.UsersLimit || carpoolToSign.Users.Any(x => x.Id == userToSign.Id))
                 return false;
             carpoolToSign.Users.Add(userToSign);
             _context.Carpools.Update(carpoolToSign);

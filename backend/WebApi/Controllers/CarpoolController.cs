@@ -78,17 +78,17 @@ namespace WebApi.Controllers
             return BadRequest();
         }
         /// <summary>
-        /// Get carpools, can specify number of month by order and user 
+        /// Get carpools, can specify exact month in m/yyyy format and user 
         /// </summary>
-        /// <param name="MonthId"></param> 
+        /// <param name="MonthAndYear"></param> 
         /// <param name="UserId"></param> 
         /// <response code="200">Success, carpools returned</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetEvents(string MonthId = null, string UserId = null)
+        public async Task<IActionResult> GetEvents(string MonthAndYear = null, string UserId = null)
         {
-            var events = await _carpoolService.GetCarpools(MonthId, UserId);
+            var events = await _carpoolService.GetCarpools(MonthAndYear, UserId);
             return Ok(events);
         }
     }
