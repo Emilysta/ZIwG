@@ -32,13 +32,14 @@ export default function EventsPage() {
 
     const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
     const onSearch = (search: string) => alert(search)
+    const tagChosen = (value: string, id: number) => alert(value + " id: " + id)
 
     return (
         <>
             <div className='eventPage navbarMargin'>
                 <div className='eventNav'>
                     <div>
-                        <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} />
+                        <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} onClick={tagChosen} />
                     </div>
                     <div>
                         <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />

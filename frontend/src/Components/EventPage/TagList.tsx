@@ -8,6 +8,7 @@ import { useState } from 'react';
 export type TagListProps = {
     tags: Array<string>,
     isEditable: boolean,
+    onClick?: (value: string, id: number) => void
 }
 
 export default function TagList(props: TagListProps) {
@@ -61,7 +62,7 @@ export default function TagList(props: TagListProps) {
                 {
                     tags.slice(tagPage * 3, (tagPage * 3) + 3).map((value, index) => {
                         return (
-                            <li key={index} className='tagListLI'>
+                            <li key={index} className='tagListLI' onClick={(e) => props.onClick && props.onClick(value, index)}>
                                 <Tag text={value} isCloseable={props.isEditable} id={index} onCloseAction={onTagClose} />
                             </li>
                         )
