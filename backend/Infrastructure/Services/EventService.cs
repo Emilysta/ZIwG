@@ -25,7 +25,7 @@ namespace Infrastructure.Services
         }
         public async Task<bool> AddEvent(CreateDTO @event)
         {
-            Event eventToAdd = new Event();
+            Event eventToAdd = new();
             eventToAdd = _mapper.Map(@event, eventToAdd);
             eventToAdd.OrganiserId = _eventUsersService.GetCurrentUser().Id;
             if (eventToAdd == null)
