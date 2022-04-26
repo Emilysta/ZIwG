@@ -29,8 +29,26 @@ export function Navbar() {
     }
   }, [location])
 
-  const changeNavbar = (
-    <div className='HeadBar'>
+  const changeNavbar = location.pathname == "/events"
+    ? <div className='HeadBar higher'>
+      <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
+      <div className="logoTypeItemCentered">
+        <Logotype />
+        <a className="pageTitle">
+          Events
+        </a>
+      </div>
+      <ul className="navbarList">
+        {list.map((singleLink, i) => {
+          return (
+            <li key={i}>
+              <Link to={singleLink.link}>{singleLink.name}</Link>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+    : <div className='HeadBar'>
       <div className="logoTypeItem">
         <Logotype />
         <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
@@ -45,7 +63,7 @@ export function Navbar() {
         })}
       </ul>
     </div>
-  )
+
   return (
     <>
       {changeNavbar}
