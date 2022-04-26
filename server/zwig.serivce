@@ -7,7 +7,7 @@ Group=ziwg
 
 [Service]
 WorkingDirectory=/opt/ziwg
-ExecStart=/usr/bin/dotnet /opt/ziwg/WebApi.dll --urls=http://localhost:5010 --mySql="server=localhost;port=Port;database=Database;user=User;password=Password;"
+ExecStart=/usr/bin/dotnet /opt/ziwg/WebApi.dll --urls=http://localhost:5010 --MySQLConnection="server=localhost;port=Port;database=Database;user=User;password=Password;"
 SyslogIdentifier=ZIwG
 User=www
 
