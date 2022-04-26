@@ -36,18 +36,20 @@ export default function EventsPage() {
 
     return (
         <>
-            <div className='eventPage navbarMargin'>
-                <div className='eventNav'>
-                    <div>
-                        <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} onClick={tagChosen} />
+            <div className='wholePageLayout navbarMargin'>
+                <div className='eventPage'>
+                    <div className='eventNav'>
+                        <div>
+                            <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} onClick={tagChosen} />
+                        </div>
+                        <div>
+                            <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                        </div>
                     </div>
-                    <div>
-                        <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                    <div className='eventList'>
+                        {events}
+                        <input type='button' value="open popup" onClick={() => openPopup(true)} />
                     </div>
-                </div>
-                <div className='eventList'>
-                    {events}
-                    <input type='button' value="open popup" onClick={() => openPopup(true)} />
                 </div>
             </div>
 
