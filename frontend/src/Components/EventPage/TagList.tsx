@@ -66,7 +66,7 @@ export default function TagList(props: TagListProps) {
                             tags.slice(tagPage * 3, (tagPage * 3) + 3).map((value, index) => {
                                 return (
                                     <li key={index} className='tagListLI'>
-                                        <Tag text={value} isCloseable={props.isReadOnly} id={index} onCloseAction={onTagClose} />
+                                        <Tag text={value} isCloseable={!props.isReadOnly} id={index} onCloseAction={onTagClose} />
                                     </li>
                                 )
                             })

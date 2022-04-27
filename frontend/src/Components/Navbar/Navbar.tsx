@@ -39,7 +39,7 @@ export function Navbar() {
     setList(tempList);
   }, [location])
 
-  const changeNavbar = location.pathname == "/events"
+  const changeNavbar = location.pathname === "/events"
     ? <div className='HeadBar higher'>
       <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
       <div className="logoTypeItemCentered">
