@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { myApi } from './APISlice';
-import { userApi } from './UserSlice';
-import { userLoginSlice } from './UserLoginSlice';
+import { eventApi } from './EventAPISlice';
+import { userApi } from './UserApiSlice';
+import { userLoginSlice } from './UserSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 const reducer = {
-    [myApi.reducerPath]: myApi.reducer,
+    [eventApi.reducerPath]: eventApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     userLogin: userLoginSlice.reducer
 }

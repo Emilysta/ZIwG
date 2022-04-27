@@ -4,7 +4,7 @@ import MainEventBox from 'Components/EventPage/MainEventBox';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import './EventPage.scss';
-import { useGetEventQuery } from 'Utils/APISlice';
+import { useGetEventQuery } from 'Utils/EventAPISlice';
 
 export default function EventPage() {
     const { id } = useParams();

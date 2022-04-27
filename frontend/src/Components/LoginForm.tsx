@@ -3,9 +3,9 @@ import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
 import { Link, useNavigate } from 'react-router-dom';
-import { userApi } from "Utils/UserSlice";
+import { userApi } from "Utils/UserApiSlice";
 import { useAppDispatch } from "Utils/Store";
-import { login } from "Utils/UserLoginSlice";
+import { login } from "Utils/UserSlice";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');

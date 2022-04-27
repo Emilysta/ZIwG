@@ -5,7 +5,7 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { BlendedCircle } from "Components/BlendedCircle";
 import { useAppDispatch, useAppSelector } from "Utils/Store";
-import { logout } from "Utils/UserLoginSlice";
+import { logout } from "Utils/UserSlice";
 
 const onlyEvents = [{ link: "/events", name: "Events" }];
 const onlyLogIn = [{ link: "/logIn", name: "Join Us" }];

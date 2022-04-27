@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { EventData, EventDataSimple } from './EventData';
 
-export const myApi = createApi({
+export const eventApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://ziwg.toadres.pl/api/',
   }),
-  tagTypes: ['Event', 'User'],
+  tagTypes: ['Event'],
   endpoints: (build) => ({
     getEvents: build.query<EventDataSimple[], void>({
       query: () => 'Event',
@@ -45,4 +45,4 @@ export const myApi = createApi({
     }),
   }),
 })
-export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation, useEditPostMutation } = myApi;
+export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation, useEditPostMutation } = eventApi;
