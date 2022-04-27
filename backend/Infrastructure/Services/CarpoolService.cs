@@ -57,13 +57,13 @@ namespace Infrastructure.Services
             _context.Carpools.Update(carpoolToModify);
             return true;
         }
-        public async Task<List<ReturnCarpoolDTO>> GetCarpools(string MonthId, string UserId)
+        public async Task<List<ReturnCarpoolDTO>> GetCarpools(string MonthAndYear, string UserId)
         {
             if (!string.IsNullOrEmpty(UserId))
             {
                 var user = await _context.Users.Where(x => x.Id == UserId).Include(e => e.Events).SingleOrDefaultAsync();
                 var availableCarpools = user.Carpools
-                .Where(p => (MonthId == null || p.StartDate.Month.ToString() == MonthId))
+                .Where(p => (MonthAndYear == null || (p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear)))
                 .ToList();
                 List<ReturnCarpoolDTO> carpoolsToReturn = _mapper.Map<List<Carpool>, List<ReturnCarpoolDTO>>(availableCarpools);
                 carpoolsToReturn = carpoolsToReturn.OrderByDescending(x => x.StartDate).ToList();
@@ -72,7 +72,7 @@ namespace Infrastructure.Services
             else
             {
                 var availableCarpools = await _context.Carpools
-                .Where(p => (MonthId == null || p.StartDate.Month.ToString() == MonthId))
+                .Where(p => (MonthAndYear == null || (p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear)))
                 .ToListAsync();
                 List<ReturnCarpoolDTO> carpoolsToReturn = _mapper.Map<List<Carpool>, List<ReturnCarpoolDTO>>(availableCarpools);
                 carpoolsToReturn = carpoolsToReturn.OrderByDescending(x => x.StartDate).ToList();
