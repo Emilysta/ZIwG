@@ -10,21 +10,9 @@ import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
     const [values, setValues] = useState<EventData>(
-        {
-            EventName: "Event name",
-            Description: "",
-            StartDate: new Date(),
-            EndDate: new Date(),
-            Tags: [],
-            IsPublicEvent: true,
-            IsPaidTicket: false,
-            IsTicketLimit: false,
-            TicketPrice: '',
-            TicketCount: '',
-            Images: [],
-        });
+        undefined);
 
-    
+
     function addEvent() {
         console.log("added event");
         console.log(values);
