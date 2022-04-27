@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { GaleryPopup } from "Components/GaleryPopup";
-import './EventPage.scss'
+import './EventsPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
 import { SearchField } from 'Components/SearchField';
@@ -37,8 +37,8 @@ export default function EventsPage() {
     return (
         <>
             <div className='wholePageLayout navbarMargin'>
-                <div className='eventPage'>
-                    <div className='eventNav'>
+                <div className='eventsPage'>
+                    <div className='eventsNav'>
                         <div>
                             <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} onClick={tagChosen} />
                         </div>
