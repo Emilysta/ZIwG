@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export type LoginData = {
-    username: string,
+    email: string,
     password: string,
 }
 
@@ -22,8 +22,9 @@ export type UserData = {
 
 export const userApi = createApi({
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://ziwg.toadres.pl/api/User/',
+        baseUrl: '/api/User/',
     }),
+    tagTypes: ['Event', 'User'],
     endpoints: (build) => ({
         login: build.mutation<null, LoginData>({
             query: (body) => ({
@@ -31,6 +32,7 @@ export const userApi = createApi({
                 method: 'POST',
                 body,
             }),
+            invalidatesTags: ['User'],
         }),
         register: build.mutation<null, RegisterData>({
             query: (body) => ({
@@ -95,4 +97,4 @@ export const userApi = createApi({
 
     }),
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useGetUserDataQuery } = userApi;

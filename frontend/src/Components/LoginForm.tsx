@@ -4,6 +4,7 @@ import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
 import { Link, useNavigate } from 'react-router-dom';
 import { userApi } from "Utils/UserSlice";
+import { QueryStatus } from "@reduxjs/toolkit/dist/query";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
@@ -15,15 +16,12 @@ export function LoginForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit");
-
-    login({ username: email, password: password });
-    if (loginResult.isSuccess) {
-      console.log(loginResult.data);
-      navigate('/user', { replace: true });
-    }
-    else {
-      console.warn("Nie udało sie :(");
-    }
+    await login({ email: email, password: password }).unwrap()
+      .then(data => {
+        console.log(loginResult.data);
+        navigate('/user', { replace: true });
+      })
+      .catch(err => console.error(err));
   }
 
   const minimalLength = 0;
