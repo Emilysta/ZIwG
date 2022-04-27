@@ -8,6 +8,7 @@ import { useState } from 'react';
 export type TagListProps = {
     tags: Array<string>,
     isReadOnly: boolean,
+    onClick?: (value: string, id: number) => void
 }
 
 export default function TagList(props: TagListProps) {
