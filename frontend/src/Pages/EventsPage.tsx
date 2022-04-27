@@ -1,17 +1,59 @@
 import * as React from 'react';
-import Popup from 'Components/Popup';
 import { GaleryPopup } from "Components/GaleryPopup";
+import './EventsPage.scss'
+import EventTile from 'Components/EventTile';
+import TagList from 'Components/EventPage/TagList';
+import { SearchField } from 'Components/SearchField';
 
-function EventsPage() {
-    const [popupOpened, openPopup] = React.useState(true);
+const mockWordList = [
+    "Amet",
+    "deleniti",
+    "maxime",
+    "quisquam",
+    "Libero",
+    "laborum",
+    "architecto",
+    "sint",
+    "quia",
+    "excepturi",
+    "aliquam",
+    "Voluptatibus",
+    "sapiente",
+    "corrupti",
+    "vitae",
+    "Quis",
+    "consequuntur",
+    "autem",
+    "aperiam",
+]
+
+export default function EventsPage() {
+    const [popupOpened, openPopup] = React.useState(false);
+
+    const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
+    const onSearch = (search: string) => alert(search)
+    const tagChosen = (value: string, id: number) => alert(value + " id: " + id)
 
     return (
         <>
-            <div>EventsPage</div>
-            <input type='button' value="open popup" onClick={() => openPopup(true)} />
-            <GaleryPopup open={popupOpened} onClose={() => openPopup(false)}/>
+            <div className='wholePageLayout navbarMargin'>
+                <div className='eventsPage'>
+                    <div className='eventsNav'>
+                        <div>
+                            <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isEditable={false} onClick={tagChosen} />
+                        </div>
+                        <div>
+                            <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                        </div>
+                    </div>
+                    <div className='eventList'>
+                        {events}
+                        <input type='button' value="open popup" onClick={() => openPopup(true)} />
+                    </div>
+                </div>
+            </div>
+
+            <GaleryPopup open={popupOpened} onClose={() => openPopup(false)} />
         </>
     )
 }
-
-export default EventsPage;
