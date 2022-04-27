@@ -4,21 +4,24 @@ import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
 import { Link, useNavigate } from 'react-router-dom';
 import { userApi } from "Utils/UserSlice";
-import { QueryStatus } from "@reduxjs/toolkit/dist/query";
+import { useAppDispatch } from "Utils/Store";
+import { login } from "Utils/UserLoginSlice";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const [login, loginResult] = userApi.useLoginMutation();
+  const [loginRequest, loginResult] = userApi.useLoginMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit");
-    await login({ email: email, password: password }).unwrap()
+    await loginRequest({ email: email, password: password }).unwrap()
       .then(data => {
         console.log(loginResult.data);
+        dispatch(login());
         navigate('/user', { replace: true });
       })
       .catch(err => console.error(err));
