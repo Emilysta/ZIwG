@@ -25,14 +25,14 @@ export const userApi = createApi({
         baseUrl: 'https://ziwg.toadres.pl/api/User/',
     }),
     endpoints: (build) => ({
-        login: build.mutation<LoginData, void>({
+        login: build.mutation<null, LoginData>({
             query: (body) => ({
                 url: 'login',
                 method: 'POST',
                 body,
             }),
         }),
-        register: build.mutation<RegisterData, void>({
+        register: build.mutation<null, RegisterData>({
             query: (body) => ({
                 url: 'register',
                 method: 'POST',
@@ -40,24 +40,23 @@ export const userApi = createApi({
             }),
         }),
 
-        deleteUser: build.mutation<string, void>({
-            query: (body) => ({
-                url: `/${body}`,
+        deleteUser: build.mutation<null, string>({
+            query: (id) => ({
+                url: `/${id}`,
                 method: 'DELETE',
-                body,
             })
         }),
 
-        googleLogin: build.query({
+        googleLogin: build.mutation({
             query: () => 'google-login',
         }),
-        googleRegister: build.query({
+        googleRegister: build.mutation({
             query: () => '',
         }),
         getUserData: build.query<UserData, void>({
             query: () => ''
         }),
-        changeUserData: build.mutation<UserData, Omit<UserData, 'userId'>>({
+        changeUserData: build.mutation<UserData, string>({
             query: (body) => ({
                 url: `changeUserData/${body}`,
                 method: 'PATCH',
@@ -65,39 +64,35 @@ export const userApi = createApi({
             }),
         }),
 
-        subscribeToEvent: build.mutation<string, void>({
+        subscribeToEvent: build.mutation<null, string>({
             query: (body) => ({
                 url: `sign/${body}`,
                 method: 'POST',
-                body,
             })
         }),
 
-        unsubscribeFromEvent: build.mutation<string, void>({
+        unsubscribeFromEvent: build.mutation<null, string>({
             query: (body) => ({
                 url: `signout/${body}`,
                 method: 'DELETE',
-                body,
             })
         }),
 
-        joinRide: build.mutation<string, void>({
+        joinRide: build.mutation<null, string>({
             query: (body) => ({
                 url: `joinRide/${body}`,
                 method: 'POST',
-                body,
             })
         }),
 
-        leaveRide: build.mutation<string, void>({
+        leaveRide: build.mutation<null, string>({
             query: (body) => ({
                 url: `leaveRide/${body}`,
                 method: 'DELETE',
-                body,
             })
         }),
 
 
     }),
 })
-export const { useLoginMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation } = userApi;

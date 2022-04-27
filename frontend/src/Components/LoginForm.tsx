@@ -2,32 +2,28 @@ import * as React from "react";
 import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
-import { Link } from 'react-router-dom';
-import { postJson } from "Utils/FetchUtils";
+import { Link, useNavigate } from 'react-router-dom';
+import { userApi } from "Utils/UserSlice";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [login, loginResult] = userApi.useLoginMutation();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit");
 
-    window.location.href = '/user'
-    return; // todo disabled login request
-
-    postJson("api/user/login", {
-      email: email,
-      password: password,
-    }).then((data) => {
-      console.log(data)
-      if (data.ok) {
-      }
-      else {
-      }
-    }).catch((reason) => {
-      console.log(reason)
-    })
+    login({ username: email, password: password });
+    if (loginResult.isSuccess) {
+      console.log(loginResult.data);
+      navigate('/user', { replace: true });
+    }
+    else {
+      console.warn("Nie udało sie :(");
+    }
   }
 
   const minimalLength = 0;

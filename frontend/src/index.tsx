@@ -7,11 +7,11 @@ import { Provider } from 'react-redux';
 import { store } from 'Utils/Store'
 
 ReactDOM.render(
-  //<Provider store={store}>
+  <Provider store={store}>
   <div className='theme-light'>
     <App />
   </div>,
-  //</Provider>,
+  </Provider>,
   document.getElementById('root')
 );
 
