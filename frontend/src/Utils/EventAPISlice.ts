@@ -3,12 +3,13 @@ import { EventData, EventDataSimple } from './EventData';
 
 export const eventApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://ziwg.toadres.pl/api/',
+    baseUrl: '/api/Event/',
   }),
+  reducerPath: 'eventApi',
   tagTypes: ['Event'],
   endpoints: (build) => ({
     getEvents: build.query<EventDataSimple[], void>({
-      query: () => 'Event',
+      query: () => '',
       providesTags: (result, error, arg) =>
         result
           ? [...result.map(({ EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
@@ -16,7 +17,7 @@ export const eventApi = createApi({
     }),
     getUserEvents: build.query<EventDataSimple[], { Location: string; MonthId: string, UserId: string }>({
       query: (arg) => ({
-        url: 'Event',
+        url: '',
         params: arg,
       }),
       providesTags: (result, error, arg) =>
@@ -27,22 +28,22 @@ export const eventApi = createApi({
     getEvent: build.query<EventData, string>({
       query: (name) => `Event/${name}`,
     }),
-    addEvent: build.mutation<EventData, Omit<EventData, 'EventId'>>({
+    addEvent: build.mutation<null, Omit<EventData, 'OrganizerName' | 'OrganizerImage' | 'EventId'>>({
       query: (body) => ({
-        url: 'Event/add',
+        url: 'add',
         method: 'POST',
         body,
       }),
       invalidatesTags: ['Event'],
     }),
-    editPost: build.mutation<EventData, Partial<EventData> & Pick<EventData, 'EventId'>>({
-      query: (body) => ({
-        url: `Event/${body.EventId}`,
-        method: 'PATCH',
-        body,
-      }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Event', id: arg.EventId }],
-    }),
+    // editPost: build.mutation<EventData, Partial<EventData> & Pick<EventData, 'EventId'>>({
+    //   query: (body) => ({
+    //     url: `${body.EventId}`,
+    //     method: 'PATCH',
+    //     body,
+    //   }),
+    //   invalidatesTags: (result, error, arg) => [{ type: 'Event', id: arg.EventId }],
+    // }),
   }),
 })
-export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation, useEditPostMutation } = eventApi;
+export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation } = eventApi;

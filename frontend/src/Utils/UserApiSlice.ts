@@ -24,6 +24,7 @@ export const userApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: '/api/User/',
     }),
+    reducerPath: 'userApi',
     tagTypes: ['Event', 'User'],
     endpoints: (build) => ({
         login: build.mutation<null, LoginData>({

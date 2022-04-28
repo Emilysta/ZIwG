@@ -4,6 +4,7 @@ import './EventsPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
 import { SearchField } from 'Components/SearchField';
+import { useGetEventsQuery } from 'Utils/EventAPISlice';
 
 const mockWordList = [
     "Amet",
@@ -29,31 +30,34 @@ const mockWordList = [
 
 export default function EventsPage() {
     const [popupOpened, openPopup] = React.useState(false);
-
-    const events = [...new Array(11)].map((e, i) => <EventTile key={i} />);
+    const { data, error, isLoading } = useGetEventsQuery();
+    //const events = data.map((e, i) => <EventTile key={i} data={e} />);
     const onSearch = (search: string) => alert(search)
     const tagChosen = (value: string, id: number) => alert(value + " id: " + id)
 
-    return (
-        <>
-            <div className='wholePageLayout navbarMargin'>
-                <div className='eventsPage'>
-                    <div className='eventsNav'>
-                        <div>
-                            <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+    if (isLoading)
+        return (<> <p> Loading </p></>);
+    else
+        return (
+            <>
+                <div className='wholePageLayout navbarMargin'>
+                    <div className='eventsPage'>
+                        <div className='eventsNav'>
+                            <div>
+                                <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+                            </div>
+                            <div>
+                                <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                            </div>
                         </div>
-                        <div>
-                            <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                        <div className='eventList'>
+                            {data.map((e, i) => <EventTile key={i} data={e} />)}
+                            <input type='button' value="open popup" onClick={() => openPopup(true)} />
                         </div>
-                    </div>
-                    <div className='eventList'>
-                        {events}
-                        <input type='button' value="open popup" onClick={() => openPopup(true)} />
                     </div>
                 </div>
-            </div>
 
-            <GaleryPopup open={popupOpened} onClose={() => openPopup(false)} />
-        </>
-    )
+                <GaleryPopup open={popupOpened} onClose={() => openPopup(false)} />
+            </>
+        )
 }

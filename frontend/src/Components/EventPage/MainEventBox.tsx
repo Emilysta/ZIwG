@@ -13,13 +13,13 @@ import { EventData } from 'Utils/EventData';
 type MainEventBoxProps = {
     className?: string,
     isReadOnly?: boolean,
-    values: EventData,
+    values: Partial<EventData>,
     onValuesChange?: (id: string, value: any) => void,
     loading?: boolean,
 }
 
 export default function MainEventBox(props: MainEventBoxProps) {
-    const [values, setValues] = useState<EventData>(props.values);
+    const [values, setValues] = useState<Partial<EventData>>(props.values);
     const [popupOpened, setPopupOpened] = useState(false);
 
     const handleInputChange = (inputId: string, value: string) => {
