@@ -5,6 +5,9 @@ import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import './EventPage.scss';
 import { useGetEventQuery } from 'Utils/EventAPISlice';
+import Dropdown from 'Components/Dropdown';
+import LeafletMap from 'Components/LeafletMap';
+import 'leaflet/dist/leaflet.css';
 
 export default function EventPage() {
     const { id } = useParams();
@@ -18,6 +21,10 @@ export default function EventPage() {
         return (
             <div className='eventPage'>
                 <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={true} />
+                <div className='sideBox'>
+                    <Dropdown />
+                    <LeafletMap />
+                </div>
                 {/* 
                 <div className='sideBox'>
                     <div className='togglesBox'>
