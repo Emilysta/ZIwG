@@ -48,3 +48,9 @@
     justify-content: flex-end;
     column-gap: 10px;
 }
+
+.errorText {
+    align-self: center;
+    text-align: center;
+    grid-column: span 2;
+}

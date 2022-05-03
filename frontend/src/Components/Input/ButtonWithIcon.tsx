@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import ZiwgSkeleton from 'Utils/Skeletons';
 import './ButtonWithIcon.scss';
 
 type ButtonWithIconProps = {
@@ -10,6 +11,7 @@ type ButtonWithIconProps = {
     link?: string,
     replaceLink?: boolean,
     onClickAction?: () => void,
+    isLoading?: boolean,
 }
 
 export enum ButtonStyle {
@@ -31,7 +33,10 @@ export default function ButtonWithIcon(props: ButtonWithIconProps) {
             props.onClickAction();
     }
 
-    if (props.link) {
+    if (props.isLoading) {
+        return (<div className={'buttonBox'} ><ZiwgSkeleton width={150} /></div>)
+    }
+    else if (props.link) {
         return (
             <Link to={props.link} className={getClass()} replace={props.replaceLink}>
                 <div className='buttonElement'>{icon}</div>

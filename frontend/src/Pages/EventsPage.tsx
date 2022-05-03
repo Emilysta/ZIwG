@@ -51,7 +51,7 @@ export default function EventsPage() {
                         </div>
                     </div>
                     <div className='eventList'>
-                        <EventTile isLoading={false} />
+                        <EventTile isLoading={false} data={{EventId:'1',EventName:'', StartDate:new Date(), EndDate:new Date(), MainImage:'',OrganizerName:'', OrganizerImage:''}}/>
                         {[...Array(10)].map((x, i) => <EventTile key={i} isLoading={true} />)}
                         <input type='button' value="open popup" onClick={() => openPopup(true)} />
                     </div>

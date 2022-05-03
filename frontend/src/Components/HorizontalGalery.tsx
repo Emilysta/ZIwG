@@ -11,8 +11,6 @@ type HorizontalGaleryProps = {
 export function HorizontalGalery(props: HorizontalGaleryProps) {
     const [selected, setSelected]: [string, any] = React.useState(null)
 
-    console.log("Horizontal gallery render with " + props.images.length)
-
     const getImageClass = (src: string) => src === selected ? "selected" : ""
     const choose = (e: React.MouseEvent<HTMLDivElement>, img: string) => setSelected(img)
 

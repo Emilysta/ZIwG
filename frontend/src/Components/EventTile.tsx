@@ -46,7 +46,7 @@ export default function EventTile(props: EventTileProps) {
                 </div>}
                 <div>
                     {props.isLoading && <ZiwgSkeleton />}
-                    {!props.isLoading && <LinkButton to='' />}
+                    {!props.isLoading && <LinkButton to={`${props.data.EventId}`} />}
                 </div>
             </div>
         </div>
