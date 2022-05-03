@@ -8,9 +8,9 @@ import { store } from 'Utils/Store'
 
 ReactDOM.render(
   <Provider store={store}>
-  <div className='theme-light'>
-    <App />
-  </div>,
+    <div className='theme-light'>
+      <App />
+    </div>,
   </Provider>,
   document.getElementById('root')
 );

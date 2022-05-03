@@ -17,7 +17,7 @@ export default function Tag(props: TagProps) {
     }
     return (
         <div className='tagBox'>
-            {props.text}
+            <p>{props.text}</p>
             {props.isCloseable && <XCircleFill className='tagClose' onClick={onTagClose} />}
         </div>
     )

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import ZiwgSkeleton from 'Utils/Skeletons';
 import './SimpleEditableInput.scss'
 
 type SimpleEditableInputProps = {
@@ -41,7 +41,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
         }
     }
     if (props.loading)
-        return (<div className='simpleInputBox'><Skeleton containerClassName='my' /></div>)
+        return (<div className='simpleInputBox'><ZiwgSkeleton /></div>)
     else
         return (
             <div className='simpleInputBox'>

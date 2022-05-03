@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Square, CheckSquareFill } from 'react-bootstrap-icons';
-import Skeleton from 'react-loading-skeleton';
+import ZiwgSkeleton from 'Utils/Skeletons';
 import './ToggleButtonWithText.scss';
 
 type ToggleButtonWithTextProps = {
@@ -27,11 +27,11 @@ export default function ToggleButtonWithText(props: ToggleButtonWithTextProps) {
     return (
         <div className='toggleWrap'>
             <div className='icon toggleElement' onClick={toggleStateChanged}>
-                {props.loading && <Skeleton containerClassName='my' width={25} />}
+                {props.loading && <ZiwgSkeleton width={25} />}
                 {!props.loading && isToggled && <CheckSquareFill className="" />}
                 {!props.loading && !isToggled && <Square />}
             </div>
-            {props.loading && <Skeleton containerClassName='my toggleElement' width={100} height={20} />}
+            {props.loading && <ZiwgSkeleton containerClassName='toggleElement' width={100} height={20} />}
             {!props.loading && <p className='toggleElement'>{props.fieldDesc}</p>}
         </div>
     )

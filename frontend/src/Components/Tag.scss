@@ -9,10 +9,18 @@
     padding: 5px 15px;
     border-radius: 5px;
     font-weight: 200;
+    min-width: 70px;
+    max-width: 250px;
 
     @include customize() {
         background-color: getValue(main-color);
     }
+}
+
+.tagBox p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
 .tagClose {
