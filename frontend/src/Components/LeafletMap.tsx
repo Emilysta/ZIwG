@@ -2,49 +2,63 @@ import * as React from "react";
 import L from "leaflet";
 import { useEffect } from "react";
 import './LeafletMap.scss';
-import { GeoAlt } from "react-bootstrap-icons";
+import 'leaflet/dist/leaflet.css';
 
-export default function LeafletMap() {
-    // const mapStyles = {
-    //     overflow: "hidden",
-    //     width: "100%",
-    //     height: "100vh"
-    // };
+export type LeafletMapProps = {
+    currentPoint?: { lat: number, lng: number },
+    isReadOnly?: boolean,
+    mapID: string,
+    zoom?: number,
+    maxZoom?: number,
+}
+
+export default function LeafletMap(props: LeafletMapProps) {
+    const [currentPoint, setCurrentPoint] = React.useState(props.currentPoint);
 
     const mapParams = {
-        center: [51.5, -0.09],
-        zoom: 17,
-        zoomControl: false,
-        maxBounds: L.latLngBounds(L.latLng(-150, -240), L.latLng(150, 240)),
+        center: currentPoint,
+        zoom: props.zoom ? props.zoom : 17,
+        zoomControl: true,
+        //maxBounds: L.latLngBounds(L.latLng(-150, -240), L.latLng(150, 240)),
+        dragging: true,
+        boxZoom: true,
+    };
+
+
+    const readonlyProperties = {
         dragging: false,
         boxZoom: false,
         touchZoom: false,
-        doubleClickZomm: false,
+        doubleClickZoom: false,
         scrollWheelZoom: false,
         keyboard: false,
-    };
+        zoomControl: false,
+    }
 
     var myIcon = L.icon({
-        iconUrl: '/images/logo192.png',
-        iconSize: [40, 40],
-        iconAnchor: [20, 94],
-        popupAnchor: [-3, -76],
+        iconUrl: '/images/map-pin.png',
+        iconSize: [31, 41],
+        iconAnchor: [16, 35],
+        popupAnchor: [0, -35],
         shadowAnchor: [22, 94]
     });
 
     useEffect(() => {
-        const map = L.map("map", mapParams);
+        let map: any;
+        if (props.isReadOnly)
+            map = L.map(props.mapID, { ...mapParams, ...readonlyProperties });
+        else
+            map = L.map(props.mapID, mapParams);
         L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 19,
+            maxZoom: props.maxZoom ? props.maxZoom : 19,
         }).addTo(map);
-        L.marker([51.5, -0.09], { icon: myIcon }).addTo(map);
+        L.marker(L.latLng(currentPoint), { icon: myIcon }).addTo(map)
+            .bindPopup('Tu będzie text z nominatim').openPopup();
     }, []);
 
 
     return (
-        <div className="customLeafletMapBox">
-            <div id="map" />
-        </div>
+        <div id={props.mapID} />
     )
 }

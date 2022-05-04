@@ -1,7 +1,9 @@
-.customLeafletMapBox {
-    flex-grow: 1;
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
 }
 
-.leaflet-container {
-    height: 100%
+.leaflet-container div {
+    z-index: 1;
 }
