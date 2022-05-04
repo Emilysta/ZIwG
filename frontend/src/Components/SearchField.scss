@@ -1,0 +1,75 @@
+@use 'lib'as *;
+
+.searchField {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 6px 12px;
+    border-radius: 8px;
+
+    @include customize() {
+        background-color: #C4C4C433;
+        color: getValue(main-color);
+    }
+}
+
+.searchField * {
+    margin: auto;
+    vertical-align: middle;
+}
+
+.searchField input[type="text"],
+.searchField input[type="text"]:hover,
+.searchField input[type="text"]:focus-visible {
+    height: auto;
+    min-height: auto;
+    padding: 0;
+    background: none;
+    font-size: 16px;
+    border: none;
+    outline: none !important;
+}
+
+.searchField img,
+.searchField svg {
+    height: 20px;
+    width: 20px;
+}
+
+.searchField .expandable {
+    position: absolute;
+    top: calc(100% - 2px);
+    left: 4px;
+    right: 4px;
+    padding: 2px 4px;
+
+    @include customize() {
+        background-color: #fff;
+        color: getValue(main-color);
+        box-shadow: 0 0 2px 0 #fff;
+    }
+}
+
+.eventPageSearchSuggestions {
+    display: block;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+}
+
+.eventPageSearchSuggestions li {}
+
+.eventPageSearchSuggestions li:hover {
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+.eventPageSearchSuggestions li * {
+    display: inline;
+    vertical-align: baseline;
+    font-weight: 300;
+}
+
+.eventPageSearchSuggestions li b {
+    font-weight: 600;
+}

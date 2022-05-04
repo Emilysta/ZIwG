@@ -5,28 +5,43 @@ import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import * as React from 'react';
 import { useState } from 'react';
 import { XLg, PlusLg } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
+import { eventApi } from 'Utils/EventAPISlice';
 import { EventData } from 'Utils/EventData';
 import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
-    const [values, setValues] = useState<EventData>(
+    const navigate = useNavigate();
+    const [values, setValues] = useState<Omit<EventData, 'OrganizerName' | 'OrganizerImage' | 'EventId'>>(
         {
-            EventName: "Event name",
-            Description: "",
+            EventName: 'Event name',
+            Description: '',
             StartDate: new Date(),
             EndDate: new Date(),
             Tags: [],
             IsPublicEvent: true,
             IsPaidTicket: false,
-            IsTicketLimit: false,
             TicketPrice: '',
+            IsTicketLimit: false,
             TicketCount: '',
             Images: [],
-        });
+            MainImage: '',
+            Localization: '',
+        }
+    );
 
-    
-    function addEvent() {
+    const [addEventRequest, addEventResult] = eventApi.useAddEventMutation();
+
+    async function addEvent() {
         console.log("added event");
+        try {
+            await addEventRequest(values).unwrap();
+            navigate('/user/userEvents', { replace: true });
+        }
+        catch (error) {
+            console.log('rejected', error);
+            alert('error while sending');
+        }
         console.log(values);
     }
 
@@ -63,7 +78,7 @@ export default function UserAddEventPage() {
 
                 <div className="finishAddingButtonBox">
                     <ButtonWithIcon text="Cancel" isActive={true} icon={<XLg fill='white' />} style={ButtonStyle.Border} link='/user/userEvents' replaceLink={true} />
-                    <ButtonWithIcon text="Create event" isActive={true} icon={<PlusLg fill='white' />} style={ButtonStyle.Filled} onClickAction={addEvent} replaceLink={true} link='/user/userEvents' />
+                    <ButtonWithIcon text="Create event" isActive={true} icon={<PlusLg fill='white' />} style={ButtonStyle.Filled} onClickAction={addEvent} />
                 </div>
             </div>
         </div>

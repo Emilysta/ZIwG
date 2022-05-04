@@ -1,0 +1,46 @@
+@use '_lib'as *;
+
+.dropdown {
+    display: block;
+}
+
+.textBox {
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    outline: none;
+    border-width: 0px;
+    padding-left: 5px;
+}
+
+.content {
+    width: fit-content;
+    height: fit-content;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    border-width: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+
+
+.option {
+    padding: 5px 10px;
+    // border-radius: 5px;
+    // @include customize {
+    //     background-color: getValue(main-lighter-color);
+    // }
+}
+
+.option p {
+    padding: 0;
+    margin: 0;
+}
+
+
+.option:hover {
+    @include customize {
+        background-color: getValue(main-lighter-color);
+    }
+}

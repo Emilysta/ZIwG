@@ -13,13 +13,13 @@ import { EventData } from 'Utils/EventData';
 type MainEventBoxProps = {
     className?: string,
     isReadOnly?: boolean,
-    values: EventData,
+    values: Partial<EventData>,
     onValuesChange?: (id: string, value: any) => void,
-    loading?: boolean,
+    isLoading?: boolean,
 }
 
 export default function MainEventBox(props: MainEventBoxProps) {
-    const [values, setValues] = useState<EventData>(props.values);
+    const [values, setValues] = useState<Partial<EventData>>(props.values);
     const [popupOpened, setPopupOpened] = useState(false);
 
     const handleInputChange = (inputId: string, value: string) => {
@@ -65,25 +65,25 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
             <GaleryPopup images={values.Images} open={popupOpened} onClose={onGalleryPopupClose} />
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} />
+                <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
                 <div>
                     <p className='descText'>Tags</p>
-                    <TagList tags={values.Tags} isReadOnly={props.isReadOnly} />
+                    <TagList isLoading={props.isLoading} tags={values.Tags} isReadOnly={props.isReadOnly} />
                 </div>
 
                 <div>
                     <p className='descText'>Location</p>
-                    <p className='sizedText'> location</p>
-                    {/* <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} /> */}
+                    {/* <p className='sizedText'> location</p> */}
+                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} />
                 </div>
 
                 <div>
                     <p className='descText'>Start date - end date</p>
-                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={values.StartDate} endDate={values.EndDate} />
+                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={values.StartDate} endDate={values.EndDate} isLoading={props.isLoading} />
                 </div>
 
-                <SimpleEditableInput defaultValue={values.Description === '' ? 'No description' : values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} />
+                <SimpleEditableInput defaultValue={values.Description === '' ? 'No description' : values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import ZiwgSkeleton from 'Utils/Skeletons';
 import './SimpleEditableInput.scss'
 
 type SimpleEditableInputProps = {
@@ -17,7 +17,7 @@ type SimpleEditableInputProps = {
     onChangeAction?: (id: string, value: string) => void,
     validationAction?: (value: string) => string,
     onKeyDownAction?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void,
-    loading?: boolean,
+    isLoading?: boolean,
 }
 export default function SimpleEditableInput(props: SimpleEditableInputProps) {
     const [validationText, setValidationText] = React.useState("");
@@ -40,8 +40,8 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
             textAreaRef.current.value = "";
         }
     }
-    if (props.loading)
-        return (<div className='simpleInputBox'><Skeleton containerClassName='my' /></div>)
+    if (props.isLoading)
+        return (<div className='simpleInputBox'>{props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}<ZiwgSkeleton count={props.rows}/></div>)
     else
         return (
             <div className='simpleInputBox'>

@@ -139,7 +139,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="eventId"></param> 
         /// <response code="204">Success, user added</response>
-        /// <response code="400">Wrong EventID or no logged user</response> 
+        /// <response code="400">Wrong EventID or no logged user or no empty slots</response> 
         [HttpPost]
         [Route("sign/{eventId}")]
         [AllowAnonymous]
@@ -173,7 +173,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="carpoolId"></param> 
         /// <response code="204">Success, user added</response>
-        /// <response code="400">Wrong EventID or no logged user</response> 
+        /// <response code="400">Wrong EventID or no logged user or no empty slots</response> 
         [HttpPost]
         [Route("joinRide/{carpoolId}")]
         [AllowAnonymous]

@@ -1,0 +1,102 @@
+@use 'lib'as *;
+
+.eventTile {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    padding: 20px;
+    background-color: #EFEFEF;
+    border-radius: 18px;
+    height: 100%;
+}
+
+.imageCon {
+    min-height: 100px;
+    max-height: 160px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 2px 6px 14px -8px #000;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.organizer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    max-height: 40px;
+
+}
+
+.organizer .img {
+    max-height: 40px;
+    max-width: 40px;
+    border-radius: 12px;
+}
+
+.organizer .text {
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.details {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details .detailsDate {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.detailsDate p {
+    margin: 0;
+    padding: 0;
+}
+
+.details a[href] {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 32px;
+    border-radius: 8px;
+
+    @include customize {
+        background-color: #FFFFFF;
+        border: 2px solid #808080;
+    }
+}
+
+.details a[href]:hover {
+    @include customize {
+        background-color: #EFEFEF;
+        border: 2px solid #808080;
+        box-shadow: 0px 0px 6px 0px #808080;
+    }
+}
+
+.details a[href] * {
+    height: 24px;
+    width: 100%;
+}
+
+.details strong {
+    font-weight: 600;
+}

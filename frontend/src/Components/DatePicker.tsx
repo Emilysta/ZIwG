@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import ZiwgSkeleton from 'Utils/Skeletons';
 import "./DatePicker.scss";
 
 
@@ -11,6 +12,7 @@ type EventDatePickerProps = {
     onDateChange?: (value: [Date, Date]) => void,
     startDate: Date,
     endDate: Date,
+    isLoading?: boolean,
 }
 
 export default function EventDatePicker(props: EventDatePickerProps) {
@@ -35,7 +37,11 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (props.onDateChange)
             props.onDateChange([startDate, endDate]);
     }
-    if (props.isReadOnly) {
+
+    if (props.isLoading) {
+        return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
+    }
+    else if (props.isReadOnly) {
         if (startDate === null)
             return (<p className='noPaddingMargin'>No date selected</p>)
         else

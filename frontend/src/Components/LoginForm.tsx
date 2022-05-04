@@ -2,32 +2,29 @@ import * as React from "react";
 import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
-import { Link } from 'react-router-dom';
-import { postJson } from "Utils/FetchUtils";
+import { Link, useNavigate } from 'react-router-dom';
+import { userApi } from "Utils/UserApiSlice";
+import { useAppDispatch } from "Utils/Store";
+import { login } from "Utils/UserSlice";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [loginRequest, loginResult] = userApi.useLoginMutation();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("submit");
-
-    window.location.href = '/user'
-    return; // todo disabled login request
-
-    postJson("api/user/login", {
-      email: email,
-      password: password,
-    }).then((data) => {
-      console.log(data)
-      if (data.ok) {
-      }
-      else {
-      }
-    }).catch((reason) => {
-      console.log(reason)
-    })
+    await loginRequest({ email: email, password: password }).unwrap()
+      .then(data => {
+        console.log(loginResult.data);
+        dispatch(login());
+        navigate('/user', { replace: true });
+      })
+      .catch(err => console.error(err));
   }
 
   const minimalLength = 0;
