@@ -6,8 +6,6 @@ import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import './EventPage.scss';
 import { useGetEventQuery } from 'Utils/EventAPISlice';
 import Dropdown from 'Components/Dropdown';
-import LeafletMap from 'Components/LeafletMap';
-import 'leaflet/dist/leaflet.css';
 import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
 
 export default function EventPage() {
@@ -24,7 +22,7 @@ export default function EventPage() {
                 <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={true} />
                 <div className='sideBox'>
                     <Dropdown />
-                    <LeafletBoxWithPopup currentPoint={{ lat: 51.5, lng: -0.11 }} isReadOnly />
+                    <LeafletBoxWithPopup mapID='mapEvent' currentPoint={{ lat: 51.5, lng: -0.11 }} isReadOnly />
                 </div>
                 {/* 
                 <div className='sideBox'>

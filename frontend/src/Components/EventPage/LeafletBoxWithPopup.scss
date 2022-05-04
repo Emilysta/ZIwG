@@ -29,3 +29,17 @@
     align-items: center;
     justify-content: center;
 }
+
+.leafletMapPopupWrapper {
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 5px;
+    border-style: none;
+    border-width: 1px;
+    height: 400px;
+}
+
+.leafletMapPopupText {
+    text-align: center;
+    margin: 0px;
+}

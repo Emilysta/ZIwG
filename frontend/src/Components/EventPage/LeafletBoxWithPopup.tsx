@@ -15,10 +15,13 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
 
     return (
         <div className='leafletMapBox'>
-            <div className='leafletMapWrapper'><LeafletMap currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} /></div>
+            <div className='leafletMapWrapper'><LeafletMap mapID={props.mapID} currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} /></div>
             <div className='leafletButton'><ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} /></div>
             <Popup open={isModalOpen} onClose={(state) => setModalOpen(false)}>
-                {/* <LeafletMap currentPoint={props.currentPoint} isReadOnly={false} /> */}
+                <h1 className='leafletMapPopupText'>Map</h1>
+                <div className='leafletMapPopupWrapper'>
+                    <LeafletMap mapID='mapEventPopup' currentPoint={props.currentPoint} maxZoom={25} zoom={17} />
+                </div>
             </Popup>
         </div>
     )

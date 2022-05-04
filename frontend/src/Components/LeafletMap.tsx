@@ -2,10 +2,14 @@ import * as React from "react";
 import L from "leaflet";
 import { useEffect } from "react";
 import './LeafletMap.scss';
+import 'leaflet/dist/leaflet.css';
 
 export type LeafletMapProps = {
     currentPoint?: { lat: number, lng: number },
     isReadOnly?: boolean,
+    mapID: string,
+    zoom?: number,
+    maxZoom?: number,
 }
 
 export default function LeafletMap(props: LeafletMapProps) {
@@ -13,9 +17,11 @@ export default function LeafletMap(props: LeafletMapProps) {
 
     const mapParams = {
         center: currentPoint,
-        zoom: 17,
-        zoomControl: false,
+        zoom: props.zoom ? props.zoom : 17,
+        zoomControl: true,
         //maxBounds: L.latLngBounds(L.latLng(-150, -240), L.latLng(150, 240)),
+        dragging: true,
+        boxZoom: true,
     };
 
 
@@ -26,31 +32,33 @@ export default function LeafletMap(props: LeafletMapProps) {
         doubleClickZoom: false,
         scrollWheelZoom: false,
         keyboard: false,
+        zoomControl: false,
     }
 
     var myIcon = L.icon({
-        iconUrl: '/images/logo192.png',
-        iconSize: [40, 40],
-        //iconAnchor: [20, 94],
-        popupAnchor: [-3, -76],
+        iconUrl: '/images/map-pin.png',
+        iconSize: [31, 41],
+        iconAnchor: [16, 35],
+        popupAnchor: [0, -35],
         shadowAnchor: [22, 94]
     });
 
     useEffect(() => {
         let map: any;
         if (props.isReadOnly)
-            map = L.map("map", { ...mapParams, ...readonlyProperties });
+            map = L.map(props.mapID, { ...mapParams, ...readonlyProperties });
         else
-            map = L.map("map", mapParams);
+            map = L.map(props.mapID, mapParams);
         L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 19,
+            maxZoom: props.maxZoom ? props.maxZoom : 19,
         }).addTo(map);
-        L.marker(L.latLng(currentPoint), { icon: myIcon }).addTo(map);
+        L.marker(L.latLng(currentPoint), { icon: myIcon }).addTo(map)
+            .bindPopup('Tu będzie text z nominatim').openPopup();
     }, []);
 
 
     return (
-        <div id="map" />
+        <div id={props.mapID} />
     )
 }
