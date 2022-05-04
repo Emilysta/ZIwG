@@ -39,7 +39,7 @@ export default function ButtonWithIcon(props: ButtonWithIconProps) {
     else if (props.link) {
         return (
             <Link to={props.link} className={getClass()} replace={props.replaceLink}>
-                <div className='buttonElement'>{icon}</div>
+                {icon && <div className='buttonElement'>{icon}</div>}
                 <div className='buttonElement'>{props.text} </div>
             </Link>
         )
@@ -47,7 +47,7 @@ export default function ButtonWithIcon(props: ButtonWithIconProps) {
     else {
         return (
             <div className={getClass()} onClick={onClick}>
-                <div className='buttonElement'>{icon}</div>
+                {icon && <div className='buttonElement'>{icon}</div>}
                 <div className='buttonElement'>{props.text} </div>
             </div>
         )

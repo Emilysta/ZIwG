@@ -26,12 +26,13 @@
 }
 
 .sideBox {
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     margin: 20px;
     grid-column: 2;
     display: flex;
+    row-gap: 10px;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .togglesBox {
