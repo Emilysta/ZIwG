@@ -25,7 +25,7 @@ namespace Infrastructure.Services
         }
         public async Task<bool> AddEvent(CreateCarpoolDTO carpool)
         {
-            Carpool carpoolToAdd = new Carpool();
+            Carpool carpoolToAdd = new();
             carpoolToAdd = _mapper.Map(carpool, carpoolToAdd);
             carpoolToAdd.DriverId = _carpoolUsersService.GetCurrentUser().Id;
             if (carpoolToAdd == null)

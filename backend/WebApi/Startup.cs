@@ -59,14 +59,11 @@ namespace ziwg
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            
 
             services.AddDbContext<DataBaseContext>(options =>
             {
-                if (Environment.IsDevelopment())
-                    options.UseSqlServer(Configuration["Connectionstrings:DefaultConnection"]);
-                else
-                    options.UseMySQL(Configuration["MySQL"]);
+                var connectionString = Configuration["MySQLConnection"];
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
             services.AddIdentity<User, IdentityRole>()

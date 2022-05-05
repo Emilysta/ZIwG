@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace Domain.Contexts
 {
     public class DataBaseContext : IdentityDbContext
