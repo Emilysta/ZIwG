@@ -11,6 +11,7 @@ import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
 export default function EventPage() {
     const { id } = useParams();
     const { data, error, isLoading } = useGetEventQuery(id);
+
     if (error)
         return <div className='eventPage'>
             <h2 className='errorText'>
@@ -19,6 +20,7 @@ export default function EventPage() {
     else
         return (
             <div className='eventPage'>
+
                 <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={true} />
                 <div className='sideBox'>
                     <Dropdown items={[{ text: 'item 1' }, { text: 'item 2' }, { text: 'item 3' }]} initialSelected={-1} initialState={false} />

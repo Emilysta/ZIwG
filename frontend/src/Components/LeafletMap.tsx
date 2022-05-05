@@ -3,6 +3,7 @@ import L from "leaflet";
 import { useEffect } from "react";
 import './LeafletMap.scss';
 import 'leaflet/dist/leaflet.css';
+import { useNavigate } from "react-router-dom";
 
 export type LeafletMapProps = {
     currentPoint?: { lat: number, lng: number },
@@ -13,7 +14,7 @@ export type LeafletMapProps = {
 }
 
 export default function LeafletMap(props: LeafletMapProps) {
-    const [currentPoint, setCurrentPoint] = React.useState(props.currentPoint);
+    const [currentPoint, setCurrentPoint] = React.useState(props.currentPoint? props.currentPoint : [51.5,-0.11]);
 
     const mapParams = {
         center: currentPoint,
@@ -44,6 +45,10 @@ export default function LeafletMap(props: LeafletMapProps) {
     });
 
     useEffect(() => {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Latitude is :", position.coords.latitude);
+            console.log("Longitude is :", position.coords.longitude);
+        });
         let map: any;
         if (props.isReadOnly)
             map = L.map(props.mapID, { ...mapParams, ...readonlyProperties });

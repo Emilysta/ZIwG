@@ -9,6 +9,9 @@ import { PinMapFill } from 'react-bootstrap-icons';
 import EventDatePicker from 'Components/DatePicker';
 import { GaleryPopup } from 'Components/GaleryPopup';
 import { EventData } from 'Utils/EventData';
+import LocationPicker from 'Components/LocationPicker';
+import Popup from 'Components/Popup';
+import { useModal } from 'Utils/Hooks';
 
 type MainEventBoxProps = {
     className?: string,
@@ -21,6 +24,7 @@ type MainEventBoxProps = {
 export default function MainEventBox(props: MainEventBoxProps) {
     const [values, setValues] = useState<Partial<EventData>>(props.values);
     const [popupOpened, setPopupOpened] = useState(false);
+    const [isPopupOpen, setPopupOpen, togglePopup] = useModal(true);
 
     const handleInputChange = (inputId: string, value: string) => {
         setValues({ ...values, [inputId]: value });
@@ -64,6 +68,10 @@ export default function MainEventBox(props: MainEventBoxProps) {
             </div>
 
             <GaleryPopup images={values.Images} open={popupOpened} onClose={onGalleryPopupClose} />
+
+            <Popup open={isPopupOpen} onClose={(state) => togglePopup()}>
+                <LocationPicker />
+            </Popup>
             <div className='inputEventStack'>
                 <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
@@ -75,7 +83,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 <div>
                     <p className='descText'>Location</p>
                     {/* <p className='sizedText'> location</p> */}
-                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} />
+                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />
                 </div>
 
                 <div>
