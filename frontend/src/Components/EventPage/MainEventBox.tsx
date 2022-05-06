@@ -86,8 +86,8 @@ export default function MainEventBox(props: MainEventBoxProps) {
                     <TagList isLoading={props.isLoading} tags={values.Tags} isReadOnly={props.isReadOnly} />
                 </div>
 
-                <div>
-                    <SimpleEditableInput defaultValue={values.Localization === '' ? 'No description' : values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Localization"} inputClassName='localizationInput' maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <div className='localizationInputBox'>
+                    <SimpleEditableInput defaultValue={values.Localization === '' ? 'no localization' : values.Description} id={"Localization"} onChangeAction={handleInputChange} inputDescription={"Localization"} inputClassName='localizationInput' maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
                     {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
                 </div>
 

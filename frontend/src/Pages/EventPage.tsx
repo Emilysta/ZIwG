@@ -7,6 +7,7 @@ import './EventPage.scss';
 import { useGetEventQuery } from 'Utils/EventAPISlice';
 import Dropdown from 'Components/Dropdown';
 import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
+import { StarFill, X } from 'react-bootstrap-icons';
 
 export default function EventPage() {
     const { id } = useParams();
@@ -21,9 +22,9 @@ export default function EventPage() {
     else
         return (
             <div className='eventPage'>
-                <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={false} isLoading={tempIsLoading} />
+                <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={tempIsLoading} />
                 <div className='sideBox'>
-                    <Dropdown items={[{ text: 'item 1' }, { text: 'item 2' }, { text: 'item 3' }]} initialSelected={-1} initialState={false} isLoading={tempIsLoading} />
+                    <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Interested', icon: '' }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={tempIsLoading} />
                     <LeafletBoxWithPopup mapID='mapEvent' currentPoint={{ lat: 51.5, lng: -0.11 }} isReadOnly isLoading={tempIsLoading} />
                 </div>
             </div>
