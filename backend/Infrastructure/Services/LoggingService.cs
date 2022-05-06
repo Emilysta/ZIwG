@@ -58,6 +58,12 @@ namespace Infrastructure.Services
             return false;
         }
 
+        public async Task<bool> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return true;
+        }
+
         public AuthenticationProperties LoginWithGoogle(string redirectUrl)
         {
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
