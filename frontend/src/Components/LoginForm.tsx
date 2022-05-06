@@ -19,6 +19,7 @@ export function LoginForm() {
   const dispatch = useAppDispatch();
 
   const [loginRequest, loginResult] = userApi.useLoginMutation();
+  const [googleLoginRequest, googleLoginResult] = userApi.useGoogleLoginMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,6 +41,16 @@ export function LoginForm() {
     ? ButtonStateEnum.Active
     : ButtonStateEnum.Inactive
 
+  const googleAuth = () => {
+    // bug CORS issue
+    googleLoginRequest({}).unwrap()
+      .then(data => {
+        console.log(data)
+        window.location.replace(data)
+      })
+      .catch(err => console.error(err))
+  }
+
   return <section className="LoginSection">
     <h1>Login</h1>
     <p>Welcome back! Login to access full functionality in EventColab.</p>
@@ -56,8 +67,6 @@ export function LoginForm() {
 
     <Divider text='Or' size={360} />
 
-    {/* todo https://ziwg.bieda.it/api/User/google-login */}
-    <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} />
-
+    <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} onClickAction={googleAuth} />
   </section >;
 }
