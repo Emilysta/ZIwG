@@ -3,18 +3,20 @@ import { Link } from 'react-router-dom';
 import './ButtonWithIcon.scss';
 
 type ButtonWithIconProps = {
-    icon?: any,
     text: string,
     isActive: boolean,
     link: string
+    icon?: React.ReactElement | string,
+    background?: boolean,
 }
 
 export default function ButtonWithIcon(props: ButtonWithIconProps) {
     const icon = props.icon;
+    const classes = `linkBox ${props.isActive ? "linkActive" : "linkIsntActive"} ${props.background && "background"}`;
     return (
-        <Link to={props.link} className={`linkBox ${props.isActive ? "linkActive" : "linkIsntActive"}`}>
-            <div className='linkElement'>{icon}</div>
-            <div className='linkElement'>{props.text} </div>
+        <Link to={props.link} className={classes}>
+            {icon}
+            <span>{props.text} </span>
         </Link>
     )
 }

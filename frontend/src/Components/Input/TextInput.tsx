@@ -30,7 +30,7 @@ export function TextInput(props: TextInputProps) {
   const renderInput = () => {
     return <div className="inputBox">
       <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} />
-      <p className="inputError">{error}</p>
+      {props.validate && <p className="inputError">{error}</p>}
     </div>
   }
 

@@ -4,6 +4,9 @@ import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
 import { Link } from 'react-router-dom';
 import { postJson } from "Utils/FetchUtils";
+import ButtonWithIcon from "./Input/ButtonWithIcon";
+import { Google } from "react-bootstrap-icons";
+import { Divider } from "./Divider";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
@@ -48,5 +51,11 @@ export function LoginForm() {
     </form>
 
     <p><Link to='/register' className='highlighted'>No account?</Link></p>
+
+    <Divider text='Or' size={360} />
+
+    {/* todo https://ziwg.bieda.it/api/User/google-login */}
+    <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} background={true} />
+
   </section >;
 }

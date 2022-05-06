@@ -7,8 +7,12 @@
     justify-content: center;
 }
 
-.LoginSection h1, .LoginSection p {
+.LoginSection>* {
     margin: auto;
+}
+
+.LoginSection h1,
+.LoginSection p {
     padding: auto;
 }
 
@@ -22,7 +26,7 @@
 }
 
 .LoginForm {
-    margin: 16px 0px;
+    margin: 16px 0px 0px 0px;
     display: flex;
     flex-direction: column;
     justify-content: center;

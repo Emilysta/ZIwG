@@ -1,12 +1,15 @@
+@use 'lib'as *;
+
 .linkBox {
     display: flex;
     width: fit-content;
+    border-radius: 30px;
 }
 
-.linkElement {
-    width: fit-content;
+.linkBox>* {
     display: inline;
     padding: 5px;
+    margin: auto;
 }
 
 .linkActive div {
@@ -16,4 +19,16 @@
 .linkIsntActive div {
     font-weight: 300;
     opacity: 0.5;
+}
+
+.linkBox.background {
+    @include customize {
+        border: 1px solid getValue(main-color);
+    }
+}
+
+.linkBox.background:hover {
+    @include customize {
+        background-color: getValue(main-lighter-color);
+    }
 }
