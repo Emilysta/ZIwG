@@ -1,7 +1,7 @@
 @use 'lib'as *;
 
-input[type="text"],
-input[type="password"] {
+.inputBox input[type="text"],
+.inputBox input[type="password"] {
   font-size: 12px;
   border: 0px;
   border-radius: 39px;
@@ -17,15 +17,15 @@ input[type="password"] {
   font-weight: 300;
 }
 
-input[type="text"]::placeholder,
-input[type="password"]::placeholder {
+.inputBox input[type="text"]::placeholder,
+.inputBox input[type="password"]::placeholder {
   @include customize() {
     color: getValue(main-color);
   }
 }
 
-input[type="text"]:focus-visible,
-input[type="password"]:focus-visible {
+.inputBox input[type="text"]:focus-visible,
+.inputBox input[type="password"]:focus-visible {
   @include customize() {
     outline: 1px groove getValue(main-color);
   }

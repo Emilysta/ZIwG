@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
+import ZiwgSkeleton from 'Utils/Skeletons';
 import './SimpleEditableInput.scss'
 
 type SimpleEditableInputProps = {
@@ -14,8 +15,9 @@ type SimpleEditableInputProps = {
     rows?: number,
     isClearOnEnter?: boolean,
     onChangeAction?: (id: string, value: string) => void,
-    validationAction?: () => string,
+    validationAction?: (value: string) => string,
     onKeyDownAction?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void,
+    isLoading?: boolean,
 }
 export default function SimpleEditableInput(props: SimpleEditableInputProps) {
     const [validationText, setValidationText] = React.useState("");
@@ -23,7 +25,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
 
     function onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         if (props.validationAction) {
-            setValidationText(props.validationAction());
+            setValidationText(props.validationAction(event.target.value));
         }
         if (props.onChangeAction) {
             props.onChangeAction(props.id, event.target.value);
@@ -38,17 +40,19 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
             textAreaRef.current.value = "";
         }
     }
+    if (props.isLoading)
+        return (<div className='simpleInputBox'>{props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}<ZiwgSkeleton count={props.rows}/></div>)
+    else
+        return (
+            <div className='simpleInputBox'>
+                {props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}
 
-    return (
-        <div className='simpleInputBox'>
-            {props.inputDescription !== null && <p className='simpleInputDesc'>{props.inputDescription}</p>}
+                <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef}
+                />
 
-            <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef}
-            />
-
-            {validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
-        </div>
-    )
+                {validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
+            </div>
+        )
 
 
 }

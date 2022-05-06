@@ -1,11 +1,30 @@
 @use '_lib'as *;
 
-.simpleInput {
+
+.datePickerBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.datePickerBox p {
+    margin: 0;
+    padding: 0;
+}
+
+.noPaddingMargin {
+    margin: 0;
+    padding: 0;
+    font-size: 20px !important;
+}
+
+.simplePickerInput {
     background-color: transparent;
-    font-size: xx-large;
+    font-size: 20px;
     width: 100%;
     margin: 0;
     padding: 0;
+    height: auto;
     border-width: 0 0 1px 0;
     border-style: solid;
     line-height: auto;
@@ -19,15 +38,15 @@
     }
 }
 
-.simpleInput:read-only {
+.simplePickerInput:read-only {
     border-bottom: 0;
 }
 
-.simpleInput:read-only:focus {
+.simplePickerInput:read-only:focus {
     outline: none;
 }
 
-.simpleInput:focus {
+.simplePickerInput:focus {
     outline: none;
     border-width: 0 0 2px 0;
 
@@ -36,32 +55,13 @@
     }
 }
 
-.simpleInput:required {}
 
-.simpleInputBox {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0px;
-}
+.calendar {
+    background-color: white;
+    border-width: 1px;
+    border-style: solid;
 
-.simpleInputError {
     @include customize() {
-        color: getValue(error-color);
+        border-color: getValue(light-greyish-color);
     }
-
-    font-size: 13px;
-    font-weight: 300;
-    margin: 0;
-    height: auto
-}
-
-.simpleInputDesc {
-    @include customize() {
-        color: getValue(light-greyish-color);
-    }
-
-    font-size: 13px;
-    font-weight: 300;
-    padding-left: 0px;
-    margin: 0;
 }

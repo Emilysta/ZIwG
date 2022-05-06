@@ -1,13 +1,12 @@
-$themes: (
-  light: (
-    main-color: #3D5A80,
+$themes: (light: (main-color: #3D5A80,
     second-main-color: #EE6C4D,
     main-lighter-color: #98C1D9,
     dark-greyish-color: #293241,
     light-greyish-color: #AFB6C1,
     error-color: #ff0000,
     backgroundColor: none,
-
+    skeleton-base-color: grey,
+    skeleton-highlight-color: #444,
   ),
   dark: ( //toDo define dark mode
     main-color: #3D5A80,
@@ -17,6 +16,8 @@ $themes: (
     light-greyish-color: #AFB6C1,
     error-color: #ff0000,
     backgroundColor: #202020,
+    skeleton-base-color: grey,
+    skeleton-highlight-color: #444,
   ),
 );
 
@@ -26,10 +27,13 @@ modified for our usage*/
   $array: $themes;
   $prefix: theme;
 
-  @each $theme, $map in $array {
+  @each $theme,
+  $map in $array {
     .#{$prefix}-#{$theme} & {
       $array-map: () !global;
-      @each $key, $submap in $map {
+
+      @each $key,
+      $submap in $map {
         $value: map-get(map-get($array, $theme), '#{$key}');
         $array-map: map-merge($array-map, ($key: $value)) !global;
       }

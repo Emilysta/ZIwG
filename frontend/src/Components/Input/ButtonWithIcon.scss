@@ -1,24 +1,55 @@
 @use 'lib'as *;
 
-.linkBox {
+.buttonBox {
     display: flex;
     width: fit-content;
-    border-radius: 30px;
 }
 
-.linkBox>* {
+.buttonBox>* {
     display: inline;
+    text-align: center;
     padding: 5px;
     margin: auto;
 }
 
-.linkActive div {
+.buttonActive,
+.buttonActive * {
     font-weight: 400;
 }
 
-.linkIsntActive div {
+.buttonIsntActive,
+.buttonIsntActive * {
     font-weight: 300;
-    opacity: 0.5;
+
+    @include customize() {
+        border-color: getValue(light-greyish-color) !important;
+        color: getValue(light-greyish-color) !important;
+        fill: getValue(light-greyish-color) !important;
+    }
+}
+
+.boxSimple * {
+    background-color: white;
+
+    @include customize() {
+        color: getValue(main-color);
+    }
+}
+
+.boxFilled {
+    border-radius: 5px;
+    padding: 2px 5px 0px 5px;
+    color: white;
+
+    @include customize() {
+        background-color: getValue(main-color);
+    }
+}
+
+.boxFilled * {
+    color: white;
+    font-weight: 200;
+    fill: white;
 }
 
 .linkBox.background {
@@ -29,6 +60,38 @@
 
 .linkBox.background:hover {
     @include customize {
+        background-color: getValue(main-lighter-color);
+    }
+}
+
+.boxBorder {
+    border-radius: 5px;
+    padding: 2px 5px 0px 5px;
+    border-style: solid;
+    border-width: 2px;
+
+    @include customize() {
+        border-color: getValue(main-color);
+    }
+}
+
+.boxBorder * {
+    @include customize() {
+        fill: getValue(main-color);
+        color: getValue(main-color);
+    }
+}
+
+.background {
+    border-radius: 30px;
+
+    @include customize() {
+        border: 1px solid getValue(main-color);
+    }
+}
+
+.background:hover {
+    @include customize() {
         background-color: getValue(main-lighter-color);
     }
 }
