@@ -1,0 +1,13 @@
+@use 'lib'as *;
+
+.inputError {
+    @include customize() {
+        color: getValue(error-color);
+    }
+
+    font-size: 13px;
+    font-weight: 300;
+    padding-left: 20px;
+    margin: 0;
+    height: 15px
+}

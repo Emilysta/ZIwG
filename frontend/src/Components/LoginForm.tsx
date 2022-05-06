@@ -9,10 +9,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { userApi } from "Utils/UserApiSlice";
 import { useAppDispatch } from "Utils/Store";
 import { login } from "Utils/UserSlice";
+import { ErrorMsg } from "./Input/ErrorMsg";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
+  const [error, setError] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -20,14 +22,16 @@ export function LoginForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit");
+    setError(false);
+
     await loginRequest({ email: email, password: password }).unwrap()
       .then(data => {
-        console.log(loginResult.data);
         dispatch(login());
         navigate('/user', { replace: true });
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        setError(true)
+      });
   }
 
   const minimalLength = 0;
@@ -44,6 +48,7 @@ export function LoginForm() {
     <form onSubmit={handleSubmit} className="LoginForm">
       <TextInput placeHolder='Email' onChange={v => setEmail(v)} />
       <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
+      {error && <ErrorMsg>Login failure</ErrorMsg>}
       <StateButton state={buttonState} type="submit" value="Submit" />
     </form>
 
