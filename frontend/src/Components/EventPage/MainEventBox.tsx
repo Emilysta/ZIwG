@@ -24,7 +24,7 @@ type MainEventBoxProps = {
 export default function MainEventBox(props: MainEventBoxProps) {
     const [values, setValues] = useState<Partial<EventData>>(props.values);
     const [popupOpened, setPopupOpened] = useState(false);
-    const [isPopupOpen, setPopupOpen, togglePopup] = useModal(true);
+    const [isPopupOpen, setPopupOpen, togglePopup] = useModal(false);
 
     const handleInputChange = (inputId: string, value: string) => {
         setValues({ ...values, [inputId]: value });
@@ -57,6 +57,13 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
+    function returnLocationPickerPopup() {
+        if (!props.isLoading)
+            return (<Popup open={isPopupOpen} onClose={(state) => togglePopup()}>
+                <LocationPicker />
+            </Popup>)
+    }
+
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
@@ -69,9 +76,8 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
             <GaleryPopup images={values.Images} open={popupOpened} onClose={onGalleryPopupClose} />
 
-            <Popup open={isPopupOpen} onClose={(state) => togglePopup()}>
-                <LocationPicker />
-            </Popup>
+            {returnLocationPickerPopup()}
+
             <div className='inputEventStack'>
                 <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
@@ -81,9 +87,8 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
 
                 <div>
-                    <p className='descText'>Location</p>
-                    {/* <p className='sizedText'> location</p> */}
-                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />
+                    <SimpleEditableInput defaultValue={values.Localization === '' ? 'No description' : values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Localization"} inputClassName='localizationInput' maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
+                    {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
                 </div>
 
                 <div>

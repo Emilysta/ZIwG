@@ -12,7 +12,8 @@ export default function EventPage() {
     const { id } = useParams();
     const { data, error, isLoading } = useGetEventQuery(id);
 
-    if (error)
+    const tempIsLoading = false;
+    if (0)
         return <div className='eventPage'>
             <h2 className='errorText'>
                 Oh no, there was an error, while fetching data </h2>
@@ -20,22 +21,11 @@ export default function EventPage() {
     else
         return (
             <div className='eventPage'>
-
-                <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={true} />
+                <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={false} isLoading={tempIsLoading} />
                 <div className='sideBox'>
-                    <Dropdown items={[{ text: 'item 1' }, { text: 'item 2' }, { text: 'item 3' }]} initialSelected={-1} initialState={false} />
-                    <LeafletBoxWithPopup mapID='mapEvent' currentPoint={{ lat: 51.5, lng: -0.11 }} isReadOnly />
+                    <Dropdown items={[{ text: 'item 1' }, { text: 'item 2' }, { text: 'item 3' }]} initialSelected={-1} initialState={false} isLoading={tempIsLoading} />
+                    <LeafletBoxWithPopup mapID='mapEvent' currentPoint={{ lat: 51.5, lng: -0.11 }} isReadOnly isLoading={tempIsLoading} />
                 </div>
-                {/* 
-                <div className='sideBox'>
-                    <div className='togglesBox'>
-                        <ToggleButtonWithText fieldDesc='Public event' startIsToggled={data.IsPublicEvent} id='IsPublicEvent' isReadOnly loading={isLoading} />
-                        <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={data.IsPaidTicket} id='IsPaidTicket' isReadOnly loading={isLoading} />
-                        {data.IsPaidTicket && <SimpleEditableInput id="TicketPrice" isLoading={isLoading} readonly />}
-                        <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={data.IsTicketLimit} id='IsTicketLimit' isReadOnly loading={isLoading} />
-                        {data.IsTicketLimit && <SimpleEditableInput id="TicketCount" isLoading={isLoading} readonly />}
-                    </div>
-                </div> */}
             </div>
         )
 }

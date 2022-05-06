@@ -8,21 +8,38 @@ import { useModal } from 'Utils/Hooks';
 
 interface LeafletBoxWithPopupProps extends LeafletMapProps {
     className?: string,
+    isLoading?: boolean,
 }
 
 export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
     const [isModalOpen, setModalOpen, toggleModal] = useModal();
 
-    return (
-        <div className='leafletMapBox'>
-            <div className='leafletMapWrapper'><LeafletMap mapID={props.mapID} currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} /></div>
-            <div className='leafletButton'><ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} /></div>
-            <Popup open={isModalOpen} onClose={(state) => setModalOpen(false)}>
-                <h1 className='leafletMapPopupText'>Map</h1>
-                <div className='leafletMapPopupWrapper'>
-                    <LeafletMap mapID='mapEventPopup' currentPoint={props.currentPoint} maxZoom={25} zoom={17} />
+    if (props.isLoading)
+        return (
+            <div className='leafletMapBox'>
+                <div className='leafletMapWrapper'>
+                    <LeafletMap mapID={props.mapID} currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} isLoading />
                 </div>
-            </Popup>
-        </div>
-    )
+                <div className='leafletButton'>
+                    <ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} isLoading />
+                </div>
+            </div>
+        )
+    else
+        return (
+            <div className='leafletMapBox'>
+                <div className='leafletMapWrapper'>
+                    <LeafletMap mapID={props.mapID} currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} />
+                </div>
+                <div className='leafletButton'>
+                    <ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} />
+                </div>
+                <Popup open={isModalOpen} onClose={(state) => setModalOpen(false)}>
+                    <h1 className='leafletMapPopupText'>Map</h1>
+                    <div className='leafletMapPopupWrapper'>
+                        <LeafletMap mapID='mapEventPopup' currentPoint={props.currentPoint} maxZoom={25} zoom={17} isRevealed={isModalOpen} />
+                    </div>
+                </Popup>
+            </div>
+        )
 }

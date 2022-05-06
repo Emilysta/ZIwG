@@ -40,7 +40,7 @@ export default function TagList(props: TagListProps) {
             let arr = tags;
             arr.push(tagInputValue);
             setTags(arr);
-            setTagPage(Math.floor((arr.length - 1) / 3));
+            setTagPage(Math.floor((arr?.length - 1) / 3));
         }
     }
 
@@ -52,7 +52,7 @@ export default function TagList(props: TagListProps) {
 
     function tagIndexRight() {
         let x = tagPage + 1;
-        if (x <= ((tags.length - 1) / 3))
+        if (x <= ((tags?.length - 1) / 3))
             setTagPage(x);
     }
 
@@ -61,10 +61,10 @@ export default function TagList(props: TagListProps) {
     else
         return (
             <div className='tagListBox'>
-                {tags.length <= 0 && <p className='tagSizedText'>No tags</p>}
-                {tags.length > 0 &&
+                {tags?.length <= 0 && <p className='tagSizedText'>No tags</p>}
+                {tags?.length > 0 &&
                     <div className='tagListViewer'>
-                        {tags.length <= 0 && <p className='tagSizedText'>No tags</p>}
+                        {tags?.length <= 0 && <p className='tagSizedText'>No tags</p>}
                         {tagPage > 0 && <ChevronLeft onClick={tagIndexLeft} />}
                         <ul className='tagListUL'>
                             {
@@ -77,7 +77,7 @@ export default function TagList(props: TagListProps) {
                                 })
                             }
                         </ul>
-                        {tagPage < ((tags.length - 1) / 3 - 1) && <ChevronRight onClick={tagIndexRight} />}
+                        {tagPage < ((tags?.length - 1) / 3 - 1) && <ChevronRight onClick={tagIndexRight} />}
                     </div>}
                 {!props.isReadOnly && isAddButtonVisible && <Plus className='addTagButton' onClick={showInput} />}
                 {!props.isReadOnly && isTagInputVisible && <SimpleEditableInput id='tagInput' inputClassName='tagInput' onChangeAction={tagInputChange} onKeyDownAction={tagInputKeyDetection} isClearOnEnter={true} defaultValue="Tag name" />}

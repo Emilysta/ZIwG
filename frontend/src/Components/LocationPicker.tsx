@@ -24,7 +24,7 @@ export default function LocationPicker() {
                         <Search />
                     </div>
                     <p>Results</p>
-                    {resultsList.map((item,index)=>{})}
+                    {/* {resultsList.map((item, index) => { })} */}
                 </div>
                 <div className="mapBox">
                     <LeafletMap mapID='locationPickerMap' />
