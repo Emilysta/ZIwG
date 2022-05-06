@@ -34,6 +34,7 @@ namespace ziwg
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(UserMappingProfile));
+            services.AddHttpContextAccessor();
             services.AddTransient<ILoggingService, LoggingService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventService, EventService>();
@@ -62,8 +63,9 @@ namespace ziwg
 
             services.AddDbContext<DataBaseContext>(options =>
             {
-                var connectionString = Configuration["MySQLConnection"];
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                options.UseSqlServer(Configuration["Connectionstrings:DefaultConnection"]);
+                //var connectionString = Configuration["MySQLConnection"];
+                //options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
             services.AddIdentity<User, IdentityRole>()

@@ -26,6 +26,7 @@ namespace Infrastructure.Services
             _context = context;
             _accessor = accessor;
         }
+
         public User GetCurrentUser()
         {
             string email = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);

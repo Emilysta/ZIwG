@@ -30,17 +30,28 @@ namespace WebApi.Controllers
 
         }
         /// <summary>
+        /// Logout
+        /// </summary>
+        /// <response code="200">Success, logged out</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpGet]
+        [Route("logout")]
+        public async Task<IActionResult> logout()
+        {
+            var result = _loggingService.Logout();
+            return Ok();
+        }
+        /// <summary>
         /// Add profile picture 
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="fileObj"></param> 
         /// <response code="200">Success, photo added</response>
-        /// <response code="400">Wrong user ID</response>
+        /// <response code="400">Something went wrong</response>
         [HttpPost]
-        [Route("savePhoto/{id}")]
-        public async Task<IActionResult> SavePhoto([FromRoute] string id, [FromForm] FileUpload fileObj)
+        [Route("savePhoto")]
+        public async Task<IActionResult> SavePhoto([FromForm] FileUpload fileObj)
         {
-            if (await _userService.UploadProfilePicture(fileObj, id))
+            if (await _userService.UploadProfilePicture(fileObj))
             {
                 return Ok();
             }
@@ -87,9 +98,8 @@ namespace WebApi.Controllers
             return new ChallengeResult("Google", properties);
         }
         /// <summary>
-        /// Register with google
+        /// GoogleResponse
         /// </summary>
-        /// <response code="400">Something went wrong</response>
         [HttpGet]
         public async Task<IActionResult> GoogleResponse()
         {
@@ -98,38 +108,36 @@ namespace WebApi.Controllers
             return BadRequest();
         }        
         /// <summary>
-        /// Change user data by id
+        /// Change user data
         /// </summary>
         /// <param name="diplayData"></param>
-        /// <param name="id"></param> 
         /// <response code="200">Success, user modified</response>
         /// <response code="400">Wrong user ID</response>
         [HttpPatch]
-        [Route("changeUserData/{id}")]
+        [Route("changeUserData")]
         [AllowAnonymous]
-        public async Task<IActionResult> ChangeUserData([FromBody] DisplayDataDTO diplayData, [FromRoute] string id)
+        public async Task<IActionResult> ChangeUserData([FromBody] DisplayDataDTO diplayData)
         {
             if (diplayData == null)
                 return BadRequest();
 
-            if (_userService.ChangeDisplayData(diplayData, id))
+            if (_userService.ChangeDisplayData(diplayData))
                 if (await _userService.SaveChangesAsync())
                     return Ok();
 
             return BadRequest();
         }
         /// <summary>
-        /// Delete user by id
+        /// Delete user
         /// </summary>
-        /// <param name="id"></param> 
         /// <response code="204">Success, user removed</response>
-        /// <response code="400">Wrong user ID</response> 
+        /// <response code="400">Something went wrong</response> 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("deleteUser")]
         [AllowAnonymous]
-        public async Task<IActionResult> Delete([FromRoute] string id)
+        public async Task<IActionResult> Delete()
         {
-            if (_userService.DeleteUser(id))
+            if (_userService.DeleteUser())
                 if (await _userService.SaveChangesAsync())
                     return NoContent();
             return NotFound();
