@@ -30,6 +30,18 @@ namespace WebApi.Controllers
 
         }
         /// <summary>
+        /// GetCurrentUserId
+        /// </summary>
+        /// <response code="200">Success, logged out</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpGet]
+        [Route("currentUserId")]
+        public async Task<IActionResult> currentUserId()
+        {
+            var result = _userService.GetCurrenUserId();
+            return Ok(result);
+        }
+        /// <summary>
         /// Logout
         /// </summary>
         /// <response code="200">Success, logged out</response>
