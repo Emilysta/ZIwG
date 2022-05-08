@@ -9,6 +9,7 @@ namespace Application.Interfaces
         public bool ChangeDisplayData(DisplayDataDTO model);
         public bool DeleteUser();
         public string GetCurrenUserMail();
+        public string GetCurrenUserId();
         public Task<bool> SaveChangesAsync();
     }
 }

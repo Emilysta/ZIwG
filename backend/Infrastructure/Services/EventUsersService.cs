@@ -30,7 +30,7 @@ namespace Infrastructure.Services
         public User GetCurrentUser()
         {
             string email = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-            var user = _context.Users.Where(x => x.Email == email).Include(e => e.Events).SingleOrDefault();
+            var user = _context.Users.Where(x => x.Email == email).Include(e => e.ParticipatedEvents).SingleOrDefault();
             return user;
         }
 
@@ -38,11 +38,11 @@ namespace Infrastructure.Services
         {
             var userToSign = GetCurrentUser();
             var eventToSign = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).SingleOrDefault();
-            if (userToSign == null || eventToSign == null || eventToSign.Users.Count() == eventToSign.UsersLimit || eventToSign.Users.Any(x => x.Id == userToSign.Id))
+            if (userToSign == null || eventToSign == null || eventToSign.Users.Count() == eventToSign.TicketLimit || eventToSign.Users.Any(x => x.Id == userToSign.Id))
                 return false;
             eventToSign.Users.Add(userToSign);
             _context.Events.Update(eventToSign);
-            userToSign.Events.Add(eventToSign);
+            userToSign.ParticipatedEvents.Add(eventToSign);
             _context.Users.Update(userToSign);
             return _context.SaveChanges() > 0;
         }
@@ -55,7 +55,7 @@ namespace Infrastructure.Services
                 return false;
             eventToSign.Users.Remove(userToSign);
             _context.Events.Update(eventToSign);
-            userToSign.Events.Remove(eventToSign);
+            userToSign.ParticipatedEvents.Remove(eventToSign);
             _context.Users.Update(userToSign);
             return _context.SaveChanges() > 0;
         }

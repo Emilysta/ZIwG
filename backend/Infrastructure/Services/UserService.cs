@@ -9,6 +9,7 @@ using Application.Interfaces;
 using Application.DTOs.UserDTOs;
 using Domain.Entities;
 using Domain.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -30,7 +31,7 @@ namespace Infrastructure.Services
             if (fileObj.files.Length > 0)
             {
                 var userEmail = GetCurrenUserMail();
-                var user = _context.Users.Where(x => x.Email == userEmail).SingleOrDefault();
+                var user = await _context.Users.Where(x => x.Email == userEmail).SingleOrDefaultAsync();
                 if (user == null)
                     return false;
                 using (var ms = new MemoryStream())
@@ -78,6 +79,18 @@ namespace Infrastructure.Services
         {
             var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
             return UserMail;
+        }
+
+        public string GetCurrenUserId()
+        {
+            var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var user = _context.Users.Where(x => x.Email == UserMail).SingleOrDefault();
+            var userId = "";
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+            return userId;
         }
 
         public async Task<bool> SaveChangesAsync()
