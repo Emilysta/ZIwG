@@ -61,7 +61,7 @@ namespace Infrastructure.Services
         {
             if (!string.IsNullOrEmpty(UserId))
             {
-                var user = await _context.Users.Where(x => x.Id == UserId).Include(e => e.Events).SingleOrDefaultAsync();
+                var user = await _context.Users.Where(x => x.Id == UserId).Include(e => e.ParticipatedEvents).SingleOrDefaultAsync();
                 var availableCarpools = user.Carpools
                 .Where(p => (MonthAndYear == null || (p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear)))
                 .ToList();

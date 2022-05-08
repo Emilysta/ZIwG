@@ -13,12 +13,18 @@ namespace Infrastructure.MappingProfiles
     {
         public EventMappingProfile()
         {
-            CreateMap<CreateDTO, Event>();
-            CreateMap<Event, CreateDTO>();
-            CreateMap<ModifyDTO, Event>();
-            CreateMap<Event, ModifyDTO>();
-            CreateMap<ReturnDTO, Event>();
-            CreateMap<Event, ReturnDTO>();
+            CreateMap<CreateEventDTO, Event>();
+            CreateMap<ModifyEventDTO, Event>();
+            CreateMap<Event, ReturnEventsAsListDTO>()
+                .ForMember(dest => dest.OrganiserName,
+                opt => opt.MapFrom(src => src.Organiser.DisplayName))
+                .ForMember(dest => dest.OrganiserImage,
+                opt => opt.MapFrom(src => src.Organiser.Photo));
+            CreateMap<Event, ReturnEventExtendedDTO>()
+                .ForMember(dest => dest.OrganiserName,
+                opt => opt.MapFrom(src => src.Organiser.DisplayName))
+                .ForMember(dest => dest.OrganiserImage,
+                opt => opt.MapFrom(src => src.Organiser.Photo));
         }
     }
 }

@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         /// <response code="400">Something went wrong</response>
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Post([FromBody] CreateDTO @event)
+        public async Task<IActionResult> Post([FromBody] CreateEventDTO @event)
         {
             if (@event == null)
             {
@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         [HttpPatch]
         [Route("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> Put([FromBody] ModifyDTO @event, [FromRoute] int id)
+        public async Task<IActionResult> Put([FromBody] ModifyEventDTO @event, [FromRoute] int id)
         {
             if (@event == null)
                 return BadRequest();
@@ -87,10 +87,28 @@ namespace WebApi.Controllers
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetEvents(string Location = null, string MonthAndYear= null, string UserId= null)
+        public async Task<IActionResult> GetEvents(string location = null, string monthAndYear= null, string userId= null)
         {
-            var events = await _eventService.GetEvents(Location, MonthAndYear, UserId);
+            var events = await _eventService.GetEvents(location, monthAndYear, userId);
             return Ok(events);
+        }
+        /// <summary>
+        /// Get event by id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">Success, event returned</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id}")]
+        public async Task<IActionResult> GetEventById([FromRoute] int id)
+        {
+            var foundEvent = await _eventService.GetEventById(id);
+
+            if (foundEvent == null)
+                return BadRequest();
+            else
+                return Ok(foundEvent);
         }
     }
 }

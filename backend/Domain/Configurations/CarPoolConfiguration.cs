@@ -35,6 +35,9 @@ namespace Domain.Configurations
                 .HasMaxLength(100);
             builder.Property(t => t.TotalCost)
                 .IsRequired().HasColumnType("decimal(18,4)");
+
+            builder.HasMany(u => u.Users)
+                .WithMany(t => t.Carpools);
         }
     }
 }
