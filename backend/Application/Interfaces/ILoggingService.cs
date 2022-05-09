@@ -10,6 +10,7 @@ namespace Application.Interfaces
         public Task<bool> Login(LoginDTO model);
         public Task<bool> GetGoogleResponse();
         public AuthenticationProperties LoginWithGoogle(string redirectUrl);
+        public Task<bool> Logout();
         public Task<bool> SaveChangesAsync();
     }
 }

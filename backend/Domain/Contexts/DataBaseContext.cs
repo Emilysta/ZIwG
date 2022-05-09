@@ -22,6 +22,8 @@ namespace Domain.Contexts
         new public DbSet<User> Users { get; set; }
         public DbSet<Carpool> Carpools { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

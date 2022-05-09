@@ -19,19 +19,24 @@ namespace Domain.Configurations
             builder.Property(t => t.Description)
                 .IsRequired()
                 .HasMaxLength(200);
-            builder.Property(t => t.Category)
-                .IsRequired()
-                .HasMaxLength(10);
             builder.Property(t => t.Place)
                 .IsRequired()
                 .HasMaxLength(60);
-            builder.Property(t => t.UsersLimit)
+            builder.Property(t => t.IsPaidTicket)
                 .IsRequired();
-            builder.Property(t => t.Date)
+            builder.Property(t => t.IsPublicEvent)
                 .IsRequired();
-            builder.Property(t => t.OrganiserId)
-                .IsRequired()
-                .HasMaxLength(100);
+            builder.Property(t => t.StartDate)
+                .IsRequired();
+            builder.Property(t => t.EndDate)
+                .IsRequired();
+
+            builder.HasMany(u => u.Users)
+                .WithMany(t => t.ParticipatedEvents);
+            builder.HasOne(u => u.Organiser)
+                .WithMany(t => t.OrganisedEvents);
+            builder.HasMany(u => u.Images);
+            builder.HasMany(u => u.Tags);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Infrastructure.MappingProfiles
         {
             CreateMap<DisplayDataDTO, User>();
             CreateMap<RegisterDTO, User>();
+            CreateMap<User, ReturnUserDataDTO>();
         }
     }
 }
