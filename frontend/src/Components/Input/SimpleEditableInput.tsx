@@ -16,7 +16,7 @@ type SimpleEditableInputProps = {
     isClearOnEnter?: boolean,
     onChangeAction?: (id: string, value: string) => void,
     validationAction?: (value: string) => string,
-    onKeyDownAction?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void,
+    onKeyDownAction?: (event: React.KeyboardEvent<HTMLTextAreaElement>, currentValue: string) => void,
     isLoading?: boolean,
 }
 export default function SimpleEditableInput(props: SimpleEditableInputProps) {
@@ -34,7 +34,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
 
     function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
         if (props.onKeyDownAction) {
-            props.onKeyDownAction(event);
+            props.onKeyDownAction(event, textAreaRef.current.value);
         }
         if (props.isClearOnEnter && event.key === 'Enter') {
             textAreaRef.current.value = "";
