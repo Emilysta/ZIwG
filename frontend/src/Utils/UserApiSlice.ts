@@ -35,12 +35,17 @@ export const userApi = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+
         register: build.mutation<null, RegisterData>({
             query: (body) => ({
                 url: 'register',
                 method: 'POST',
                 body,
             }),
+        }),
+
+        getCurrentUserId: build.query<string, void>({
+            query: () => 'currentUserId',
         }),
 
         deleteUser: build.mutation<null, string>({
@@ -53,12 +58,15 @@ export const userApi = createApi({
         googleLogin: build.mutation({
             query: () => 'google-login',
         }),
+
         googleRegister: build.mutation({
             query: () => '',
         }),
+
         getUserData: build.query<UserData, void>({
             query: () => ''
         }),
+
         changeUserData: build.mutation<UserData, string>({
             query: (body) => ({
                 url: `changeUserData/${body}`,
@@ -94,8 +102,6 @@ export const userApi = createApi({
                 method: 'DELETE',
             })
         }),
-
-
     }),
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useGetUserDataQuery } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useGetUserDataQuery, useGetCurrentUserIdQuery } = userApi;

@@ -17,11 +17,11 @@ export function LoginForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit");
     await loginRequest({ email: email, password: password }).unwrap()
-      .then(data => {
-        console.log(loginResult.data);
-        dispatch(login());
+      .then(async data => {
+        let result = await fetch(`/api/User/currentUserId`)
+        let id = await result.text();
+        dispatch(login(id));
         navigate('/user', { replace: true });
       })
       .catch(err => console.error(err));

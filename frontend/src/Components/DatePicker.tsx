@@ -9,7 +9,7 @@ import "./DatePicker.scss";
 type EventDatePickerProps = {
     isReadOnly?: boolean,
     className?: string,
-    onDateChange?: (value: [string, string]) => void,
+    onDateChange?: (value: string, id: string) => void,
     startDate: Date,
     endDate: Date,
     isLoading?: boolean,
@@ -29,15 +29,14 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     function onStartDateChange(startDateUp: Date) {
         setStartDate(startDateUp);
         if (props.onDateChange)
-            props.onDateChange([startDate.toString(), endDate.toString()]);
+            props.onDateChange(startDateUp?.toISOString(), 'startDate');
     }
 
     function onEndDateChange(endDateUp: Date) {
         setEndDate(endDateUp);
         if (props.onDateChange)
-            props.onDateChange([startDate.toString(), endDate.toString()]);
+            props.onDateChange(endDateUp?.toISOString(), 'endDate');
     }
-
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }

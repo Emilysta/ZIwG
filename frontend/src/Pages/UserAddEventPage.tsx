@@ -16,8 +16,8 @@ export default function UserAddEventPage() {
         {
             name: 'Event name',
             description: '',
-            startDate: new Date().toString(),
-            endDate: new Date().toString(),
+            startDate: new Date().toISOString(),
+            endDate: new Date().toISOString(),
             tags: [],
             isPublicEvent: true,
             isPaidTicket: false,
@@ -41,11 +41,13 @@ export default function UserAddEventPage() {
             console.log('rejected', error);
             alert('error while sending');
         }
-        console.log(values);
     }
 
     function valueChange(id: string, value: any) {
-        setValues({ ...values, [id]: value });
+        console.log("update change " + id + ' ' + value);
+        let and = { ...values, [id]: value };
+        console.log(and);
+        setValues(and);
     }
 
     function checkInput(value: string, regex: RegExp, errorToShow: string, isValidChar: boolean = false): string {
@@ -60,7 +62,7 @@ export default function UserAddEventPage() {
             }
         return error;
     }
-
+    console.log(values);
     return (
         <div className='userAddEventPage'>
             <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} />

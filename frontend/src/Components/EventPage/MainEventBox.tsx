@@ -32,12 +32,10 @@ export default function MainEventBox(props: MainEventBoxProps) {
             props.onValuesChange(inputId, value);
     };
 
-    function pickCalendarDate(updateDate: [string, string]) {
-        setValues((prev) => { prev.startDate = updateDate[0]; return prev; });
-        setValues((prev) => { prev.endDate = updateDate[1]; return prev; });
+    function pickCalendarDate(updateDate: string, id: string) {
+        setValues({ ...values, [id]: updateDate });
         if (props.onValuesChange) {
-            props.onValuesChange('startDate', updateDate[0]);
-            props.onValuesChange('endDate', updateDate[1]);
+            props.onValuesChange(id, updateDate);
         }
     }
 
