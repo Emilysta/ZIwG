@@ -41,14 +41,13 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
         }
     }
     if (props.isLoading)
-        return (<div className='simpleInputBox'>{props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}<ZiwgSkeleton count={props.rows}/></div>)
+        return (<div className='simpleInputBox'>{props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}<ZiwgSkeleton count={props.rows} /></div>)
     else
         return (
             <div className='simpleInputBox'>
                 {props.inputDescription && <p className='simpleInputDesc'>{props.inputDescription}</p>}
 
-                <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef}
-                />
+                <textarea className={`${props.inputClassName ?? ''} simpleInput`} defaultValue={props.defaultValue} readOnly={props.readonly} maxLength={props.maxChars} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef} />
 
                 {validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
             </div>

@@ -10,9 +10,13 @@ export const eventApi = createApi({
   endpoints: (build) => ({
     getEvents: build.query<EventDataSimple[], void>({
       query: () => '',
+      transformResponse: (rawResult: EventDataSimple[], meta) => {
+        console.log(rawResult);
+        return rawResult
+      },
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          ? [...result.map(({ eventId: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
     getUserEvents: build.query<EventDataSimple[], { Location: string; MonthId: string, UserId: string }>({
@@ -22,13 +26,13 @@ export const eventApi = createApi({
       }),
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          ? [...result.map(({ eventId: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
     getEvent: build.query<EventData, string>({
       query: (name) => `Event/${name}`,
     }),
-    addEvent: build.mutation<null, Omit<EventData, 'OrganizerName' | 'OrganizerImage' | 'EventId'>>({
+    addEvent: build.mutation<null, Omit<EventData, 'organizerName' | 'organizerImage' | 'eventId' | 'mainImage' | 'images'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',

@@ -9,7 +9,7 @@ import "./DatePicker.scss";
 type EventDatePickerProps = {
     isReadOnly?: boolean,
     className?: string,
-    onDateChange?: (value: [Date, Date]) => void,
+    onDateChange?: (value: [string, string]) => void,
     startDate: Date,
     endDate: Date,
     isLoading?: boolean,
@@ -29,13 +29,13 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     function onStartDateChange(startDateUp: Date) {
         setStartDate(startDateUp);
         if (props.onDateChange)
-            props.onDateChange([startDate, endDate]);
+            props.onDateChange([startDate.toString(), endDate.toString()]);
     }
 
     function onEndDateChange(endDateUp: Date) {
         setEndDate(endDateUp);
         if (props.onDateChange)
-            props.onDateChange([startDate, endDate]);
+            props.onDateChange([startDate.toString(), endDate.toString()]);
     }
 
     if (props.isLoading) {

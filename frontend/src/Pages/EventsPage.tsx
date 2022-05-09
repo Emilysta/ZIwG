@@ -35,51 +35,50 @@ export default function EventsPage() {
     const onSearch = (search: string) => alert(search)
     const tagChosen = (value: string, id: number) => alert(value + " id: " + id)
 
-    // if (error)
-    //     return (<> <p> Oh no, there was an error </p></>);
-    // else if (isLoading)
-    return (
-        <>
-            <div className='wholePageLayout navbarMargin'>
-                <div className='eventsPage'>
-                    <div className='eventsNav'>
-                        <div>
-                            <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+    if (error)
+        return (<> <p> Oh no, there was an error </p></>);
+    else if (isLoading)
+        return (
+            <>
+                <div className='wholePageLayout navbarMargin'>
+                    <div className='eventsPage'>
+                        <div className='eventsNav'>
+                            <div>
+                                <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+                            </div>
+                            <div>
+                                <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                            </div>
                         </div>
-                        <div>
-                            <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                        <div className='eventList'>
+                            {[...Array(10)].map((x, i) => <EventTile key={i} isLoading={true} />)}
+                            <input type='button' value="open popup" onClick={() => openPopup(true)} />
                         </div>
-                    </div>
-                    <div className='eventList'>
-                        <EventTile isLoading={false} data={{EventId:'1',EventName:'', StartDate:new Date(), EndDate:new Date(), MainImage:'',OrganizerName:'', OrganizerImage:''}}/>
-                        {[...Array(10)].map((x, i) => <EventTile key={i} isLoading={true} />)}
-                        <input type='button' value="open popup" onClick={() => openPopup(true)} />
                     </div>
                 </div>
-            </div>
-        </>
-    )
-    // else
-    //     return (
-    //         <>
-    //             <div className='wholePageLayout navbarMargin'>
-    //                 <div className='eventsPage'>
-    //                     <div className='eventsNav'>
-    //                         <div>
-    //                             <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
-    //                         </div>
-    //                         <div>
-    //                             <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
-    //                         </div>
-    //                     </div>
-    //                     <div className='eventList'>
-    //                         {data.map((e, i) => <EventTile key={i} data={e} isLoading={isLoading} />)}
-    //                         <input type='button' value="open popup" onClick={() => openPopup(true)} />
-    //                     </div>
-    //                 </div>
-    //             </div>
+            </>
+        )
+    else
+        return (
+            <>
+                <div className='wholePageLayout navbarMargin'>
+                    <div className='eventsPage'>
+                        <div className='eventsNav'>
+                            <div>
+                                <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+                            </div>
+                            <div>
+                                <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
+                            </div>
+                        </div>
+                        <div className='eventList'>
+                            {data.map((e, i) => <EventTile key={i} data={e} isLoading={isLoading} />)}
+                            <input type='button' value="open popup" onClick={() => openPopup(true)} />
+                        </div>
+                    </div>
+                </div>
 
-    //             <GaleryPopup open={popupOpened} onClose={() => openPopup(false)} />
-    //         </>
-    //     )
+                <GaleryPopup open={popupOpened} onClose={() => openPopup(false)} />
+            </>
+        )
 }

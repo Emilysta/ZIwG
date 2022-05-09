@@ -12,21 +12,19 @@ import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
     const navigate = useNavigate();
-    const [values, setValues] = useState<Omit<EventData, 'OrganizerName' | 'OrganizerImage' | 'EventId'>>(
+    const [values, setValues] = useState<Omit<EventData, 'organizerName' | 'organizerImage' | 'eventId' | 'images' | 'mainImage'>>(
         {
-            EventName: 'Event name',
-            Description: '',
-            StartDate: new Date(),
-            EndDate: new Date(),
-            Tags: [],
-            IsPublicEvent: true,
-            IsPaidTicket: false,
-            TicketPrice: '',
-            IsTicketLimit: false,
-            TicketCount: '',
-            Images: [],
-            MainImage: '',
-            Localization: '',
+            name: 'Event name',
+            description: '',
+            startDate: new Date().toString(),
+            endDate: new Date().toString(),
+            tags: [],
+            isPublicEvent: true,
+            isPaidTicket: false,
+            ticketPrice: 0,
+            isTicketLimit: false,
+            ticketLimit: 0,
+            place: '',
         }
     );
 
@@ -34,6 +32,7 @@ export default function UserAddEventPage() {
 
     async function addEvent() {
         console.log("added event");
+
         try {
             await addEventRequest(values).unwrap();
             navigate('/user/userEvents', { replace: true });
@@ -67,12 +66,12 @@ export default function UserAddEventPage() {
             <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} />
             <div className='sideBox'>
                 <div className='togglesBox'>
-                    <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.IsPublicEvent} id='IsPublicEvent' onValueChange={valueChange} />
-                    <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values.IsPaidTicket} id='IsPaidTicket' onValueChange={valueChange} />
-                    {values.IsPaidTicket && <SimpleEditableInput id="TicketPrice"
+                    <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.isPublicEvent} id='isPublicEvent' onValueChange={valueChange} />
+                    <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values.isPaidTicket} id='isPaidTicket' onValueChange={valueChange} />
+                    {values.isPaidTicket && <SimpleEditableInput id="ticketPrice"
                         onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} />}
-                    <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values.IsTicketLimit} id='IsTicketLimit' onValueChange={valueChange} />
-                    {values.IsTicketLimit && <SimpleEditableInput id="TicketCount"
+                    <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values.isTicketLimit} id='isTicketLimit' onValueChange={valueChange} />
+                    {values.isTicketLimit && <SimpleEditableInput id="ticketLimit"
                         onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} />}
                 </div>
 
