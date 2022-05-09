@@ -15,7 +15,7 @@ export function Image(props: ImageProps) {
     return (
         <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
             {!props.isLoading && <img src={props.src} />}
-            {props.isLoading && <ZiwgSkeleton />}
+            {props.isLoading && <ZiwgSkeleton containerClassName='imageSkeleton' />}
         </div>
     );
 }

@@ -15,7 +15,7 @@ export function UserEventCard(props: UserEventCardProps) {
     return (
         <div className='userEventCard'>
             <div className='mainCon'>
-                <div className='image visualiseImage'>{props.loading ? <ZiwgSkeleton /> : props.eventName}</div>
+                <div className='imageCon visualiseImage'>{props.loading ? <ZiwgSkeleton containerClassName='userEventCardImageSkeleton' /> : props.eventName}</div>
                 <div className='textCon'>
                     <h1 className='title'>{props.loading ? <ZiwgSkeleton width={200} /> : 'Blah' + props.eventName} </h1>
                     <p className='location date'>{props.loading ? <ZiwgSkeleton width={400} /> : 'Blah' + props.eventLocation}</p>
@@ -23,7 +23,7 @@ export function UserEventCard(props: UserEventCardProps) {
             </div>
 
             <div className='secondaryCon'>
-                {props.loading ? <ZiwgSkeleton width={200} /> : <Link to={'/user/userEvents/' + props.eventID}> Show information</Link>}
+                {props.loading ? <ZiwgSkeleton width={200} containerClassName='secondaryConSkeleton' /> : <Link to={'/user/userEvents/' + props.eventID}> Show information</Link>}
             </div>
         </div >
     );

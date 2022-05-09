@@ -21,7 +21,7 @@ export default function EventTile(props: EventTileProps) {
 
     return (
         <div className='eventTile'>
-            <div className='imageCon'>
+            <div className='eventTileImageCon'>
                 <Image src="http://placeimg.com/640/480/transport" isLoading={props.isLoading} />
             </div>
             <div className='title'>
