@@ -6,6 +6,7 @@ using Application.DTOs.EventDTOs;
 using Application.Interfaces;
 using System;
 using System.Collections.Generic;
+using Application.DTOs.UserDTOs;
 
 namespace WebApi.Controllers
 {
@@ -19,6 +20,23 @@ namespace WebApi.Controllers
         public EventController(IEventService eventService)
         {
             _eventService = eventService;
+        }
+        /// <summary>
+        /// Add event main image
+        /// </summary>
+        /// <param name="fileObj"></param> 
+        /// /// <param name="id"></param> 
+        /// <response code="200">Success, photo added</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpPost]
+        [Route("mainImage/{id}")]
+        public async Task<IActionResult> UploadMainImage([FromForm] FileUpload fileObj, [FromRoute] int id)
+        {
+            if (await _eventService.UploadMainImage(fileObj, id))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
         /// <summary>
         /// Add event, organiserID is taken from logged user, no need to send it in body

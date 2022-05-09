@@ -93,6 +93,14 @@ namespace Infrastructure.Services
             return userId;
         }
 
+        public async Task<ReturnUserDataDTO> GetCurrenUserData()
+        {
+            var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var user = await _context.Users.Where(x => x.Email == UserMail).SingleOrDefaultAsync();
+            ReturnUserDataDTO userData = _mapper.Map<User, ReturnUserDataDTO>(user);
+            return userData;
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             if (await _context.SaveChangesAsync() > 0)

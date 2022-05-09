@@ -8,6 +8,8 @@ using AutoMapper;
 using Domain.Contexts;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Application.DTOs.UserDTOs;
+using System.IO;
 
 namespace Infrastructure.Services
 {
@@ -23,6 +25,29 @@ namespace Infrastructure.Services
             _context = context;
             _eventUsersService = eventUsersService;
         }
+
+        public async Task<bool> UploadMainImage(FileUpload fileObj, int eventId)
+        {
+            if (fileObj.files.Length > 0)
+            {
+                var @event = await _context.Events.Where(x => x.Id == eventId).SingleOrDefaultAsync();
+                if (@event == null)
+                    return false;
+                using (var ms = new MemoryStream())
+                {
+                    ms.Flush();
+                    ms.Position = 0;
+                    await fileObj.files.CopyToAsync(ms);
+                    var fileBytes = ms.ToArray();
+                    @event.MainImage = fileBytes;
+                    _context.Events.Update(@event);
+                    if (await SaveChangesAsync())
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public async Task<bool> AddEvent(CreateEventDTO @event)
         {
             Event eventToAdd = new();

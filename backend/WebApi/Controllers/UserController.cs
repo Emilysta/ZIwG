@@ -30,13 +30,28 @@ namespace WebApi.Controllers
 
         }
         /// <summary>
+        /// GetCurrentUserData
+        /// </summary>
+        /// <response code="200">Success, logged out</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpGet]
+        [Route("currentUserData")]
+        public async Task<IActionResult> CurrentUserData()
+        {
+            var result = await _userService.GetCurrenUserData();
+            if (result == null)
+                return BadRequest();
+            else
+                return Ok(result);
+        }
+        /// <summary>
         /// GetCurrentUserId
         /// </summary>
         /// <response code="200">Success, logged out</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [Route("currentUserId")]
-        public async Task<IActionResult> currentUserId()
+        public IActionResult CurrentUserId()
         {
             var result = _userService.GetCurrenUserId();
             return Ok(result);
@@ -48,9 +63,9 @@ namespace WebApi.Controllers
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [Route("logout")]
-        public async Task<IActionResult> logout()
+        public async Task<IActionResult> Logout()
         {
-            var result = _loggingService.Logout();
+            var result = await _loggingService.Logout();
             return Ok();
         }
         /// <summary>
