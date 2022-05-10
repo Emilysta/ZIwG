@@ -65,6 +65,8 @@ export default function LeafletMap(props: LeafletMapProps) {
             L.marker(L.latLng(currentPoint), { icon: myIcon }).addTo(map)
                 .bindPopup('Tu będzie text z nominatim').openPopup();
             setLeafletMap(map);
+            const resizeObserver = new ResizeObserver(() => map.invalidateSize());
+            resizeObserver.observe(document.getElementById(props.mapID));
         }
     }, []);
 
