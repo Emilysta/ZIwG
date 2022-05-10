@@ -57,11 +57,14 @@ export const userApi = createApi({
             query: () => '',
         }),
         getUserData: build.query<UserData, void>({
-            query: () => ''
+            query: () => ({
+                url: 'currentUserData',
+                method: 'GET'
+            })
         }),
-        changeUserData: build.mutation<UserData, string>({
+        changeUserData: build.mutation<void, UserData>({
             query: (body) => ({
-                url: `changeUserData/${body}`,
+                url: `changeUserData`,
                 method: 'PATCH',
                 body,
             }),
@@ -94,8 +97,6 @@ export const userApi = createApi({
                 method: 'DELETE',
             })
         }),
-
-
     }),
 })
 export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useGetUserDataQuery } = userApi;
