@@ -18,7 +18,7 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
         return (
             <div className='leafletMapBox'>
                 <div className='leafletMapWrapper'>
-                    <LeafletMap mapID={props.mapID} currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} isLoading />
+                    <LeafletMap mapID={props.mapID} isLoading />
                 </div>
                 <div className='leafletButton'>
                     <ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} isLoading />
@@ -29,7 +29,7 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
         return (
             <div className='leafletMapBox'>
                 <div className='leafletMapWrapper'>
-                    <LeafletMap mapID={props.mapID} currentPoint={props.currentPoint} isReadOnly={props.isReadOnly} />
+                    <LeafletMap mapID={props.mapID} />
                 </div>
                 <div className='leafletButton'>
                     <ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} />
@@ -37,7 +37,7 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
                 <Popup open={isModalOpen} onClose={(state) => setModalOpen(false)}>
                     <h1 className='leafletMapPopupText'>Map</h1>
                     <div className='leafletMapPopupWrapper'>
-                        <LeafletMap mapID='mapEventPopup' currentPoint={props.currentPoint} maxZoom={25} zoom={17} isRevealed={isModalOpen} />
+                        <LeafletMap mapID='mapEventPopup' />
                     </div>
                 </Popup>
             </div>

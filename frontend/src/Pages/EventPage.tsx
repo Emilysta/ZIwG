@@ -24,7 +24,7 @@ export default function EventPage() {
                 <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={isLoading} />
                 <div className='sideBox'>
                     <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Interested', icon: '' }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} />
-                    <LeafletBoxWithPopup mapID='mapEvent' currentPoint={{ lat: 51.5, lon: -0.11 }} isReadOnly isLoading={isLoading} />
+                    <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} />
                 </div>
             </div>
         )

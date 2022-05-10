@@ -62,7 +62,7 @@ export default function UserAddEventPage() {
             }
         return error;
     }
-    console.log(values);
+
     return (
         <div className='userAddEventPage'>
             <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} isReadOnly={false} />
