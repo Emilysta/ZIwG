@@ -35,6 +35,14 @@ export const userApi = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+
+        logout: build.mutation<void, void>({
+            query: () => ({
+                url: 'logout',
+                method: 'GET',
+            }),
+        }),
+
         register: build.mutation<null, RegisterData>({
             query: (body) => ({
                 url: 'register',

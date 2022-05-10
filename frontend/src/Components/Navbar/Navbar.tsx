@@ -1,11 +1,11 @@
 import * as React from "react";
 import './Navbar.scss'
 import Logotype from "../Logotype";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { BlendedCircle } from "Components/BlendedCircle";
 import { useAppDispatch, useAppSelector } from "Utils/Store";
-import { logout } from "Utils/UserSlice";
+import { userApi } from "Utils/UserApiSlice";
 
 const onlyEvents = [{ link: "/events", name: "Events" }];
 const onlyLogIn = [{ link: "/logIn", name: "Join Us" }];
@@ -16,9 +16,16 @@ type linkName = {
 
 export function Navbar() {
   const location = useLocation();
-  const isUserLoggedIn = useAppSelector(state => state.userLogin.isLoggedIn);
+  const { data: userData, error, isLoading } = userApi.useGetUserDataQuery()
+  const [logoutRequest, logoutResult] = userApi.useLogoutMutation()
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
   let [list, setList] = React.useState(onlyLogIn.concat(onlyEvents));
+
+  const isUserLoggedIn = () => userData
+  const logout = () => logoutRequest().unwrap()
+    .then((_) => navigate('/'))
+    .catch((err) => console.error(err))
 
   useEffect(() => {
     let tempList: linkName[];
@@ -33,7 +40,10 @@ export function Navbar() {
         tempList = onlyLogIn;
         break;
       default:
-        tempList = onlyLogIn.concat(onlyEvents)
+        if (userData)
+          tempList = onlyEvents
+        else
+          tempList = onlyLogIn.concat(onlyEvents)
         break;
     }
     setList(tempList);
@@ -64,6 +74,7 @@ export function Navbar() {
         <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
       </div>
       <ul className="navbarList">
+        {userData && <li><Link to={"/user"}>Hi, {userData.displayName}</Link></li>}
         {list.map((singleLink, i) => {
           return (
             <li key={i}>
@@ -71,7 +82,7 @@ export function Navbar() {
             </li>
           )
         })}
-        {isUserLoggedIn && <li><Link to={""} onClick={() => dispatch(logout())}>Log out</Link></li>}
+        {isUserLoggedIn() && <li><Link to={""} onClick={logout}>Log out</Link></li>}
       </ul>
     </div>
 
