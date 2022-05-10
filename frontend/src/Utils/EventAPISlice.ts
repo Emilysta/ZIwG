@@ -16,7 +16,7 @@ export const eventApi = createApi({
       },
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ eventId: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
     getUserEvents: build.query<EventDataSimple[], { Location: string; MonthId: string, UserId: string }>({
@@ -26,13 +26,13 @@ export const eventApi = createApi({
       }),
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ eventId: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
     getEvent: build.query<EventData, string>({
-      query: (name) => `Event/${name}`,
+      query: (name) => `/${name}`,
     }),
-    addEvent: build.mutation<null, Omit<EventData, 'organizerName' | 'organizerImage' | 'eventId' | 'mainImage' | 'images'>>({
+    addEvent: build.mutation<null, Omit<EventData, 'organizerName' | 'organizerImage' | 'id' | 'mainImage' | 'images'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',

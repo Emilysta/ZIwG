@@ -15,7 +15,7 @@ import { useModal } from 'Utils/Hooks';
 
 type MainEventBoxProps = {
     className?: string,
-    isReadOnly?: boolean,
+    isReadOnly: boolean,
     values: Partial<EventData>,
     onValuesChange?: (id: string, value: any) => void,
     isLoading?: boolean,
@@ -61,7 +61,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 <LocationPicker />
             </Popup>)
     }
-
+    
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>

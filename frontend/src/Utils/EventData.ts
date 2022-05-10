@@ -1,5 +1,5 @@
 export type EventDataSimple = {
-    eventId: string,
+    id: string,
     name: string,
     startDate: string,
     endDate: string,

@@ -12,7 +12,7 @@ import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
     const navigate = useNavigate();
-    const [values, setValues] = useState<Omit<EventData, 'organizerName' | 'organizerImage' | 'eventId' | 'images' | 'mainImage'>>(
+    const [values, setValues] = useState<Omit<EventData, 'organizerName' | 'organizerImage' | 'id' | 'images' | 'mainImage'>>(
         {
             name: 'Event name',
             description: '',
@@ -65,7 +65,7 @@ export default function UserAddEventPage() {
     console.log(values);
     return (
         <div className='userAddEventPage'>
-            <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} />
+            <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} isReadOnly={false} />
             <div className='sideBox'>
                 <div className='togglesBox'>
                     <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.isPublicEvent} id='isPublicEvent' onValueChange={valueChange} />

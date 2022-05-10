@@ -14,7 +14,7 @@ export type TagListProps = {
 
 export default function TagList(props: TagListProps) {
     const [tags, setTags] = useState(props.tags);
-    const [isAddButtonVisible, setIsAddButtonVisible] = useState(props.isReadOnly);
+    const [isAddButtonVisible, setIsAddButtonVisible] = useState(!props.isReadOnly);
     const [isTagInputVisible, setIsTagInputVisible] = useState(false);
     const [tagInputValue, setTagInputValue] = useState("");
     const [tagPage, setTagPage] = useState(0);
