@@ -1,6 +1,7 @@
 import { MenuButton } from 'Components/Input/MenuButton';
 import * as React from 'react';
 import { Person } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import { userApi, UserData } from 'Utils/UserApiSlice';
 import "./EditableProfileSection.scss"
@@ -10,6 +11,8 @@ export function EditableProfileSection(props: any) {
 
     const { data, error, isLoading } = userApi.useGetUserDataQuery()
     const [changeDataRequest, changeDataResult] = userApi.useChangeUserDataMutation()
+    const [deleteUserRequest, deleteUserResult] = userApi.useDeleteUserMutation()
+    const navigate = useNavigate();
 
     const [user, setUser]: [UserData, any] = React.useState(data)
     const [disabled, setEnabled]: [boolean, any] = React.useState(true)
@@ -22,6 +25,13 @@ export function EditableProfileSection(props: any) {
         changeDataRequest(user).unwrap()
             .then((_) => onToggle())
             .catch((err) => console.error(err))
+    }
+    const onDelete = () => {
+        if (window.confirm("Are you sure to delete account?")) {
+            deleteUserRequest().unwrap()
+                .then((data) => navigate('/'))
+                .catch((err) => console.log(err))
+        }
     }
     const wip = () => alert("Work in progress")
 
@@ -60,8 +70,8 @@ export function EditableProfileSection(props: any) {
 
                 <div className='profileData' hidden={disabled}>
                     <label>Options</label>
-                    <MenuButton value="Change password" onClick={wip} />
-                    <MenuButton value="Delete account" onClick={wip} />
+                    {/* <MenuButton value="Change password" onClick={wip} /> */}
+                    <MenuButton value="Delete account" onClick={onDelete} />
                 </div>
             </div>
             <div id="buttonMenu">

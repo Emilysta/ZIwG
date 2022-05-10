@@ -43,9 +43,9 @@ export const userApi = createApi({
             }),
         }),
 
-        deleteUser: build.mutation<null, string>({
+        deleteUser: build.mutation<null, void>({
             query: (id) => ({
-                url: `/${id}`,
+                url: `deleteUser`,
                 method: 'DELETE',
             })
         }),
