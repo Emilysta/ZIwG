@@ -22,18 +22,15 @@ type MainEventBoxProps = {
 }
 
 export default function MainEventBox(props: MainEventBoxProps) {
-    const [values, setValues] = useState<Partial<EventData>>(props.values);
     const [popupOpened, setPopupOpened] = useState(false);
     const [isPopupOpen, setPopupOpen, togglePopup] = useModal(false);
 
     const handleInputChange = (inputId: string, value: string) => {
-        setValues({ ...values, [inputId]: value });
         if (props.onValuesChange)
             props.onValuesChange(inputId, value);
     };
 
     function pickCalendarDate(updateDate: string, id: string) {
-        setValues({ ...values, [id]: updateDate });
         if (props.onValuesChange) {
             props.onValuesChange(id, updateDate);
         }
@@ -48,7 +45,6 @@ export default function MainEventBox(props: MainEventBoxProps) {
     }
 
     function onGalleryPopupClose(state: boolean, images: string[]) {
-        setValues({ ...values, images: images });
         if (props.onValuesChange) {
             props.onValuesChange('images', images);
             setPopupOpened(false);
@@ -61,7 +57,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 <LocationPicker />
             </Popup>)
     }
-    
+
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
@@ -72,29 +68,29 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
             </div>
 
-            <GaleryPopup images={values.images} open={popupOpened} onClose={onGalleryPopupClose} />
+            <GaleryPopup images={props.values.images} open={popupOpened} onClose={onGalleryPopupClose} />
 
             {returnLocationPickerPopup()}
 
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue={values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
                 <div>
                     <p className='descText'>Tags</p>
-                    <TagList isLoading={props.isLoading} tags={values.tags} isReadOnly={props.isReadOnly} />
+                    <TagList isLoading={props.isLoading} tags={props.values.tags} isReadOnly={props.isReadOnly} />
                 </div>
 
                 <div className='localizationInputBox'>
-                    <SimpleEditableInput defaultValue={values.place === '' ? 'no localization' : values.description} id={"place"} onChangeAction={handleInputChange} inputDescription={"Localization"} inputClassName='localizationInput' maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
+                    <SimpleEditableInput defaultValue={props.values.place === '' ? 'no localization' : props.values.description} id={"place"} onChangeAction={handleInputChange} inputDescription={"Localization"} inputClassName='localizationInput' maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
                     {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
                 </div>
 
                 <div>
                     <p className='descText'>Start date - end date</p>
-                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={new Date(values.startDate)} endDate={new Date(values.endDate)} isLoading={props.isLoading} />
+                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={props.values.startDate} endDate={props.values.endDate} isLoading={props.isLoading} />
                 </div>
 
-                <SimpleEditableInput defaultValue={values.description === '' ? 'No description' : values.description} id={"description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.description === '' ? 'No description' : props.values.description} id={"description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
             </div>
         </div>
     )

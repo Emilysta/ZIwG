@@ -18,7 +18,6 @@ type EventTileProps = {
 }
 
 export default function EventTile(props: EventTileProps) {
-
     function dateFormat(dateString: string): string {
         let date = new Date(dateString);
         let returnDateString: string;

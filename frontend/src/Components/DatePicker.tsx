@@ -10,14 +10,16 @@ type EventDatePickerProps = {
     isReadOnly?: boolean,
     className?: string,
     onDateChange?: (value: string, id: string) => void,
-    startDate: Date,
-    endDate: Date,
+    startDate: string,
+    endDate: string,
     isLoading?: boolean,
 }
 
 export default function EventDatePicker(props: EventDatePickerProps) {
-    const [startDate, setStartDate] = useState(props.startDate);
-    const [endDate, setEndDate] = useState(props.endDate);
+    const [startDate, setStartDate] = useState(undefined);
+    const [endDate, setEndDate] = useState(undefined);
+
+    React.useEffect(() => { setStartDate(props.startDate); setEndDate(props.endDate) });
 
     const filterPassedTime = (time: Date) => {
         const currentDate = new Date();
@@ -26,17 +28,18 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         return currentDate.getTime() < selectedDate.getTime();
     };
 
-    function onStartDateChange(startDateUp: Date) {
+    function onStartDateChange(startDateUp: string) {
         setStartDate(startDateUp);
         if (props.onDateChange)
-            props.onDateChange(startDateUp?.toISOString(), 'startDate');
+            props.onDateChange(startDateUp, 'startDate');
     }
 
-    function onEndDateChange(endDateUp: Date) {
+    function onEndDateChange(endDateUp: string) {
         setEndDate(endDateUp);
         if (props.onDateChange)
-            props.onDateChange(endDateUp?.toISOString(), 'endDate');
+            props.onDateChange(endDateUp, 'endDate');
     }
+
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }
@@ -44,7 +47,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (startDate === null)
             return (<p className='noPaddingMargin'>No date selected</p>)
         else
-            return (<p className='noPaddingMargin'>{startDate?.toDateString()} — {endDate?.toDateString()}</p>)
+            return (<p className='noPaddingMargin'>{new Date(startDate).toDateString()} — {new Date(endDate).toDateString()}</p>)
     }
     else {
         return (
@@ -53,9 +56,9 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     dateFormat="dd/MM/yyyy, HH:mm"
                     className='simplePickerInput'
                     calendarClassName='calendar'
-                    selected={startDate}
+                    selected={new Date(startDate)}
                     minDate={new Date()}
-                    onChange={(update) => { onStartDateChange(update) }}
+                    onChange={(update) => { onStartDateChange(update.toISOString()) }}
                     filterTime={filterPassedTime}
                     isClearable={true}
                     placeholderText="Start date"
@@ -72,9 +75,9 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     dateFormat="dd/MM/yyyy, HH:mm"
                     className='simplePickerInput'
                     calendarClassName='calendar'
-                    selected={endDate}
+                    selected={new Date(endDate)}
                     minDate={new Date()}
-                    onChange={(update) => { onEndDateChange(update) }}
+                    onChange={(update) => { onEndDateChange(update.toISOString()) }}
                     filterTime={filterPassedTime}
                     isClearable={true}
                     placeholderText="End date"
