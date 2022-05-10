@@ -19,25 +19,32 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     const [startDate, setStartDate] = useState(undefined);
     const [endDate, setEndDate] = useState(undefined);
 
-    React.useEffect(() => { setStartDate(props.startDate); setEndDate(props.endDate) });
+    React.useEffect(() => {
+        setStartDate(new Date(props.startDate));
+        setEndDate(new Date(props.endDate))
+    }, []);
 
     const filterPassedTime = (time: Date) => {
         const currentDate = new Date();
         const selectedDate = new Date(time);
-
         return currentDate.getTime() < selectedDate.getTime();
     };
 
-    function onStartDateChange(startDateUp: string) {
+    function onStartDateChange(startDateUp: Date) {
         setStartDate(startDateUp);
         if (props.onDateChange)
-            props.onDateChange(startDateUp, 'startDate');
+            props.onDateChange(startDateUp?.toISOString(), 'startDate');
+        if (startDateUp > endDate) {
+            setEndDate(startDateUp);
+            if (props.onDateChange)
+                props.onDateChange(startDateUp?.toISOString(), 'endDate');
+        }
     }
 
-    function onEndDateChange(endDateUp: string) {
+    function onEndDateChange(endDateUp: Date) {
         setEndDate(endDateUp);
         if (props.onDateChange)
-            props.onDateChange(endDateUp, 'endDate');
+            props.onDateChange(endDateUp?.toISOString(), 'endDate');
     }
 
     if (props.isLoading) {
@@ -56,11 +63,11 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     dateFormat="dd/MM/yyyy, HH:mm"
                     className='simplePickerInput'
                     calendarClassName='calendar'
-                    selected={new Date(startDate)}
+                    selected={startDate}
                     minDate={new Date()}
-                    onChange={(update) => { onStartDateChange(update.toISOString()) }}
+                    onChange={(update) => { onStartDateChange(update) }}
                     filterTime={filterPassedTime}
-                    isClearable={true}
+                    isClearable={false}
                     placeholderText="Start date"
                     disabled={props.isReadOnly}
                     timeInputLabel="Start time:"
@@ -75,13 +82,12 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     dateFormat="dd/MM/yyyy, HH:mm"
                     className='simplePickerInput'
                     calendarClassName='calendar'
-                    selected={new Date(endDate)}
-                    minDate={new Date()}
-                    onChange={(update) => { onEndDateChange(update.toISOString()) }}
+                    selected={endDate}
+                    minDate={startDate}
+                    onChange={(update) => { onEndDateChange(update) }}
                     filterTime={filterPassedTime}
-                    isClearable={true}
+                    isClearable={false}
                     placeholderText="End date"
-                    disabledKeyboardNavigation
                     disabled={props.isReadOnly}
                     timeInputLabel="End time:"
                     timeFormat="HH:mm"
