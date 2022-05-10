@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20220425185253_InitialCreate")]
+    [Migration("20220509151255_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,18 +85,25 @@ namespace Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsPaidTicket")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsPublicEvent")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsTicketLimit")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<byte[]>("MainImage")
+                        .HasColumnType("longblob");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -104,32 +111,76 @@ namespace Domain.Migrations
                         .HasColumnType("varchar(40)");
 
                     b.Property<string>("OrganiserId")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Place")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
 
-                    b.Property<int>("UsersLimit")
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("TicketLimit")
                         .HasColumnType("int");
 
+                    b.Property<double>("TicketPrice")
+                        .HasColumnType("double");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganiserId");
 
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("ImageBytes")
+                        .HasColumnType("longblob");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("EventUser", b =>
                 {
-                    b.Property<int>("EventsId")
+                    b.Property<int>("ParticipatedEventsId")
                         .HasColumnType("int");
 
                     b.Property<string>("UsersId")
                         .HasColumnType("varchar(255)");
 
-                    b.HasKey("EventsId", "UsersId");
+                    b.HasKey("ParticipatedEventsId", "UsersId");
 
                     b.HasIndex("UsersId");
 
@@ -387,11 +438,34 @@ namespace Domain.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Event", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "Organiser")
+                        .WithMany("OrganisedEvents")
+                        .HasForeignKey("OrganiserId");
+
+                    b.Navigation("Organiser");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Image", b =>
+                {
+                    b.HasOne("Domain.Entities.Event", null)
+                        .WithMany("Images")
+                        .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Tag", b =>
+                {
+                    b.HasOne("Domain.Entities.Event", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("EventId");
+                });
+
             modelBuilder.Entity("EventUser", b =>
                 {
                     b.HasOne("Domain.Entities.Event", null)
                         .WithMany()
-                        .HasForeignKey("EventsId")
+                        .HasForeignKey("ParticipatedEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -451,6 +525,18 @@ namespace Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Event", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("OrganisedEvents");
                 });
 #pragma warning restore 612, 618
         }

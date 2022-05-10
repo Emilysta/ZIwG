@@ -8,6 +8,8 @@ using AutoMapper;
 using Domain.Contexts;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Application.DTOs.UserDTOs;
+using System.IO;
 
 namespace Infrastructure.Services
 {
@@ -23,11 +25,34 @@ namespace Infrastructure.Services
             _context = context;
             _eventUsersService = eventUsersService;
         }
-        public async Task<bool> AddEvent(CreateDTO @event)
+
+        public async Task<bool> UploadMainImage(FileUpload fileObj, int eventId)
+        {
+            if (fileObj.files.Length > 0)
+            {
+                var @event = await _context.Events.Where(x => x.Id == eventId).SingleOrDefaultAsync();
+                if (@event == null)
+                    return false;
+                using (var ms = new MemoryStream())
+                {
+                    ms.Flush();
+                    ms.Position = 0;
+                    await fileObj.files.CopyToAsync(ms);
+                    var fileBytes = ms.ToArray();
+                    @event.MainImage = fileBytes;
+                    _context.Events.Update(@event);
+                    if (await SaveChangesAsync())
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> AddEvent(CreateEventDTO @event)
         {
             Event eventToAdd = new();
             eventToAdd = _mapper.Map(@event, eventToAdd);
-            eventToAdd.OrganiserId = _eventUsersService.GetCurrentUser().Id;
+            eventToAdd.Organiser = _eventUsersService.GetCurrentUser();
             if (eventToAdd == null)
                 return false;
 
@@ -46,35 +71,31 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<List<ReturnDTO>> GetEvents(string Location, string MonthAndYear, string UserId)
+        public async Task<List<ReturnEventsAsListDTO>> GetEvents(string Location, string MonthAndYear, string UserId)
         {
             if (!string.IsNullOrEmpty(UserId))
             {
-                var user = await _context.Users.Where(x => x.Id == UserId).Include(e => e.Events).SingleOrDefaultAsync(); 
-                var availableEvents = user.Events
+                var user = await _context.Users.Where(x => x.Id == UserId).Include(p => p.ParticipatedEvents).ThenInclude(o => o.Organiser).SingleOrDefaultAsync(); 
+                var availableEvents = user.ParticipatedEvents
                 .Where(p => (Location == null || p.Place == Location))
-                .Where(p => (MonthAndYear == null || p.Date.Month.ToString() + "/" + p.Date.Year.ToString() == MonthAndYear))
+                .Where(p => (MonthAndYear == null || p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear))
                 .ToList();
-                List<ReturnDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnDTO>>(availableEvents);
-                eventsToReturn = eventsToReturn.OrderByDescending(x => x.Date).ToList();
+                List<ReturnEventsAsListDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnEventsAsListDTO>>(availableEvents);
+                eventsToReturn = eventsToReturn.OrderByDescending(x => x.StartDate).ToList();
                 return eventsToReturn;
             }
             else {
-                var availableEvents = await _context.Events
+                var availableEvents = await _context.Events.Include(o => o.Organiser)
                 .Where(p => (Location == null || p.Place == Location))
-                .Where(p => (MonthAndYear == null || p.Date.Month.ToString() + "/" + p.Date.Year.ToString() == MonthAndYear))
+                .Where(p => (MonthAndYear == null || p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear))
                 .ToListAsync();
-                List<ReturnDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnDTO>>(availableEvents);
-                eventsToReturn = eventsToReturn.OrderByDescending(x => x.Date).ToList();
+                List<ReturnEventsAsListDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnEventsAsListDTO>>(availableEvents);
+                eventsToReturn = eventsToReturn.OrderByDescending(x => x.StartDate).ToList();
                 return eventsToReturn;
             }
-            
-            
-
-            
         }
 
-        public bool ModifyEvent(ModifyDTO @event, int id)
+        public bool ModifyEvent(ModifyEventDTO @event, int id)
         {
             var eventToModify = _context.Events.Where(x => x.Id == id).SingleOrDefault();
 
@@ -96,5 +117,11 @@ namespace Infrastructure.Services
             return false;
         }
 
+        public async Task<ReturnEventExtendedDTO> GetEventById(int id)
+        {
+            var foundEvent = await _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).Include(t => t.Tags).SingleOrDefaultAsync();
+            ReturnEventExtendedDTO eventToReturn = _mapper.Map<Event, ReturnEventExtendedDTO>(foundEvent);
+            return eventToReturn;
+        }
     }
 }

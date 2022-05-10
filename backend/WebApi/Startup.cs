@@ -15,6 +15,7 @@ using Infrastructure.Services;
 using System.Reflection;
 using System.IO;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ziwg
 {
@@ -34,13 +35,17 @@ namespace ziwg
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(UserMappingProfile));
+            services.AddHttpContextAccessor();
             services.AddTransient<ILoggingService, LoggingService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IEventUsersService, EventUsersService>();
             services.AddTransient<ICarpoolService, CarpoolService>();
             services.AddTransient<ICarpoolUsersService, CarpoolUsersService>();
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
 
             services.AddAuthentication()
                 .AddGoogle(options =>

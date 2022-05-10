@@ -1,12 +1,15 @@
 ﻿using System.Threading.Tasks;
 using System.Linq;
+using System.IO;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using Application.Interfaces;
 using Application.DTOs.UserDTOs;
 using Domain.Entities;
 using Domain.Contexts;
-using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -14,18 +17,21 @@ namespace Infrastructure.Services
     {
         private readonly DataBaseContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _accessor;
 
-        public UserService (UserManager<User> userManager, IMapper mapper, DataBaseContext context)
+        public UserService (UserManager<User> userManager, IMapper mapper, DataBaseContext context, IHttpContextAccessor accessor)
         {
             _mapper = mapper;
             _context = context;
+            _accessor = accessor;
         }
 
-        public async Task<bool> UploadProfilePicture(FileUpload fileObj, string id)
+        public async Task<bool> UploadProfilePicture(FileUpload fileObj)
         {
             if (fileObj.files.Length > 0)
             {
-                User user = _context.Users.Where(x => x.Id == id).SingleOrDefault();
+                var userEmail = GetCurrenUserMail();
+                var user = await _context.Users.Where(x => x.Email == userEmail).SingleOrDefaultAsync();
                 if (user == null)
                     return false;
                 using (var ms = new MemoryStream())
@@ -43,9 +49,10 @@ namespace Infrastructure.Services
             return false;
         }
 
-        public bool ChangeDisplayData(DisplayDataDTO model, string id)
+        public bool ChangeDisplayData(DisplayDataDTO model)
         {
-            var userToModify = _context.Users.Where(x => x.Id == id).SingleOrDefault();
+            var userEmail = GetCurrenUserMail();
+            var userToModify = _context.Users.Where(x => x.Email == userEmail).SingleOrDefault();
             if (userToModify == null)
                 return false;
 
@@ -54,9 +61,10 @@ namespace Infrastructure.Services
             return true;
         }
         
-        public bool DeleteUser(string id)
+        public bool DeleteUser()
         {
-            var userToDelete = _context.Users.Where(x => x.Id == id).SingleOrDefault();
+            var userEmail = GetCurrenUserMail();
+            var userToDelete = _context.Users.Where(x => x.Email == userEmail).SingleOrDefault();
             if (userToDelete == null)
                 return false;
 
@@ -65,6 +73,32 @@ namespace Infrastructure.Services
                 _context.Users.Remove(userToDelete);
                 return true;
             }
+        }
+
+        public string GetCurrenUserMail()
+        {
+            var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            return UserMail;
+        }
+
+        public string GetCurrenUserId()
+        {
+            var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var user = _context.Users.Where(x => x.Email == UserMail).SingleOrDefault();
+            var userId = "";
+            if (user != null)
+            {
+                userId = user.Id;
+            }
+            return userId;
+        }
+
+        public async Task<ReturnUserDataDTO> GetCurrenUserData()
+        {
+            var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var user = await _context.Users.Where(x => x.Email == UserMail).SingleOrDefaultAsync();
+            ReturnUserDataDTO userData = _mapper.Map<User, ReturnUserDataDTO>(user);
+            return userData;
         }
 
         public async Task<bool> SaveChangesAsync()

@@ -32,7 +32,13 @@ namespace Domain.Configurations
                 .HasMaxLength(150);
             builder.Property(t => t.Location)
                 .HasMaxLength(25);
-            
+
+            builder.HasMany(u => u.ParticipatedEvents)
+                .WithMany(t => t.Users);
+            builder.HasMany(u => u.OrganisedEvents)
+                .WithOne(t => t.Organiser);
+            builder.HasMany(u => u.Carpools)
+                .WithMany(t => t.Users);
         }
     }
 }
