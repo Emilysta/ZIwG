@@ -22,8 +22,10 @@ export default function EventDatePicker(props: EventDatePickerProps) {
 
 
     React.useEffect(() => {
-        setStartDate(new Date(props.startDate));
-        setEndDate(new Date(props.endDate))
+        let startTemp = new Date(props.startDate);
+        let endTemp = new Date(props.endDate);
+        setStartDate(startTemp);
+        setEndDate(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
     }, [props.endDate, props.startDate]);
 
     const filterPassedTime = (time: Date) => {
@@ -34,13 +36,8 @@ export default function EventDatePicker(props: EventDatePickerProps) {
 
     function onStartDateChange(startDateUp: Date) {
         setStartDate(startDateUp);
-        if (props.onDateChange)
-            props.onDateChange(startDateUp?.toISOString(), 'startDate');
-        if (startDateUp > endDate) {
-            setEndDate(startDateUp);
-            if (props.onDateChange)
-                props.onDateChange(startDateUp?.toISOString(), 'endDate');
-        }
+        if (props.onDateChange && startDateUp)
+            props.onDateChange(startDateUp.toISOString(), 'startDate');
     }
 
     function onEndDateChange(endDateUp: Date) {
@@ -48,8 +45,10 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (props.onDateChange)
             props.onDateChange(endDateUp?.toISOString(), 'endDate');
     }
-
-
+    console.log('startDate');
+    console.log(startDate);
+    console.log('endDate');
+    console.log(endDate);
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }
@@ -79,6 +78,8 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     showTimeInput
                     id='startDate'
                     scrollableYearDropdown
+                    required
+                //onChangeRaw={(e) => e.preventDefault()}
                 />
                 <p> — </p>
                 < ReactDatePicker
@@ -98,6 +99,8 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     showTimeInput
                     scrollableYearDropdown
                     id='endDate'
+                    required
+                    onChangeRaw={(e) => e.preventDefault()}
                 />
             </div>
         )
