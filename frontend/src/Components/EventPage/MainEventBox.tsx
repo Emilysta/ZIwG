@@ -37,7 +37,6 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
-
     function onDropBoxClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();
         if (!props.isReadOnly) {
@@ -45,25 +44,31 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
-    function onGalleryPopupClose(state: boolean, images: string[]) {
-        setValues({ ...values, Images: images });
+    function onGalleryPopupClose(state: boolean, images: string[], selected: string) {
+        setValues({ ...values, Images: images, MainImage: selected });
         if (props.onValuesChange) {
             props.onValuesChange('Images', images);
+            props.onValuesChange('MainImage', selected);
             setPopupOpened(false);
         }
     }
 
+    let imageStyle: React.CSSProperties = { backgroundImage: `url(${values.MainImage})` }
+
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
-                <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)}>
-                    <Images className='galleryIcon' />
-                    {props.isReadOnly && <p>No images</p>}
-                    {!props.isReadOnly && <p>Drop images or click</p>}
+                <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)} style={imageStyle}>
+                    {!values.MainImage && <div>
+                        <Images className='galleryIcon' />
+                        {props.isReadOnly && <p>No images</p>}
+                        {!props.isReadOnly && <p>Click to add Image</p>}
+                    </div>}
                 </div>
             </div>
 
             <GaleryPopup images={values.Images} open={popupOpened} onClose={onGalleryPopupClose} />
+
             <div className='inputEventStack'>
                 <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
