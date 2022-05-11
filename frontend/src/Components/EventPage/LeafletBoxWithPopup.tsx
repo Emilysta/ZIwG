@@ -4,21 +4,45 @@ import Popup from 'Components/Popup';
 import './LeafletBoxWithPopup.scss';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { Map } from 'react-bootstrap-icons';
-import { useModal } from 'Utils/Hooks';
+import { MarkerIcon, useModal } from 'Utils/Hooks';
+import { useMap } from 'Utils/Hooks';
+import { useEffect } from 'react';
+import ZiwgSkeleton from 'Utils/Skeletons';
+import L from "leaflet";
 
 interface LeafletBoxWithPopupProps extends LeafletMapProps {
     className?: string,
     isLoading?: boolean,
+    point?: { lat: number, lon: number };
 }
 
 export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
     const [isModalOpen, setModalOpen, toggleModal] = useModal();
+    const [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map] = useMap();
+    const [initializeMap2, setViewMap2, locateOnMap2, removeMarkerMap2, addMarkerMap2, map2] = useMap();
+
+    useEffect(() => {
+
+        if (!props.isLoading) {
+            try {
+                initializeMap(props.mapID);
+                initializeMap2(`${props.mapID}Popup`);
+                if (props.point) {
+                    let marker = L.marker([props.point.lat, props.point.lon], { icon: MarkerIcon })
+                        .bindPopup("").openPopup();
+                    addMarkerMap(marker);
+                    addMarkerMap2(marker);
+                }
+            }
+            catch (e) { console.error(e); }
+        }
+    }, [props.isLoading]);
 
     if (props.isLoading)
         return (
             <div className='leafletMapBox'>
                 <div className='leafletMapWrapper'>
-                    <LeafletMap mapID={props.mapID} isLoading />
+                    <ZiwgSkeleton />
                 </div>
                 <div className='leafletButton'>
                     <ButtonWithIcon icon={<Map />} style={ButtonStyle.Filled} text={'Show popup'} isActive onClickAction={toggleModal} isLoading />
@@ -37,7 +61,7 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
                 <Popup open={isModalOpen} onClose={(state) => setModalOpen(false)}>
                     <h1 className='leafletMapPopupText'>Map</h1>
                     <div className='leafletMapPopupWrapper'>
-                        <LeafletMap mapID='mapEventPopup' />
+                        <LeafletMap mapID={`${props.mapID}Popup`} />
                     </div>
                 </Popup>
             </div>

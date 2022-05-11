@@ -37,13 +37,16 @@ export const useMap = () => {
 
     const [map, setMap] = useState(undefined);
     const initializeMap = (id: string) => {
-        let tempMap = L.map(id, mapParams);
-        L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-        }).addTo(tempMap);
-        const resizeObserver = new ResizeObserver(() => tempMap.invalidateSize());
-        resizeObserver.observe(document.getElementById(id));
-        setMap(tempMap);
+        try {
+            let tempMap = L.map(id, mapParams);
+            L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+            }).addTo(tempMap);
+            const resizeObserver = new ResizeObserver(() => tempMap.invalidateSize());
+            resizeObserver.observe(document.getElementById(id));
+            setMap(tempMap);
+        }
+        catch (e) { console.log(e) }
     }
     const setViewMap = (options: any) => setMap(map.setView(options));
     const locateOnMap = (onLocationFound?: (e: any) => void, onLocationError?: (e: any) => void) => {
@@ -60,5 +63,5 @@ export const useMap = () => {
         tempMap.addLayer(marker);
         setMap(tempMap);
     }
-    return [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap,] as const;
+    return [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map] as const;
 }
