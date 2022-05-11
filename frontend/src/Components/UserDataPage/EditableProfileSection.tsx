@@ -47,7 +47,7 @@ export function EditableProfileSection(props: any) {
                     <label>Name</label>
                     <span>
                         {!user ? <ZiwgSkeleton /> :
-                            <input type="text" disabled={disabled} value={user.displayName ?? ""} name="name" onChange={onChange} />}
+                            <input type="text" disabled={disabled} value={user.displayName ?? ""} name="displayName" onChange={onChange} />}
                     </span>
                 </div>
                 <div className='profileData'>
