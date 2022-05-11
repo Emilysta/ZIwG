@@ -1,4 +1,4 @@
-@use '_lib'as *;
+@use '_lib' as *;
 
 .mainEventBox {
     display: flex;
@@ -102,4 +102,15 @@
     font-size: 20px !important;
     margin: 0;
     padding: 0;
+}
+
+.sizedText.underlinedText {
+
+    @include customize() {
+        border-bottom: 1px solid getValue(light-greyish-color);
+    }
+}
+
+.localizationError {
+    padding-left: 0px;
 }

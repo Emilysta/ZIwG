@@ -16,6 +16,7 @@ import { debounce } from 'lodash';
 import { useCallback } from 'react';
 import { useAppDispatch } from 'Utils/Store';
 import { nominatimApi } from 'Utils/NominatimAPISlice';
+import { ErrorMsg } from 'Components/Input/ErrorMsg';
 
 
 type MainEventBoxProps = {
@@ -88,6 +89,12 @@ export default function MainEventBox(props: MainEventBoxProps) {
             </Popup>)
     }
 
+    function validateName(value: string): string {
+        if (value.length <= 0)
+            return 'Event must have a name';
+        return '';
+    }
+
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
@@ -103,7 +110,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             {returnLocationPickerPopup()}
 
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} validationAction={validateName} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
                 <div>
                     <p className='descText'>Tags</p>
@@ -112,9 +119,10 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 <div>
                     <p className='descText'>Localization</p>
                     <div className='localizationInputBox'>
-                        <p className='sizedText'>{localizationText ? localizationText : 'no localization'}</p>
+                        <p className='sizedText underlinedText'>{localizationText ? localizationText : 'No localization'}</p>
                         {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
                     </div>
+                    {!localizationText && <ErrorMsg className='localizationError'>Must contain localization</ErrorMsg>}
                 </div>
 
                 <div>
