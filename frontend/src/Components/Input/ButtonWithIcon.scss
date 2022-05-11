@@ -1,4 +1,4 @@
-@use '_lib'as *;
+@use 'lib'as *;
 
 .buttonBox {
     display: flex;
@@ -6,10 +6,11 @@
     height: max-content;
 }
 
-.buttonElement {
-    width: fit-content;
+.buttonBox>* {
     display: inline;
+    text-align: center;
     padding: 5px;
+    margin: auto;
 }
 
 .buttonActive,
@@ -52,6 +53,18 @@
     fill: white;
 }
 
+.linkBox.background {
+    @include customize {
+        border: 1px solid getValue(main-color);
+    }
+}
+
+.linkBox.background:hover {
+    @include customize {
+        background-color: getValue(main-lighter-color);
+    }
+}
+
 .boxBorder {
     border-radius: 5px;
     padding: 2px 5px 0px 5px;
@@ -67,5 +80,19 @@
     @include customize() {
         fill: getValue(main-color);
         color: getValue(main-color);
+    }
+}
+
+.background {
+    border-radius: 30px;
+
+    @include customize() {
+        border: 1px solid getValue(main-color);
+    }
+}
+
+.background:hover {
+    @include customize() {
+        background-color: getValue(main-lighter-color);
     }
 }

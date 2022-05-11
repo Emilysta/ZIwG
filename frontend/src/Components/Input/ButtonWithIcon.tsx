@@ -5,7 +5,7 @@ import './ButtonWithIcon.scss';
 
 type ButtonWithIconProps = {
     style: ButtonStyle,
-    icon?: any,
+    icon?: React.ReactNode,
     text: string,
     isActive?: boolean,
     link?: string,
@@ -19,6 +19,7 @@ export enum ButtonStyle {
     Border = 'boxBorder',
     Simple = 'boxSimple',
     MyButtonStyle = '',
+    Background = "background"
 }
 
 export default function ButtonWithIcon(props: ButtonWithIconProps) {
@@ -39,16 +40,16 @@ export default function ButtonWithIcon(props: ButtonWithIconProps) {
     else if (props.link) {
         return (
             <Link to={props.link} className={getClass()} replace={props.replaceLink}>
-                {icon && <div className='buttonElement'>{icon}</div>}
-                <div className='buttonElement'>{props.text} </div>
+                {icon}
+                <span>{props.text}</span>
             </Link>
         )
     }
     else {
         return (
             <div className={getClass()} onClick={onClick}>
-                {icon && <div className='buttonElement'>{icon}</div>}
-                <div className='buttonElement'>{props.text} </div>
+                {icon}
+                <span>{props.text} </span>
             </div>
         )
     }

@@ -1,15 +1,12 @@
 ﻿using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.UserDTOs;
 using Application.Interfaces;
 
-
 namespace WebApi.Controllers
 {
-    
+
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
@@ -112,6 +109,7 @@ namespace WebApi.Controllers
                 return Ok();
             return BadRequest();
         }
+
         /// <summary>
         /// Login with google
         /// </summary>
@@ -130,10 +128,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GoogleResponse()
         {
-            if(await _loggingService.GetGoogleResponse())
+            if (await _loggingService.GetGoogleResponse())
                 return Ok();
             return BadRequest();
-        }        
+        }
         /// <summary>
         /// Change user data
         /// </summary>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Validator } from "Utils/Validator";
+import { ErrorMsg } from "./ErrorMsg";
 import './TextInput.scss'
 
 export type TextInputProps = {
@@ -30,7 +31,7 @@ export function TextInput(props: TextInputProps) {
   const renderInput = () => {
     return <div className="inputBox">
       <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} />
-      <p className="inputError">{error}</p>
+      {props.validate && <ErrorMsg>{error}</ErrorMsg>}
     </div>
   }
 

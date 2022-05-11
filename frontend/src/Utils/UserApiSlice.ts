@@ -36,6 +36,13 @@ export const userApi = createApi({
             invalidatesTags: ['User'],
         }),
 
+        logout: build.mutation<void, void>({
+            query: () => ({
+                url: 'logout',
+                method: 'GET',
+            }),
+        }),
+
         register: build.mutation<null, RegisterData>({
             query: (body) => ({
                 url: 'register',
@@ -48,9 +55,9 @@ export const userApi = createApi({
             query: () => 'currentUserId',
         }),
 
-        deleteUser: build.mutation<null, string>({
-            query: (id) => ({
-                url: `/${id}`,
+        deleteUser: build.mutation<null, void>({
+            query: () => ({
+                url: `deleteUser`,
                 method: 'DELETE',
             })
         }),
@@ -64,12 +71,15 @@ export const userApi = createApi({
         }),
 
         getUserData: build.query<UserData, void>({
-            query: () => ''
+            query: () => ({
+                url: 'currentUserData',
+                method: 'GET'
+            })
         }),
-
-        changeUserData: build.mutation<UserData, string>({
+        
+        changeUserData: build.mutation<void, UserData>({
             query: (body) => ({
-                url: `changeUserData/${body}`,
+                url: `changeUserData`,
                 method: 'PATCH',
                 body,
             }),

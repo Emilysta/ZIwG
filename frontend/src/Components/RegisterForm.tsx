@@ -2,12 +2,12 @@ import * as React from "react";
 import './RegisterForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { StateButton } from "./Input/StateButton";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Divider } from "./Divider";
-import { validLogin, validEmail, passwordValidate} from "Utils/TextInputValidation";
+import { validLogin, validEmail, passwordValidate } from "Utils/TextInputValidation";
 import { Validator } from "Utils/Validator";
-
+import { userApi } from "Utils/UserApiSlice";
 
 export function RegisterForm() {
     const [firstName, setFirstName] = useState('');
@@ -27,6 +27,9 @@ export function RegisterForm() {
             ? 'Passwords do not match'
             : null
 
+    const navigate = useNavigate();
+    const [registerRequest, registerResult] = userApi.useRegisterMutation()
+
     const firstNameCheck = new Validator()
     const lastNameCheck = new Validator()
     const userNameCheck = new Validator(validLogin)
@@ -37,7 +40,6 @@ export function RegisterForm() {
     const validations = [firstNameCheck, lastNameCheck, userNameCheck, emailCheck, passwdCheck, confirmedPasswdCheck]
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        console.log("submit");
         event.preventDefault();
         validateAndSend();
     }
@@ -71,22 +73,21 @@ export function RegisterForm() {
     }
 
     function sendRequest() {
-        // postJson('/api/user/register', {
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     password: password,
-        //     displayName: username,
-        //     dateOfBirth: "2020-01-01T10:00:00.000Z", // todo handle date of birth
-        //     email: email
-        // }).then(data => {
-        //     if (data.ok) {
-        //         window.location.href = '/login'
-        //     }
-        //     else {
-        //         setErrorMsg("Error");
-        //     }
-        // }).catch(() => {
-        //     setErrorMsg("Communication error");
-        // });
+        registerRequest({
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            displayName: username,
+            dateOfBirth: new Date("2020-01-01T10:00:00.000Z"), // todo handle date of birth
+            email: email
+        }).unwrap()
+            .then(data => {
+                console.log(data)
+                navigate('/login', { replace: true })
+            })
+            .catch(err => {
+                console.error(err)
+                setErrorMsg("Register failure")
+            })
     }
 }

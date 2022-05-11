@@ -1,39 +1,39 @@
 import { MenuButton } from 'Components/Input/MenuButton';
 import * as React from 'react';
 import { Person } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
+import ZiwgSkeleton from 'Utils/Skeletons';
+import { userApi, UserData } from 'Utils/UserApiSlice';
 import "./EditableProfileSection.scss"
 import ToggleTextarea from './ToggleTextarea';
 
-type State = {
-    disabled: boolean,
-    name: string,
-    location: string,
-    description: string
-}
-
 export function EditableProfileSection(props: any) {
 
-    const [state, setState]: [State, any] = React.useState({
-        disabled: true,
-        name: "Jan Kowalski",
-        location: "Wrocław, Dolnośląskie, Polska",
-        description: "Voluptate a debitis ipsum eum quis enim iure. Sunt voluptatem in ad ut voluptatem maiores nihil. Eos sapiente accusantium quis ut quae. Officiis quos aut sit eos nesciunt alias similique similique."
-    })
+    const { data, error, isLoading } = userApi.useGetUserDataQuery()
+    const [changeDataRequest, changeDataResult] = userApi.useChangeUserDataMutation()
+    const [deleteUserRequest, deleteUserResult] = userApi.useDeleteUserMutation()
+    const navigate = useNavigate();
 
-    const onClick = () => {
-        setState({
-            ...state,
-            disabled: !state.disabled
-        })
-        console.log(state)
-    }
+    const [user, setUser]: [UserData, any] = React.useState(data)
+    const [disabled, setEnabled]: [boolean, any] = React.useState(true)
 
-    const onChange = (e: any) => {
-        setState({
-            ...state,
-            [e.target.name]: e.target.value
-        })
+    React.useEffect(() => setUser(data), [data])
+
+    const onToggle = () => setEnabled(!disabled)
+    const onChange = (e: any) => setUser({ ...user, [e.target.name]: e.target.value })
+    const onSave = () => {
+        changeDataRequest(user).unwrap()
+            .then((_) => onToggle())
+            .catch((err) => console.error(err))
     }
+    const onDelete = () => {
+        if (window.confirm("Are you sure to delete account?")) {
+            deleteUserRequest().unwrap()
+                .then((data) => navigate('/'))
+                .catch((err) => console.log(err))
+        }
+    }
+    const wip = () => alert("Work in progress")
 
     return (
         <section className='profileSection'>
@@ -46,13 +46,15 @@ export function EditableProfileSection(props: any) {
                 <div className='profileData'>
                     <label>Name</label>
                     <span>
-                        <input type="text" disabled={state.disabled} value={state.name} name="name" onChange={onChange} />
+                        {!user ? <ZiwgSkeleton /> :
+                            <input type="text" disabled={disabled} value={user.displayName ?? ""} name="name" onChange={onChange} />}
                     </span>
                 </div>
                 <div className='profileData'>
                     <label>Location</label>
                     <span>
-                        <input type="text" disabled={state.disabled} value={state.location} name="location" onChange={onChange} />
+                        {!user ? <ZiwgSkeleton /> :
+                            <input type="text" disabled={disabled} value={user.location ?? ""} name="location" onChange={onChange} />}
                     </span>
                 </div>
 
@@ -61,21 +63,22 @@ export function EditableProfileSection(props: any) {
                 <div className='profileData'>
                     <label>Description</label>
                     <span>
-                        <ToggleTextarea disabled={state.disabled} value={state.description} name="description" onChange={onChange} />
+                        {!user ? <ZiwgSkeleton /> :
+                            <ToggleTextarea disabled={disabled} value={user.description ?? ""} name="description" onChange={onChange} />}
                     </span>
                 </div>
 
-                <div className='profileData' hidden={state.disabled}>
+                <div className='profileData' hidden={disabled}>
                     <label>Options</label>
-                    <MenuButton value="Change password" onClick={null} />
-                    <MenuButton value="Delete account" onClick={null} />
+                    {/* <MenuButton value="Change password" onClick={wip} /> */}
+                    <MenuButton value="Delete account" onClick={onDelete} />
                 </div>
             </div>
             <div id="buttonMenu">
-                <span hidden={state.disabled}>
-                    <MenuButton value="Cancel" onClick={null} />
+                <span hidden={disabled}>
+                    <MenuButton value="Cancel" onClick={onToggle} />
                 </span>
-                <MenuButton value={state.disabled ? "Edit profile" : "Save"} onClick={onClick} />
+                <MenuButton value={disabled ? "Edit profile" : "Save"} onClick={disabled ? onToggle : onSave} />
             </div>
         </section>
     );
