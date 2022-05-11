@@ -4,9 +4,18 @@
     display: inline-flex;
     flex-direction: row;
     column-gap: 10px;
+    align-items: center;
+    white-space: pre-line;
+}
+
+.tagListViewer {
+    display: inline-flex;
+    flex-direction: row;
+    column-gap: 10px;
     padding: 10px 0px;
     align-items: center;
 }
+
 
 .tagListUL {
     list-style-type: none;
@@ -17,13 +26,9 @@
     column-gap: 10px;
 }
 
-.tagAddBox {
-    display: inline-flex;
-}
-
-
 .tagInput {
     font-size: 20px;
+    min-width: 60px;
     width: max-content;
 }
 
@@ -34,4 +39,10 @@
     @include customize() {
         fill: getValue(main-color);
     }
+}
+
+.tagSizedText {
+    font-size: 20px !important;
+    margin: 0;
+    padding: 0;
 }

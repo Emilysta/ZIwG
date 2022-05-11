@@ -2,32 +2,37 @@ import * as React from "react";
 import './LoginForm.scss'
 import { TextInput } from "./Input/TextInput";
 import { StateButton, ButtonStateEnum } from "./Input/StateButton";
-import { Link } from 'react-router-dom';
-import { postJson } from "Utils/FetchUtils";
+import ButtonWithIcon, { ButtonStyle } from "./Input/ButtonWithIcon";
+import { Google } from "react-bootstrap-icons";
+import { Divider } from "./Divider";
+import { Link, useNavigate } from 'react-router-dom';
+import { userApi } from "Utils/UserApiSlice";
+import { useAppDispatch } from "Utils/Store";
+import { login } from "Utils/UserSlice";
+import { ErrorMsg } from "./Input/ErrorMsg";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
+  const [error, setError] = React.useState(false);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [loginRequest, loginResult] = userApi.useLoginMutation();
+  const [googleLoginRequest, googleLoginResult] = userApi.useGoogleLoginMutation();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit");
+    setError(false);
 
-    window.location.href = '/user'
-    return; // todo disabled login request
-
-    postJson("api/user/login", {
-      email: email,
-      password: password,
-    }).then((data) => {
-      console.log(data)
-      if (data.ok) {
-      }
-      else {
-      }
-    }).catch((reason) => {
-      console.log(reason)
-    })
+    await loginRequest({ email: email, password: password }).unwrap()
+      .then(data => {
+        dispatch(login());
+        navigate('/user', { replace: true });
+      })
+      .catch(err => {
+        setError(true)
+      });
   }
 
   const minimalLength = 0;
@@ -35,6 +40,16 @@ export function LoginForm() {
   const buttonState = (email.length > minimalLength && password.length > minimalLength)
     ? ButtonStateEnum.Active
     : ButtonStateEnum.Inactive
+
+  const googleAuth = () => {
+    // bug CORS issue
+    googleLoginRequest({}).unwrap()
+      .then(data => {
+        console.log(data)
+        window.location.replace(data)
+      })
+      .catch(err => console.error(err))
+  }
 
   return <section className="LoginSection">
     <h1>Login</h1>
@@ -44,9 +59,14 @@ export function LoginForm() {
     <form onSubmit={handleSubmit} className="LoginForm">
       <TextInput placeHolder='Email' onChange={v => setEmail(v)} />
       <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
+      {error && <ErrorMsg>Login failure</ErrorMsg>}
       <StateButton state={buttonState} type="submit" value="Submit" />
     </form>
 
     <p><Link to='/register' className='highlighted'>No account?</Link></p>
+
+    <Divider text='Or' size={360} />
+
+    <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} onClickAction={googleAuth} />
   </section >;
 }
