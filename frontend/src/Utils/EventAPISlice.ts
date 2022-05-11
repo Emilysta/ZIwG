@@ -12,12 +12,12 @@ export const eventApi = createApi({
       query: () => '',
       transformResponse: (rawResult: EventDataSimple[], meta) => {
         console.log(rawResult);
-        return rawResult
+        return rawResult['$values'];
       },
-      providesTags: (result, error, arg) =>
-        result
-          ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
-          : ['Event'],
+      providesTags: (result, error, arg) => 
+      result
+        ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+        : ['Event'],
     }),
     getUserEvents: build.query<EventDataSimple[], { Location: string; MonthId: string, UserId: string }>({
       query: (arg) => ({

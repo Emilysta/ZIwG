@@ -2,7 +2,7 @@ import * as React from 'react';
 import './MainEventBox.scss';
 import { Images } from 'react-bootstrap-icons';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TagList from './TagList';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { PinMapFill } from 'react-bootstrap-icons';
@@ -12,6 +12,11 @@ import { EventData } from 'Utils/EventData';
 import LocationPicker from 'Components/LocationPicker';
 import Popup from 'Components/Popup';
 import { useModal } from 'Utils/Hooks';
+import { debounce } from 'lodash';
+import { useCallback } from 'react';
+import { useAppDispatch } from 'Utils/Store';
+import { nominatimApi } from 'Utils/NominatimAPISlice';
+
 
 type MainEventBoxProps = {
     className?: string,
@@ -24,6 +29,17 @@ type MainEventBoxProps = {
 export default function MainEventBox(props: MainEventBoxProps) {
     const [popupOpened, setPopupOpened] = useState(false);
     const [isPopupOpen, setPopupOpen, togglePopup] = useModal(false);
+    const [localizationText, setLocalizationText] = useState('');
+    const delayCallApi = useCallback(debounce(location => callApi(location), 2000), []);
+    const dispatch = useAppDispatch();
+
+
+    useEffect(() => {
+        if (props.values.place) {
+            let loc = JSON.parse(props.values.place);
+            delayCallApi([loc.lat, loc.lon]);
+        }
+    }, []);
 
     const handleInputChange = (inputId: string, value: string) => {
         if (props.onValuesChange)
@@ -35,7 +51,6 @@ export default function MainEventBox(props: MainEventBoxProps) {
             props.onValuesChange(id, updateDate);
         }
     }
-
 
     function onDropBoxClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();
@@ -51,10 +66,25 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
+    function onPinnedLocationChange(lat: number, lon: number) {
+        if (props.onValuesChange) {
+            props.onValuesChange('place', `{"lat":${lat},"lon":${lon}}`);
+        }
+        delayCallApi([lat, lon]);
+    }
+
+    async function callApi(location: number[]) {
+        let promise = dispatch(nominatimApi.endpoints.getLocationByLatLon.initiate({ lat: location[0].toString(), lon: location[1].toString(), format: "json" }));
+        let result = await promise;
+
+        if (result.isSuccess)
+            setLocalizationText(result.data);
+    }
+
     function returnLocationPickerPopup() {
         if (!props.isLoading)
             return (<Popup open={isPopupOpen} onClose={(state) => togglePopup()}>
-                <LocationPicker />
+                <LocationPicker onPinnedLocationChange={onPinnedLocationChange} />
             </Popup>)
     }
 
@@ -79,10 +109,12 @@ export default function MainEventBox(props: MainEventBoxProps) {
                     <p className='descText'>Tags</p>
                     <TagList isLoading={props.isLoading} tags={props.values.tags} isReadOnly={props.isReadOnly} />
                 </div>
-
-                <div className='localizationInputBox'>
-                    <SimpleEditableInput defaultValue={props.values.place === '' ? 'no localization' : props.values.description} id={"place"} onChangeAction={handleInputChange} inputDescription={"Localization"} inputClassName='localizationInput' maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
-                    {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
+                <div>
+                    <p className='descText'>Localization</p>
+                    <div className='localizationInputBox'>
+                        <p className='sizedText'>{localizationText ? localizationText : 'no localization'}</p>
+                        {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
+                    </div>
                 </div>
 
                 <div>
@@ -95,3 +127,4 @@ export default function MainEventBox(props: MainEventBoxProps) {
         </div>
     )
 }
+

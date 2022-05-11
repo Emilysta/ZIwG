@@ -61,10 +61,9 @@ export default function TagList(props: TagListProps) {
     else
         return (
             <div className='tagListBox'>
-                {tags?.length <= 0 && <p className='tagSizedText'>No tags</p>}
+                {(tags === undefined || tags?.length <= 0) && <p className='tagSizedText'>No tags</p>}
                 {tags?.length > 0 &&
                     <div className='tagListViewer'>
-                        {tags?.length <= 0 && <p className='tagSizedText'>No tags</p>}
                         {tagPage > 0 && <ChevronLeft onClick={tagIndexLeft} />}
                         <ul className='tagListUL'>
                             {

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { BoxArrowRight } from 'react-bootstrap-icons';
 import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
+import { longDateFormat } from 'Utils/DateFormatter';
 
 type LinkButtonProps = { to: string };
 
@@ -18,12 +19,6 @@ type EventTileProps = {
 }
 
 export default function EventTile(props: EventTileProps) {
-    function dateFormat(dateString: string): string {
-        let date = new Date(dateString);
-        let returnDateString: string;
-        returnDateString = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-        return returnDateString;
-    }
 
     return (
         <div className='eventTile'>
@@ -46,8 +41,8 @@ export default function EventTile(props: EventTileProps) {
             <div className='details'>
                 {props.isLoading && <div className='detailsDate'><ZiwgSkeleton /><ZiwgSkeleton /></div>}
                 {!props.isLoading && <div className='detailsDate'>
-                    <p>From: <strong>{dateFormat(props.data.startDate)}</strong></p>
-                    <p>From: <strong>{dateFormat(props.data.endDate)}</strong></p>
+                    <p>From: <strong>{longDateFormat(props.data.startDate)}</strong></p>
+                    <p>To: <strong>{longDateFormat(props.data.endDate)}</strong></p>
                 </div>}
                 <div>
                     {props.isLoading && <ZiwgSkeleton />}

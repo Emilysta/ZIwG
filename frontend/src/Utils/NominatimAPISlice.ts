@@ -34,34 +34,3 @@ export const nominatimApi = createApi({
 })
 
 export const { useGetLocationByQuery, useGetLocationByLatLonQuery } = nominatimApi;
-
-// export interface ShortNominatimPlace {
-//     boundingbox?: string[],
-//     lat: string,
-//     lon: string,
-//     display_name: string,
-// }
-
-export const changeSeed = seed => ({
-    type: "CHANGE_SEED",
-    seed
-});
-
-const contactsFetched = contacts => ({ // (4)
-    type: "FETCH_CONTACTS_SUCCESS",
-    contacts
-});
-
-export const fetchContacts = () => (dispatch, getState) => { // (11)
-    fetch(
-        "https://randomuser.me/api/?format=json&results=10&seed=" +
-        encodeURIComponent(getState().seed)
-    )
-        .then(res => res.json())
-        .then(json => dispatch(contactsFetched(json.results)));
-};
-
-export const changeSeedAndFetch = seed => dispatch => {
-    dispatch(changeSeed(seed)); // (12)
-    dispatch(fetchContacts()); // (13)
-};

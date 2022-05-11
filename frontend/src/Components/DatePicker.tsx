@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { longDateFormat } from 'Utils/DateFormatter';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import "./DatePicker.scss";
 
@@ -19,10 +20,11 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     const [startDate, setStartDate] = useState(undefined);
     const [endDate, setEndDate] = useState(undefined);
 
+
     React.useEffect(() => {
         setStartDate(new Date(props.startDate));
         setEndDate(new Date(props.endDate))
-    }, []);
+    }, [props.endDate, props.startDate]);
 
     const filterPassedTime = (time: Date) => {
         const currentDate = new Date();
@@ -47,6 +49,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
             props.onDateChange(endDateUp?.toISOString(), 'endDate');
     }
 
+
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }
@@ -54,7 +57,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (startDate === null)
             return (<p className='noPaddingMargin'>No date selected</p>)
         else
-            return (<p className='noPaddingMargin'>{new Date(startDate).toDateString()} — {new Date(endDate).toDateString()}</p>)
+            return (<p className='noPaddingMargin'>{longDateFormat(startDate)} — {longDateFormat(endDate)}</p>)
     }
     else {
         return (

@@ -10,22 +10,17 @@ import { debounce } from 'lodash';
 import { useCallback, useEffect } from 'react';
 import { MarkerIcon, useMap } from 'Utils/Hooks';
 import L from "leaflet";
+import Throbber from './Throbber';
 
-let arr = [
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' },
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' },
-    { lat: '51.1089776', lon: '17.0326689', display_name: 'Wroclaw, Wrocław, Lower Silesian Voivodeship, 50-001, Poland' },
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' },
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' },
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' },
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' },
-    { lat: '51.1263106', lon: '16.97819633051261', display_name: 'Wrocław, Lower Silesian Voivodeship, Poland' }]
+type LocationPickerProps = {
+    onPinnedLocationChange?: (lat: number, lon: number) => void,
+}
 
-
-export default function LocationPicker() {
+export default function LocationPicker(props: LocationPickerProps) {
     const [resultsList, setResultsList] = React.useState<ShortNominatimPlace[]>(undefined);
     const [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap] = useMap();
     const [currentMarker, setCurrentMarker] = React.useState(undefined);
+    const [throbberVisibility, setThrobberVisibility] = React.useState(false);
     const dispatch = useAppDispatch();
     const delayCallApi = useCallback(debounce(search => callApi(search), 2000), []);
 
@@ -53,33 +48,40 @@ export default function LocationPicker() {
     }
 
     function onLocateMeClick() {
+        setThrobberVisibility(true);
         navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
             if (result.state === 'granted') {
-                alert(result.state);
+                //alert(result.state);
                 navigator.geolocation.getCurrentPosition(positionMe);
             } else if (result.state === 'prompt') {
-                alert(result.state);
                 navigator.geolocation.getCurrentPosition(positionMe);
             } else if (result.state === 'denied') {
-                alert(result.state);
+                alert('If you want to use geolocation please give us access to your computer location');
+                setThrobberVisibility(false);
             }
+            //SetThrobberVisibility(false);
             result.addEventListener('change', function () {
                 alert(result.state);
             });
         });
     }
 
-    function positionMe(position) {
+    function positionMe() {
         locateOnMap(onLocationFound);
     }
 
     function onLocationFound(e: any) {
+        setThrobberVisibility(false);
         //var radius = e.accuracy;
         if (currentMarker)
             removeMarkerMap(currentMarker);
         let marker = L.marker(e.latlng, { icon: MarkerIcon, draggable: 'true' })
             .bindPopup("Your location").openPopup();
         setCurrentMarker(marker);
+        if (props.onPinnedLocationChange) {
+            let loc = marker.getLatLng();
+            props.onPinnedLocationChange(loc.lat, loc.lng);
+        }
         addMarkerMap(marker);
         //L.circle(e.latlng, radius).addTo(map);
     }
@@ -92,13 +94,18 @@ export default function LocationPicker() {
             .bindPopup(item.display_name);
         addMarkerMap(marker);
         setCurrentMarker(marker);
-
+        if (props.onPinnedLocationChange) {
+            let loc = marker.getLatLng();
+            props.onPinnedLocationChange(loc.lat, loc.lng);
+        }
     }
     function updateCurrentPoint(e: any) {
         let loc = e.target._latlng;
         if (currentMarker) {
             currentMarker.setLatLng(loc);
-
+            if (props.onPinnedLocationChange) {
+                props.onPinnedLocationChange(loc.lat, loc.lng);
+            }
         }
 
     }
@@ -126,7 +133,11 @@ export default function LocationPicker() {
                 </div>
                 <div className="mapBox">
                     <LeafletMap mapID='locationPickerMap' />
-                    <div className='locateMeButton' title='Locate me' onClick={onLocateMeClick}> <Compass /></div>
+                    <div className='locateMeButton' title='Locate me' onClick={onLocateMeClick}>
+
+                        {!throbberVisibility && <Compass />}
+                        {throbberVisibility && <Throbber className='locateMeThrobber' />}
+                    </div>
                 </div>
             </div>
         </div>
