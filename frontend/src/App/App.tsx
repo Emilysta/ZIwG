@@ -7,6 +7,7 @@ import LoginPage from 'Pages/LoginPage';
 import RegisterPage from 'Pages/RegisterPage';
 import UserPage from "Pages/UserPage";
 import EventPage from "Pages/EventPage";
+import { NotFound } from "Pages/NotFound";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
             <Route path="logIn" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="user/*" element={<UserPage />} />
-            {/* <Route path="*" element={<NoPage />} /> */}
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
