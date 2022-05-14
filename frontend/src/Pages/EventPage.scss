@@ -56,3 +56,13 @@
     text-align: center;
     grid-column: span 2;
 }
+
+.eventPage .save {
+    font-weight: 600 !important;
+
+    @include customize() {
+        border: 2px solid getValue(main-color);
+        color: getValue(main-color);
+        background-color: #fff;
+    }
+}

@@ -51,7 +51,7 @@ export const eventApi = createApi({
     modifyEvent: build.mutation<null, { eventId: string, data: Omit<EventData, 'organiserName' | 'organiserImage' | 'mainImage' | 'id'> }>({
       query: (body) => ({
         url: `/${body.eventId}`,
-        method: 'POST',
+        method: 'PATCH',
         body: body.data,
       }),
       invalidatesTags: ['Event'],
