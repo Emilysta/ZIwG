@@ -29,7 +29,7 @@ type MainEventBoxProps = {
 
 export default function MainEventBox(props: MainEventBoxProps) {
     const [popupOpened, setPopupOpened] = useState(false);
-    const [isPopupOpen, setPopupOpen, togglePopup] = useModal(false);
+    const [isPopupOpen,, togglePopup] = useModal(false);
     const [localizationText, setLocalizationText] = useState('');
     const delayCallApi = useCallback(debounce(location => callApi(location), 2000), []);
     const dispatch = useAppDispatch();

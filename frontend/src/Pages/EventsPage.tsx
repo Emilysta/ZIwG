@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { GaleryPopup } from "Components/GaleryPopup";
 import './EventsPage.scss'
 import EventTile from 'Components/EventTile';
 import TagList from 'Components/EventPage/TagList';
@@ -29,7 +28,6 @@ const mockWordList = [
 ]
 
 export default function EventsPage() {
-    const [popupOpened, openPopup] = React.useState(false);
     const { data, error, isLoading } = useGetEventsQuery();
     //const events = data.map((e, i) => <EventTile key={i} data={e} />);
     const onSearch = (search: string) => alert(search)
@@ -52,7 +50,6 @@ export default function EventsPage() {
                         </div>
                         <div className='eventList'>
                             {[...Array(10)].map((x, i) => <EventTile key={i} isLoading={true} />)}
-                            <input type='button' value="open popup" onClick={() => openPopup(true)} />
                         </div>
                     </div>
                 </div>

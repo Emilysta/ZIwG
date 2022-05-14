@@ -29,8 +29,8 @@ export default function UserAddEventPage() {
         }
     );
 
-    const [addEventRequest, addEventResult] = eventApi.useAddEventMutation();
-    const [addEventMainImageRequest, addEventMainImageResult] = eventApi.useAddEventMainImageMutation();
+    const [addEventRequest] = eventApi.useAddEventMutation();
+    const [addEventMainImageRequest] = eventApi.useAddEventMainImageMutation();
 
     async function addEvent() {
         console.log("added event");

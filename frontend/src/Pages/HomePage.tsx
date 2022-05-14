@@ -21,7 +21,7 @@ function HomePage() {
                         </div>
                     </div>
                     <BlendedCircle id="circle-2" size={260} left="min(680px, 60vw)" bottom="-40vh" />
-                    <img id="peopleImage" src={peopleImage} />
+                    <img id="peopleImage" src={peopleImage} alt=''/>
                 </section>
             </div>
         </div>
