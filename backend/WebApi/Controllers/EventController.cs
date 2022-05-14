@@ -52,11 +52,10 @@ namespace WebApi.Controllers
             {
                 return BadRequest();
             }
-            if (await _eventService.AddEvent(@event))
+            var newEvent = await _eventService.AddEvent(@event);
+            if (newEvent != null) 
                 if (await _eventService.SaveChangesAsync())
-                {
-                    return NoContent();
-                }
+                    return Ok(newEvent.Id);
             return BadRequest();
         }
         /// <summary>
@@ -98,9 +97,9 @@ namespace WebApi.Controllers
         /// <summary>
         /// Get events, can specify Location, exact month in m/yyyy format and user 
         /// </summary>
-        /// <param name="Location"></param>
-        /// <param name="MonthAndYear"></param> 
-        /// <param name="UserId"></param> 
+        /// <param name="location"></param>
+        /// <param name="monthAndYear"></param> 
+        /// <param name="userId"></param> 
         /// <response code="200">Success, events returned</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]

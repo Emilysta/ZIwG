@@ -67,7 +67,7 @@ namespace ziwg
 
             services.AddDbContext<DataBaseContext>(options =>
             {
-                var connectionString = Configuration["MySQLConnection"];
+                var connectionString = "server=127.0.0.1,3306; database=baza3; user=golden; password=password";
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 

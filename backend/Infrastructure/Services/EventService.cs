@@ -48,16 +48,16 @@ namespace Infrastructure.Services
             return false;
         }
 
-        public async Task<bool> AddEvent(CreateEventDTO @event)
+        public async Task<Event> AddEvent(CreateEventDTO @event)
         {
             Event eventToAdd = new();
             eventToAdd = _mapper.Map(@event, eventToAdd);
             eventToAdd.Organiser = _eventUsersService.GetCurrentUser();
             if (eventToAdd == null)
-                return false;
+                return null;
 
             await _context.Events.AddAsync(eventToAdd);
-            return true;
+            return eventToAdd;
         }
         public bool DeleteEvent(int id)
         {
