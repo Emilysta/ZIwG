@@ -9,8 +9,9 @@ type State = {
 type Props = {
     value?: string
     name?: string
-    disabled?: boolean,
+    disabled?: boolean
     onChange?: (state: any) => void
+    maxLength?: number
 }
 
 export default function ToggleTextarea(props: Props) {
@@ -20,10 +21,13 @@ export default function ToggleTextarea(props: Props) {
     })
 
     const onChange = (e: React.FormEvent<HTMLSpanElement>) => {
+        let value: string = e.currentTarget.innerText
+
         setState({
             ...state,
-            value: e.currentTarget.innerText
+            value: value.substring(0, props.maxLength)
         })
+
         props.onChange({
             target: {
                 name: state.name,

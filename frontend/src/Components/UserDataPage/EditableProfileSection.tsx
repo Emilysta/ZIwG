@@ -1,3 +1,4 @@
+import { ErrorMsg } from 'Components/Input/ErrorMsg';
 import { MenuButton } from 'Components/Input/MenuButton';
 import * as React from 'react';
 import { Person } from 'react-bootstrap-icons';
@@ -70,14 +71,14 @@ export function EditableProfileSection(props: any) {
                     <label>Name</label>
                     <span>
                         {!user ? <ZiwgSkeleton /> :
-                            <input type="text" disabled={disabled} value={user.displayName ?? ""} name="displayName" onChange={onChange} />}
+                            <input type="text" disabled={disabled} value={user.displayName ?? ""} maxLength={25} name="displayName" onChange={onChange} />}
                     </span>
                 </div>
                 <div className='profileData'>
                     <label>Location</label>
                     <span>
                         {!user ? <ZiwgSkeleton /> :
-                            <input type="text" disabled={disabled} value={user.location ?? ""} name="location" onChange={onChange} />}
+                            <input type="text" disabled={disabled} value={user.location ?? ""} maxLength={25} name="location" onChange={onChange} />}
                     </span>
                 </div>
 
@@ -86,8 +87,7 @@ export function EditableProfileSection(props: any) {
                 <div className='profileData'>
                     <label>Description</label>
                     <span>
-                        {!user ? <ZiwgSkeleton /> :
-                            <ToggleTextarea disabled={disabled} value={user.description ?? ""} name="description" onChange={onChange} />}
+                        {!user ? <ZiwgSkeleton /> : <ToggleTextarea disabled={disabled} value={user.description ?? ""} maxLength={150} name="description" onChange={onChange} />}
                     </span>
                 </div>
 
