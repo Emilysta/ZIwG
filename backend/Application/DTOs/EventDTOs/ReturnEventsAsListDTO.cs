@@ -14,6 +14,7 @@ namespace Application.DTOs.EventDTOs
         public DateTime EndDate { get; set; }
         public byte[] MainImage { get; set; }
         public string OrganiserName { get; set; }
+        public string OrganiserId { get; set; }
         public byte[] OrganiserImage { get; set; }
     }
 }
