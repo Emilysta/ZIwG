@@ -19,12 +19,14 @@ namespace Infrastructure.MappingProfiles
                 .ForMember(dest => dest.OrganiserName,
                 opt => opt.MapFrom(src => src.Organiser.DisplayName))
                 .ForMember(dest => dest.OrganiserImage,
-                opt => opt.MapFrom(src => src.Organiser.Photo));
+                opt => opt.MapFrom(src => src.Organiser.Photo))
+                .ForMember(dest => dest.OrganiserId,
+                opt => opt.MapFrom(src => src.Organiser.Id));
             CreateMap<Event, ReturnEventExtendedDTO>()
                 .ForMember(dest => dest.OrganiserName,
                 opt => opt.MapFrom(src => src.Organiser.DisplayName))
-                .ForMember(dest => dest.OrganiserImage,
-                opt => opt.MapFrom(src => src.Organiser.Photo));
+                .ForMember(dest => dest.OrganiserId,
+                opt => opt.MapFrom(src => src.Organiser.Id));
         }
     }
 }
