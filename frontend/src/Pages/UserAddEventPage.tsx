@@ -12,7 +12,7 @@ import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
     const navigate = useNavigate();
-    const [values, setValues] = useState<Omit<EventData, 'organizerName' | 'organizerImage' | 'id' | 'images' | 'mainImage'>>(
+    const [values, setValues] = useState<Omit<EventData, 'organizerName' | 'organizerImage' | 'id'>>(
         {
             name: 'Event name',
             description: '',
@@ -25,16 +25,23 @@ export default function UserAddEventPage() {
             isTicketLimit: false,
             ticketLimit: 0,
             place: '',
+            mainImage: undefined,
         }
     );
 
     const [addEventRequest, addEventResult] = eventApi.useAddEventMutation();
+    const [addEventMainImageRequest, addEventMainImageResult] = eventApi.useAddEventMainImageMutation();
 
     async function addEvent() {
         console.log("added event");
 
         try {
-            await addEventRequest(values).unwrap();
+            let response = await addEventRequest(values).unwrap();
+            console.log(response);
+            // let mainImageResponse = await addEventMainImageRequest({
+            //     eventId: 'id',
+            //     image: values.mainImage
+            // });
             navigate('/user/userEvents', { replace: true });
         }
         catch (error) {

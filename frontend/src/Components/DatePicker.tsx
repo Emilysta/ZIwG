@@ -45,10 +45,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (props.onDateChange)
             props.onDateChange(endDateUp?.toISOString(), 'endDate');
     }
-    console.log('startDate');
-    console.log(startDate);
-    console.log('endDate');
-    console.log(endDate);
+
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }

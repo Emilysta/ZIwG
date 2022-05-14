@@ -14,13 +14,16 @@ export function HorizontalGalery(props: HorizontalGaleryProps) {
 
     const getImageClass = (src: string) => src === selected ? "selected" : ""
 
-    const choose = (e: React.MouseEvent<HTMLDivElement>, img: string) => setSelected(img)
-    React.useEffect(() => props.onSelected(selected), [selected])
-
-    if (selected == null) {
-        if (props.images.length > 0)
+    const choose = (e: React.MouseEvent<HTMLDivElement>, img: string) => { e.preventDefault(); setSelected(img) }
+    
+    React.useEffect(() => { if (props.onSelected) props.onSelected(selected) }, [selected])
+    
+    React.useEffect(() => {
+        if (selected == null && props.images.length > 0 && props.images[0]?.length !== 0) {
             setSelected(props.images[0])
-    }
+        }
+    }, []);
+
 
     const renderRows = () => {
         const imageRows = []

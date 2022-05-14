@@ -16,6 +16,5 @@ export interface EventData extends EventDataSimple {
     ticketPrice: number,
     isTicketLimit: boolean,
     ticketLimit: number,
-    images: string[],
     place: string,
 }

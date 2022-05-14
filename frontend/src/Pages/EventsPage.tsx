@@ -73,12 +73,9 @@ export default function EventsPage() {
                         </div>
                         <div className='eventList'>
                             {data.map((e, i) => <EventTile key={i} data={e} isLoading={isLoading} />)}
-                            <input type='button' value="open popup" onClick={() => openPopup(true)} />
                         </div>
                     </div>
                 </div>
-
-                <GaleryPopup open={popupOpened} onClose={() => openPopup(false)} />
             </>
         )
 }

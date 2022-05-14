@@ -62,7 +62,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
     function onGalleryPopupClose(state: boolean, images: string[], selected: string) {
         if (props.onValuesChange) {
-            props.onValuesChange('images', images);
+            //props.onValuesChange('images', images);
             props.onValuesChange('mainImage', selected);
             setPopupOpened(false);
         }
@@ -109,7 +109,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
             </div>
 
-            <GaleryPopup images={props.values.images} open={popupOpened} onClose={onGalleryPopupClose} />
+            <GaleryPopup images={[props.values.mainImage]} open={popupOpened} onClose={onGalleryPopupClose} />
 
             {returnLocationPickerPopup()}
 

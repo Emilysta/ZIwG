@@ -29,7 +29,7 @@ export function GaleryPopup(props: GaleryPopupProps) {
                 </a>
             </header>
             <main>
-                <HorizontalGalery rows={2} className='horizontalGalery' images={images} onSelected={(s) => setSelected(s)}/>
+                <HorizontalGalery rows={2} className='horizontalGalery' images={images} onSelected={(s) => setSelected(s)}/> 
             </main>
             <footer>
                 <DropFilesBox className='dropFiles' onImageUpload={onImageUpload} />

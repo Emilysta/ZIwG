@@ -14,10 +14,10 @@ export const eventApi = createApi({
         console.log(rawResult);
         return rawResult['$values'];
       },
-      providesTags: (result, error, arg) => 
-      result
-        ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
-        : ['Event'],
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          : ['Event'],
     }),
     getUserEvents: build.query<EventDataSimple[], { Location: string; MonthId: string, UserId: string }>({
       query: (arg) => ({
@@ -32,7 +32,7 @@ export const eventApi = createApi({
     getEvent: build.query<EventData, string>({
       query: (name) => `/${name}`,
     }),
-    addEvent: build.mutation<null, Omit<EventData, 'organizerName' | 'organizerImage' | 'id' | 'mainImage' | 'images'>>({
+    addEvent: build.mutation<null, Omit<EventData, 'organizerName' | 'organizerImage' | 'id' | 'mainImage'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',
@@ -40,14 +40,22 @@ export const eventApi = createApi({
       }),
       invalidatesTags: ['Event'],
     }),
-    // editPost: build.mutation<EventData, Partial<EventData> & Pick<EventData, 'EventId'>>({
-    //   query: (body) => ({
-    //     url: `${body.EventId}`,
-    //     method: 'PATCH',
-    //     body,
-    //   }),
-    //   invalidatesTags: (result, error, arg) => [{ type: 'Event', id: arg.EventId }],
-    // }),
+    addEventMainImage: build.mutation<null, { eventId: string; image: string }>({
+      query: (body) => ({
+        url: `mainImage/${body.eventId}`,
+        method: 'POST',
+        body: body.image,
+      }),
+      invalidatesTags: ['Event'],
+    }),
+    modifyEvent: build.mutation<null, { eventId: string, data: Omit<EventData, 'organizerName' | 'organizerImage' | 'mainImage' | 'id'> }>({
+      query: (body) => ({
+        url: `/${body.eventId}`,
+        method: 'POST',
+        body: body.data,
+      }),
+      invalidatesTags: ['Event'],
+    }),
   }),
 })
-export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation } = eventApi;
+export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation, useAddEventMainImageMutation, useModifyEventMutation } = eventApi;
