@@ -58,6 +58,8 @@
 .horizontalGalery .image {
     margin: 0px 3px;
     border-radius: 8px;
+    display: flex;
+    width: max-content;
 }
 
 .horizontalGalery .selected {
