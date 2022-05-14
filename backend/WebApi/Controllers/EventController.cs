@@ -80,9 +80,9 @@ namespace WebApi.Controllers
         /// <param name="id"></param> 
         /// <response code="200">Success, event modified</response>
         /// <response code="400">Something went wrong</response>
+        /// /// <response code="403">Access forbidden</response>
         [HttpPatch]
         [Route("{id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> Put([FromBody] ModifyEventDTO @event, [FromRoute] int id)
         {
             if (@event == null)
@@ -91,7 +91,8 @@ namespace WebApi.Controllers
             if (_eventService.ModifyEvent(@event, id))
                 if (await _eventService.SaveChangesAsync())
                     return Ok();
-
+            else
+                return Forbid();
             return BadRequest();
         }
         /// <summary>

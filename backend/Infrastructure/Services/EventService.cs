@@ -97,9 +97,10 @@ namespace Infrastructure.Services
 
         public bool ModifyEvent(ModifyEventDTO @event, int id)
         {
-            var eventToModify = _context.Events.Where(x => x.Id == id).SingleOrDefault();
-
-            if (eventToModify == null)
+            var eventToModify = _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).SingleOrDefault();
+            var currentUserId = _eventUsersService.GetCurrentUser().Id;
+            var eventToModifyId = eventToModify.Organiser.Id;
+            if (eventToModify == null || currentUserId != eventToModifyId)
                 return false;
 
             eventToModify = _mapper.Map(@event, eventToModify);
