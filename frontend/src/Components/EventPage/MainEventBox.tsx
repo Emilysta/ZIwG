@@ -60,9 +60,10 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
-    function onGalleryPopupClose(state: boolean, images: string[]) {
+    function onGalleryPopupClose(state: boolean, images: string[], selected: string) {
         if (props.onValuesChange) {
             props.onValuesChange('images', images);
+            props.onValuesChange('mainImage', selected);
             setPopupOpened(false);
         }
     }
@@ -94,14 +95,17 @@ export default function MainEventBox(props: MainEventBoxProps) {
             return 'Event must have a name';
         return '';
     }
+    let imageStyle: React.CSSProperties = { backgroundImage: `url(${props.values.mainImage})` }
 
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox'>
-                <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)}>
-                    <Images className='galleryIcon' />
-                    {props.isReadOnly && <p>No images</p>}
-                    {!props.isReadOnly && <p>Drop images or click</p>}
+                <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)} style={imageStyle}>
+                    {!props.values.mainImage && <div>
+                        <Images className='galleryIcon' />
+                        {props.isReadOnly && <p>No images</p>}
+                        {!props.isReadOnly && <p>Click to add Image</p>}
+                    </div>}
                 </div>
             </div>
 

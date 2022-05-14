@@ -6,13 +6,21 @@ type HorizontalGaleryProps = {
     rows: number,
     images: string[],
     className?: string,
+    onSelected?: (selected: string) => void
 }
 
 export function HorizontalGalery(props: HorizontalGaleryProps) {
     const [selected, setSelected]: [string, any] = React.useState(null)
 
     const getImageClass = (src: string) => src === selected ? "selected" : ""
+
     const choose = (e: React.MouseEvent<HTMLDivElement>, img: string) => setSelected(img)
+    React.useEffect(() => props.onSelected(selected), [selected])
+
+    if (selected == null) {
+        if (props.images.length > 0)
+            setSelected(props.images[0])
+    }
 
     const renderRows = () => {
         const imageRows = []
