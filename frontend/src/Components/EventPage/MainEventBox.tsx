@@ -29,7 +29,7 @@ type MainEventBoxProps = {
 
 export default function MainEventBox(props: MainEventBoxProps) {
     const [popupOpened, setPopupOpened] = useState(false);
-    const [isPopupOpen,, togglePopup] = useModal(false);
+    const [isPopupOpen, , togglePopup] = useModal(false);
     const [localizationText, setLocalizationText] = useState('');
     const delayCallApi = useCallback(debounce(location => callApi(location), 2000), []);
     const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             let loc = JSON.parse(props.values.place);
             delayCallApi([loc.lat, loc.lon]);
         }
-    }, []);
+    }, [props.values.place, delayCallApi]);
 
     const handleInputChange = (inputId: string, value: string) => {
         if (props.onValuesChange)
@@ -72,7 +72,6 @@ export default function MainEventBox(props: MainEventBoxProps) {
         if (props.onValuesChange) {
             props.onValuesChange('place', `{"lat":${lat},"lon":${lon}}`);
         }
-        delayCallApi([lat, lon]);
     }
 
     async function callApi(location: number[]) {

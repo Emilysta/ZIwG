@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { login, updateUserData } from './UserSlice';
 
 export type LoginData = {
     email: string,
@@ -15,9 +16,34 @@ export type RegisterData = {
 }
 
 export type UserData = {
+    firstName: string,
+    lastName: string,
+    photo: string,
+    displayName: string,
+    description: string,
+    dateOfBirth: Date,
+    location: string,
+}
+
+export type EditableUserData = {
     displayName: string,
     description: string,
     location: string,
+}
+
+export const updateUserThunk = () => async (dispatch) => {
+    let resultData = await fetch(`/api/User/currentUserData`)
+    let userData: UserData = await resultData.json();
+    dispatch(updateUserData(userData))
+}
+
+export const loginUserThunk = () => async (dispatch) => {
+    let result = await fetch(`/api/User/currentUserId`)
+    let id = await result.text();
+    let resultData = await fetch(`/api/User/currentUserData`)
+    let userData: UserData = await resultData.json();
+    console.log(userData);
+    dispatch(login({ userId: id, userData: userData }));
 }
 
 export const userApi = createApi({
@@ -51,10 +77,6 @@ export const userApi = createApi({
             }),
         }),
 
-        getCurrentUserId: build.query<string, void>({
-            query: () => 'currentUserId',
-        }),
-
         deleteUser: build.mutation<null, void>({
             query: () => ({
                 url: `deleteUser`,
@@ -70,14 +92,7 @@ export const userApi = createApi({
             query: () => '',
         }),
 
-        getUserData: build.query<UserData, void>({
-            query: () => ({
-                url: 'currentUserData',
-                method: 'GET'
-            })
-        }),
-        
-        changeUserData: build.mutation<void, UserData>({
+        changeUserData: build.mutation<void, EditableUserData>({
             query: (body) => ({
                 url: `changeUserData`,
                 method: 'PATCH',
@@ -114,4 +129,4 @@ export const userApi = createApi({
         }),
     }),
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useGetUserDataQuery, useGetCurrentUserIdQuery } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation } = userApi;

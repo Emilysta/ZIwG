@@ -3,28 +3,41 @@ import * as React from 'react';
 import { Person } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import ZiwgSkeleton from 'Utils/Skeletons';
-import { userApi, UserData } from 'Utils/UserApiSlice';
+import { RootState, useAppDispatch, useAppSelector } from 'Utils/Store';
+import { EditableUserData, updateUserThunk, userApi } from 'Utils/UserApiSlice';
 import "./EditableProfileSection.scss"
 import ToggleTextarea from './ToggleTextarea';
 
+
+
 export function EditableProfileSection(props: any) {
 
-    const { data, error, isLoading } = userApi.useGetUserDataQuery()
-    const [changeDataRequest, changeDataResult] = userApi.useChangeUserDataMutation()
-    const [deleteUserRequest, deleteUserResult] = userApi.useDeleteUserMutation()
+    const data = useAppSelector((state: RootState) => state.userLogin.userData);
+    const [changeDataRequest, response] = userApi.useChangeUserDataMutation()
+    const [deleteUserRequest] = userApi.useDeleteUserMutation()
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-    const [user, setUser]: [UserData, any] = React.useState(data)
+    const [user, setUser]: [EditableUserData, any] = React.useState(
+        {
+            displayName: data.displayName,
+            description: data.description,
+            location: data.location,
+        })
+
     const [disabled, setEnabled]: [boolean, any] = React.useState(true)
-
-    React.useEffect(() => setUser(data), [data])
 
     const onToggle = () => setEnabled(!disabled)
     const onChange = (e: any) => setUser({ ...user, [e.target.name]: e.target.value })
     const onSave = () => {
         changeDataRequest(user).unwrap()
-            .then((_) => onToggle())
-            .catch((err) => console.error(err))
+            .then(
+                () => {
+                    dispatch(updateUserThunk())
+                    onToggle();
+                }
+            )
+            .catch((err) => { console.error(err); console.log(response); })
     }
     const onDelete = () => {
         if (window.confirm("Are you sure to delete account?")) {
@@ -32,6 +45,16 @@ export function EditableProfileSection(props: any) {
                 .then((data) => navigate('/'))
                 .catch((err) => console.log(err))
         }
+    }
+
+    const onCancel = () => {
+        setUser(
+            {
+                displayName: data.displayName,
+                description: data.description,
+                location: data.location,
+            })
+        onToggle();
     }
     const wip = () => alert("Work in progress")
 
@@ -70,13 +93,13 @@ export function EditableProfileSection(props: any) {
 
                 <div className='profileData' hidden={disabled}>
                     <label>Options</label>
-                    {/* <MenuButton value="Change password" onClick={wip} /> */}
+                    <MenuButton value="Change password" onClick={wip} />
                     <MenuButton value="Delete account" onClick={onDelete} />
                 </div>
             </div>
             <div id="buttonMenu">
                 <span hidden={disabled}>
-                    <MenuButton value="Cancel" onClick={onToggle} />
+                    <MenuButton value="Cancel" onClick={onCancel} />
                 </span>
                 <MenuButton value={disabled ? "Edit profile" : "Save"} onClick={disabled ? onToggle : onSave} />
             </div>

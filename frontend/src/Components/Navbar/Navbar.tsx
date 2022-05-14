@@ -4,8 +4,9 @@ import Logotype from "../Logotype";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { BlendedCircle } from "Components/BlendedCircle";
-import { useAppDispatch, useAppSelector } from "Utils/Store";
+import { RootState, useAppDispatch, useAppSelector } from "Utils/Store";
 import { userApi } from "Utils/UserApiSlice";
+import { logout } from "Utils/UserSlice";
 
 const onlyEvents = [{ link: "/events", name: "Events" }];
 const onlyLogIn = [{ link: "/logIn", name: "Join Us" }];
@@ -16,16 +17,22 @@ type linkName = {
 
 export function Navbar() {
   const location = useLocation();
-  const { data: userData, error, isLoading } = userApi.useGetUserDataQuery()
-  const [logoutRequest, logoutResult] = userApi.useLogoutMutation()
-  const dispatch = useAppDispatch();
+  const [logoutRequest] = userApi.useLogoutMutation()
   const navigate = useNavigate()
   let [list, setList] = React.useState(onlyLogIn.concat(onlyEvents));
+  const dispatch = useAppDispatch();
+  const isUserLoggedIn = useAppSelector((state: RootState) => state.userLogin.isLoggedIn);
+  const userName = useAppSelector((state: RootState) => state.userLogin.userData?.firstName);
 
-  const isUserLoggedIn = () => userData
-  const logout = () => logoutRequest().unwrap()
-    .then((_) => navigate('/'))
-    .catch((err) => console.error(err))
+  function logoutFromApp() {
+    logoutRequest().unwrap()
+      .then((_) => {
+        dispatch(logout());
+        navigate('/')
+      })
+      .catch((err) => console.error(err))
+  }
+
 
   useEffect(() => {
     let tempList: linkName[];
@@ -40,23 +47,23 @@ export function Navbar() {
         tempList = onlyLogIn;
         break;
       default:
-        if (userData)
+        if (isUserLoggedIn)
           tempList = onlyEvents
         else
           tempList = onlyLogIn.concat(onlyEvents)
         break;
     }
     setList(tempList);
-  }, [location])
+  }, [location, isUserLoggedIn])
 
   const changeNavbar = location.pathname === "/events"
     ? <div className='HeadBar higher'>
       <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
       <div className="logoTypeItemCentered">
         <Logotype />
-        <a className="pageTitle">
+        {/* <a className="pageTitle" href="">
           Events
-        </a>
+        </a> */}
       </div>
       <ul className="navbarList">
         {list.map((singleLink, i) => {
@@ -74,7 +81,7 @@ export function Navbar() {
         <BlendedCircle id="circle-1" size={160} left="210px" top="80px" />
       </div>
       <ul className="navbarList">
-        {userData && <li><Link to={"/user"}>Hi, {userData.displayName}</Link></li>}
+        {isUserLoggedIn && <li><Link to={"/user"}>Hi, {userName}</Link></li>}
         {list.map((singleLink, i) => {
           return (
             <li key={i}>
@@ -82,7 +89,7 @@ export function Navbar() {
             </li>
           )
         })}
-        {isUserLoggedIn() && <li><Link to={""} onClick={logout}>Log out</Link></li>}
+        {isUserLoggedIn && <li><Link to={""} onClick={logoutFromApp}>Log out</Link></li>}
       </ul>
     </div>
 
