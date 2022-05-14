@@ -12,7 +12,7 @@ import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
     const navigate = useNavigate();
-    const [values, setValues] = useState<Omit<EventData, 'organizerName' | 'organizerImage' | 'id'>>(
+    const [values, setValues] = useState<Omit<EventData, 'organiserName' | 'organiserImage' | 'id'>>(
         {
             name: 'Event name',
             description: '',

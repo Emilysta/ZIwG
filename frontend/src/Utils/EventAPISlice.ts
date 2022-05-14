@@ -32,7 +32,7 @@ export const eventApi = createApi({
     getEvent: build.query<EventData, string>({
       query: (name) => `/${name}`,
     }),
-    addEvent: build.mutation<null, Omit<EventData, 'organizerName' | 'organizerImage' | 'id' | 'mainImage'>>({
+    addEvent: build.mutation<null, Omit<EventData, 'organiserName' | 'organiserImage' | 'id' | 'mainImage'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',
@@ -48,7 +48,7 @@ export const eventApi = createApi({
       }),
       invalidatesTags: ['Event'],
     }),
-    modifyEvent: build.mutation<null, { eventId: string, data: Omit<EventData, 'organizerName' | 'organizerImage' | 'mainImage' | 'id'> }>({
+    modifyEvent: build.mutation<null, { eventId: string, data: Omit<EventData, 'organiserName' | 'organiserImage' | 'mainImage' | 'id'> }>({
       query: (body) => ({
         url: `/${body.eventId}`,
         method: 'POST',

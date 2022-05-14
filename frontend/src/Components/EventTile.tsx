@@ -29,13 +29,13 @@ export default function EventTile(props: EventTileProps) {
                 {props.isLoading && <ZiwgSkeleton />}
                 {!props.isLoading && props.data.name}
             </div>
-            <div className='organizer'>
+            <div className='organiser'>
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='img' />}
                 {!props.isLoading && <Image className='img' src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/846.jpg" />}
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='text' />}
-                {!props.isLoading && <p className='text'>{props.data.organizerName}</p>}
+                {!props.isLoading && <p className='text'>{props.data.organiserName}</p>}
 
             </div>
             <div className='details'>

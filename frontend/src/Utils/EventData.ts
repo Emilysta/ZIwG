@@ -4,8 +4,8 @@ export type EventDataSimple = {
     startDate: string,
     endDate: string,
     mainImage: string,
-    organizerName: string,
-    organizerImage: string,
+    organiserName: string,
+    organiserImage: string,
 }
 
 export interface EventData extends EventDataSimple {
