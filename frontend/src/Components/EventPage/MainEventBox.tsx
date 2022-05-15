@@ -7,7 +7,7 @@ import TagList from './TagList';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { PinMapFill } from 'react-bootstrap-icons';
 import EventDatePicker from 'Components/DatePicker';
-import { GaleryPopup } from 'Components/GaleryPopup';
+import { ImageSelectPopup } from 'Components/ImageSelectPopup';
 import { EventData } from 'Utils/EventData';
 import LocationPicker from 'Components/LocationPicker';
 import Popup from 'Components/Popup';
@@ -61,7 +61,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
-    function onGalleryPopupClose(state: boolean, images: File[], selected: File) {
+    function onGalleryPopupClose(state: boolean, selected: File) {
         if (props.onValuesChange) {
 
             props.onValuesChange('mainImage', selected);
@@ -107,7 +107,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>}
             </div>
 
-            <GaleryPopup images={[props.values.mainImage]} open={popupOpened} onClose={onGalleryPopupClose} />
+            <ImageSelectPopup image={props.values.mainImage} open={popupOpened} onClose={onGalleryPopupClose} />
 
             {returnLocationPickerPopup()}
 

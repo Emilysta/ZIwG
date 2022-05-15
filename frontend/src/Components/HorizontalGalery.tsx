@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image } from './Image';
+import { Image } from 'Components/Image';
 import './HorizontalGalery.scss'
 
 type HorizontalGaleryProps = {
@@ -23,7 +23,6 @@ export function HorizontalGalery(props: HorizontalGaleryProps) {
             setSelected(props.images[0])
         }
     }, []);
-
 
     const renderRows = () => {
         const imageRows = []

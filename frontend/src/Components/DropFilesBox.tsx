@@ -14,12 +14,7 @@ export function DropFilesBox(props: DropFilesProps) {
         if (props.onImageUpload) {
 
             for (const file of acceptedFiles) {
-                let reader = new FileReader()
-                reader.onload = (e: any) => {
-                    console.log(e.target.result)
-                    props.onImageUpload(file)
-                }
-                reader.readAsDataURL(file)
+                props.onImageUpload(file)
             }
         }
     }, [])
