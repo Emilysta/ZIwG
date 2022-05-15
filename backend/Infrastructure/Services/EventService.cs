@@ -48,16 +48,16 @@ namespace Infrastructure.Services
             return false;
         }
 
-        public async Task<bool> AddEvent(CreateEventDTO @event)
+        public async Task<Event> AddEvent(CreateEventDTO @event)
         {
             Event eventToAdd = new();
             eventToAdd = _mapper.Map(@event, eventToAdd);
             eventToAdd.Organiser = _eventUsersService.GetCurrentUser();
             if (eventToAdd == null)
-                return false;
+                return null;
 
             await _context.Events.AddAsync(eventToAdd);
-            return true;
+            return eventToAdd;
         }
         public bool DeleteEvent(int id)
         {
@@ -97,9 +97,10 @@ namespace Infrastructure.Services
 
         public bool ModifyEvent(ModifyEventDTO @event, int id)
         {
-            var eventToModify = _context.Events.Where(x => x.Id == id).SingleOrDefault();
-
-            if (eventToModify == null)
+            var eventToModify = _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).SingleOrDefault();
+            var currentUserId = _eventUsersService.GetCurrentUser().Id;
+            var eventToModifyId = eventToModify.Organiser.Id;
+            if (eventToModify == null || currentUserId != eventToModifyId)
                 return false;
 
             eventToModify = _mapper.Map(@event, eventToModify);

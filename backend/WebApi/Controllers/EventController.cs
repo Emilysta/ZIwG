@@ -52,11 +52,10 @@ namespace WebApi.Controllers
             {
                 return BadRequest();
             }
-            if (await _eventService.AddEvent(@event))
+            var newEvent = await _eventService.AddEvent(@event);
+            if (newEvent != null) 
                 if (await _eventService.SaveChangesAsync())
-                {
-                    return NoContent();
-                }
+                    return Ok(newEvent.Id);
             return BadRequest();
         }
         /// <summary>
@@ -81,9 +80,9 @@ namespace WebApi.Controllers
         /// <param name="id"></param> 
         /// <response code="200">Success, event modified</response>
         /// <response code="400">Something went wrong</response>
+        /// /// <response code="403">Access forbidden</response>
         [HttpPatch]
         [Route("{id}")]
-        [AllowAnonymous]
         public async Task<IActionResult> Put([FromBody] ModifyEventDTO @event, [FromRoute] int id)
         {
             if (@event == null)
@@ -92,15 +91,16 @@ namespace WebApi.Controllers
             if (_eventService.ModifyEvent(@event, id))
                 if (await _eventService.SaveChangesAsync())
                     return Ok();
-
+            else
+                return Forbid();
             return BadRequest();
         }
         /// <summary>
         /// Get events, can specify Location, exact month in m/yyyy format and user 
         /// </summary>
-        /// <param name="Location"></param>
-        /// <param name="MonthAndYear"></param> 
-        /// <param name="UserId"></param> 
+        /// <param name="location"></param>
+        /// <param name="monthAndYear"></param> 
+        /// <param name="userId"></param> 
         /// <response code="200">Success, events returned</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
