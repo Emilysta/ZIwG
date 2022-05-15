@@ -18,7 +18,7 @@ type LocationPickerProps = {
 
 export default function LocationPicker(props: LocationPickerProps) {
     const [resultsList, setResultsList] = React.useState<ShortNominatimPlace[]>(undefined);
-    const [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap] = useMap();
+    const [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map] = useMap();
     const [currentMarker, setCurrentMarker] = React.useState(undefined);
     const [throbberVisibility, setThrobberVisibility] = React.useState(false);
     const dispatch = useAppDispatch();
@@ -27,6 +27,12 @@ export default function LocationPicker(props: LocationPickerProps) {
     useEffect(() => {
         initializeMap('locationPickerMap');
     }, []);
+
+    useEffect(() => {
+        if (map !== undefined) {
+            map.on('dblclick', updatePoint);
+        }
+    }, [map]);
 
     useEffect(() => {
         if (currentMarker) {
@@ -107,7 +113,17 @@ export default function LocationPicker(props: LocationPickerProps) {
                 props.onPinnedLocationChange(loc.lat, loc.lng);
             }
         }
+    }
 
+    function updatePoint(e: any) {
+        let loc = e.latlng;
+        console.log(loc);
+        if (currentMarker) {
+            currentMarker.setLatLng(loc);
+            if (props.onPinnedLocationChange) {
+                props.onPinnedLocationChange(loc.lat, loc.lng);
+            }
+        }
     }
 
     return (

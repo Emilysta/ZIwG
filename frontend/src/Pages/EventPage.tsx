@@ -20,9 +20,9 @@ export default function EventPage() {
 
     const userName = useAppSelector((state: RootState) => state.userLogin.userData.displayName)
 
-    const [editRequest, editResult] = useModifyEventMutation()
+    const [editRequest] = useModifyEventMutation()
 
-    const isOrganiser = values && values.organiserName == userName;
+    const isOrganiser = values && values.organiserName === userName;
     const edit = () => isOrganiser && setReadOnly(false)
     const save = () => {
         editRequest({
@@ -37,7 +37,16 @@ export default function EventPage() {
         console.log("Update: ", id, " ", value)
         setValues({ ...values, [id]: value })
     }
-
+    let location: { lat: number, lon: number };
+    if (values?.place) {
+        try {
+            location = JSON.parse(values.place);
+        }
+        catch {
+            console.log('error');
+        }
+    }
+    console.log(values);
     if (error)
         return <div className='eventPage'>
             <h2 className='errorText'>
@@ -49,7 +58,7 @@ export default function EventPage() {
                 <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                 <div className='sideBox'>
                     <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Interested', icon: '' }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} />
-                    <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} />
+                    <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} />
                     {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
                     {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}
                 </div>

@@ -18,25 +18,25 @@ interface LeafletBoxWithPopupProps extends LeafletMapProps {
 
 export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
     const [isModalOpen, setModalOpen, toggleModal] = useModal();
-    const [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map] = useMap();
-    const [initializeMap2, setViewMap2, locateOnMap2, removeMarkerMap2, addMarkerMap2, map2] = useMap();
+    const [initializeMap, , , , addMarkerMap, map] = useMap();
+    const [initializeMap2, , , , addMarkerMap2, map2] = useMap();
 
     useEffect(() => {
-
-        if (!props.isLoading) {
+        if (!props.isLoading && !map) {
             try {
                 initializeMap(props.mapID);
                 initializeMap2(`${props.mapID}Popup`);
-                if (props.point) {
-                    let marker = L.marker([props.point.lat, props.point.lon], { icon: MarkerIcon })
-                        .bindPopup("").openPopup();
-                    addMarkerMap(marker);
-                    addMarkerMap2(marker);
-                }
-            }
-            catch (e) { console.error(e); }
+            } catch (e) { console.error(e); }
         }
-    }, [props.isLoading]);
+        if (props.point && map && map2) {
+            let marker1 = L.marker([props.point.lat, props.point.lon], { icon: MarkerIcon })
+                .bindPopup("").openPopup();
+            let marker2 = L.marker([props.point.lat, props.point.lon], { icon: MarkerIcon })
+                .bindPopup("").openPopup();
+            addMarkerMap(marker1);
+            addMarkerMap2(marker2);
+        }
+    }, [props.isLoading, props.point]);
 
     if (props.isLoading)
         return (

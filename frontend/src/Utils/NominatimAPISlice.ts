@@ -26,7 +26,6 @@ export const nominatimApi = createApi({
                 params: arg,
             }),
             transformResponse: (rawResult: NominatimPlace) => {
-                console.log(rawResult);
                 return rawResult.display_name;
             },
         }),

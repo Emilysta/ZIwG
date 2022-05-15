@@ -10,8 +10,22 @@ export const eventApi = createApi({
   endpoints: (build) => ({
     getEvents: build.query<EventDataSimple[], void>({
       query: () => '',
-      transformResponse: (rawResult: EventDataSimple[], meta) => {
-        console.log(rawResult);
+      transformResponse: (rawResult: any, meta) => {
+        // console.log('rawResult');
+        // console.log(rawResult);
+
+        // rawResult["$values"].forEach(async (event) => {
+        //   if (event.mainImage !== '') {
+        //     let bytes = new Uint8Array(event.mainImage.length);
+
+        //     for (let i = 0; i < bytes.length; i++) {
+        //       bytes[i] = event.mainImage.charCodeAt(i);
+        //     }
+        //     event.mainImage = new File([bytes], 'image.jpg', {
+        //       type: "image/jpg",
+        //     })
+        //   }
+        //})
         return rawResult['$values'];
       },
       providesTags: (result, error, arg) =>

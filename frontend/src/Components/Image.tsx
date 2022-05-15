@@ -15,11 +15,27 @@ export function Image(props: ImageProps) {
         if (props.onClick)
             props.onClick(e, props.src)
     }
-    const url = props.src ? URL.createObjectURL(props.src) : props.url;
+    let url: string;
+
+    if (props.src) {
+        try {
+            url = `data:image/png;base64,${props.src}`;
+        }
+        catch (e) {
+            url = undefined;
+            console.log(e);
+
+        }
+    }
+    else {
+        url = props.url;
+    }
+
     return (
         <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
-            {!props.isLoading && <img src={url} alt={''} />}
+            {!props.isLoading && url !== undefined && <img src={url} alt={''} />}
             {props.isLoading && <ZiwgSkeleton containerClassName='imageSkeleton' />}
+            {url === undefined && <p> no image</p>}
         </div>
     );
 }

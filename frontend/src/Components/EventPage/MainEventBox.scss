@@ -8,24 +8,29 @@
 }
 
 .galleryBox {
-    flex: 0 1 auto;
     border-radius: 5px;
     margin: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: white;
+    position: relative;
+    min-height: 200px;
 
     @include customize() {
         border: 1px solid getValue(main-color);
     }
 }
 
+.mainImage {
+    z-index: 1;
+    position: absolute;
+}
+
 .galleryIconWithText {
+    position: absolute;
     min-height: 100px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    ;
 }
 
 .galleryIconWithText,
@@ -54,7 +59,7 @@
 
 .galleryIcon {
     fill: lightgray;
-    margin: auto;
+    margin: 10px auto;
     width: 30px;
     height: 30px;
 

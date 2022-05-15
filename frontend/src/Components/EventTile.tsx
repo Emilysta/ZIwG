@@ -19,11 +19,11 @@ type EventTileProps = {
 }
 
 export default function EventTile(props: EventTileProps) {
-
     return (
         <div className='eventTile'>
             <div className='eventTileImageCon'>
-                <Image url="http://placeimg.com/640/480/transport" isLoading={props.isLoading} />
+                {props.isLoading && <ZiwgSkeleton />}
+                {!props.isLoading && <Image src={props.data.mainImage} />}
             </div>
             <div className='title'>
                 {props.isLoading && <ZiwgSkeleton />}

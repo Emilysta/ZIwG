@@ -1,4 +1,4 @@
-@use '_lib'as *;
+@use '_lib' as *;
 
 
 .eventPage {
@@ -7,7 +7,6 @@
     max-width: 1400px;
     height: 70vh;
     overflow: hidden;
-    overflow-y: auto;
     border-radius: 10px;
 
     @include customize() {

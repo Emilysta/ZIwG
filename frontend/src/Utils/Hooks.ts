@@ -17,12 +17,12 @@ export const MarkerIcon = L.icon({
 
 export const useMap = () => {
     const mapParams = {
-        center: [52.237049, 21.017532],
         zoom: 10,
         zoomControl: true,
         dragging: true,
         boxZoom: true,
         maxZoom: 18,
+        doubleClickZoom: false,
     }
 
     const readonlyProperties = {
