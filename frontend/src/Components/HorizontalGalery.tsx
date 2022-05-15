@@ -4,22 +4,22 @@ import './HorizontalGalery.scss'
 
 type HorizontalGaleryProps = {
     rows: number,
-    images: string[],
+    images: File[],
     className?: string,
-    onSelected?: (selected: string) => void
+    onSelected?: (selected: File) => void
 }
 
 export function HorizontalGalery(props: HorizontalGaleryProps) {
-    const [selected, setSelected]: [string, any] = React.useState(null)
+    const [selected, setSelected]: [File, any] = React.useState(null)
 
-    const getImageClass = (src: string) => src === selected ? "selected" : ""
+    const getImageClass = (src: File) => src === selected ? "selected" : ""
 
-    const choose = (e: React.MouseEvent<HTMLDivElement>, img: string) => { e.preventDefault(); setSelected(img) }
-    
+    const choose = (e: React.MouseEvent<HTMLDivElement>, img: File) => { e.preventDefault(); setSelected(img) }
+
     React.useEffect(() => { if (props.onSelected) props.onSelected(selected) }, [selected])
-    
+
     React.useEffect(() => {
-        if (selected == null && props.images.length > 0 && props.images[0]?.length !== 0) {
+        if (selected == null && props.images.length > 0 && props.images[0]?.size !== 0) {
             setSelected(props.images[0])
         }
     }, []);

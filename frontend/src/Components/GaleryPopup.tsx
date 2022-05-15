@@ -6,16 +6,17 @@ import { DropFilesBox } from './DropFilesBox';
 
 export type GaleryPopupProps = {
     open?: boolean,
-    onClose?: (state: boolean, images: string[], selected: string) => void,
-    images?: string[],
+    onClose?: (state: boolean, images: File[], selected: File) => void,
+    images?: File[],
 }
 
 export function GaleryPopup(props: GaleryPopupProps) {
-    const [images, setImages] = React.useState(props.images)
+    const [images, setImages] = React.useState<File[]>(props.images);
     const [selected, setSelected] = React.useState(null)
 
-    function onImageUpload(fileUrl: string) {
-        setImages(prevImages => [fileUrl, ...prevImages]);
+    function onImageUpload(file: File) {
+        console.log(file);
+        setImages(prevImages => [file, ...prevImages]);
     }
 
     return (
@@ -29,7 +30,7 @@ export function GaleryPopup(props: GaleryPopupProps) {
                 </a>
             </header>
             <main>
-                <HorizontalGalery rows={2} className='horizontalGalery' images={images} onSelected={(s) => setSelected(s)}/> 
+                <HorizontalGalery rows={2} className='horizontalGalery' images={images} onSelected={(s) => setSelected(s)} />
             </main>
             <footer>
                 <DropFilesBox className='dropFiles' onImageUpload={onImageUpload} />

@@ -60,7 +60,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
-    function onGalleryPopupClose(state: boolean, images: string[], selected: string) {
+    function onGalleryPopupClose(state: boolean, images: File[], selected: File) {
         if (props.onValuesChange) {
             //props.onValuesChange('images', images);
             props.onValuesChange('mainImage', selected);
@@ -94,7 +94,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             return 'Event must have a name';
         return '';
     }
-    let imageStyle: React.CSSProperties = { backgroundImage: `url(${props.values.mainImage})` }
+    let imageStyle: React.CSSProperties = { backgroundImage: `url(${props.values.mainImage ? URL.createObjectURL(props.values.mainImage) : undefined})` }
 
     return (
         <div className={`mainEventBox ${props.className}`}>

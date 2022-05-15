@@ -4,9 +4,12 @@ import * as React from 'react';
 import './TagList.scss';
 import { Plus, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import { useState } from 'react';
+export type TagType = {
+    name: string,
+}
 
 export type TagListProps = {
-    tags: Array<string>,
+    tags: TagType[],
     isReadOnly: boolean,
     onClick?: (value: string, id: number) => void
     isLoading?: boolean,
@@ -38,7 +41,7 @@ export default function TagList(props: TagListProps) {
         if (event.key === 'Enter') //enter
         {
             let arr = tags;
-            arr.push(tagInputValue);
+            arr.push({ name: tagInputValue });
             setTags(arr);
             setTagPage(Math.floor((arr?.length - 1) / 3));
         }
@@ -70,7 +73,7 @@ export default function TagList(props: TagListProps) {
                                 tags.slice(tagPage * 3, (tagPage * 3) + 3).map((value, index) => {
                                     return (
                                         <li key={index} className='tagListLI'>
-                                            <Tag text={value} isCloseable={!props.isReadOnly} id={index} onCloseAction={onTagClose} />
+                                            <Tag text={value.name} isCloseable={!props.isReadOnly} id={index} onCloseAction={onTagClose} />
                                         </li>
                                     )
                                 })

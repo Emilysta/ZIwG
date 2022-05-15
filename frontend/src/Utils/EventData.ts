@@ -1,16 +1,18 @@
+import { TagType } from "Components/EventPage/TagList";
+
 export type EventDataSimple = {
     id: string,
     name: string,
     startDate: string,
     endDate: string,
-    mainImage: string,
+    mainImage: File,
     organiserName: string,
     organiserImage: string,
+    organiserId: string,
 }
-
 export interface EventData extends EventDataSimple {
     description: string,
-    tags: string[],
+    tags: TagType[],
     isPublicEvent: boolean,
     isPaidTicket: boolean,
     ticketPrice: number,

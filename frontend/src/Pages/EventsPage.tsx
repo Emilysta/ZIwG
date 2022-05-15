@@ -42,7 +42,7 @@ export default function EventsPage() {
                     <div className='eventsPage'>
                         <div className='eventsNav'>
                             <div>
-                                <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+                                <TagList tags={[{ name: "Concert" }, { name: "Workshops" }, { name: "Conference" }, { name: "xyz" }, { name: "abc" }, { name: "123" }]} isReadOnly={true} onClick={tagChosen} />
                             </div>
                             <div>
                                 <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />
@@ -62,7 +62,7 @@ export default function EventsPage() {
                     <div className='eventsPage'>
                         <div className='eventsNav'>
                             <div>
-                                <TagList tags={["Concert", "Workshops", "Conference", "xyz", "abc", "123"]} isReadOnly={true} onClick={tagChosen} />
+                                <TagList tags={[{ name: "Concert" }, { name: "Workshops" }, { name: "Conference" }, { name: "xyz" }, { name: "abc" }, { name: "123" }]} isReadOnly={true} onClick={tagChosen} />
                             </div>
                             <div>
                                 <SearchField dictionary={mockWordList} maxSuggestions={6} onChosen={onSearch} />

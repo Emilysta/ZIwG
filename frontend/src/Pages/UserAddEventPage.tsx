@@ -8,11 +8,14 @@ import { XLg, PlusLg } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { eventApi } from 'Utils/EventAPISlice';
 import { EventData } from 'Utils/EventData';
+import { debounce } from 'lodash';
+import { useCallback } from 'react';
 import './UserAddEventPage.scss';
 
 export default function UserAddEventPage() {
     const navigate = useNavigate();
-    const [values, setValues] = useState<Omit<EventData, 'organiserName' | 'organiserImage' | 'id'>>(
+    const delaySetValue = useCallback(debounce(change => setValues(change), 1000), []);
+    const [values, setValues] = useState<Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id'>>(
         {
             name: 'Event name',
             description: '',
@@ -38,10 +41,12 @@ export default function UserAddEventPage() {
         try {
             let response = await addEventRequest(values).unwrap();
             console.log(response);
-            // let mainImageResponse = await addEventMainImageRequest({
-            //     eventId: 'id',
-            //     image: values.mainImage
-            // });
+            let formData = new FormData();
+            formData.append('files', values.mainImage);
+            let mainImageResponse = await addEventMainImageRequest({
+                eventId: response,
+                image: formData,
+            });
             navigate('/user/userEvents', { replace: true });
         }
         catch (error) {
@@ -51,10 +56,8 @@ export default function UserAddEventPage() {
     }
 
     function valueChange(id: string, value: any) {
-        console.log("update change " + id + ' ' + value);
         let and = { ...values, [id]: value };
-        console.log(and);
-        setValues(and);
+        delaySetValue(and);
     }
 
     function checkInput(value: string, regex: RegExp, errorToShow: string, isValidChar: boolean = false): string {

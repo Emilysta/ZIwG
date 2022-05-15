@@ -3,18 +3,19 @@ import ZiwgSkeleton from 'Utils/Skeletons';
 import './Image.scss'
 
 type ImageProps = {
-    src: string,
+    src?: File,
+    url?: string,
     className?: string,
     isLoading?: boolean,
-    onClick?: (e: React.MouseEvent<HTMLDivElement>, img: string) => void
+    onClick?: (e: React.MouseEvent<HTMLDivElement>, img: File) => void
 }
 
 export function Image(props: ImageProps) {
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => props.onClick(e, props.src)
-
+    const url = props.src ? URL.createObjectURL(props.src) : props.url;
     return (
         <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
-            {!props.isLoading && <img src={props.src} />}
+            {!props.isLoading && <img src={url} alt={''} />}
             {props.isLoading && <ZiwgSkeleton containerClassName='imageSkeleton' />}
         </div>
     );
