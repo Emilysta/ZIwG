@@ -11,7 +11,10 @@ type ImageProps = {
 }
 
 export function Image(props: ImageProps) {
-    const onClick = (e: React.MouseEvent<HTMLDivElement>) => props.onClick(e, props.src)
+    const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (props.onClick)
+            props.onClick(e, props.src)
+    }
     const url = props.src ? URL.createObjectURL(props.src) : props.url;
     return (
         <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
