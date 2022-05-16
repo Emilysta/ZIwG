@@ -46,6 +46,20 @@ export const loginUserThunk = () => async (dispatch) => {
     dispatch(login({ userId: id, userData: userData }));
 }
 
+export const subscribeToEvent = async (eventId: string) => {
+    let result = await fetch(`/api/User/sign/${eventId}`, { method: "POST" })
+    console.log(result)
+    if (result.status !== 204)
+        console.log('error while subscribing');
+}
+
+export const unsubscribeFromEvent = async (eventId: string) => {
+    let result = await fetch(`/api/User/signout/${eventId}`, { method: "DELETE" })
+    console.log(result)
+    if (result.status !== 204)
+        console.log('error while subscribing');
+}
+
 export const userApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: '/api/User/',

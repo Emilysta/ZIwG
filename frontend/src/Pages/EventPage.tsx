@@ -9,6 +9,7 @@ import { StarFill, X } from 'react-bootstrap-icons';
 import { RootState, useAppSelector } from 'Utils/Store';
 import { MenuButton } from 'Components/Input/MenuButton';
 import { EventData } from 'Utils/EventData';
+import { subscribeToEvent, unsubscribeFromEvent } from 'Utils/UserApiSlice';
 
 export default function EventPage() {
     const [isReadOnly, setReadOnly]: [boolean, any] = React.useState(true)
@@ -18,12 +19,14 @@ export default function EventPage() {
     const { data, error, isLoading } = useGetEventQuery(id);
     React.useEffect(() => setValues(data), [data])
 
-    const userName = useAppSelector((state: RootState) => state.userLogin?.userData?.displayName)
+    const userId = useAppSelector((state: RootState) => state.userLogin.userId)
 
     const [editRequest] = useModifyEventMutation()
     const [pushImageRequest] = useAddEventMainImageMutation()
 
-    const isOrganiser = values && values.organiserName === userName;
+    const isOrganiser = values && values.organiserId === userId;
+    console.log(isOrganiser);
+
     const edit = () => isOrganiser && setReadOnly(false)
     const save = () => {
         editRequest({
@@ -48,6 +51,15 @@ export default function EventPage() {
         console.log("Update: ", id, " ", value)
         setValues({ ...values, [id]: value })
     }
+
+    function onSelectionChange(selectedIndex: number) {
+        console.log(selectedIndex);
+        if (selectedIndex === 1)
+            subscribeToEvent(values.id);
+        else if (selectedIndex === 0)
+            unsubscribeFromEvent(values.id);
+    }
+
     let location: { lat: number, lon: number };
     if (values?.place) {
         try {
@@ -57,6 +69,7 @@ export default function EventPage() {
             console.log('error');
         }
     }
+
     console.log(values);
     if (error)
         return <div className='eventPage'>
@@ -68,7 +81,7 @@ export default function EventPage() {
             <div className='eventPage'>
                 <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                 <div className='sideBox'>
-                    <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Interested', icon: '' }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} />
+                    {!isOrganiser && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
                     <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} />
                     {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
                     {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}

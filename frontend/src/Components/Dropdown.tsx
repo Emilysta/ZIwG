@@ -15,18 +15,22 @@ type DropdownProps = {
     initialState?: boolean,
     initialSelected?: number,
     isLoading?: boolean,
+    onSelectionChange?: (selectedIndex: number) => void;
 }
 
 export default function Dropdown(props: DropdownProps) {
     const items = props.items;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [selectedItem, setSelectedItem] = useState(items.at(0));
-    const [display, setDisplay, toggleDisplay] = useModal(false);
+    const [display, , toggleDisplay] = useModal(false);
 
-    function changeSelection(id: number, item: DropdownItem) {
-        setSelectedIndex(id);
+    function changeSelection(index: number, item: DropdownItem) {
+        setSelectedIndex(index);
         setSelectedItem(item);
         toggleDisplay();
+        if (props.onSelectionChange) {
+            props.onSelectionChange(index);
+        }
     }
     if (props.isLoading)
         return (<div className='dropdown'><ZiwgSkeleton /></div >);
@@ -46,7 +50,6 @@ export default function Dropdown(props: DropdownProps) {
                         )}
                     </div>
                 </div>
-
             </div>
         )
 }

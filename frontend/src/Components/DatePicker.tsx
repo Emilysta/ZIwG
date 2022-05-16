@@ -20,10 +20,12 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     const [startDate, setStartDate] = useState(undefined);
     const [endDate, setEndDate] = useState(undefined);
 
-
     React.useEffect(() => {
         let startTemp = new Date(props.startDate);
         let endTemp = new Date(props.endDate);
+        if (isNaN(startTemp.getTime()) || isNaN(endTemp.getTime()))
+            return
+
         setStartDate(startTemp);
         onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
     }, [props.startDate]);
@@ -41,6 +43,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     }
 
     function onEndDateChange(endDateUp: Date) {
+        console.log(endDateUp)
         if (props.onDateChange)
             props.onDateChange(endDateUp?.toISOString(), 'endDate');
         setEndDate(endDateUp);

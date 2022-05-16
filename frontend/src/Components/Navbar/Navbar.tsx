@@ -16,7 +16,7 @@ export function Navbar() {
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
   const isUserLoggedIn = useAppSelector((state: RootState) => state.userLogin.isLoggedIn);
-  const userName = useAppSelector((state: RootState) => state.userLogin.userData?.firstName);
+  const userName = useAppSelector((state: RootState) => state.userLogin.userData?.displayName);
 
   function logoutFromApp() {
     logoutRequest().unwrap()
