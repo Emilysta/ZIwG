@@ -49,6 +49,8 @@ export default function MainEventBox(props: MainEventBoxProps) {
     };
 
     function pickCalendarDate(updateDate: string, id: string) {
+        console.log(`${updateDate} ${id}`);
+
         if (props.onValuesChange) {
             props.onValuesChange(id, updateDate);
         }

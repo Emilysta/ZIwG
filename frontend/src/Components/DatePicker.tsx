@@ -25,8 +25,8 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         let startTemp = new Date(props.startDate);
         let endTemp = new Date(props.endDate);
         setStartDate(startTemp);
-        setEndDate(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
-    }, [props.endDate, props.startDate]);
+        onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
+    }, [props.startDate]);
 
     const filterPassedTime = (time: Date) => {
         const currentDate = new Date();
@@ -35,15 +35,15 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     };
 
     function onStartDateChange(startDateUp: Date) {
-        setStartDate(startDateUp);
         if (props.onDateChange && startDateUp)
             props.onDateChange(startDateUp.toISOString(), 'startDate');
+        setStartDate(startDateUp);
     }
 
     function onEndDateChange(endDateUp: Date) {
-        setEndDate(endDateUp);
         if (props.onDateChange)
             props.onDateChange(endDateUp?.toISOString(), 'endDate');
+        setEndDate(endDateUp);
     }
 
     if (props.isLoading) {
@@ -76,7 +76,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     id='startDate'
                     scrollableYearDropdown
                     required
-                //onChangeRaw={(e) => e.preventDefault()}
+                    onChangeRaw={(e) => e.preventDefault()}
                 />
                 <p> — </p>
                 < ReactDatePicker
