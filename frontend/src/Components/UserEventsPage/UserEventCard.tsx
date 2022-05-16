@@ -7,7 +7,7 @@ import { longDateFormat } from 'Utils/DateFormatter';
 import { Image } from 'Components/Image';
 
 type UserEventCardProps = {
-    loading: boolean,
+    loading?: boolean,
     eventData?: EventDataSimple
 }
 

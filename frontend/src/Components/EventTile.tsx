@@ -7,10 +7,13 @@ import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import { longDateFormat } from 'Utils/DateFormatter';
 
-type LinkButtonProps = { to: string };
+type LinkButtonProps = { to: string, isLoading?: boolean };
 
 function LinkButton(props: LinkButtonProps) {
-    return <Link to={props.to}><BoxArrowRight /></Link>;
+    if (props.isLoading)
+        return <ZiwgSkeleton containerClassName='linkButtonSkeleton' />
+    else
+        return <Link to={props.to} className='detailsLinkAElement'><BoxArrowRight /></Link>;
 }
 
 type EventTileProps = {
@@ -31,7 +34,7 @@ export default function EventTile(props: EventTileProps) {
             </div>
             <div className='organiser'>
 
-                {props.isLoading && <ZiwgSkeleton containerClassName='imgSkeleton' circle={true} width={20} height={20} />}
+                {props.isLoading && <ZiwgSkeleton containerClassName='imgSkeleton' circle={true} width={25} height={25} />}
                 {!props.isLoading && <Person className='img' />}
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='text' />}
@@ -44,9 +47,8 @@ export default function EventTile(props: EventTileProps) {
                     <p>From: <strong>{longDateFormat(props.data.startDate)}</strong></p>
                     <p>To: <strong>{longDateFormat(props.data.endDate)}</strong></p>
                 </div>}
-                <div>
-                    {props.isLoading && <ZiwgSkeleton />}
-                    {!props.isLoading && <LinkButton to={`${props.data.id}`} />}
+                <div className='detailsLink'>
+                    <LinkButton to={`${props.data?.id}`} isLoading={props.isLoading} />
                 </div>
             </div>
         </div>

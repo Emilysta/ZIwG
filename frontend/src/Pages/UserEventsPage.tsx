@@ -15,10 +15,8 @@ export default function UserEventsPage() {
         <div className='userEventsPage'>
             <header>
                 <nav>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a onClick={() => { selectedListChanged(false) }} > Active events </a>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a onClick={() => { selectedListChanged(true) }}> Archived events </a>
+                    <h1>Active events</h1>
+                    {/* <div onClick={() => { selectedListChanged(false) }} > Active events </div> */}
                 </nav>
                 <Link className='addEventLink' to='/user/userEvents/add'> + Add Event </Link>
             </header>

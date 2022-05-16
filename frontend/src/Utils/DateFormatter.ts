@@ -10,7 +10,7 @@ export function longDateFormat(dateString: string): string {
 }
 
 function formatNumberString(numberToFormat: number) {
-    if (numberToFormat > 10)
+    if (numberToFormat >= 10)
         return numberToFormat.toString()
     else
         return `0${numberToFormat.toString()}`;

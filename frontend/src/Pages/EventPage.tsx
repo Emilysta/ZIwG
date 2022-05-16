@@ -48,7 +48,6 @@ export default function EventPage() {
     }
 
     const onEdit = (id: string, value: string) => {
-        console.log("Update: ", id, " ", value)
         setValues({ ...values, [id]: value })
     }
 
@@ -70,7 +69,6 @@ export default function EventPage() {
         }
     }
 
-    console.log(values);
     if (error)
         return <div className='eventPage'>
             <h2 className='errorText'>

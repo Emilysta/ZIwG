@@ -11,21 +11,23 @@ export function UserEventsList(props: UserEventsListProps) {
     const userId = useAppSelector((state: RootState) => state.userLogin.userId)
     const { data, error, isLoading } = useGetUserEventsQuery({ UserId: userId });
 
-    return (
-        <div className='listContainer'>
-            {!props.isArchived ? <>
-                <UserEventCard loading={isLoading} />
-            </> : <>
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
-                <UserEventCard loading={isLoading} />
+    if (isLoading)
+        return (
+            <>
+                {[...Array(10)].map((x, i) => <UserEventCard key={i} loading={true} />)}
             </>
-            }
-        </div>
-    );
+        )
+    else if (error) {
+        return (<>error</>)
+    }
+    else
+        return (
+            <div className='listContainer' >
+                {
+                    data.map((val, i) =>
+                        <UserEventCard key={i} eventData={val} />
+                    )
+                }
+            </div >
+        );
 }

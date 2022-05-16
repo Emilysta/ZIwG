@@ -43,7 +43,6 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     }
 
     function onEndDateChange(endDateUp: Date) {
-        console.log(endDateUp)
         if (props.onDateChange)
             props.onDateChange(endDateUp?.toISOString(), 'endDate');
         setEndDate(endDateUp);
