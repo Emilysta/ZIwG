@@ -31,12 +31,15 @@ export default function EventPage() {
             data: values
         }).unwrap()
             .then((res) => {
-                let formData = new FormData();
-                formData.append('files', values.mainImage);
-                pushImageRequest({
-                    eventId: values.id,
-                    image: formData
-                }).then((_) => setReadOnly(true))
+                if (values.mainImage != null) {
+                    let formData = new FormData();
+                    formData.append('files', values.mainImage);
+                    pushImageRequest({
+                        eventId: values.id,
+                        image: formData
+                    }).then((_) => setReadOnly(true))
+                }
+                setReadOnly(true)
             })
             .catch((err) => console.error(err))
     }

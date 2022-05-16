@@ -2,7 +2,7 @@ import * as React from 'react';
 import './EventTile.scss'
 import { Image } from 'Components/Image'
 import { Link } from 'react-router-dom';
-import { BoxArrowRight } from 'react-bootstrap-icons';
+import { BoxArrowRight, Person } from 'react-bootstrap-icons';
 import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import { longDateFormat } from 'Utils/DateFormatter';
@@ -32,7 +32,7 @@ export default function EventTile(props: EventTileProps) {
             <div className='organiser'>
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='img' />}
-                {!props.isLoading && <Image className='img' url="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/846.jpg" />}
+                {!props.isLoading && <Person className='img' />}
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='text' />}
                 {!props.isLoading && <p className='text'>{props.data.organiserName}</p>}
