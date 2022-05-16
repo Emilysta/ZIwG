@@ -1,18 +1,26 @@
 .mySkeleton {
     height: 100%;
     width: 100%;
+}
+
+.mySkeleton .rows {
     row-gap: 5px;
     column-gap: 5px;
 }
 
-.mySkeleton span {
-
-    line-height: unset;
-    //min-height: 1rem;
-    //min-height: 1fr;
+.rows span {
+    line-height: normal;
     height: 1fr;
     min-width: 1.5rem;
     width: 100%;
+}
+
+.react-loading-skeleton {
+    line-height: normal;
+}
+
+.rows .react-loading-skeleton {
+    line-height: 1;
 }
 
 .mySkeleton br {

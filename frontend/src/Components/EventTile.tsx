@@ -22,7 +22,7 @@ export default function EventTile(props: EventTileProps) {
     return (
         <div className='eventTile'>
             <div className='eventTileImageCon'>
-                {props.isLoading && <ZiwgSkeleton />}
+                {props.isLoading && <ZiwgSkeleton containerClassName='eventTileImageSkeleton' />}
                 {!props.isLoading && <Image src={props.data.mainImage} />}
             </div>
             <div className='title'>
@@ -31,7 +31,7 @@ export default function EventTile(props: EventTileProps) {
             </div>
             <div className='organiser'>
 
-                {props.isLoading && <ZiwgSkeleton containerClassName='img' />}
+                {props.isLoading && <ZiwgSkeleton containerClassName='imgSkeleton' circle={true} width={20} height={20} />}
                 {!props.isLoading && <Person className='img' />}
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='text' />}

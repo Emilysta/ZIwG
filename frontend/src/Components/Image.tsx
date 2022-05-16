@@ -67,7 +67,7 @@ function ImageUploaded(props: ImageProps) {
         <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
             {state && !isLoading && <img src={state.src} alt={''} />}
             {state && isLoading && <ZiwgSkeleton containerClassName='imageSkeleton' />}
-            {!state && <p> no image</p>}
+            {!state && <p>No image</p>}
         </div>
     );
 }
