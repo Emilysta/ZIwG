@@ -98,9 +98,9 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
     return (
         <div className={`mainEventBox ${props.className}`}>
-            <div className='galleryBox'>
+            <div className='galleryBox' onClick={(event) => onDropBoxClick(event)}>
                 {props.values.mainImage && <Image className={'mainImage'} src={props.values.mainImage} />}
-                {!props.values.mainImage && <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)} >
+                {!props.values.mainImage && <div className='galleryIconWithText'>
                     <Images className='galleryIcon' />
                     {!props.isReadOnly && <p>Click to add Image</p>}
                     {props.isReadOnly && <p>No images</p>}

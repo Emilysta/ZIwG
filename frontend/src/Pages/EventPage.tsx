@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import MainEventBox from 'Components/EventPage/MainEventBox';
 import './EventPage.scss';
-import { useGetEventQuery, useModifyEventMutation } from 'Utils/EventAPISlice';
+import { useAddEventMainImageMutation, useGetEventQuery, useModifyEventMutation } from 'Utils/EventAPISlice';
 import Dropdown from 'Components/Dropdown';
 import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
 import { StarFill, X } from 'react-bootstrap-icons';
@@ -21,6 +21,7 @@ export default function EventPage() {
     const userName = useAppSelector((state: RootState) => state.userLogin?.userData?.displayName)
 
     const [editRequest] = useModifyEventMutation()
+    const [pushImageRequest] = useAddEventMainImageMutation()
 
     const isOrganiser = values && values.organiserName === userName;
     const edit = () => isOrganiser && setReadOnly(false)
@@ -29,7 +30,14 @@ export default function EventPage() {
             eventId: values.id,
             data: values
         }).unwrap()
-            .then((res) => setReadOnly(true))
+            .then((res) => {
+                let formData = new FormData();
+                formData.append('files', values.mainImage);
+                pushImageRequest({
+                    eventId: values.id,
+                    image: formData
+                }).then((_) => setReadOnly(true))
+            })
             .catch((err) => console.error(err))
     }
 
