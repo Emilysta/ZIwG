@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { longDateFormat } from 'Utils/DateFormatter';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import "./DatePicker.scss";
 
@@ -9,33 +10,42 @@ import "./DatePicker.scss";
 type EventDatePickerProps = {
     isReadOnly?: boolean,
     className?: string,
-    onDateChange?: (value: [Date, Date]) => void,
-    startDate: Date,
-    endDate: Date,
+    onDateChange?: (value: string, id: string) => void,
+    startDate: string,
+    endDate: string,
     isLoading?: boolean,
 }
 
 export default function EventDatePicker(props: EventDatePickerProps) {
-    const [startDate, setStartDate] = useState(props.startDate);
-    const [endDate, setEndDate] = useState(props.endDate);
+    const [startDate, setStartDate] = useState(undefined);
+    const [endDate, setEndDate] = useState(undefined);
+
+    React.useEffect(() => {
+        let startTemp = new Date(props.startDate);
+        let endTemp = new Date(props.endDate);
+        if (isNaN(startTemp.getTime()) || isNaN(endTemp.getTime()))
+            return
+
+        setStartDate(startTemp);
+        onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
+    }, [props.startDate]);
 
     const filterPassedTime = (time: Date) => {
         const currentDate = new Date();
         const selectedDate = new Date(time);
-
         return currentDate.getTime() < selectedDate.getTime();
     };
 
     function onStartDateChange(startDateUp: Date) {
+        if (props.onDateChange && startDateUp)
+            props.onDateChange(startDateUp.toISOString(), 'startDate');
         setStartDate(startDateUp);
-        if (props.onDateChange)
-            props.onDateChange([startDate, endDate]);
     }
 
     function onEndDateChange(endDateUp: Date) {
-        setEndDate(endDateUp);
         if (props.onDateChange)
-            props.onDateChange([startDate, endDate]);
+            props.onDateChange(endDateUp?.toISOString(), 'endDate');
+        setEndDate(endDateUp);
     }
 
     if (props.isLoading) {
@@ -45,7 +55,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (startDate === null)
             return (<p className='noPaddingMargin'>No date selected</p>)
         else
-            return (<p className='noPaddingMargin'>{startDate.toDateString()} — {endDate.toDateString()}</p>)
+            return (<p className='noPaddingMargin'>{longDateFormat(startDate)} — {longDateFormat(endDate)}</p>)
     }
     else {
         return (
@@ -58,7 +68,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     minDate={new Date()}
                     onChange={(update) => { onStartDateChange(update) }}
                     filterTime={filterPassedTime}
-                    isClearable={true}
+                    isClearable={false}
                     placeholderText="Start date"
                     disabled={props.isReadOnly}
                     timeInputLabel="Start time:"
@@ -67,6 +77,8 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     showTimeInput
                     id='startDate'
                     scrollableYearDropdown
+                    required
+                    onChangeRaw={(e) => e.preventDefault()}
                 />
                 <p> — </p>
                 < ReactDatePicker
@@ -74,12 +86,11 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     className='simplePickerInput'
                     calendarClassName='calendar'
                     selected={endDate}
-                    minDate={new Date()}
+                    minDate={startDate}
                     onChange={(update) => { onEndDateChange(update) }}
                     filterTime={filterPassedTime}
-                    isClearable={true}
+                    isClearable={false}
                     placeholderText="End date"
-                    disabledKeyboardNavigation
                     disabled={props.isReadOnly}
                     timeInputLabel="End time:"
                     timeFormat="HH:mm"
@@ -87,6 +98,8 @@ export default function EventDatePicker(props: EventDatePickerProps) {
                     showTimeInput
                     scrollableYearDropdown
                     id='endDate'
+                    required
+                    onChangeRaw={(e) => e.preventDefault()}
                 />
             </div>
         )

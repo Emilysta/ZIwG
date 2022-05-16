@@ -18,7 +18,8 @@ export default function ZiwgSkeleton(props: ZiwgSkeletonProps) {
 
     return (
         <SkeletonTheme baseColor='grey' highlightColor='#444'>
-            <Skeleton containerClassName={`mySkeleton${props.containerClassName ? ' ' + props.containerClassName : ''}`} count={props.count} circle={props.circle} containerTestId={props.containerTestId} width={props.width} height={props.height} />
+            {props.count && <Skeleton containerClassName={`mySkeleton rows${props.containerClassName ? ' ' + props.containerClassName : ''}`} count={props.count} circle={props.circle} containerTestId={props.containerTestId} width={props.width} height={props.height} />}
+            {!props.count && <Skeleton containerClassName={`mySkeleton${props.containerClassName ? ' ' + props.containerClassName : ''}`} count={props.count} circle={props.circle} containerTestId={props.containerTestId} width={props.width} height={props.height} />}
         </SkeletonTheme>
     )
 }

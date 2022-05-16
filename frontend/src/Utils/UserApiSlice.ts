@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { login, updateUserData } from './UserSlice';
 
 export type LoginData = {
     email: string,
@@ -15,9 +16,48 @@ export type RegisterData = {
 }
 
 export type UserData = {
+    firstName: string,
+    lastName: string,
+    photo: string,
+    displayName: string,
+    description: string,
+    dateOfBirth: Date,
+    location: string,
+}
+
+export type EditableUserData = {
     displayName: string,
     description: string,
     location: string,
+}
+
+export const updateUserThunk = () => async (dispatch) => {
+    let resultData = await fetch(`/api/User/currentUserData`)
+    let userData: UserData = await resultData.json();
+    dispatch(updateUserData(userData))
+}
+
+export const loginUserThunk = () => async (dispatch) => {
+    let result = await fetch(`/api/User/currentUserId`)
+    let id = await result.text();
+    let resultData = await fetch(`/api/User/currentUserData`)
+    let userData: UserData = await resultData.json();
+    console.log(userData);
+    dispatch(login({ userId: id, userData: userData }));
+}
+
+export const subscribeToEvent = async (eventId: string) => {
+    let result = await fetch(`/api/User/sign/${eventId}`, { method: "POST" })
+    console.log(result)
+    if (result.status !== 204)
+        console.log('error while subscribing');
+}
+
+export const unsubscribeFromEvent = async (eventId: string) => {
+    let result = await fetch(`/api/User/signout/${eventId}`, { method: "DELETE" })
+    console.log(result)
+    if (result.status !== 204)
+        console.log('error while subscribing');
 }
 
 export const userApi = createApi({
@@ -52,7 +92,7 @@ export const userApi = createApi({
         }),
 
         deleteUser: build.mutation<null, void>({
-            query: (id) => ({
+            query: () => ({
                 url: `deleteUser`,
                 method: 'DELETE',
             })
@@ -61,16 +101,12 @@ export const userApi = createApi({
         googleLogin: build.mutation({
             query: () => 'google-login',
         }),
+
         googleRegister: build.mutation({
             query: () => '',
         }),
-        getUserData: build.query<UserData, void>({
-            query: () => ({
-                url: 'currentUserData',
-                method: 'GET'
-            })
-        }),
-        changeUserData: build.mutation<void, UserData>({
+
+        changeUserData: build.mutation<void, EditableUserData>({
             query: (body) => ({
                 url: `changeUserData`,
                 method: 'PATCH',
@@ -107,4 +143,4 @@ export const userApi = createApi({
         }),
     }),
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useGetUserDataQuery } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation } = userApi;

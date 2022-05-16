@@ -2,41 +2,57 @@ import * as React from 'react';
 import './MainEventBox.scss';
 import { Images } from 'react-bootstrap-icons';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TagList from './TagList';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { PinMapFill } from 'react-bootstrap-icons';
 import EventDatePicker from 'Components/DatePicker';
-import { GaleryPopup } from 'Components/GaleryPopup';
+import { ImageSelectPopup } from 'Components/ImageSelectPopup';
 import { EventData } from 'Utils/EventData';
+import LocationPicker from 'Components/LocationPicker';
+import Popup from 'Components/Popup';
+import { useModal } from 'Utils/Hooks';
+import { debounce } from 'lodash';
+import { useCallback } from 'react';
+import { useAppDispatch } from 'Utils/Store';
+import { nominatimApi } from 'Utils/NominatimAPISlice';
+import { ErrorMsg } from 'Components/Input/ErrorMsg';
+import { Image } from 'Components/Image';
+
 
 type MainEventBoxProps = {
     className?: string,
-    isReadOnly?: boolean,
+    isReadOnly: boolean,
     values: Partial<EventData>,
     onValuesChange?: (id: string, value: any) => void,
     isLoading?: boolean,
 }
 
 export default function MainEventBox(props: MainEventBoxProps) {
-    const [values, setValues] = useState<Partial<EventData>>(props.values);
     const [popupOpened, setPopupOpened] = useState(false);
+    const [isPopupOpen, , togglePopup] = useModal(false);
+    const [localizationText, setLocalizationText] = useState('');
+    const delayCallApi = useCallback(debounce(location => callApi(location), 2000), []);
+    const dispatch = useAppDispatch();
+
+
+    useEffect(() => {
+        if (props.values.place) {
+            let loc = JSON.parse(props.values.place);
+            delayCallApi([loc.lat, loc.lon]);
+        }
+    }, [props.values.place, delayCallApi]);
 
     const handleInputChange = (inputId: string, value: string) => {
-        setValues({ ...values, [inputId]: value });
         if (props.onValuesChange)
             props.onValuesChange(inputId, value);
     };
 
-    function pickCalendarDate(updateDate: [Date, Date]) {
-        setValues((prev) => { prev.StartDate = updateDate[0]; return prev; });
-        setValues((prev) => { prev.EndDate = updateDate[1]; return prev; });
+    function pickCalendarDate(updateDate: string, id: string) {
         if (props.onValuesChange) {
-            props.onValuesChange('StartDate', updateDate[0]);
-            props.onValuesChange('EndDate', updateDate[1]);
+            props.onValuesChange(id, updateDate);
         }
     }
-
 
     function onDropBoxClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();
@@ -45,46 +61,80 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
-    function onGalleryPopupClose(state: boolean, images: string[]) {
-        setValues({ ...values, Images: images });
+    function onGalleryPopupClose(state: boolean, selected: File) {
         if (props.onValuesChange) {
-            props.onValuesChange('Images', images);
+
+            props.onValuesChange('mainImage', selected);
             setPopupOpened(false);
         }
     }
 
+    function onPinnedLocationChange(lat: number, lon: number) {
+        if (props.onValuesChange) {
+            props.onValuesChange('place', `{"lat":${lat},"lon":${lon}}`);
+        }
+    }
+
+    async function callApi(location: number[]) {
+        let promise = dispatch(nominatimApi.endpoints.getLocationByLatLon.initiate({ lat: location[0].toString(), lon: location[1].toString(), format: "json" }));
+        let result = await promise;
+
+        if (result.isSuccess)
+            setLocalizationText(result.data);
+    }
+
+    function returnLocationPickerPopup() {
+        if (!props.isLoading)
+            return (<Popup open={isPopupOpen} onClose={(state) => togglePopup()}>
+                <LocationPicker onPinnedLocationChange={onPinnedLocationChange} />
+            </Popup>)
+    }
+
+    function validateName(value: string): string {
+        if (value.length <= 0)
+            return 'Event must have a name';
+        return '';
+    }
+
     return (
         <div className={`mainEventBox ${props.className}`}>
-            <div className='galleryBox'>
-                <div className='galleryIconWithText' onClick={(event) => onDropBoxClick(event)}>
+            <div className='galleryBox' onClick={(event) => onDropBoxClick(event)}>
+                {props.values.mainImage && <Image className={'mainImage'} src={props.values.mainImage} />}
+                {!props.values.mainImage && <div className='galleryIconWithText'>
                     <Images className='galleryIcon' />
+                    {!props.isReadOnly && <p>Click to add Image</p>}
                     {props.isReadOnly && <p>No images</p>}
-                    {!props.isReadOnly && <p>Drop images or click</p>}
-                </div>
+                </div>}
             </div>
 
-            <GaleryPopup images={values.Images} open={popupOpened} onClose={onGalleryPopupClose} />
+            <ImageSelectPopup image={props.values.mainImage} open={popupOpened} onClose={onGalleryPopupClose} />
+
+            {returnLocationPickerPopup()}
+
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue={values.EventName} id={"EventName"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} validationAction={validateName} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
 
                 <div>
                     <p className='descText'>Tags</p>
-                    <TagList isLoading={props.isLoading} tags={values.Tags} isReadOnly={props.isReadOnly} />
+                    <TagList isLoading={props.isLoading} tags={props.values.tags} isReadOnly={props.isReadOnly} />
                 </div>
-
                 <div>
-                    <p className='descText'>Location</p>
-                    {/* <p className='sizedText'> location</p> */}
-                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} />
+                    <p className='descText'>Localization</p>
+                    <div className='localizationInputBox'>
+                        <p className='sizedText underlinedText'>{localizationText ? localizationText : 'No localization'}</p>
+                        {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
+                    </div>
+                    {!localizationText && <ErrorMsg className='localizationError'>Must contain localization</ErrorMsg>}
                 </div>
 
                 <div>
                     <p className='descText'>Start date - end date</p>
-                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={values.StartDate} endDate={values.EndDate} isLoading={props.isLoading} />
+                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={props.values.startDate} endDate={props.values.endDate} isLoading={props.isLoading} />
                 </div>
 
-                <SimpleEditableInput defaultValue={values.Description === '' ? 'No description' : values.Description} id={"Description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.description === '' ? 'No description' : props.values.description} id={"description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
             </div>
         </div>
     )
 }
+

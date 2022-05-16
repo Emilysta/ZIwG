@@ -1,4 +1,4 @@
-@use '_lib'as *;
+@use '_lib' as *;
 
 .mainEventBox {
     display: flex;
@@ -8,28 +8,44 @@
 }
 
 .galleryBox {
-    flex: 0 1 auto;
     border-radius: 5px;
     margin: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: white;
+    position: relative;
+    min-height: 200px;
 
     @include customize() {
         border: 1px solid getValue(main-color);
     }
 }
 
+.mainImage {
+    z-index: 1;
+    position: absolute;
+}
+
 .galleryIconWithText {
+    position: absolute;
+    min-height: 100px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    ;
+}
+
+.galleryIconWithText,
+.galleryIconWithText div {
     width: 100%;
     height: 100%;
-    padding: 10px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.galleryIconWithText div {
+    padding: 15px;
 }
 
 .galleryIconWithText p {
@@ -43,7 +59,7 @@
 
 .galleryIcon {
     fill: lightgray;
-    margin: auto;
+    margin: 10px auto;
     width: 30px;
     height: 30px;
 
@@ -59,6 +75,7 @@
     display: flex;
     flex-direction: column;
     align-content: space-between;
+    row-gap: 20px;
 }
 
 .eventNameInput {
@@ -66,6 +83,18 @@
     font-weight: 500;
 }
 
+.localizationInputBox {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    justify-content: stretch;
+    align-items: center;
+}
+
+.localizationInput {
+    font-size: 20px !important;
+    font-weight: 400;
+}
 
 .descriptionInput {
     font-size: 20px !important;
@@ -89,4 +118,15 @@
     font-size: 20px !important;
     margin: 0;
     padding: 0;
+}
+
+.sizedText.underlinedText {
+
+    @include customize() {
+        border-bottom: 1px solid getValue(light-greyish-color);
+    }
+}
+
+.localizationError {
+    padding-left: 0px;
 }

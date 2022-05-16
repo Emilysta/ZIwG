@@ -10,25 +10,31 @@ export const eventApi = createApi({
   endpoints: (build) => ({
     getEvents: build.query<EventDataSimple[], void>({
       query: () => '',
+      transformResponse: (rawResult: any, meta) => {
+        return rawResult['$values'];
+      },
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
-    getUserEvents: build.query<EventDataSimple[], { Location: string; MonthId: string, UserId: string }>({
+    getUserEvents: build.query<EventDataSimple[], { Location?: string; MonthId?: string, UserId?: string }>({
       query: (arg) => ({
         url: '',
         params: arg,
       }),
+      transformResponse: (rawResult: any, meta) => {
+        return rawResult['$values'];
+      },
       providesTags: (result, error, arg) =>
         result
-          ? [...result.map(({ EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
+          ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
     getEvent: build.query<EventData, string>({
-      query: (name) => `Event/${name}`,
+      query: (name) => `/${name}`,
     }),
-    addEvent: build.mutation<null, Omit<EventData, 'OrganizerName' | 'OrganizerImage' | 'EventId'>>({
+    addEvent: build.mutation<string, Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id' | 'mainImage'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',
@@ -36,14 +42,22 @@ export const eventApi = createApi({
       }),
       invalidatesTags: ['Event'],
     }),
-    // editPost: build.mutation<EventData, Partial<EventData> & Pick<EventData, 'EventId'>>({
-    //   query: (body) => ({
-    //     url: `${body.EventId}`,
-    //     method: 'PATCH',
-    //     body,
-    //   }),
-    //   invalidatesTags: (result, error, arg) => [{ type: 'Event', id: arg.EventId }],
-    // }),
+    addEventMainImage: build.mutation<null, { eventId: string; image: FormData }>({
+      query: (args) => ({
+        url: `mainImage/${args.eventId}`,
+        method: 'POST',
+        body: args.image,
+      }),
+      invalidatesTags: ['Event'],
+    }),
+    modifyEvent: build.mutation<null, { eventId: string, data: Omit<EventData, 'organiserName' | 'organiserId' | 'organiserImage' | 'mainImage' | 'id' | 'images'> }>({
+      query: (body) => ({
+        url: `/${body.eventId}`,
+        method: 'PATCH',
+        body: body.data,
+      }),
+      invalidatesTags: ['Event'],
+    }),
   }),
 })
-export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation } = eventApi;
+export const { useGetEventsQuery, useGetUserEventsQuery, useGetEventQuery, useAddEventMutation, useAddEventMainImageMutation, useModifyEventMutation } = eventApi;

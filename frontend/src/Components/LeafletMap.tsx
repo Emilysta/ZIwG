@@ -1,64 +1,23 @@
 import * as React from "react";
-import L from "leaflet";
-import { useEffect } from "react";
 import './LeafletMap.scss';
 import 'leaflet/dist/leaflet.css';
+import ZiwgSkeleton from "Utils/Skeletons";
+
 
 export type LeafletMapProps = {
-    currentPoint?: { lat: number, lng: number },
-    isReadOnly?: boolean,
     mapID: string,
-    zoom?: number,
-    maxZoom?: number,
+    isLoading?: boolean,
 }
 
 export default function LeafletMap(props: LeafletMapProps) {
-    const [currentPoint, setCurrentPoint] = React.useState(props.currentPoint);
-
-    const mapParams = {
-        center: currentPoint,
-        zoom: props.zoom ? props.zoom : 17,
-        zoomControl: true,
-        //maxBounds: L.latLngBounds(L.latLng(-150, -240), L.latLng(150, 240)),
-        dragging: true,
-        boxZoom: true,
-    };
-
-
-    const readonlyProperties = {
-        dragging: false,
-        boxZoom: false,
-        touchZoom: false,
-        doubleClickZoom: false,
-        scrollWheelZoom: false,
-        keyboard: false,
-        zoomControl: false,
+    if (props.isLoading)
+        return (
+            <ZiwgSkeleton containerClassName="leaflet-skeleton" />
+        )
+    else {
+        return (<>
+            <div id={props.mapID} />
+        </>
+        )
     }
-
-    var myIcon = L.icon({
-        iconUrl: '/images/map-pin.png',
-        iconSize: [31, 41],
-        iconAnchor: [16, 35],
-        popupAnchor: [0, -35],
-        shadowAnchor: [22, 94]
-    });
-
-    useEffect(() => {
-        let map: any;
-        if (props.isReadOnly)
-            map = L.map(props.mapID, { ...mapParams, ...readonlyProperties });
-        else
-            map = L.map(props.mapID, mapParams);
-        L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: props.maxZoom ? props.maxZoom : 19,
-        }).addTo(map);
-        L.marker(L.latLng(currentPoint), { icon: myIcon }).addTo(map)
-            .bindPopup('Tu będzie text z nominatim').openPopup();
-    }, []);
-
-
-    return (
-        <div id={props.mapID} />
-    )
 }

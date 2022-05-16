@@ -1,4 +1,4 @@
-@use '_lib'as *;
+@use '_lib' as *;
 
 
 .eventPage {
@@ -6,7 +6,8 @@
     width: 85%;
     max-width: 1400px;
     height: 70vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     border-radius: 10px;
 
     @include customize() {
@@ -54,4 +55,14 @@
     align-self: center;
     text-align: center;
     grid-column: span 2;
+}
+
+.eventPage .save {
+    font-weight: 600 !important;
+
+    @include customize() {
+        border: 2px solid getValue(main-color);
+        color: getValue(main-color);
+        background-color: #fff;
+    }
 }

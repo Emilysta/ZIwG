@@ -1,4 +1,4 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 .eventTile {
     box-sizing: border-box;
@@ -11,13 +11,19 @@
     height: 100%;
 }
 
-.imageCon {
+.eventTileImageCon {
     min-height: 100px;
     max-height: 160px;
+    width: 100%;
     margin-bottom: 8px;
     overflow: hidden;
     border-radius: 16px;
     box-shadow: 2px 6px 14px -8px #000;
+}
+
+.eventTileImageSkeleton {
+    display: flex;
+    gap: 0px !important;
 }
 
 .title {
@@ -25,7 +31,7 @@
     font-weight: 600;
 }
 
-.organizer {
+.organiser {
     display: flex;
     flex-direction: row;
     column-gap: 8px;
@@ -36,13 +42,26 @@
 
 }
 
-.organizer .img {
+.organiser .img {
     max-height: 40px;
     max-width: 40px;
-    border-radius: 12px;
+    width: 29px;
+    height: 25px;
+    border-radius: 15px;
+
+    @include customize() {
+        border: 1px solid getValue(main-color);
+    }
 }
 
-.organizer .text {
+.organiser .imgSkeleton {
+    width: 30px;
+    height: 30px;
+    align-self: center;
+    gap: 0;
+}
+
+.organiser .text {
     width: 100%;
     font-weight: 500;
     font-size: 18px;
@@ -69,34 +88,38 @@
     padding: 0;
 }
 
-.details a[href] {
+
+.detailsLink {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 64px;
     height: 32px;
     border-radius: 8px;
-
-    @include customize {
-        background-color: #FFFFFF;
-        border: 2px solid #808080;
-    }
+    background-color: #FFFFFF;
+    border: 2px solid #808080;
 }
 
-.details a[href]:hover {
-    @include customize {
+.detailsLink:hover {
+    @include customize() {
         background-color: #EFEFEF;
         border: 2px solid #808080;
         box-shadow: 0px 0px 6px 0px #808080;
     }
 }
 
-.details a[href] * {
-    height: 24px;
-    width: 100%;
-}
-
 .details strong {
     font-weight: 600;
+}
+
+.detailsLinkAElement{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.linkButtonSkeleton {
+    display: flex;
 }

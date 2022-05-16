@@ -1,0 +1,16 @@
+@use 'lib'as *;
+
+.linkButton {
+    display: block;
+    margin: auto;
+    padding: 4px 30px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 200;
+    border-radius: 20px;
+
+    @include customize() {
+        background: getValue(main-color);
+        color: white;
+    }
+}

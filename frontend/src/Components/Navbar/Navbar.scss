@@ -1,4 +1,4 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 .HeadBar {
     display: flex;
@@ -8,6 +8,7 @@
     width: 100%;
     box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
+    background-color: rgba(white, 0.85);
 }
 
 .logoTypeItem {
@@ -33,6 +34,8 @@
     background: rgba(238, 108, 77, 0.21);
     box-shadow: 0px 7px 24px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
+    pointer-events: none;
+
 }
 
 .HeadBar.higher {
@@ -49,6 +52,11 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
+    pointer-events: none;
+}
+
+.logoTypeItemCentered a {
+    pointer-events: all;
 }
 
 .logoTypeItemCentered>* {
