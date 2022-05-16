@@ -18,7 +18,7 @@ export default function EventPage() {
     const { data, error, isLoading } = useGetEventQuery(id);
     React.useEffect(() => setValues(data), [data])
 
-    const userName = useAppSelector((state: RootState) => state.userLogin.userData.displayName)
+    const userName = useAppSelector((state: RootState) => state.userLogin?.userData?.displayName)
 
     const [editRequest] = useModifyEventMutation()
 
