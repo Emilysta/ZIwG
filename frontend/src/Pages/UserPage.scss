@@ -4,11 +4,13 @@
 }
 
 .box {
+    height: 100%;
     display: flex;
     width: 84%;
     max-width: 1400px;
     flex-direction: row;
     margin: auto;
+    padding-top: 89px;
 }
 
 .userMenu,
