@@ -1,4 +1,4 @@
-@use 'lib' as *;
+@use 'lib'as *;
 
 .eventsPage {
     width: 96%;
@@ -55,16 +55,16 @@
 }
 
 .eventsPage .eventList {
-    display: grid;
-    max-height: 75vh;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 2%;
-    row-gap: 18px;
-    place-items: center;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 22px;
+    place-items: stretch;
+    align-items: stretch;
 }
 
 .eventsPage .eventList>* {
-    width: 100%;
+    height: unset;
 }
 
 @media screen and (max-width: 950px) {
