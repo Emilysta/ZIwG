@@ -48,7 +48,7 @@ export default function EventTile(props: EventTileProps) {
                     <p>To: <strong>{longLocaleDateFormat(props.data?.endDate)}</strong></p>
                 </div>}
                 <div className='detailsLink'>
-                    <LinkButton to={`${props.data?.id}`} isLoading={props.isLoading} />
+                    <LinkButton to={`/events/${props.data?.id}`} isLoading={props.isLoading} />
                 </div>
             </div>
         </div>

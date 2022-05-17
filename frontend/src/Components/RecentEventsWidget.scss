@@ -1,0 +1,65 @@
+@use 'lib'as *;
+
+.RecentEventsWidget {
+    margin: 15vh auto;
+    padding-top: 50px;
+    background-image: linear-gradient(180deg, rgba(white, 0) 0%, rgba(white, 0.98) 100px);
+}
+
+.RecentEventsWidget header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.RecentEventsWidget header>* {
+    backdrop-filter: blur(2px);
+    margin: auto;
+}
+
+.RecentEventsWidget header .separator {
+    font-size: 32px;
+    line-height: 30px;
+    font-weight: 600;
+
+    @include customize() {
+        color: getValue(main-color)
+    }
+}
+
+.RecentEventsWidget main {
+    display: flex;
+    height: fit-content;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: auto;
+    max-width: 1000px;
+}
+
+.RecentEventsWidget main>* {
+    flex-basis: 26%;
+    margin: 15px auto;
+}
+
+.RecentEventsWidget .eventTile {
+    padding: 8px;
+    background-color: white;
+    box-shadow: 4px 8px 15px -4px #0e0e0e;
+}
+
+.RecentEventsWidget .eventTile .title {
+    font-size: 24px;
+}
+
+.RecentEventsWidget .eventTile .organiser {
+    display: none;
+    font-size: 16px;
+}
+
+.RecentEventsWidget .eventTile .details {
+    font-size: 12px;
+}
+
+.RecentEventsWidget .eventTile .details p {}
