@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
 }
 
 .LoginSection>* {
@@ -13,7 +14,7 @@
 
 .LoginSection h1,
 .LoginSection p {
-    padding: auto;
+    padding: 0;
 }
 
 .LoginSection h1 {
@@ -23,6 +24,8 @@
 
 .LoginSection p {
     margin-bottom: 6px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .LoginForm {
@@ -34,14 +37,14 @@
 }
 
 .LoginForm input {
-    margin: 12px auto;
+    margin: 12px 0;
     font-size: 18px;
     height: 36px;
 }
 
 .LoginForm input[type="text"],
 .LoginForm input[type="password"] {
-    width: 320px;
+    min-width: 250px;
 }
 
 .LoginForm input[type="button"],

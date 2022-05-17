@@ -48,7 +48,7 @@ export function LoginForm() {
       .catch(err => console.error(err))
   }
 
-  return <section className="LoginSection">
+  return <div className="LoginSection">
     <h1>Login</h1>
     <p>Welcome back! Login to access full functionality in EventColab.</p>
     <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
@@ -65,5 +65,5 @@ export function LoginForm() {
     <Divider text='Or' size={360} />
 
     <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} onClickAction={googleAuth} />
-  </section >;
+  </div >;
 }
