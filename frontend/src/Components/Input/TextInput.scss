@@ -1,14 +1,14 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 .inputBox input[type="text"],
 .inputBox input[type="password"] {
-  font-size: 12px;
+  font-size: 14px;
   border: 0px;
   border-radius: 39px;
   padding: 6px 20px;
-  min-width: 80px;
-  margin: 0 auto;
+  width: 100%;
   background-color: #C4C4C433;
+
 
   @include customize() {
     color: getValue(main-color);
@@ -32,10 +32,8 @@
 }
 
 .inputBox {
-  display: block;
-  overflow: auto;
-  flex-direction: column;
-  justify-content: left;
   padding: 10px;
-  width: fit-content;
+  align-content: center;
+  justify-content: center;
+  display: flex;
 }

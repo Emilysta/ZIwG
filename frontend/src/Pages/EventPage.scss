@@ -2,10 +2,13 @@
 
 
 .eventPage {
-    margin-top: 100px;
+    align-self: center;
+    justify-self: center;
+
     width: 85%;
     max-width: 1400px;
     height: 70vh;
+
     overflow-x: hidden;
     overflow-y: auto;
     border-radius: 10px;
@@ -14,7 +17,6 @@
         border: 1px solid getValue(light-greyish-color);
     }
 
-    align-self: center;
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-column-gap: 10px;
@@ -26,7 +28,7 @@
     grid-column: 1;
 }
 
-.sideBox {
+.eventPage .sideBox {
     width: calc(100% - 40px);
     margin: 20px;
     grid-column: 2;

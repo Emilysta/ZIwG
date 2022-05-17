@@ -8,6 +8,7 @@ import { userApi } from "Utils/UserApiSlice";
 import { logout } from "Utils/UserSlice";
 import { useMediaQuery } from "react-responsive";
 import { List } from 'react-bootstrap-icons';
+import ButtonWithIcon, { ButtonStyle } from "Components/Input/ButtonWithIcon";
 
 const Events = { link: "/events", name: "Events" };
 const LogIn = { link: "/logIn", name: "Join Us" };
@@ -71,11 +72,14 @@ export function Navbar() {
         {isUserLoggedIn && <li><Link to={"/user"}>Hi, {userName}</Link></li>}
         {!isUserLoggedIn &&
           <li>
-            <Link to={LogIn.link}>{LogIn.name}</Link>
+            <ButtonWithIcon text={LogIn.name} style={ButtonStyle.Simple} isActive={true} onClickAction={() => {
+              navigate(LogIn.link)
+              toggleDisplay('burgerNavbarList');
+            }} />
           </li>
         }
         <li>
-          <Link to={Events.link}>{Events.name}</Link>
+          <ButtonWithIcon text={Events.name} style={ButtonStyle.Simple} onClickAction={() => { toggleDisplay('burgerNavbarList'); navigate(Events.link) }} isActive={true} />
         </li>
         {isUserLoggedIn && <li><Link to={""} onClick={logoutFromApp}>Log out</Link></li>}
       </ul>

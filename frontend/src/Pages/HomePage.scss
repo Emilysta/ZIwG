@@ -1,56 +1,28 @@
-.horizontalContainer {
-    width: 80%;
-    margin: auto;
-    flex-direction: row;
-}
-
-.leftContainer,
-.rightContainer {
+.leftContainer {
     display: flex;
     position: relative;
     font-size: 22px;
     font-weight: 300;
-}
-
-.leftContainer {
     justify-content: right;
     text-align: right;
-    margin-top: 170px;
-}
-
-.rightContainer {
-    justify-content: left;
-    text-align: left;
+    margin: 170px 70px 0px 70px;
 }
 
 .leftContainer .content {
     display: flex;
     flex-direction: column;
-    justify-content: right;
-    width: min-content;
-    margin: 0 0 0 auto;
-    white-space: nowrap;
-}
-
-.leftContainer .content .centered {
-    margin: auto;
-    justify-self: center;
-}
-
-.leftContainer .title,
-.leftContainer .content span {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.leftContainer .content span {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-items: flex-end;
 }
 
 .leftContainer .title {
     font-size: 52px;
+}
+
+.overrideLinkButton {
+    margin: 0px !important;
+    width: fit-content;
 }
 
 .homePage {
