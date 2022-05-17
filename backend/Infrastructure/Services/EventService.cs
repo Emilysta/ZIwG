@@ -71,13 +71,14 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<List<ReturnEventsAsListDTO>> GetEvents(string Location, string MonthAndYear, string UserId)
+        public async Task<List<ReturnEventsAsListDTO>> GetEvents(string Location, string MonthAndYear, string UserId, string Organiserid)
         {
             if (!string.IsNullOrEmpty(UserId))
             {
                 var user = await _context.Users.Where(x => x.Id == UserId).Include(p => p.ParticipatedEvents).ThenInclude(o => o.Organiser).SingleOrDefaultAsync(); 
                 var availableEvents = user.ParticipatedEvents
                 .Where(p => (Location == null || p.Place == Location))
+                .Where(p => (Organiserid == null || p.Organiser.Id == Organiserid))
                 .Where(p => (MonthAndYear == null || p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear))
                 .ToList();
                 List<ReturnEventsAsListDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnEventsAsListDTO>>(availableEvents);
@@ -92,6 +93,7 @@ namespace Infrastructure.Services
             else {
                 var availableEvents = await _context.Events.Include(o => o.Organiser)
                 .Where(p => (Location == null || p.Place == Location))
+                .Where(p => (Organiserid == null || p.Organiser.Id == Organiserid))
                 .Where(p => (MonthAndYear == null || p.StartDate.Month.ToString() + "/" + p.StartDate.Year.ToString() == MonthAndYear))
                 .ToListAsync();
                 List<ReturnEventsAsListDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnEventsAsListDTO>>(availableEvents);

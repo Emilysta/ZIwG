@@ -102,13 +102,14 @@ namespace WebApi.Controllers
         /// <param name="location"></param>
         /// <param name="monthAndYear"></param> 
         /// <param name="userId"></param> 
+        /// <param name="organiserID"></param> 
         /// <response code="200">Success, events returned</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetEvents(string location = null, string monthAndYear= null, string userId= null)
+        public async Task<IActionResult> GetEvents(string location = null, string monthAndYear= null, string userId= null, string organiserId =null)
         {
-            var events = await _eventService.GetEvents(location, monthAndYear, userId);
+            var events = await _eventService.GetEvents(location, monthAndYear, userId, organiserId);
             return Ok(events);
         }
         /// <summary>
