@@ -44,6 +44,7 @@ namespace WebApi.Controllers
         /// <param name="event"></param> 
         /// <response code="204">Success, event added</response>
         /// <response code="400">Something went wrong</response>
+        /// <response code="403">Access forbidden</response>
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> Post([FromBody] CreateEventDTO @event)
@@ -56,7 +57,7 @@ namespace WebApi.Controllers
             if (newEvent != null) 
                 if (await _eventService.SaveChangesAsync())
                     return Ok(newEvent.Id);
-            return BadRequest();
+            return Forbid();
         }
         /// <summary>
         /// Delete event 
@@ -80,7 +81,7 @@ namespace WebApi.Controllers
         /// <param name="id"></param> 
         /// <response code="200">Success, event modified</response>
         /// <response code="400">Something went wrong</response>
-        /// /// <response code="403">Access forbidden</response>
+        /// <response code="403">Access forbidden</response>
         [HttpPatch]
         [Route("{id}")]
         public async Task<IActionResult> Put([FromBody] ModifyEventDTO @event, [FromRoute] int id)
