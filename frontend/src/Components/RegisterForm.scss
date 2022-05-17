@@ -8,9 +8,18 @@
     align-items: center;
 }
 
+.RegisterSection h1,
+.RegisterSection p {
+    padding: auto;
+}
+
 .RegisterSection h1 {
     margin-bottom: 16px;
     font-size: 44px;
+}
+
+.RegisterSection p {
+    margin-bottom: 6px;
 }
 
 .RegisterForm {
@@ -18,14 +27,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: min-content;
 }
 
 .RegisterForm input {
-    margin: 5px auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin: 12px auto;
     font-size: 18px;
+    height: 36px;
 }
 
 .RegisterForm input[type="text"],
@@ -35,10 +42,7 @@
 
 .RegisterForm input[type="button"],
 .RegisterForm input[type="submit"] {
-    min-width: 50%;
-    height: 35px;
-    margin-top: 10px;
-    padding: 0;
+    min-width: 30%;
 }
 
 .text1 {

@@ -10,8 +10,25 @@ import EventPage from "Pages/EventPage";
 import { NotFound } from "Pages/NotFound";
 
 function App() {
+  const [padding, setPadding] = React.useState('0px');
+  React.useEffect(() => { calculateHeight(); },)
+
+  let obs = new ResizeObserver(entries => {
+    for (let entry of entries) {
+      const cr = entry.contentRect;
+      let pad = `${cr.height}px`;
+      setPadding(pad);
+    }
+  });
+
+  function calculateHeight() {
+    let headBar = document.getElementById('HeadBar');
+    if (headBar) {
+      obs.observe(headBar);
+    }
+  }
   return (
-    <div>
+    <>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navbar />}>
@@ -25,8 +42,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </div>
+    </>
   );
 }
-
 export { App };

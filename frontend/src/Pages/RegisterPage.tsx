@@ -1,9 +1,10 @@
-import { RegisterForm } from 'Components/RegisterForm'
-import * as React from 'react'
+import { RegisterForm } from 'Components/RegisterForm';
+import * as React from 'react';
+import './FormWrapper.scss';
 
 const RegisterPage = () => {
     return (
-        <div className="wholePageLayout navbarMargin">
+        <div className="formWrapper">
             <RegisterForm />
         </div>
     )

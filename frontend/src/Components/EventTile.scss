@@ -9,10 +9,13 @@
     background-color: #EFEFEF;
     border-radius: 18px;
     height: 100%;
+    overflow: hidden;
+    min-width: 270px;
+    max-width: 300px;
 }
 
 .eventTileImageCon {
-    min-height: 100px;
+    min-height: 140px;
     max-height: 160px;
     width: 100%;
     margin-bottom: 8px;
@@ -23,6 +26,7 @@
 
 .eventTileImageSkeleton {
     display: flex;
+    height: auto;
     gap: 0px !important;
 }
 
@@ -113,7 +117,9 @@
     font-weight: 600;
 }
 
-.detailsLinkAElement{
+.detailsLinkAElement {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

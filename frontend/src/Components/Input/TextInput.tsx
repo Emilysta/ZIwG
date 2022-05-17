@@ -29,9 +29,9 @@ export function TextInput(props: TextInputProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
 
   const renderInput = () => {
-    return <div className="inputBox">
+    return <div className="inputBox" style={{ paddingBottom: `${error ? '0px' : '10px'}` }}>
       <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} />
-      {props.validate && <ErrorMsg>{error}</ErrorMsg>}
+      {error && <ErrorMsg>{error}</ErrorMsg>}
     </div>
   }
 
