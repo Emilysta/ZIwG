@@ -4,9 +4,12 @@ import * as React from 'react';
 import './TagList.scss';
 import { Plus, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import { useState } from 'react';
+export type TagType = {
+    name: string,
+}
 
 export type TagListProps = {
-    tags: Array<string>,
+    tags: TagType[],
     isReadOnly: boolean,
     onClick?: (value: string, id: number) => void
     isLoading?: boolean,
@@ -14,7 +17,7 @@ export type TagListProps = {
 
 export default function TagList(props: TagListProps) {
     const [tags, setTags] = useState(props.tags);
-    const [isAddButtonVisible, setIsAddButtonVisible] = useState(props.isReadOnly);
+    const [isAddButtonVisible, setIsAddButtonVisible] = useState(!props.isReadOnly);
     const [isTagInputVisible, setIsTagInputVisible] = useState(false);
     const [tagInputValue, setTagInputValue] = useState("");
     const [tagPage, setTagPage] = useState(0);
@@ -38,9 +41,9 @@ export default function TagList(props: TagListProps) {
         if (event.key === 'Enter') //enter
         {
             let arr = tags;
-            arr.push(tagInputValue);
+            arr.push({ name: tagInputValue });
             setTags(arr);
-            setTagPage(Math.floor((arr.length - 1) / 3));
+            setTagPage(Math.floor((arr?.length - 1) / 3));
         }
     }
 
@@ -52,7 +55,7 @@ export default function TagList(props: TagListProps) {
 
     function tagIndexRight() {
         let x = tagPage + 1;
-        if (x <= ((tags.length - 1) / 3))
+        if (x <= ((tags?.length - 1) / 3))
             setTagPage(x);
     }
 
@@ -61,23 +64,22 @@ export default function TagList(props: TagListProps) {
     else
         return (
             <div className='tagListBox'>
-                {tags.length <= 0 && <p className='tagSizedText'>No tags</p>}
-                {tags.length > 0 &&
+                {(tags === undefined || tags?.length <= 0) && <p className='tagSizedText'>No tags</p>}
+                {tags?.length > 0 &&
                     <div className='tagListViewer'>
-                        {tags.length <= 0 && <p className='tagSizedText'>No tags</p>}
                         {tagPage > 0 && <ChevronLeft onClick={tagIndexLeft} />}
                         <ul className='tagListUL'>
                             {
                                 tags.slice(tagPage * 3, (tagPage * 3) + 3).map((value, index) => {
                                     return (
                                         <li key={index} className='tagListLI'>
-                                            <Tag text={value} isCloseable={!props.isReadOnly} id={index} onCloseAction={onTagClose} />
+                                            <Tag text={value.name} isCloseable={!props.isReadOnly} id={index} onCloseAction={onTagClose} />
                                         </li>
                                     )
                                 })
                             }
                         </ul>
-                        {tagPage < ((tags.length - 1) / 3 - 1) && <ChevronRight onClick={tagIndexRight} />}
+                        {tagPage < ((tags?.length - 1) / 3 - 1) && <ChevronRight onClick={tagIndexRight} />}
                     </div>}
                 {!props.isReadOnly && isAddButtonVisible && <Plus className='addTagButton' onClick={showInput} />}
                 {!props.isReadOnly && isTagInputVisible && <SimpleEditableInput id='tagInput' inputClassName='tagInput' onChangeAction={tagInputChange} onKeyDownAction={tagInputKeyDetection} isClearOnEnter={true} defaultValue="Tag name" />}

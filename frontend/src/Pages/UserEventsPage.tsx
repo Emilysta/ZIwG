@@ -7,9 +7,7 @@ export default function UserEventsPage() {
     const [isArchived, setIsArchived] = React.useState(false);
 
 
-    function selectedListChanged(event: React.MouseEvent<HTMLAnchorElement>, archived: boolean) {
-        event.preventDefault();
-
+    function selectedListChanged(archived: boolean) {
         setIsArchived(archived);
     }
 
@@ -17,10 +15,8 @@ export default function UserEventsPage() {
         <div className='userEventsPage'>
             <header>
                 <nav>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a onClick={(e) => { selectedListChanged(e, false) }} > Validated ticket </a>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a onClick={(e) => { selectedListChanged(e, true) }}> Archived ticket </a>
+                    <h1>Active events</h1>
+                    {/* <div onClick={() => { selectedListChanged(false) }} > Active events </div> */}
                 </nav>
                 <Link className='addEventLink' to='/user/userEvents/add'> + Add Event </Link>
             </header>

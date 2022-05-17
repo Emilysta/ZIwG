@@ -8,8 +8,12 @@ import './UserPage.scss'
 import UserEventsPage from './UserEventsPage'
 import UserEventPage from './UserEventPage'
 import UserAddEventPage from './UserAddEventPage'
+import { RootState, useAppSelector } from 'Utils/Store'
 
 export default function UserPage() {
+    if (useUserValidation())
+        return <></>
+
     return (
         <div className='wholePageLayout userPage navbarMargin'>
             <div className='box'>
@@ -29,4 +33,13 @@ export default function UserPage() {
             </div >
         </div>
     )
+}
+
+const useUserValidation = (): boolean => {
+    const isLogged = useAppSelector((state: RootState) => state.userLogin.isLoggedIn)
+    if (!isLogged) {
+        window.location.pathname = '/'
+        return true
+    }
+    return false
 }

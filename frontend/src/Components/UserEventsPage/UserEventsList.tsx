@@ -2,33 +2,32 @@ import * as React from 'react';
 import './UserEventsList.scss'
 import { UserEventCard } from './UserEventCard';
 import { useEffect } from 'react';
+import { useGetUserEventsQuery } from 'Utils/EventAPISlice';
+import { RootState, useAppSelector } from 'Utils/Store';
 
 type UserEventsListProps = { isArchived: boolean }
 
 export function UserEventsList(props: UserEventsListProps) {
-    const [loading, setLoading] = React.useState(false);
-    useEffect(() => {
-        setLoading(true);
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 5000);
-        return () => clearTimeout(timer);
-    }, []);
-    return (
-        <div className='listContainer'>
-            {!props.isArchived ? <>
-                <UserEventCard loading={loading} eventID='1' />
-            </> : <>
-                <UserEventCard loading={loading} eventID='1' />
-                <UserEventCard loading={loading} eventID='2' />
-                <UserEventCard loading={loading} eventID='3' />
-                <UserEventCard loading={loading} eventID='4' />
-                <UserEventCard loading={loading} eventID='5' />
-                <UserEventCard loading={loading} eventID='6' />
-                <UserEventCard loading={loading} eventID='7' />
-                <UserEventCard loading={loading} eventID='8' />
+    const userId = useAppSelector((state: RootState) => state.userLogin.userId)
+    const { data, error, isLoading } = useGetUserEventsQuery({ UserId: userId });
+
+    if (isLoading)
+        return (
+            <>
+                {[...Array(10)].map((x, i) => <UserEventCard key={i} loading={true} />)}
             </>
-            }
-        </div>
-    );
+        )
+    else if (error) {
+        return (<>error</>)
+    }
+    else
+        return (
+            <div className='listContainer' >
+                {
+                    data.map((val, i) =>
+                        <UserEventCard key={i} eventData={val} />
+                    )
+                }
+            </div >
+        );
 }

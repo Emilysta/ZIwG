@@ -1,41 +1,92 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import MainEventBox from 'Components/EventPage/MainEventBox';
-import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
-import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import './EventPage.scss';
-import { useGetEventQuery } from 'Utils/EventAPISlice';
+import { useAddEventMainImageMutation, useGetEventQuery, useModifyEventMutation } from 'Utils/EventAPISlice';
 import Dropdown from 'Components/Dropdown';
 import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
+import { StarFill, X } from 'react-bootstrap-icons';
+import { RootState, useAppSelector } from 'Utils/Store';
+import { MenuButton } from 'Components/Input/MenuButton';
+import { EventData } from 'Utils/EventData';
+import { subscribeToEvent, unsubscribeFromEvent } from 'Utils/UserApiSlice';
 
 export default function EventPage() {
+    const [isReadOnly, setReadOnly]: [boolean, any] = React.useState(true)
+    const [values, setValues] = React.useState<EventData>(null)
+
     const { id } = useParams();
     const { data, error, isLoading } = useGetEventQuery(id);
+    React.useEffect(() => setValues(data), [data])
+
+    const userId = useAppSelector((state: RootState) => state.userLogin.userId)
+
+    const [editRequest] = useModifyEventMutation()
+    const [pushImageRequest] = useAddEventMainImageMutation()
+
+    const isOrganiser = values && values.organiserId === userId;
+    console.log(isOrganiser);
+
+    const edit = () => isOrganiser && setReadOnly(false)
+    const save = () => {
+        editRequest({
+            eventId: values.id,
+            data: values
+        }).unwrap()
+            .then((res) => {
+                if (values.mainImage != null) {
+                    let formData = new FormData();
+                    formData.append('files', values.mainImage);
+                    pushImageRequest({
+                        eventId: values.id,
+                        image: formData
+                    }).then((_) => setReadOnly(true))
+                }
+                setReadOnly(true)
+            })
+            .catch((err) => console.error(err))
+    }
+
+    const onEdit = (id: string, value: string) => {
+        setValues({ ...values, [id]: value })
+    }
+
+    function onSelectionChange(selectedIndex: number) {
+        console.log(selectedIndex);
+        if (selectedIndex === 1)
+            subscribeToEvent(values.id);
+        else if (selectedIndex === 0)
+            unsubscribeFromEvent(values.id);
+    }
+
+    let location: { lat: number, lon: number };
+    if (values?.place) {
+        try {
+            location = JSON.parse(values.place);
+        }
+        catch {
+            console.log('error');
+        }
+    }
+
     if (error)
         return <div className='eventPage'>
             <h2 className='errorText'>
                 Oh no, there was an error, while fetching data </h2>
         </div>
-    else
+    else {
         return (
             <div className='eventPage'>
-                <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={true} />
+                <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                 <div className='sideBox'>
-                    <Dropdown items={[{ text: 'item 1' }, { text: 'item 2' }, { text: 'item 3' }]} initialSelected={-1} initialState={false} />
-                    <LeafletBoxWithPopup mapID='mapEvent' currentPoint={{ lat: 51.5, lng: -0.11 }} isReadOnly />
+                    {!isOrganiser && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
+                    <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} />
+                    {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
+                    {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}
                 </div>
-                {/* 
-                <div className='sideBox'>
-                    <div className='togglesBox'>
-                        <ToggleButtonWithText fieldDesc='Public event' startIsToggled={data.IsPublicEvent} id='IsPublicEvent' isReadOnly loading={isLoading} />
-                        <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={data.IsPaidTicket} id='IsPaidTicket' isReadOnly loading={isLoading} />
-                        {data.IsPaidTicket && <SimpleEditableInput id="TicketPrice" isLoading={isLoading} readonly />}
-                        <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={data.IsTicketLimit} id='IsTicketLimit' isReadOnly loading={isLoading} />
-                        {data.IsTicketLimit && <SimpleEditableInput id="TicketCount" isLoading={isLoading} readonly />}
-                    </div>
-                </div> */}
             </div>
         )
+    }
 }
 
 

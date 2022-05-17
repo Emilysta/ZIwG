@@ -6,9 +6,8 @@ import ButtonWithIcon, { ButtonStyle } from "./Input/ButtonWithIcon";
 import { Google } from "react-bootstrap-icons";
 import { Divider } from "./Divider";
 import { Link, useNavigate } from 'react-router-dom';
-import { userApi } from "Utils/UserApiSlice";
+import { loginUserThunk, userApi } from "Utils/UserApiSlice";
 import { useAppDispatch } from "Utils/Store";
-import { login } from "Utils/UserSlice";
 import { ErrorMsg } from "./Input/ErrorMsg";
 
 export function LoginForm() {
@@ -18,16 +17,14 @@ export function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [loginRequest, loginResult] = userApi.useLoginMutation();
-  const [googleLoginRequest, googleLoginResult] = userApi.useGoogleLoginMutation();
+  const [loginRequest] = userApi.useLoginMutation();
+  const [googleLoginRequest] = userApi.useGoogleLoginMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(false);
-
     await loginRequest({ email: email, password: password }).unwrap()
-      .then(data => {
-        dispatch(login());
+      .then(async data => {
+        await dispatch(loginUserThunk());
         navigate('/user', { replace: true });
       })
       .catch(err => {

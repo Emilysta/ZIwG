@@ -2,6 +2,7 @@ import * as React from 'react'
 import { BlendedCircle } from 'Components/BlendedCircle'
 import './HomePage.scss'
 import peopleImage from '../images/pexels-tima-miroshnichenko-6615107_edited.png'
+import { ButtonLink } from '../Components/ButtonLink'
 
 function HomePage() {
     return (
@@ -15,12 +16,12 @@ function HomePage() {
                                 <p>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
                             </span>
                             <span>
-                                <input type="button" className='centered' value="See Events" />
+                                <ButtonLink className='centered' to='/events'>See Events</ButtonLink>
                             </span>
                         </div>
                     </div>
                     <BlendedCircle id="circle-2" size={260} left="min(680px, 60vw)" bottom="-40vh" />
-                    <img id="peopleImage" src={peopleImage} />
+                    <img id="peopleImage" src={peopleImage} alt=''/>
                 </section>
             </div>
         </div>
