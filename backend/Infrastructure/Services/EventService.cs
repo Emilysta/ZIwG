@@ -53,7 +53,7 @@ namespace Infrastructure.Services
             Event eventToAdd = new();
             eventToAdd = _mapper.Map(@event, eventToAdd);
             eventToAdd.Organiser = _eventUsersService.GetCurrentUser();
-            if (eventToAdd == null)
+            if (eventToAdd == null || eventToAdd.Organiser == null)
                 return null;
 
             await _context.Events.AddAsync(eventToAdd);
@@ -82,6 +82,11 @@ namespace Infrastructure.Services
                 .ToList();
                 List<ReturnEventsAsListDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnEventsAsListDTO>>(availableEvents);
                 eventsToReturn = eventsToReturn.OrderByDescending(x => x.StartDate).ToList();
+                foreach (var ev in eventsToReturn)
+                {
+                    ev.StartDate = ev.StartDate.ToLocalTime().ToUniversalTime();
+                    ev.EndDate = ev.EndDate.ToLocalTime().ToUniversalTime();
+                }
                 return eventsToReturn;
             }
             else {
@@ -91,6 +96,11 @@ namespace Infrastructure.Services
                 .ToListAsync();
                 List<ReturnEventsAsListDTO> eventsToReturn = _mapper.Map<List<Event>, List<ReturnEventsAsListDTO>>(availableEvents);
                 eventsToReturn = eventsToReturn.OrderByDescending(x => x.StartDate).ToList();
+                foreach (var ev in eventsToReturn)
+                {
+                    ev.StartDate = ev.StartDate.ToLocalTime().ToUniversalTime();
+                    ev.EndDate = ev.EndDate.ToLocalTime().ToUniversalTime();
+                }
                 return eventsToReturn;
             }
         }
@@ -122,6 +132,8 @@ namespace Infrastructure.Services
         {
             var foundEvent = await _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).Include(t => t.Tags).SingleOrDefaultAsync();
             ReturnEventExtendedDTO eventToReturn = _mapper.Map<Event, ReturnEventExtendedDTO>(foundEvent);
+            eventToReturn.StartDate = eventToReturn.StartDate.ToLocalTime().ToUniversalTime();
+            eventToReturn.EndDate = eventToReturn.EndDate.ToLocalTime().ToUniversalTime();
             return eventToReturn;
         }
     }

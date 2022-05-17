@@ -38,7 +38,7 @@ namespace Infrastructure.Services
         {
             var userToSign = GetCurrentUser();
             var eventToSign = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).SingleOrDefault();
-            if (userToSign == null || eventToSign == null || eventToSign.Users.Count() == eventToSign.TicketLimit || eventToSign.Users.Any(x => x.Id == userToSign.Id))
+            if (userToSign == null || eventToSign == null || (eventToSign.IsTicketLimit == true && eventToSign.Users.Count() == eventToSign.TicketLimit) || eventToSign.Users.Any(x => x.Id == userToSign.Id))
                 return false;
             eventToSign.Users.Add(userToSign);
             _context.Events.Update(eventToSign);
