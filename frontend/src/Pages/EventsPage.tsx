@@ -17,6 +17,8 @@ export default function EventsPage() {
         if (data)
             setEvents(data.filter((e) => filter(e.name)))
     }
+
+    // todo filter events by tag
     const tagChosen = (value: string, id: number) => alert(value + " id: " + id)
 
     React.useEffect(() => {
@@ -35,7 +37,10 @@ export default function EventsPage() {
                 <div className='eventsPage'>
                     <div className='eventsNav'>
                         <div>
-                            <TagList tags={[{ name: "Concert" }, { name: "Workshops" }, { name: "Conference" }, { name: "xyz" }, { name: "abc" }, { name: "123" }]} isReadOnly={true} onClick={tagChosen} />
+                            <div>
+                                <h2>Browse events</h2>
+                                {/* <TagList tags={[{ name: "Concert" }, { name: "Workshops" }, { name: "Conference" }, { name: "xyz" }, { name: "abc" }, { name: "123" }]} isReadOnly={true} onClick={tagChosen} /> */}
+                            </div>
                         </div>
                         <div>
                             <SearchField dictionary={search} maxSuggestions={6} onChosen={onSearch} />
