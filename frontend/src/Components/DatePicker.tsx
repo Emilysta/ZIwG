@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { longDateFormat } from 'Utils/DateFormatter';
+import { longLocaleDateFormat } from 'Utils/DateFormatter';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import "./DatePicker.scss";
 
@@ -55,7 +55,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         if (startDate === null)
             return (<p className='noPaddingMargin'>No date selected</p>)
         else
-            return (<p className='noPaddingMargin'>{longDateFormat(startDate)} — {longDateFormat(endDate)}</p>)
+            return (<p className='noPaddingMargin'>{longLocaleDateFormat(startDate)} — {longLocaleDateFormat(endDate)}</p>)
     }
     else {
         return (

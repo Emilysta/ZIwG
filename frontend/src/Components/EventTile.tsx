@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { BoxArrowRight, Person } from 'react-bootstrap-icons';
 import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
-import { longDateFormat } from 'Utils/DateFormatter';
+import { longLocaleDateFormat } from 'Utils/DateFormatter';
 
 type LinkButtonProps = { to: string, isLoading?: boolean };
 
@@ -44,8 +44,8 @@ export default function EventTile(props: EventTileProps) {
             <div className='details'>
                 {props.isLoading && <div className='detailsDate'><ZiwgSkeleton /><ZiwgSkeleton /></div>}
                 {!props.isLoading && <div className='detailsDate'>
-                    <p>From: <strong>{longDateFormat(props.data.startDate)}</strong></p>
-                    <p>To: <strong>{longDateFormat(props.data.endDate)}</strong></p>
+                    <p>From: <strong>{longLocaleDateFormat(props.data.startDate)}</strong></p>
+                    <p>To: <strong>{longLocaleDateFormat(props.data.endDate)}</strong></p>
                 </div>}
                 <div className='detailsLink'>
                     <LinkButton to={`${props.data?.id}`} isLoading={props.isLoading} />
