@@ -11,8 +11,15 @@ export function longDateFormat(dateString: string): string {
 
 export function longLocaleDateFormat(dateString: string): string {
     let date: Date;
-    if (!dateString.includes('z'))
-        date = new Date(dateString + "z");
+    try {
+        if (!dateString.includes('z'))
+            date = new Date(dateString + "z");
+    }
+    catch {
+        // here dateString is a `Date` type! (really...)
+        console.log(typeof(dateString) === 'object', typeof(dateString) === 'string')
+        date = new Date(dateString)
+    }
     let returnDateString: string;
     let day: string = formatNumberString(date.getDate());
     let month: string = formatNumberString(date.getMonth() + 1);

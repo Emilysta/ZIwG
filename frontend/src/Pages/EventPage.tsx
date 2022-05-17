@@ -79,7 +79,7 @@ export default function EventPage() {
             <div className='eventPage'>
                 <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                 <div className='sideBox'>
-                    {!isOrganiser && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
+                    {!isOrganiser && userId && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
                     <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} />
                     {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
                     {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}
