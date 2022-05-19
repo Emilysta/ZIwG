@@ -3,6 +3,7 @@ import { BlendedCircle } from 'Components/BlendedCircle'
 import './HomePage.scss'
 import peopleImage from '../images/pexels-tima-miroshnichenko-6615107_edited.png'
 import { ButtonLink } from '../Components/ButtonLink'
+import { RecentEventsWidget } from '../Components/RecentEventsWidget'
 
 function HomePage() {
     return (
@@ -17,6 +18,9 @@ function HomePage() {
                 </div>
                 <BlendedCircle id="circle-2" size={260} left="min(680px, 60vw)" bottom="-40vh" />
                 <img id="peopleImage" src={peopleImage} alt='' />
+            </div>
+            <div className='horizontalContainer'>
+                <RecentEventsWidget count={6} />
             </div>
         </div>
     )

@@ -17,7 +17,7 @@ export function longLocaleDateFormat(dateString: string): string {
     }
     catch {
         // here dateString is a `Date` type! (really...)
-        console.log(typeof(dateString) === 'object', typeof(dateString) === 'string')
+        console.log(typeof (dateString) === 'object', typeof (dateString) === 'string')
         date = new Date(dateString)
     }
     let returnDateString: string;
@@ -27,6 +27,21 @@ export function longLocaleDateFormat(dateString: string): string {
     let minutes: string = formatNumberString(date.getMinutes());
     returnDateString = `${day}.${month}.${date.getFullYear()} ${hours}:${minutes}`;
     return returnDateString;
+}
+
+export function longLocaleDateFormatForDate(dateString: Date): string {
+    if (dateString) {
+        let date: Date = dateString
+        date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000)
+        let returnDateString: string;
+        let day: string = formatNumberString(date.getDate());
+        let month: string = formatNumberString(date.getMonth() + 1);
+        let hours: string = formatNumberString(date.getHours());
+        let minutes: string = formatNumberString(date.getMinutes());
+        returnDateString = `${day}.${month}.${date.getFullYear()} ${hours}:${minutes}`;
+        return returnDateString;
+    }
+    return ''
 }
 
 function formatNumberString(numberToFormat: number) {

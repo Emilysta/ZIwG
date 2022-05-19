@@ -26,11 +26,11 @@ export default function EventTile(props: EventTileProps) {
         <div className='eventTile'>
             <div className='eventTileImageCon'>
                 {props.isLoading && <ZiwgSkeleton containerClassName='eventTileImageSkeleton' />}
-                {!props.isLoading && <Image src={props.data.mainImage} />}
+                {!props.isLoading && <Image src={props.data?.mainImage} />}
             </div>
             <div className='title'>
                 {props.isLoading && <ZiwgSkeleton />}
-                {!props.isLoading && props.data.name}
+                {!props.isLoading && props.data?.name}
             </div>
             <div className='organiser'>
 
@@ -38,17 +38,17 @@ export default function EventTile(props: EventTileProps) {
                 {!props.isLoading && <Person className='img' />}
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='text' />}
-                {!props.isLoading && <p className='text'>{props.data.organiserName}</p>}
+                {!props.isLoading && <p className='text'>{props.data?.organiserName}</p>}
 
             </div>
             <div className='details'>
                 {props.isLoading && <div className='detailsDate'><ZiwgSkeleton /><ZiwgSkeleton /></div>}
                 {!props.isLoading && <div className='detailsDate'>
-                    <p>From: <strong>{longLocaleDateFormat(props.data.startDate)}</strong></p>
-                    <p>To: <strong>{longLocaleDateFormat(props.data.endDate)}</strong></p>
+                    <p>From: <strong>{longLocaleDateFormat(props.data?.startDate)}</strong></p>
+                    <p>To: <strong>{longLocaleDateFormat(props.data?.endDate)}</strong></p>
                 </div>}
                 <div className='detailsLink'>
-                    <LinkButton to={`${props.data?.id}`} isLoading={props.isLoading} />
+                    <LinkButton to={`/events/${props.data?.id}`} isLoading={props.isLoading} />
                 </div>
             </div>
         </div>
