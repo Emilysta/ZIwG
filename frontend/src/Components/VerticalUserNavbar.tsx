@@ -26,7 +26,7 @@ export function VerticalUserNavbar() {
             case '/user/tickets':
                 setList([false, false, true, false]);
                 break;
-            case '/user/userEvents':
+            case location.pathname.match(/\/user\/userEvents/)?.input:
                 setList([false, false, false, true]);
                 break;
         }

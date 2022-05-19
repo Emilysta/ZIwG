@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import MainEventBox from 'Components/EventPage/MainEventBox';
 import './EventPage.scss';
 import { useAddEventMainImageMutation, useGetEventQuery, useModifyEventMutation } from 'Utils/EventAPISlice';
 import Dropdown from 'Components/Dropdown';
-import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
 import { StarFill, X } from 'react-bootstrap-icons';
 import { RootState, useAppSelector } from 'Utils/Store';
 import { MenuButton } from 'Components/Input/MenuButton';
@@ -76,15 +75,17 @@ export default function EventPage() {
         </div>
     else {
         return (
-            <div className='eventPage'>
-                <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
-                <div className='sideBox'>
-                    {!isOrganiser && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
-                    <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} />
-                    {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
-                    {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}
+            <>
+                <div className='eventPage'>
+                    <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
+                    <div className='sideBox'>
+                        {!isOrganiser && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
+                        {/* <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} /> */}
+                        {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
+                        {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
 }
