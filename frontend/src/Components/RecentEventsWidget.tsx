@@ -15,7 +15,7 @@ export function RecentEventsWidget(props: RecentEventsProps) {
         return <></>;
         
     return (
-        <section className='RecentEventsWidget'>
+        <section className='recentEventsWidget'>
             <header>
                 <Divider text='Recent events' size={800} />
             </header>
