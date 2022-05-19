@@ -18,7 +18,7 @@ export const eventApi = createApi({
           ? [...result.map(({ id: EventId }) => ({ type: 'Event' as const, EventId })), 'Event']
           : ['Event'],
     }),
-    getUserEvents: build.query<EventDataSimple[], { Location?: string; MonthId?: string, UserId?: string }>({
+    getUserEvents: build.query<EventDataSimple[], { Location?: string; MonthId?: string, UserId?: string, OrganiserId?: string }>({
       query: (arg) => ({
         url: '',
         params: arg,

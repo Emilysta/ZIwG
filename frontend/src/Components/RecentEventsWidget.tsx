@@ -13,17 +13,15 @@ export function RecentEventsWidget(props: RecentEventsProps) {
 
     if (isLoading)
         return <></>;
-        
+
     return (
-        <section className='recentEventsWidget'>
-            <header>
-                <Divider text='Recent events' size={800} />
-            </header>
-            <main>
+        <div className='recentEventsWidget'>
+            <Divider text='Recent events' size={800} />
+            <div className='eventsWidget'>
                 {data.filter((_, i) => i < props.count).map((e, i) => <div>
                     <EventTile key={i} data={e} />
                 </div>)}
-            </main>
-        </section>
+            </div>
+        </div>
     )
 }
