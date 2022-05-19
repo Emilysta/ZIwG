@@ -18,8 +18,8 @@ export function RecentEventsWidget(props: RecentEventsProps) {
         <div className='recentEventsWidget'>
             <Divider text='Recent events' size={800} />
             <div className='eventsWidget'>
-                {data.filter((_, i) => i < props.count).map((e, i) => <div>
-                    <EventTile key={i} data={e} />
+                {data.filter((_, i) => i < props.count).map((e, index) => <div key={index}>
+                    <EventTile data={e} />
                 </div>)}
             </div>
         </div>
