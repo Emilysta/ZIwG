@@ -1,0 +1,89 @@
+@use '_lib' as *;
+
+.centerContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.userEventPage {
+    align-self: center;
+    justify-self: center;
+
+    width: 85%;
+    max-width: 1400px;
+    height: 70vh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 10px;
+
+    @include customize() {
+        border: 1px solid getValue(light-greyish-color);
+    }
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 10px;
+}
+
+.userEventPage .mainBox {
+    width: calc(100% - 20px);
+    padding: 10px;
+    grid-column: 1;
+}
+
+.userEventPage .sideBox {
+    width: calc(100% - 40px);
+    margin: 20px;
+    grid-column: 2;
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.userEventPage .togglesBox {
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.userEventPage .finishAddingButtonBox {
+    padding-right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    column-gap: 10px;
+}
+
+.userEventPage .errorText {
+    align-self: center;
+    text-align: center;
+    grid-column: span 2;
+}
+
+.userEventPage .cancel {
+    font-weight: 600 !important;
+
+    @include customize() {
+        border: 2px solid getValue(main-color);
+        color: getValue(main-color);
+        background-color: #fff;
+    }
+}
+
+.userEventPage .strech {
+    flex: 1;
+}
+
+.modifyButtonsBox {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    column-gap: 10px;
+    padding-bottom: 20px;
+}

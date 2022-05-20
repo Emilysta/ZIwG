@@ -12,8 +12,6 @@ export default function EventPage() {
     const { id } = useParams();
     const { data, error, isLoading } = useGetEventQuery(id);
 
-    let location: { lat: number, lon: number };
-
     if (error)
         return <div className='eventPage'>
             <h2 className='errorText'>
@@ -26,7 +24,7 @@ export default function EventPage() {
                     <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={isLoading} />
                     <div className='sideBox'>
                         <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} />
-                        <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} />
+                        <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={data?.place} />
                     </div>
                 </div>
             </div>

@@ -26,21 +26,11 @@ export const useMap = () => {
         doubleClickZoom: false,
     }
 
-    const readonlyProperties = {
-        dragging: false,
-        boxZoom: false,
-        touchZoom: false,
-        doubleClickZoom: false,
-        scrollWheelZoom: false,
-        keyboard: false,
-        zoomControl: false,
-    }
-
     const [map, setMap] = useState(undefined);
     const [layerGroup, setLayerGroup] = useState(undefined);
-    const initializeMap = (id: string) => {
+    const initializeMap = (id: string, options?: any) => {
         try {
-            let tempMap = L.map(id, mapParams);
+            let tempMap = L.map(id, { ...mapParams, ...options });
             L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
             }).addTo(tempMap);

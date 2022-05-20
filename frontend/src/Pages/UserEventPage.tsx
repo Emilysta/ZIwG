@@ -1,30 +1,38 @@
 import * as React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import MainEventBox from 'Components/EventPage/MainEventBox';
-import './EventPage.scss';
+import './UserEventPage.scss';
 import { useAddEventMainImageMutation, useGetEventQuery, useModifyEventMutation } from 'Utils/EventAPISlice';
-import Dropdown from 'Components/Dropdown';
-import { StarFill, X } from 'react-bootstrap-icons';
 import { RootState, useAppSelector } from 'Utils/Store';
 import { MenuButton } from 'Components/Input/MenuButton';
-import { EventData } from 'Utils/EventData';
-import { subscribeToEvent, unsubscribeFromEvent } from 'Utils/UserApiSlice';
+import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
+import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
+import { useReducer } from 'react';
+
+const reducer = (state, action) => {
+    if (action.type === "set") {
+        return action.data;
+    }
+    const result = { ...state };
+    result[action.type] = action.value;
+    return result;
+};
 
 export default function EventPage() {
     const [isReadOnly, setReadOnly]: [boolean, any] = React.useState(true)
-    const [values, setValues] = React.useState<EventData>(null)
-
+    const [values, dispatch] = useReducer(reducer, {});
     const { id } = useParams();
     const { data, error, isLoading } = useGetEventQuery(id);
-    React.useEffect(() => setValues(data), [data])
+    React.useEffect(() => {
+        if (!data) return;
+        dispatch({ type: 'set', data })
+    }, [data]);
 
     const userId = useAppSelector((state: RootState) => state.userLogin.userId)
-
     const [editRequest] = useModifyEventMutation()
     const [pushImageRequest] = useAddEventMainImageMutation()
 
     const isOrganiser = values && values.organiserId === userId;
-    console.log(isOrganiser);
 
     const edit = () => isOrganiser && setReadOnly(false)
     const save = () => {
@@ -45,44 +53,54 @@ export default function EventPage() {
             })
             .catch((err) => console.error(err))
     }
-
-    const onEdit = (id: string, value: string) => {
-        setValues({ ...values, [id]: value })
+    function cancel() {
+        setReadOnly(true);
+        dispatch({ type: 'set', data });
     }
 
-    function onSelectionChange(selectedIndex: number) {
-        console.log(selectedIndex);
-        if (selectedIndex === 1)
-            subscribeToEvent(values.id);
-        else if (selectedIndex === 0)
-            unsubscribeFromEvent(values.id);
+    const onEdit = (id: string, value: any) => {
+        dispatch({ type: id, value })
     }
 
-    let location: { lat: number, lon: number };
-    if (values?.place) {
-        try {
-            location = JSON.parse(values.place);
+    function checkInput(value: string, regex: RegExp, errorToShow: string, isValidChar: boolean = false): string {
+        let error: string = '';
+
+        if (!isValidChar && regex.test(value)) {
+            error = errorToShow;
         }
-        catch {
-            console.log('error');
-        }
+        if (isValidChar)
+            if (!regex.test(value)) {
+                error = errorToShow;
+            }
+        return error;
     }
 
     if (error)
-        return <div className='eventPage'>
-            <h2 className='errorText'>
-                Oh no, there was an error, while fetching data </h2>
-        </div>
+        return (<Navigate replace to="/home" />);
     else {
         return (
             <>
-                <div className='eventPage'>
+                <div className='userEventPage'>
                     <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                     <div className='sideBox'>
-                        {!isOrganiser && <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} onSelectionChange={onSelectionChange} />}
-                        {/* <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={location} /> */}
-                        {isOrganiser && isReadOnly && <MenuButton onClick={edit} value="Modify" />}
-                        {!isReadOnly && <MenuButton onClick={save} value="Save" className="save" />}
+                        <div className='modifyButtonsBox'>
+                            {isReadOnly && <MenuButton onClick={edit} value="Modify" className='strech' />}
+                            {!isReadOnly && <MenuButton onClick={save} value="Save" className='strech' />}
+                            {!isReadOnly && <MenuButton onClick={cancel} value="Cancel" className="cancel strech" />}
+                        </div>
+                        <div className='togglesBox'>
+
+                            <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values?.isPublicEvent} id='isPublicEvent' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
+
+                            <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values?.isPaidTicket} id='isPaidTicket' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
+
+                            {(values?.isPaidTicket) && <SimpleEditableInput id="ticketPrice"
+                                onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} isLoading={isLoading} isNumber defaultValue={values?.ticketPrice?.toString()} isReadOnly={isReadOnly} />}
+
+                            <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values?.isTicketLimit} id='isTicketLimit' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
+
+                            {(values?.isTicketLimit) && <SimpleEditableInput id="ticketLimit" defaultValue={values?.ticketLimit?.toString()} onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isLoading={isLoading} isNumber isReadOnly={isReadOnly} />}
+                        </div>
                     </div>
                 </div>
             </>

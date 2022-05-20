@@ -15,7 +15,7 @@ export default function UserPage() {
         return <></>
 
     return (
-        <div className='wholePageLayout navbarMargin'>
+        <div className='userPageLayout navbarMargin'>
             <div className='box'>
                 <div className='userMenu'><VerticalUserNavbar /></div>
                 <div className='userContent'>

@@ -32,13 +32,13 @@ export function UserEventCard(props: UserEventCardProps) {
                     <h1 className='title'>
                         {props.loading ?
                             <ZiwgSkeleton width={200} /> :
-                            'Test name ' + props.eventData?.name
+                            props.eventData?.name
                         }
                     </h1>
                     <p className='location date'>
                         {props.loading ?
                             <ZiwgSkeleton width={400} /> :
-                            'Blah ' + formatDateIfExists(props.eventData?.startDate) + '-' + formatDateIfExists(props.eventData?.endDate)}
+                            formatDateIfExists(props.eventData?.startDate) + '-' + formatDateIfExists(props.eventData?.endDate)}
                     </p>
                 </div>
             </div>

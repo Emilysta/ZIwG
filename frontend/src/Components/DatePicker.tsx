@@ -20,6 +20,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     const [startDate, setStartDate]: [Date, (s: Date) => void] = useState(undefined);
     const [endDate, setEndDate]: [Date, (s: Date) => void] = useState(undefined);
 
+
     React.useEffect(() => {
         let startTemp = new Date(props.startDate);
         let endTemp = new Date(props.endDate);
@@ -27,7 +28,19 @@ export default function EventDatePicker(props: EventDatePickerProps) {
             return
 
         setStartDate(startTemp);
-        onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
+        setEndDate(endTemp);
+    }, []);
+    
+    React.useEffect(() => {
+        let startTemp = new Date(props.startDate);
+        let endTemp = new Date(props.endDate);
+        if (isNaN(startTemp.getTime()) || isNaN(endTemp.getTime()))
+            return
+
+        setStartDate(startTemp);
+        let change = startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp;
+        if (change !== endTemp)
+            onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
     }, [props.startDate]);
 
     const filterPassedTime = (time: Date) => {

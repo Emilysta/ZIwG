@@ -42,7 +42,7 @@ export const loginUserThunk = () => async (dispatch) => {
     let id = await result.text();
     let resultData = await fetch(`/api/User/currentUserData`)
     let userData: UserData = await resultData.json();
-    console.log(userData);
+
     dispatch(login({ userId: id, userData: userData }));
 }
 

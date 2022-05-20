@@ -18,6 +18,7 @@ import { useAppDispatch } from 'Utils/Store';
 import { nominatimApi } from 'Utils/NominatimAPISlice';
 import { ErrorMsg } from 'Components/Input/ErrorMsg';
 import { Image } from 'Components/Image';
+import ZiwgSkeleton from 'Utils/Skeletons';
 
 
 type MainEventBoxProps = {
@@ -38,12 +39,17 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
     useEffect(() => {
         if (props.values.place) {
-            let loc = JSON.parse(props.values.place);
-            delayCallApi([loc.lat, loc.lon]);
+            try {
+                let loc = JSON.parse(props.values.place);
+                delayCallApi([loc.lat, loc.lon]);
+            }
+            catch (e) {
+                console.warn(e);
+            }
         }
     }, [props.values.place, delayCallApi]);
 
-    const handleInputChange = (inputId: string, value: string) => {
+    function handleInputChange(inputId: string, value: string) {
         if (props.onValuesChange)
             props.onValuesChange(inputId, value);
     };
@@ -63,7 +69,6 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
     function onGalleryPopupClose(state: boolean, selected: File) {
         if (props.onValuesChange) {
-
             props.onValuesChange('mainImage', selected);
             setPopupOpened(false);
         }
@@ -81,6 +86,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
         if (result.isSuccess)
             setLocalizationText(result.data);
+
     }
 
     function returnLocationPickerPopup() {
@@ -112,7 +118,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             {returnLocationPickerPopup()}
 
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} validationAction={validateName} inputClassName='eventNameInput' readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} validationAction={validateName} inputClassName='eventNameInput' isReadOnly={props.isReadOnly} isLoading={props.isLoading} />
 
                 <div>
                     <p className='descText'>Tags</p>
@@ -120,11 +126,20 @@ export default function MainEventBox(props: MainEventBoxProps) {
                 </div>
                 <div>
                     <p className='descText'>Localization</p>
-                    <div className='localizationInputBox'>
-                        <p className='sizedText underlinedText'>{localizationText ? localizationText : 'No localization'}</p>
-                        {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
-                    </div>
-                    {!localizationText && <ErrorMsg className='localizationError'>Must contain localization</ErrorMsg>}
+                    {props.isLoading &&
+                        <div className='localizationInputBox'>
+                            <ZiwgSkeleton />
+                        </div>}
+                    {!props.isLoading &&
+                        <>
+                            <div className='localizationInputBox'>
+                                {props.isReadOnly && <p className='sizedText'>{localizationText ? localizationText : 'Loading'}</p>}
+                                {!props.isReadOnly && <p className='sizedText'>{localizationText ? localizationText : 'No localization'}</p>}
+                                {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
+                            </div>
+                            {!props.isReadOnly && localizationText === '' && <ErrorMsg className='localizationError'>Must contain localization</ErrorMsg>}
+                        </>
+                    }
                 </div>
 
                 <div>
@@ -132,7 +147,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
                     <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={props.values.startDate} endDate={props.values.endDate} isLoading={props.isLoading} />
                 </div>
 
-                <SimpleEditableInput defaultValue={props.values.description === '' ? 'No description' : props.values.description} id={"description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} readonly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.description === '' ? 'No description' : props.values.description} id={"description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} isReadOnly={props.isReadOnly} isLoading={props.isLoading} />
             </div>
         </div>
     )
