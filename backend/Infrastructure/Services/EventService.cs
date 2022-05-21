@@ -110,14 +110,18 @@ namespace Infrastructure.Services
         public bool ModifyEvent(ModifyEventDTO @event, int id)
         {
             var eventToModify = _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).SingleOrDefault();
-            var currentUserId = _eventUsersService.GetCurrentUser().Id;
-            var eventToModifyId = eventToModify.Organiser.Id;
-            if (eventToModify == null || currentUserId != eventToModifyId)
+            if (eventToModify == null)
+            {
                 return false;
+            }
+            var currentUserId = _eventUsersService.GetCurrentUser().Id;
+            if (currentUserId != eventToModify.Organiser.Id)
+            {
+                return false;
+            }
+            var eventToModify2 = _mapper.Map(@event, eventToModify);
 
-            eventToModify = _mapper.Map(@event, eventToModify);
-
-            _context.Events.Update(eventToModify);
+            _context.Events.Update(eventToModify2);
             return true;
         }
 
@@ -133,6 +137,10 @@ namespace Infrastructure.Services
         public async Task<ReturnEventExtendedDTO> GetEventById(int id)
         {
             var foundEvent = await _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).Include(t => t.Tags).SingleOrDefaultAsync();
+            if(foundEvent == null)
+            {
+                return null;
+            }
             ReturnEventExtendedDTO eventToReturn = _mapper.Map<Event, ReturnEventExtendedDTO>(foundEvent);
             eventToReturn.StartDate = eventToReturn.StartDate.ToLocalTime().ToUniversalTime();
             eventToReturn.EndDate = eventToReturn.EndDate.ToLocalTime().ToUniversalTime();
