@@ -10,9 +10,9 @@ function HomePage() {
         <div className='wholePageLayout homePage'>
             <div className="leftContainer">
                 <div>
-                    <h1 className='highlighted title'>Find Interesting Events</h1>
+                    <h1 className='highlighted title animated'>Find Interesting Events</h1>
                     <div className='content'>
-                        <p>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
+                        <p className='animatedP'>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
                         <ButtonLink className='overrideLinkButton' to='/events'>See Events</ButtonLink>
                     </div>
                 </div>
