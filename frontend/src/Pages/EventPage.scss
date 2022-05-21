@@ -14,10 +14,10 @@
 
     width: 85%;
     max-width: 1400px;
-    height: 70vh;
+    height: 75vh;
 
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     border-radius: 10px;
 
     @include customize() {

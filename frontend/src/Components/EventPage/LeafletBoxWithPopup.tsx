@@ -14,6 +14,7 @@ interface LeafletBoxWithPopupProps extends LeafletMapProps {
     className?: string,
     isLoading?: boolean,
     point?: string;
+    eventName?: string
 }
 
 export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
@@ -54,9 +55,9 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
 
         if (location === undefined) return;
         let marker1 = L.marker([location.lat, location.lon], { icon: MarkerIcon })
-            .bindPopup("").openPopup();
+            .bindPopup(props.eventName).openPopup();
         let marker2 = L.marker([location.lat, location.lon], { icon: MarkerIcon })
-            .bindPopup("").openPopup();
+            .bindPopup(props.eventName).openPopup();
         addMarkerMap(marker1);
         addMarkerMap2(marker2);
 
