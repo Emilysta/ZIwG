@@ -65,7 +65,10 @@ export function SearchField(props: SearchFieldProps) {
                         {suggestions.suggestions.map((word, i) => {
                             const start: number = word.search(suggestions.regex)
                             const finish: number = start + search.length;
-                            return <li key={i} onClick={(e) => props.onChosen && props.onChosen(word, suggestions.createNewFilter(word))}>
+                            return <li key={i} onClick={(e) => {
+                                props.onChosen && props.onChosen(word, suggestions.createNewFilter(word))
+                                setSearch(word);
+                            }}>
                                 {word.substring(0, start)}
                                 <b>{word.substring(start, finish)}</b>
                                 {word.substring(finish)}
