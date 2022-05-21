@@ -1,4 +1,4 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 .profileSection {
     position: relative;
@@ -21,70 +21,20 @@
 }
 
 .profileSection .rightColumn {
-    width: 100%;
+    width: 60%;
 }
 
-.profileSection .rightColumn div,
-.profileSection .rightColumn hr {
+.profileSection .rightColumn div {
     max-width: 800px;
 }
+
 
 .profileSection .profileData {
     margin-top: 5px;
 }
 
-.profileSection .profileData label,
-.profileSection .profileData span {
-    display: inline-block;
-    width: 100%;
-}
-
-.profileSection .profileData label {
-    font-size: 16px;
-    font-weight: 300;
-}
-
-.profileSection .profileData input[type="text"],
-.profileSection .profileData .textarea {
-    background-color: #00000000;
-    border-radius: 0px;
-    padding: 4px 0px;
-    width: 100%;
-    border: 0;
-    word-wrap: break-word;
-}
-
-.profileSection .profileData input[type="text"] {
-    font-size: 22px;
-    font-weight: 700;
-}
-
-.profileSection .profileData .textarea {
-    // todo
-    font-size: 16px;
-    font-weight: 600;
-    overflow: hidden;
-    resize: none;
-}
-
 .profileSection .profileData input[type="button"] {
     margin: 0 10px 0 0;
-}
-
-.profileSection .profileData input[type="text"]:enabled,
-.profileSection .profileData .editable {
-    // todo
-    border: 1px solid #000;
-
-    @include customize() {
-        background-color: getValue(light-greyish-color);
-    }
-
-    color: #fff;
-    font-weight: 400;
-    padding: 4px 0 4px 8px;
-    margin: -1px;
-    width: calc(100% - 8px);
 }
 
 .profileSection #profilePicture {
@@ -106,4 +56,19 @@
 
 .profileSection #buttonMenu * {
     margin-left: 5px;
+}
+
+.userDescInputBox {
+    font-size: large;
+    font-weight: 600;
+}
+
+.userLocInputBox {
+    font-size: large;
+    font-weight: 600;
+}
+
+.userDisplayNameInputBox {
+    font-size: x-large;
+    font-weight: 600;
 }
