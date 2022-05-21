@@ -1,7 +1,29 @@
-@use '_lib'as *;
+@use '_lib' as *;
 
 .dropdown {
     display: flex;
+}
+
+.dropdownRedirectLink {
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+}
+
+.dropdownRedirectBox {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    outline: none;
+    border-width: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdownRedirectBox:hover {
+    background-color: #dddddd;
 }
 
 .textBox {

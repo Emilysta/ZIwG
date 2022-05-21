@@ -19,6 +19,7 @@ import { nominatimApi } from 'Utils/NominatimAPISlice';
 import { ErrorMsg } from 'Components/Input/ErrorMsg';
 import { Image } from 'Components/Image';
 import ZiwgSkeleton from 'Utils/Skeletons';
+import Throbber from 'Components/Throbber';
 
 
 type MainEventBoxProps = {
@@ -133,7 +134,10 @@ export default function MainEventBox(props: MainEventBoxProps) {
                     {!props.isLoading &&
                         <>
                             <div className='localizationInputBox'>
-                                {props.isReadOnly && <p className='sizedText'>{localizationText ? localizationText : 'Loading'}</p>}
+                                {props.isReadOnly && <>
+                                    {!localizationText ? <Throbber className='localizationThrobber' /> : <></>}
+                                    <p className='sizedText'>{localizationText ? localizationText : 'Loading'}</p>
+                                </>}
                                 {!props.isReadOnly && <p className='sizedText'>{localizationText ? localizationText : 'No localization'}</p>}
                                 {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
                             </div>
