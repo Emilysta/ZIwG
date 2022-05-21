@@ -16,7 +16,11 @@ export function DropFilesBox(props: DropFilesProps) {
         }
     }, [props])
 
-    const { getRootProps, getInputProps, isDragActive } = useDropZone({ onDrop })
+    const { getRootProps, getInputProps } = useDropZone({
+        onDrop,
+        accept: ['.png', '.jpeg', '.jpg'
+        ]
+    })
 
     return (
         <div className={`dropFiles ${props.className}`} {...getRootProps()}>
@@ -24,7 +28,7 @@ export function DropFilesBox(props: DropFilesProps) {
             <span className='dropCenter'>
                 <Download />
                 <span>
-                    <a>Choose files</a> or <br />drop it here
+                    <p>Choose files</p> or <br />drop it here
                 </span>
             </span>
         </div>

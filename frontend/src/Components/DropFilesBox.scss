@@ -1,4 +1,4 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 .dropFiles {
     width: 100%;
@@ -16,6 +16,7 @@
         border: 3px dashed #949494
     }
 }
+
 .dropFiles:hover {
     @include customize {
         // background-color: getValue(light-greyish-color);
@@ -49,8 +50,9 @@
     height: 50px;
 }
 
-.dropFiles .dropCenter a {
+.dropFiles .dropCenter p {
     font-weight: 600;
+    margin: 0;
 
     @include customize {
         color: getValue(second-main-color);
