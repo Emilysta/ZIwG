@@ -108,7 +108,7 @@ export default function LocationPicker(props: LocationPickerProps) {
             <div className='locationPickerBox'>
                 <div className='searchColumn'>
                     <div className='addressSearchFieldBox'>
-                        <SimpleEditableInput id='addressSearchField' onChangeAction={onSearchFieldChange} isClearOnEnter={true} inputClassName='addressSearchField' />
+                        <SimpleEditableInput id='addressSearchField' onChangeAction={onSearchFieldChange} inputClassName='addressSearchField' />
                         <Search />
                     </div>
                     <p className='addressResultsText'>Results</p>
