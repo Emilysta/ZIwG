@@ -4,7 +4,7 @@ export class Validator {
     private rules: ValidationFun[];
     private source: () => string;
 
-    constructor(...rules: ValidationFun[]) {
+    constructor(rules?: ValidationFun[]) {
         this.rules = rules;
     }
 

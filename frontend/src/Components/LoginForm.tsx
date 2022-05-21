@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginUserThunk, userApi } from "Utils/UserApiSlice";
 import { useAppDispatch } from "Utils/Store";
 import { ErrorMsg } from "./Input/ErrorMsg";
+import { isRequired, validEmail } from "Utils/TextInputValidation";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
@@ -22,6 +23,18 @@ export function LoginForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    validateAndSend();
+  }
+
+  function validateAndSend() {
+    let isValid: boolean = true;
+    if (validEmail(email) !== null) isValid = false;
+    if (isRequired(password) !== null) isValid = false;
+    if (isValid) sendRequest();
+    if (!isValid) setError(true);
+  }
+
+  async function sendRequest() {
     await loginRequest({ email: email, password: password }).unwrap()
       .then(async data => {
         await dispatch(loginUserThunk());
@@ -31,12 +44,6 @@ export function LoginForm() {
         setError(true)
       });
   }
-
-  const minimalLength = 0;
-
-  const buttonState = (email.length > minimalLength && password.length > minimalLength)
-    ? ButtonStateEnum.Active
-    : ButtonStateEnum.Inactive
 
   const googleAuth = () => {
     // bug CORS issue
@@ -54,10 +61,10 @@ export function LoginForm() {
     <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
 
     <form onSubmit={handleSubmit} className="LoginForm">
-      <TextInput placeHolder='Email' onChange={v => setEmail(v)} />
-      <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
-      {error && <ErrorMsg>Login failure</ErrorMsg>}
-      <StateButton state={buttonState} type="submit" value="Submit" />
+      <TextInput placeHolder='Email' onChange={v => setEmail(v)} autoComplete={'email'} required />
+      <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} autoComplete={'current-password'} required />
+      {error && <ErrorMsg>The password or email is incorrect</ErrorMsg>}
+      <StateButton state={ButtonStateEnum.Active} type="submit" value="Log in" />
     </form>
 
     <p><Link to='/register' className='highlighted'>No account?</Link></p>

@@ -8,18 +8,14 @@
     align-items: center;
 }
 
-.RegisterSection h1,
-.RegisterSection p {
-    padding: auto;
+.RegisterSection>* {
+    margin: auto;
 }
 
 .RegisterSection h1 {
     margin-bottom: 16px;
     font-size: 44px;
-}
-
-.RegisterSection p {
-    margin-bottom: 6px;
+    padding: 0;
 }
 
 .RegisterForm {
@@ -27,6 +23,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 16px 0px 0px 0px;
 }
 
 .RegisterForm input {
@@ -35,19 +32,21 @@
     height: 36px;
 }
 
-.RegisterForm input[type="text"],
-.RegisterForm input[type="password"] {
-    width: 320px;
-}
-
 .RegisterForm input[type="button"],
 .RegisterForm input[type="submit"] {
     min-width: 30%;
 }
 
+.RegisterForm .inputBox {
+    min-width: 200px;
+    max-width: 300px;
+    width: 250px;
+}
+
 .text1 {
     font-size: 18px;
     font-weight: 300;
+    text-align: center;
 }
 
 .text2 {
@@ -60,4 +59,8 @@
     border-radius: 8px;
     padding: 5px;
     margin: auto;
+}
+
+.RegisterFrom>.inputBox {
+    width: 100%;
 }

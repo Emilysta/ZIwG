@@ -5,10 +5,11 @@
   font-size: 14px;
   border: 0px;
   border-radius: 39px;
-  padding: 6px 20px;
+  padding: 5px 20px;
   width: 100%;
   background-color: #C4C4C433;
-
+  margin: 0;
+  box-sizing: border-box;
 
   @include customize() {
     color: getValue(main-color);
@@ -32,8 +33,14 @@
 }
 
 .inputBox {
-  padding: 10px;
+  padding: 5px;
+  padding-bottom: 0;
   align-content: center;
   justify-content: center;
   display: flex;
+  flex-direction: column;
+}
+
+.textInputError {
+  padding: 0px 20px;
 }
