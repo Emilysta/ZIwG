@@ -7,9 +7,13 @@ import { useNavigate } from "react-router-dom";
 function LoginPage() {
     const isLogged = useAppSelector((state: RootState) => state.userLogin.isLoggedIn)
     const navigate = useNavigate();
-    if (isLogged) {
-        navigate('/', { replace: true })
-    }
+
+    React.useEffect(() => {
+        if (isLogged) {
+            navigate('/', { replace: true })
+        }
+    }, [])
+
     return (
         <div className="formWrapper">
             <LoginForm />

@@ -26,7 +26,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
     const [validationText, setValidationText] = React.useState("");
     const [text, setText] = React.useState<string>();
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const delayCallSetValues = useCallback(debounce(value => callChangeAction(value), props.delayTime ? props.delayTime : 2000), []);
+    const delayCallSetValues = useCallback(debounce(value => callChangeAction(value), props.delayTime ? props.delayTime : 100), []);
 
     React.useEffect(() => {
         if (props.defaultValue && textAreaRef.current.value !== props.defaultValue) {

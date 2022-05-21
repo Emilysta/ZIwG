@@ -20,7 +20,6 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     const [startDate, setStartDate]: [Date, (s: Date) => void] = useState(undefined);
     const [endDate, setEndDate]: [Date, (s: Date) => void] = useState(undefined);
 
-
     React.useEffect(() => {
         let startTemp = new Date(props.startDate);
         let endTemp = new Date(props.endDate);
@@ -30,7 +29,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
         setStartDate(startTemp);
         setEndDate(endTemp);
     }, []);
-    
+
     React.useEffect(() => {
         let startTemp = new Date(props.startDate);
         let endTemp = new Date(props.endDate);
@@ -64,13 +63,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }
-    else if (props.isReadOnly) {
-        if (startDate === null)
-            return (<p className='noPaddingMargin'>No date selected</p>)
-        else
-            return (<p className='noPaddingMargin'>{longLocaleDateFormatForDate(startDate)} — {longLocaleDateFormatForDate(endDate)}</p>)
-    }
-    else {
+    else if (!props.isReadOnly) {
         return (
             <div className='datePickerBox'>
                 <ReactDatePicker

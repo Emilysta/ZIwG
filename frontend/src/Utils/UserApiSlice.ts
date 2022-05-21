@@ -31,12 +31,6 @@ export type EditableUserData = {
     location: string,
 }
 
-export const updateUserThunk = () => async (dispatch) => {
-    let resultData = await fetch(`/api/User/currentUserData`)
-    let userData: UserData = await resultData.json();
-    dispatch(updateUserData(userData))
-}
-
 export const loginUserThunk = () => async (dispatch) => {
     let result = await fetch(`/api/User/currentUserId`)
     let id = await result.text();
@@ -91,6 +85,14 @@ export const userApi = createApi({
             }),
         }),
 
+        resetPassword: build.mutation<null, string>({
+            query: (body) => ({
+                url: 'resetPassword',
+                method: 'POST',
+                body,
+            }),
+        }),
+
         deleteUser: build.mutation<null, void>({
             query: () => ({
                 url: `deleteUser`,
@@ -112,35 +114,15 @@ export const userApi = createApi({
                 method: 'PATCH',
                 body,
             }),
+            async onQueryStarted(body, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(updateUserData(body))
+                } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
         }),
-
-        subscribeToEvent: build.mutation<null, string>({
-            query: (body) => ({
-                url: `sign/${body}`,
-                method: 'POST',
-            })
-        }),
-
-        unsubscribeFromEvent: build.mutation<null, string>({
-            query: (body) => ({
-                url: `signout/${body}`,
-                method: 'DELETE',
-            })
-        }),
-
-        joinRide: build.mutation<null, string>({
-            query: (body) => ({
-                url: `joinRide/${body}`,
-                method: 'POST',
-            })
-        }),
-
-        leaveRide: build.mutation<null, string>({
-            query: (body) => ({
-                url: `leaveRide/${body}`,
-                method: 'DELETE',
-            })
-        }),
-    }),
+    })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation } = userApi;

@@ -20,6 +20,7 @@ import { ErrorMsg } from 'Components/Input/ErrorMsg';
 import { Image } from 'Components/Image';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import Throbber from 'Components/Throbber';
+import { longLocaleDateFormat } from 'Utils/DateFormatter';
 
 
 type MainEventBoxProps = {
@@ -148,12 +149,20 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
                 <div>
                     <p className='descText'>Start date - end date</p>
-                    <EventDatePicker onDateChange={pickCalendarDate} isReadOnly={props.isReadOnly} startDate={props.values.startDate} endDate={props.values.endDate} isLoading={props.isLoading} />
+                    {!props.isReadOnly &&
+                        <EventDatePicker onDateChange={pickCalendarDate} startDate={props.values.startDate} endDate={props.values.endDate} isLoading={props.isLoading} />}
+                    {props.isReadOnly && <>
+                        {!props.values.startDate && <p className='noPaddingMargin'>{'No date selected'}</p>}
+                        {props.values.startDate && <p className='noPaddingMargin'>
+                            {longLocaleDateFormat(props.values.startDate)} — {longLocaleDateFormat(props.values.endDate)}
+                        </p>}
+                    </>
+                    }
                 </div>
 
                 <SimpleEditableInput defaultValue={props.values.description === '' ? 'No description' : props.values.description} id={"description"} onChangeAction={handleInputChange} inputDescription={"Description"} inputClassName='descriptionInput' rows={3} maxChars={1000} isReadOnly={props.isReadOnly} isLoading={props.isLoading} />
             </div>
-        </div>
+        </div >
     )
 }
 

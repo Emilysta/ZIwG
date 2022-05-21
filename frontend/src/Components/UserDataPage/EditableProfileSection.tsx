@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Person } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import ZiwgSkeleton from 'Utils/Skeletons';
-import { RootState, useAppDispatch, useAppSelector } from 'Utils/Store';
-import { updateUserThunk, userApi } from 'Utils/UserApiSlice';
+import { RootState, useAppSelector } from 'Utils/Store';
+import { userApi } from 'Utils/UserApiSlice';
 import "./EditableProfileSection.scss"
 
 const reducer = (state, action) => {
@@ -22,7 +22,6 @@ export function EditableProfileSection(props: any) {
     const [changeDataRequest, response] = userApi.useChangeUserDataMutation()
     const [deleteUserRequest] = userApi.useDeleteUserMutation()
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
     const [user, setUser] = React.useReducer(reducer,
         {
@@ -44,7 +43,6 @@ export function EditableProfileSection(props: any) {
         changeDataRequest(user).unwrap()
             .then(
                 () => {
-                    dispatch(updateUserThunk())
                     onToggle();
                 }
             )

@@ -9,9 +9,11 @@ import './FormWrapper.scss';
 const RegisterPage = () => {
     const isLogged = useAppSelector((state: RootState) => state.userLogin.isLoggedIn)
     const navigate = useNavigate();
-    if (isLogged) {
-        navigate('/', { replace: true })
-    }
+    React.useEffect(() => {
+        if (isLogged) {
+            navigate('/', { replace: true })
+        }
+    }, [])
     return (
         <div className="formWrapper">
             <RegisterForm />

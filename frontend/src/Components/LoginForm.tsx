@@ -30,8 +30,10 @@ export function LoginForm() {
     let isValid: boolean = true;
     if (validEmail(email) !== null) isValid = false;
     if (isRequired(password) !== null) isValid = false;
-    if (isValid) sendRequest();
-    if (!isValid) setError(true);
+    if (!isValid)
+      setError(true);
+    else
+      sendRequest();
   }
 
   async function sendRequest() {
