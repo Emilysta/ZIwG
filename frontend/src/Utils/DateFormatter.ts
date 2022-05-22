@@ -9,7 +9,7 @@ export function longDateFormat(dateString: string): string {
     return returnDateString;
 }
 
-export function longLocaleDateFormat(dateString: string): string {
+export function longLocaleDateFormat(dateString: string, isYearShort: boolean = false): string {
     let date: Date;
     try {
         if (!dateString.includes('Z'))
@@ -27,7 +27,11 @@ export function longLocaleDateFormat(dateString: string): string {
     let month: string = formatNumberString(date.getMonth() + 1);
     let hours: string = formatNumberString(date.getHours());
     let minutes: string = formatNumberString(date.getMinutes());
-    returnDateString = `${day}.${month}.${date.getFullYear()} ${hours}:${minutes}`;
+    let year: string = date.getFullYear().toString();
+    if (isYearShort) year = year.slice(-2);
+    console.log(isYearShort)
+    console.log(year)
+    returnDateString = `${day}.${month}.${year} ${hours}:${minutes}`;
     return returnDateString;
 }
 

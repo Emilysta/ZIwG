@@ -50,8 +50,8 @@ export default function EventTile(props: EventTileProps) {
             <div className='details'>
                 {props.isLoading && <div className='detailsDate'><ZiwgSkeleton /><ZiwgSkeleton /></div>}
                 {!props.isLoading && <div className='detailsDate'>
-                    <p>From: <strong>{longLocaleDateFormat(props.data?.startDate)}</strong></p>
-                    <p>To: <strong>{longLocaleDateFormat(props.data?.endDate)}</strong></p>
+                    <p>From: <strong>{longLocaleDateFormat(props.data?.startDate, true)}</strong></p>
+                    <p>To: <strong>{longLocaleDateFormat(props.data?.endDate, true)}</strong></p>
                 </div>}
                 <div className='detailsLink'>
                     <LinkButton to={`/events/${props.data?.id}`} isLoading={props.isLoading} />
