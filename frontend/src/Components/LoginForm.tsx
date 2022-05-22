@@ -10,11 +10,13 @@ import { loginUserThunk, userApi } from "Utils/UserApiSlice";
 import { useAppDispatch } from "Utils/Store";
 import { ErrorMsg } from "./Input/ErrorMsg";
 import { isRequired, validEmail } from "Utils/TextInputValidation";
+import Throbber from "./Throbber";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
   const [error, setError] = React.useState(false);
+  const [throbber, setThrobber] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -37,6 +39,7 @@ export function LoginForm() {
   }
 
   async function sendRequest() {
+    setThrobber(true);
     await loginRequest({ email: email, password: password }).unwrap()
       .then(async data => {
         await dispatch(loginUserThunk());
@@ -44,6 +47,7 @@ export function LoginForm() {
       })
       .catch(err => {
         setError(true)
+        setThrobber(false);
       });
   }
 
@@ -65,8 +69,11 @@ export function LoginForm() {
     <form onSubmit={handleSubmit} className="LoginForm">
       <TextInput placeHolder='Email' onChange={v => setEmail(v)} autoComplete={'email'} required />
       <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} autoComplete={'current-password'} required />
+      <>
+        <StateButton state={ButtonStateEnum.Active} type="submit" value="Log in" />
+        {throbber && <Throbber className='loginThrobber' />}
+      </>
       {error && <ErrorMsg>The password or email is incorrect</ErrorMsg>}
-      <StateButton state={ButtonStateEnum.Active} type="submit" value="Log in" />
     </form>
 
     <p><Link to='/register' className='highlighted'>No account?</Link></p>

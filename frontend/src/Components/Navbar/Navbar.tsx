@@ -17,7 +17,6 @@ const LogIn = { link: "/logIn", name: "Join Us" };
 export function Navbar() {
   const [logoutRequest] = userApi.useLogoutMutation()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch();
   const isUserLoggedIn = useAppSelector((state: RootState) => state.userLogin.isLoggedIn);
   const userName = useAppSelector((state: RootState) => state.userLogin.userData?.displayName);
   const isMobile = useMediaQuery({ query: '(max-width: 685px)' })
@@ -25,7 +24,6 @@ export function Navbar() {
   function logoutFromApp() {
     logoutRequest().unwrap()
       .then((_) => {
-        dispatch(logout());
         navigate('/')
       })
       .catch((err) => console.error(err))

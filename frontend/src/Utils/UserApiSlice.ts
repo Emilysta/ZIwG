@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { login, updateUserData } from './UserSlice';
+import { login, logout, updateUserData } from './UserSlice';
 
 export type LoginData = {
     email: string,
@@ -75,6 +75,14 @@ export const userApi = createApi({
                 url: 'logout',
                 method: 'GET',
             }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(logout());
+                } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
         }),
 
         register: build.mutation<null, RegisterData>({

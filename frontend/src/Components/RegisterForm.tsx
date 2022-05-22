@@ -8,6 +8,7 @@ import { Divider } from "./Divider";
 import { validLogin, validEmail, passwordValidate, isRequired } from "Utils/TextInputValidation";
 import { Validator } from "Utils/Validator";
 import { userApi } from "Utils/UserApiSlice";
+import Throbber from "./Throbber";
 
 export function RegisterForm() {
     const [firstName, setFirstName] = useState('');
@@ -18,6 +19,7 @@ export function RegisterForm() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState('')
+    const [throbber, setThrobber] = React.useState(false);
 
     const checkConfirm = (value: string) =>
         password.length !== 0 && value.length !== 0 && password !== value
@@ -49,7 +51,10 @@ export function RegisterForm() {
             <TextInput placeHolder='E-mail' onChange={(v) => setEmail(v)} validate={emailCheck} autoComplete={'email'} required />
             <TextInput placeHolder='Password' overrideType="password" onChange={(v) => setPassword(v)} validate={passwdCheck} autoComplete={'new-password'} required />
             <TextInput placeHolder='Confirm password' overrideType="password" onChange={(v) => setConfirmPassword(v)} validate={confirmedPasswdCheck} autoComplete={'new-password'} required />
-            <StateButton type="submit" value="Create account" />
+            <>
+                <StateButton type="submit" value="Create account" />
+                {throbber && <Throbber className='registerThrobber' />}
+            </>
             {errorMsg.length > 0 && <p className='inputError errorBox'>{errorMsg}</p>}
         </form>
     );
@@ -70,6 +75,7 @@ export function RegisterForm() {
     }
 
     function sendRequest() {
+        setThrobber(true);
         registerRequest({
             firstName: firstName,
             lastName: lastName,
@@ -85,6 +91,7 @@ export function RegisterForm() {
             .catch(err => {
                 console.error(err);
                 setErrorMsg("Register failure");
+                setThrobber(false);
             })
     }
 }
