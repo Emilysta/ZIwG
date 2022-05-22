@@ -8,7 +8,7 @@ type UserEventsListProps = { isArchived: boolean }
 
 export function UserEventsList(props: UserEventsListProps) {
     const userId = useAppSelector((state: RootState) => state.userLogin.userId)
-    const { data, error, isLoading } = useGetUserEventsQuery({ OrganiserId: userId });
+    const { data, error, isLoading } = useGetUserEventsQuery({ organiserId: userId });
 
     if (isLoading)
         return (

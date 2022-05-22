@@ -29,8 +29,7 @@ export function longLocaleDateFormat(dateString: string, isYearShort: boolean = 
     let minutes: string = formatNumberString(date.getMinutes());
     let year: string = date.getFullYear().toString();
     if (isYearShort) year = year.slice(-2);
-    console.log(isYearShort)
-    console.log(year)
+
     returnDateString = `${day}.${month}.${year} ${hours}:${minutes}`;
     return returnDateString;
 }
