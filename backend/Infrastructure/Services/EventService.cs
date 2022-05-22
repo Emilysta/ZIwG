@@ -28,7 +28,7 @@ namespace Infrastructure.Services
 
         public async Task<bool> UploadMainImage(FileUpload fileObj, int eventId)
         {
-            if (fileObj.files.Length > 0)
+            if (fileObj.files!=null)
             {
                 var @event = await _context.Events.Where(x => x.Id == eventId).SingleOrDefaultAsync();
                 if (@event == null)

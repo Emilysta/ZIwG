@@ -235,5 +235,41 @@ namespace WebApi.Controllers
             else
                 return BadRequest();
         }
+
+        /// <summary>
+        /// Sends password recovery email
+        /// </summary>
+        /// <param name="userEmail"></param> 
+        /// <response code="204">Success user removed</response>
+        /// <response code="400">Wrong userEmail</response> 
+        [HttpPost]
+        [Route("sendPasswordRecoveryEmail/{userEmail}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendPasswordRecoveryEmail([FromRoute] string userEmail)
+        {
+            var result = await _loggingService.SendPasswordRecoveryEmail(userEmail);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
+
+        /// <summary>
+        /// Sends password recovery email
+        /// </summary>
+        /// <param name="userEmail"></param> 
+        /// <response code="204">Success user removed</response>
+        /// <response code="400">Wrong userEmail, token or password</response> 
+        [HttpPost]
+        [Route("resetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPasword(ReserPasswordDTO resetPasswordDTO)
+        {
+            var result = await _loggingService.ResetPassword(resetPasswordDTO);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
     }
 }
