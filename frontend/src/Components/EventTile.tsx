@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './EventTile.scss'
 import { Image } from 'Components/Image'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BoxArrowRight, Person } from 'react-bootstrap-icons';
 import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
@@ -22,15 +22,21 @@ type EventTileProps = {
 }
 
 export default function EventTile(props: EventTileProps) {
+    const navigate = useNavigate();
+
+    function onClickRedirect() {
+        navigate(`/events/${props.data?.id}`);
+    }
+
     return (
         <div className='eventTile'>
-            <div className='eventTileImageCon'>
+            <div className='eventTileImageCon' style={{ cursor: 'pointer' }} >
                 {props.isLoading && <ZiwgSkeleton containerClassName='eventTileImageSkeleton' />}
-                {!props.isLoading && <Image src={props.data?.mainImage} />}
+                {!props.isLoading && <Image src={props.data?.mainImage} onClick={onClickRedirect} />}
             </div>
             <div className='title'>
                 {props.isLoading && <ZiwgSkeleton />}
-                {!props.isLoading && props.data?.name}
+                {!props.isLoading && <p onClick={onClickRedirect} >{props.data?.name}</p>}
             </div>
             <div className='organiser'>
 
@@ -51,6 +57,6 @@ export default function EventTile(props: EventTileProps) {
                     <LinkButton to={`/events/${props.data?.id}`} isLoading={props.isLoading} />
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
