@@ -240,7 +240,7 @@ namespace WebApi.Controllers
         /// Sends password recovery email
         /// </summary>
         /// <param name="userEmail"></param> 
-        /// <response code="204">Success user removed</response>
+        /// <response code="204">Success password recovery eamil send</response>
         /// <response code="400">Wrong userEmail</response> 
         [HttpPost]
         [Route("sendPasswordRecoveryEmail/{userEmail}")]
@@ -255,10 +255,10 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Sends password recovery email
+        /// Resets user password
         /// </summary>
         /// <param name="userEmail"></param> 
-        /// <response code="204">Success user removed</response>
+        /// <response code="204">User password changed</response>
         /// <response code="400">Wrong userEmail, token or password</response> 
         [HttpPost]
         [Route("resetPassword")]
