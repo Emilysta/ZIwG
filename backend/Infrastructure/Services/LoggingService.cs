@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using AutoMapper;
@@ -64,11 +65,52 @@ namespace Infrastructure.Services
             return true;
         }
 
+        public async Task<bool> SendPasswordRecoveryEmail(string userEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail.ToUpper());
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                string redirectLink = "https://ziwg.toadres.pl/reset/" + token;
+                MailMessage mailMessage = new MailMessage("eventcollabteam@gmail.com", userEmail);
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Subject = "ZIWG Password reset";
+                mailMessage.Body = "Hello Arek,<br/>You recently requested to reset your password for your Event Collab account. Use the button below to change it:" +
+                    "<br/><a href=" + redirectLink + ">" + "Password reset" + "</a>" + "<br/><br/>If you didn't request this, please ignore this email." +
+                    "<br/><br/> Regards <br/> Event Collab Team";
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                smtpClient.Credentials = new NetworkCredential()
+                {
+                    UserName = "eventcollabteam@gmail.com",
+                    Password = "eventcollab1!"
+                };
+                smtpClient.EnableSsl = true;
+                smtpClient.Send(mailMessage);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ResetPassword(ReserPasswordDTO resetPasswordDTO)
+        {
+            var user = await _userManager.FindByNameAsync(resetPasswordDTO.UserEmail);
+            if (user != null)
+            {
+                var result = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.Password);
+                if (result.Succeeded)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public AuthenticationProperties LoginWithGoogle(string redirectUrl)
         {
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return properties;
         }
+
         public async Task<bool> GetGoogleResponse()
         {
             ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
@@ -101,7 +143,7 @@ namespace Infrastructure.Services
                 await stream.CopyToAsync(ms);
                 var fileBytes = ms.ToArray();
                 usertoadd.Photo = fileBytes;
-                await _context.Users.AddAsync(usertoadd);
+                await _userManager.CreateAsync(usertoadd);
                 await SaveChangesAsync();
                 await _signInManager.SignInAsync(usertoadd, isPersistent: false);
                 return true;

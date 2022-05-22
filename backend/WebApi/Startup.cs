@@ -73,7 +73,8 @@ namespace ziwg
             });
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<DataBaseContext>();
+                .AddEntityFrameworkStores<DataBaseContext>()
+                .AddDefaultTokenProviders();
 
         }
 
