@@ -8,6 +8,7 @@ import RegisterPage from 'Pages/RegisterPage';
 import UserPage from "Pages/UserPage";
 import EventPage from "Pages/EventPage";
 import { NotFound } from "Pages/NotFound";
+import ForgotPasswordPage from "Pages/ForgotPasswordPage";
 import ResetPasswordPage from "Pages/ResetPasswordPage";
 
 function App() {
@@ -38,7 +39,8 @@ function App() {
             <Route path="events/:id" element={<EventPage />} />
             <Route path="logIn" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="resetPassword" element={<ResetPasswordPage />} />
+            <Route path="forgotPassword" element={<ForgotPasswordPage />} />
+            <Route path="reset/:token" element={<ResetPasswordPage />} />
             <Route path="user/*" element={<UserPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>

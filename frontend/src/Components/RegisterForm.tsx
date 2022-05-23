@@ -25,7 +25,7 @@ export function RegisterForm() {
     const checkConfirm = (value: string) =>
         password.length !== 0 && password !== value
             ? 'Passwords do not match'
-            : ''
+            : null;
 
     React.useEffect(() => {
         if (password.length !== 0 && password !== confirmPassword) {
@@ -80,7 +80,10 @@ export function RegisterForm() {
 
     function validateAndSend() {
         const isValid = validations.every((v) => v.isValid());
+        console.log(passwdCheck.isValid());
+        console.log(confirmedPasswdCheck.isValid());
         if (isValid) sendRequest();
+        else console.log("invalid")
     }
 
     function sendRequest() {

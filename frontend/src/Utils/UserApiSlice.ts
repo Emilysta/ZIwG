@@ -93,7 +93,7 @@ export const userApi = createApi({
             }),
         }),
 
-        resetPassword: build.query<null, { userEmail: string, password: string, tokemn: string }>({
+        resetPassword: build.query<null, { userEmail: string, password: string, token: string }>({
             query: (body) => ({
                 url: 'resetPassword',
                 method: 'POST',

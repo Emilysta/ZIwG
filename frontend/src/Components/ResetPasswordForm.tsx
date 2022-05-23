@@ -1,61 +1,102 @@
 import * as React from "react";
 import './ResetPasswordForm.scss';
 import { TextInput } from "./Input/TextInput";
-import { StateButton, ButtonStateEnum } from "./Input/StateButton";
-import { Link } from 'react-router-dom';
+import { StateButton } from "./Input/StateButton";
+import { Link, useParams } from 'react-router-dom';
 import { userApi } from "Utils/UserApiSlice";
-import { ErrorMsg } from "./Input/ErrorMsg";
-import { validEmail } from "Utils/TextInputValidation";
+import { passwordValidate } from "Utils/TextInputValidation";
 import { ArrowRight } from 'react-bootstrap-icons';
 import Throbber from "./Throbber";
-import { Divider } from "./Divider";
+import { useState } from "react";
+import { Validator } from "Utils/Validator";
+import { ErrorMsg } from "./Input/ErrorMsg";
 
 export function ResetPasswordForm() {
-    const [email, setEmail] = React.useState('');
-    const [error, setError] = React.useState(false);
+    const { token } = useParams();
+    const [error, setError] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [throbber, setThrobber] = React.useState(false);
+    const [errorConfirmPass, setErrorConfirmPass] = useState('')
 
-    const [sendPassRecoveryEmailRequest] = userApi.useLazySendPasswordRecoveryEmailQuery();
+    const [sendResetPasswordRequest] = userApi.useLazyResetPasswordQuery();
+
+    const checkConfirm = (value: string) =>
+        password.length !== 0 && password !== value
+            ? 'Passwords do not match'
+            : null;
+
+    const passwdCheck = new Validator(passwordValidate);
+    const confirmedPasswdCheck = new Validator([checkConfirm]);
+    const validations = [passwdCheck, confirmedPasswdCheck];
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        validateAndSend();
+        let i = 5;
+        const interval = setInterval(() => {
+            setError(`Password has been reset. Redirection to Login page in... ${i}s`);
+            i--;
+        }, 1000)
+        setTimeout(() => {
+            clearInterval(interval);
+        }, 5000);
+        //validateAndSend();
     }
 
+    React.useEffect(() => {
+        if (password.length !== 0 && password !== confirmPassword) {
+            setErrorConfirmPass('Passwords do not match');
+        }
+        else
+            setErrorConfirmPass('');
+    }, [password, confirmPassword]);
+
     function validateAndSend() {
-        let isValid: boolean = true;
-        if (validEmail(email) !== null) isValid = false;
+        const isValid = validations.every((v) => v.isValid());
         if (!isValid)
-            setError(true);
+            setError('Email is incorrect');
         else
             sendRequest();
     }
 
     async function sendRequest() {
         setThrobber(true);
-        await sendPassRecoveryEmailRequest({ userEmail: email }).unwrap()
+        await sendResetPasswordRequest({ userEmail: '', password: password, token: token }).unwrap()
+            .then(_ => {
+                let i = 5;
+                const interval = setInterval(() => {
+                    setError(`Password has been reset. Redirection to Login page in... ${i}s`);
+                    i--;
+                }, 1000)
+                setTimeout(() => {
+                    clearInterval(interval);
+                }, 5000);
+
+            })
             .catch(err => {
                 console.log(err);
-                setError(true)
+                setError('Something went wrong during sending');
                 setThrobber(false);
             });
     }
 
     return <div className="resetPasswordSection">
         <h1>Reset Password</h1>
-        <p>Please enter your email address! <br></br>We'll send you an e-mail with reset link.</p>
+        <p>Please enter your new password.</p>
 
         <form onSubmit={handleSubmit} className="resetPasswordForm">
-            <TextInput placeHolder='Email' onChange={v => setEmail(v)} autoComplete={'email'} required />
+            <input autoComplete={'off'} hidden />
+            <TextInput placeHolder='Password' overrideType="password" onChange={(v) => setPassword(v)} validate={passwdCheck} autoComplete={'new-password'} required />
+            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(v) => setConfirmPassword(v)} validate={confirmedPasswdCheck} autoComplete={'new-password'} required additionalError={errorConfirmPass} />
             <>
-                <StateButton state={ButtonStateEnum.Active} type="submit" value="Send e-mail" />
-                {throbber && <Throbber className='resetPasswordThrobber' />}
+                <StateButton type="submit" value="Reset password" />
+                {throbber && <Throbber className='registerThrobber' />}
             </>
-            {error && <ErrorMsg>Email is incorrect or sth went wrong</ErrorMsg>}
+            {error && <ErrorMsg>{error}</ErrorMsg>}
         </form>
-
-        <p><Link to='/register' className='highlighted'>No account?</Link></p>
-        <Divider text='Or' size={360} />
-        <p><Link to='/logIn' className='highlighted'>Go back to login page <ArrowRight className="resetPassArrowInLink" /></Link></p>
+        <p><Link to='/logIn' className='highlighted'>
+            Go back to login page
+            <ArrowRight className="resetPassArrowInLink" />
+        </Link></p>
     </div >;
 }
