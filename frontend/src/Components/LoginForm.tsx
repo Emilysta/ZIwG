@@ -9,11 +9,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginUserThunk, userApi } from "Utils/UserApiSlice";
 import { useAppDispatch } from "Utils/Store";
 import { ErrorMsg } from "./Input/ErrorMsg";
+import { isRequired, validEmail } from "Utils/TextInputValidation";
+import Throbber from "./Throbber";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState('');
   const [password, setPasswd] = React.useState('');
   const [error, setError] = React.useState(false);
+  const [throbber, setThrobber] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -22,6 +25,21 @@ export function LoginForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    validateAndSend();
+  }
+
+  function validateAndSend() {
+    let isValid: boolean = true;
+    if (validEmail(email) !== null) isValid = false;
+    if (isRequired(password) !== null) isValid = false;
+    if (!isValid)
+      setError(true);
+    else
+      sendRequest();
+  }
+
+  async function sendRequest() {
+    setThrobber(true);
     await loginRequest({ email: email, password: password }).unwrap()
       .then(async data => {
         await dispatch(loginUserThunk());
@@ -29,14 +47,9 @@ export function LoginForm() {
       })
       .catch(err => {
         setError(true)
+        setThrobber(false);
       });
   }
-
-  const minimalLength = 0;
-
-  const buttonState = (email.length > minimalLength && password.length > minimalLength)
-    ? ButtonStateEnum.Active
-    : ButtonStateEnum.Inactive
 
   const googleAuth = () => {
     // bug CORS issue
@@ -48,16 +61,19 @@ export function LoginForm() {
       .catch(err => console.error(err))
   }
 
-  return <section className="LoginSection">
+  return <div className="LoginSection">
     <h1>Login</h1>
     <p>Welcome back! Login to access full functionality in EventColab.</p>
     <p>Did you <Link to='/' className='highlighted'>forget your password?</Link></p>
 
     <form onSubmit={handleSubmit} className="LoginForm">
-      <TextInput placeHolder='Email' onChange={v => setEmail(v)} />
-      <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} />
-      {error && <ErrorMsg>Login failure</ErrorMsg>}
-      <StateButton state={buttonState} type="submit" value="Submit" />
+      <TextInput placeHolder='Email' onChange={v => setEmail(v)} autoComplete={'email'} required />
+      <TextInput placeHolder='Password' overrideType="password" onChange={v => setPasswd(v)} autoComplete={'current-password'} required />
+      <>
+        <StateButton state={ButtonStateEnum.Active} type="submit" value="Log in" />
+        {throbber && <Throbber className='loginThrobber' />}
+      </>
+      {error && <ErrorMsg>The password or email is incorrect</ErrorMsg>}
     </form>
 
     <p><Link to='/register' className='highlighted'>No account?</Link></p>
@@ -65,5 +81,5 @@ export function LoginForm() {
     <Divider text='Or' size={360} />
 
     <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} onClickAction={googleAuth} />
-  </section >;
+  </div >;
 }

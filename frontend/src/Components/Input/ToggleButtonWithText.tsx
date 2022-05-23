@@ -14,7 +14,13 @@ type ToggleButtonWithTextProps = {
 
 
 export default function ToggleButtonWithText(props: ToggleButtonWithTextProps) {
-    const [isToggled, setIsToggled] = React.useState(props.startIsToggled);
+    const [isToggled, setIsToggled] = React.useState<boolean>(undefined);
+
+    React.useEffect(() => {
+        if (isToggled === undefined)
+            setIsToggled(props.startIsToggled)
+
+    }, [props.startIsToggled]);
 
     const toggleStateChanged = () => {
         if (!props.isReadOnly) {

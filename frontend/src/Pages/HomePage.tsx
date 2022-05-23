@@ -3,26 +3,24 @@ import { BlendedCircle } from 'Components/BlendedCircle'
 import './HomePage.scss'
 import peopleImage from '../images/pexels-tima-miroshnichenko-6615107_edited.png'
 import { ButtonLink } from '../Components/ButtonLink'
+import { RecentEventsWidget } from '../Components/RecentEventsWidget'
 
 function HomePage() {
     return (
         <div className='wholePageLayout homePage'>
-            <div className='horizontalContainer'>
-                <section className="leftContainer">
-                    <div>
-                        <h1 className='highlighted title'>Find Interesting Events</h1>
-                        <div className='content'>
-                            <span>
-                                <p>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
-                            </span>
-                            <span>
-                                <ButtonLink className='centered' to='/events'>See Events</ButtonLink>
-                            </span>
-                        </div>
+            <div className="leftContainer">
+                <div>
+                    <h1 className='highlighted title animated'>Find Interesting Events</h1>
+                    <div className='content'>
+                        <p className='animatedP'>Tempore quae molestias aliquid voluptas <br />animi ut aut asperiores minima.</p>
+                        <ButtonLink className='overrideLinkButton' to='/events'>See Events</ButtonLink>
                     </div>
-                    <BlendedCircle id="circle-2" size={260} left="min(680px, 60vw)" bottom="-40vh" />
-                    <img id="peopleImage" src={peopleImage} alt=''/>
-                </section>
+                </div>
+                <BlendedCircle id="circle-2" size={260} left="min(680px, 60vw)" bottom="-40vh" />
+                <img id="peopleImage" src={peopleImage} alt='' />
+            </div>
+            <div className='horizontalContainer'>
+                <RecentEventsWidget count={6} />
             </div>
         </div>
     )

@@ -3,34 +3,38 @@ import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import * as React from 'react';
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { XLg, PlusLg } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { eventApi } from 'Utils/EventAPISlice';
-import { EventData } from 'Utils/EventData';
-import { debounce } from 'lodash';
-import { useCallback } from 'react';
 import './UserAddEventPage.scss';
+
+const reducer = (state, action) => {
+    if (action.type === "set") {
+        return action.data;
+    }
+    const result = { ...state };
+    result[action.type] = action.value;
+    return result;
+};
 
 export default function UserAddEventPage() {
     const navigate = useNavigate();
-    const delaySetValue = useCallback(debounce(change => setValues(change), 1000), []);
-    const [values, setValues] = useState<Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id'>>(
-        {
-            name: 'Event name',
-            description: '',
-            startDate: new Date().toISOString(),
-            endDate: new Date().toISOString(),
-            tags: [],
-            isPublicEvent: true,
-            isPaidTicket: false,
-            ticketPrice: 0,
-            isTicketLimit: false,
-            ticketLimit: 0,
-            place: '',
-            mainImage: undefined,
-        }
-    );
+
+    const [values, dispatch] = useReducer(reducer, {
+        name: 'Event name',
+        description: '',
+        startDate: new Date().toISOString(),
+        endDate: new Date().toISOString(),
+        tags: [],
+        isPublicEvent: true,
+        isPaidTicket: false,
+        ticketPrice: 0,
+        isTicketLimit: false,
+        ticketLimit: 0,
+        place: '',
+        mainImage: undefined,
+    });
 
     const [addEventRequest] = eventApi.useAddEventMutation();
     const [addEventMainImageRequest] = eventApi.useAddEventMainImageMutation();
@@ -56,8 +60,7 @@ export default function UserAddEventPage() {
     }
 
     function valueChange(id: string, value: any) {
-        let and = { ...values, [id]: value };
-        delaySetValue(and);
+        dispatch({ type: id, value })
     }
 
     function checkInput(value: string, regex: RegExp, errorToShow: string, isValidChar: boolean = false): string {
@@ -72,7 +75,7 @@ export default function UserAddEventPage() {
             }
         return error;
     }
-
+    console.dir(values);
     return (
         <div className='userAddEventPage'>
             <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} isReadOnly={false} />
@@ -81,10 +84,10 @@ export default function UserAddEventPage() {
                     <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.isPublicEvent} id='isPublicEvent' onValueChange={valueChange} />
                     <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values.isPaidTicket} id='isPaidTicket' onValueChange={valueChange} />
                     {values.isPaidTicket && <SimpleEditableInput id="ticketPrice"
-                        onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} />}
+                        onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} isNumber />}
                     <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values.isTicketLimit} id='isTicketLimit' onValueChange={valueChange} />
                     {values.isTicketLimit && <SimpleEditableInput id="ticketLimit"
-                        onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} />}
+                        onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isNumber />}
                 </div>
 
                 <div className="finishAddingButtonBox">

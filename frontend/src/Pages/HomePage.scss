@@ -1,56 +1,77 @@
-.horizontalContainer {
-    width: 80%;
-    margin: auto;
-    flex-direction: row;
-}
-
-.leftContainer,
-.rightContainer {
+.leftContainer {
     display: flex;
     position: relative;
     font-size: 22px;
     font-weight: 300;
-}
-
-.leftContainer {
     justify-content: right;
     text-align: right;
-    margin-top: 170px;
-}
-
-.rightContainer {
-    justify-content: left;
-    text-align: left;
+    margin: 170px 70px 0px 70px;
 }
 
 .leftContainer .content {
     display: flex;
     flex-direction: column;
-    justify-content: right;
-    width: min-content;
-    margin: 0 0 0 auto;
-    white-space: nowrap;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-items: flex-end;
 }
 
-.leftContainer .content .centered {
-    margin: auto;
-    justify-self: center;
-}
-
-.leftContainer .title,
-.leftContainer .content span {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.leftContainer .content span {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.animatedP {
+    opacity: 0;
+    animation: fadeIn 0.8s 0.1s forwards cubic-bezier(0.11, 0, 0.5, 0), showl 1s;
 }
 
 .leftContainer .title {
     font-size: 52px;
+}
+
+.overrideLinkButton {
+    margin: 0px !important;
+    width: fit-content;
+    opacity: 0;
+    animation: fadeIn 2.5s forwards;
+}
+
+.homePage {
+    overflow-x: hidden;
+}
+
+.animated {
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    animation: showr 1s;
+    animation-delay: calc(.1s * var(--i));
+}
+
+@keyframes showr {
+    0% {
+        transform: translateX(800px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+@keyframes showl {
+    0% {
+        transform: translateX(-800px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .homePage #peopleImage {
@@ -68,4 +89,10 @@
     box-shadow: 8px 6px 43px 4px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(4px);
     background: #3d5a804d;
+}
+
+@media only screen and (max-width: 600px) {
+    .leftContainer {
+        margin: 170px 40px 0 40px;
+    }
 }

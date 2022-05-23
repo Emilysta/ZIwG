@@ -8,9 +8,14 @@
     align-items: center;
 }
 
+.RegisterSection>* {
+    margin: auto;
+}
+
 .RegisterSection h1 {
     margin-bottom: 16px;
     font-size: 44px;
+    padding: 0;
 }
 
 .RegisterForm {
@@ -18,32 +23,30 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: min-content;
+    margin: 16px 0px 0px 0px;
 }
 
 .RegisterForm input {
-    margin: 5px auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin: 12px auto;
     font-size: 18px;
-}
-
-.RegisterForm input[type="text"],
-.RegisterForm input[type="password"] {
-    width: 320px;
+    height: 36px;
 }
 
 .RegisterForm input[type="button"],
 .RegisterForm input[type="submit"] {
-    min-width: 50%;
-    height: 35px;
-    margin-top: 10px;
-    padding: 0;
+    min-width: 30%;
+}
+
+.RegisterForm .inputBox {
+    min-width: 200px;
+    max-width: 300px;
+    width: 250px;
 }
 
 .text1 {
     font-size: 18px;
     font-weight: 300;
+    text-align: center;
 }
 
 .text2 {
@@ -56,4 +59,13 @@
     border-radius: 8px;
     padding: 5px;
     margin: auto;
+}
+
+.RegisterFrom>.inputBox {
+    width: 100%;
+}
+
+.registerThrobber {
+    height: 20px !important;
+    margin-right: 0px;
 }

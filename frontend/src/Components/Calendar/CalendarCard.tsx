@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EventData } from './Calendar';
+import { EventDataSimple } from 'Utils/EventData';
 import './CalendarCard.scss';
 import { useMediaQuery } from 'react-responsive'
 
@@ -11,7 +11,7 @@ export enum CalendarCardStyle {
 }
 
 type CalendarCardProps = {
-    events: EventData[],
+    events: EventDataSimple[],
     dayNumber: number,
     column: number,
     row: number,
@@ -26,7 +26,7 @@ export default function CalendarCard(props: CalendarCardProps) {
             <div className='textStack'>
                 <h1 className='text dayNumber'>{props.dayNumber < 10 ? '0' + props.dayNumber : props.dayNumber}</h1>
                 {isBigScreen &&
-                    props.events.slice(0, 2).map((event: EventData, i: number) =>
+                    props.events.slice(0, 2).map((event: EventDataSimple, i: number) =>
                         <p className='text' key={i}> {event.name} </p>)}
                 {props.events.length > 2 && <p className='text tasksNumer'>{props.events.length - 2} more </p>}
             </div>

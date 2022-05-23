@@ -11,63 +11,32 @@ type ImageProps = {
 }
 
 export function Image(props: ImageProps) {
+    const [src, setSrc] = React.useState(undefined);
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (props.onClick)
             props.onClick(e, props.src)
     }
-
-    let url: string;
-
-    if (props.src?.name) {
-        return <ImageUploaded {...props} />
-    }
-
-    if (props.src) {
-        try {
-            url = `data:image/png;base64,${props.src}`;
+    React.useEffect(() => {
+        if (props.src) {
+            if (typeof (props.src) === 'string') {
+                setSrc(`data:image/png;base64,${props.src}`);
+            }
+            else {
+                setSrc(URL.createObjectURL(props.src));
+            }
         }
-        catch (e) {
-            url = undefined;
-            console.log(e);
-
+        else {
+            setSrc(props.url);
         }
-    }
-    else {
-        url = props.url;
-    }
+    }, [props.src, props.url]);
+
 
     return (
         <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
-            {!props.isLoading && url !== undefined && <img src={url} alt={''} />}
+            {!props.isLoading && src !== undefined && <img src={src} alt={''} />}
             {props.isLoading && <ZiwgSkeleton containerClassName='imageSkeleton' />}
-            {url === undefined && <p> no image</p>}
+            {src === undefined && <p>No image</p>}
         </div>
     );
 }
 
-function ImageUploaded(props: ImageProps) {
-    type State = { src: any, file: File, isLoading: boolean }
-    const [state, setSrc] = React.useState<State>(null)
-
-    const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (props.onClick)
-            props.onClick(e, props.src)
-    }
-
-    if (props.src && state?.file !== props.src) {
-        let renderer = new FileReader()
-        setSrc({ ...state, file: props.src, isLoading: true })
-        renderer.onload = (e: ProgressEvent<FileReader>) => setSrc({ ...state, src: e.target.result, isLoading: false })
-        renderer.readAsDataURL(props.src)
-    }
-
-    let isLoading = props.isLoading
-
-    return (
-        <div className={`image ${props.className ? props.className : ''}`} onClick={onClick}>
-            {state && !isLoading && <img src={state.src} alt={''} />}
-            {state && isLoading && <ZiwgSkeleton containerClassName='imageSkeleton' />}
-            {!state && <p>No image</p>}
-        </div>
-    );
-}

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import './EventTile.scss'
 import { Image } from 'Components/Image'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BoxArrowRight, Person } from 'react-bootstrap-icons';
 import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
-import { longDateFormat } from 'Utils/DateFormatter';
+import { longLocaleDateFormat } from 'Utils/DateFormatter';
 
 type LinkButtonProps = { to: string, isLoading?: boolean };
 
@@ -22,15 +22,21 @@ type EventTileProps = {
 }
 
 export default function EventTile(props: EventTileProps) {
+    const navigate = useNavigate();
+
+    function onClickRedirect() {
+        navigate(`/events/${props.data?.id}`);
+    }
+
     return (
         <div className='eventTile'>
-            <div className='eventTileImageCon'>
+            <div className='eventTileImageCon' style={{ cursor: 'pointer' }} >
                 {props.isLoading && <ZiwgSkeleton containerClassName='eventTileImageSkeleton' />}
-                {!props.isLoading && <Image src={props.data.mainImage} />}
+                {!props.isLoading && <Image src={props.data?.mainImage} onClick={onClickRedirect} />}
             </div>
             <div className='title'>
                 {props.isLoading && <ZiwgSkeleton />}
-                {!props.isLoading && props.data.name}
+                {!props.isLoading && <p onClick={onClickRedirect} >{props.data?.name}</p>}
             </div>
             <div className='organiser'>
 
@@ -38,19 +44,19 @@ export default function EventTile(props: EventTileProps) {
                 {!props.isLoading && <Person className='img' />}
 
                 {props.isLoading && <ZiwgSkeleton containerClassName='text' />}
-                {!props.isLoading && <p className='text'>{props.data.organiserName}</p>}
+                {!props.isLoading && <p className='text'>{props.data?.organiserName}</p>}
 
             </div>
             <div className='details'>
                 {props.isLoading && <div className='detailsDate'><ZiwgSkeleton /><ZiwgSkeleton /></div>}
                 {!props.isLoading && <div className='detailsDate'>
-                    <p>From: <strong>{longDateFormat(props.data.startDate)}</strong></p>
-                    <p>To: <strong>{longDateFormat(props.data.endDate)}</strong></p>
+                    <p>From: <strong>{longLocaleDateFormat(props.data?.startDate, true)}</strong></p>
+                    <p>To: <strong>{longLocaleDateFormat(props.data?.endDate, true)}</strong></p>
                 </div>}
                 <div className='detailsLink'>
-                    <LinkButton to={`${props.data?.id}`} isLoading={props.isLoading} />
+                    <LinkButton to={`/events/${props.data?.id}`} isLoading={props.isLoading} />
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

@@ -1,4 +1,4 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 input[type="submit"],
 input[type="button"] {
@@ -10,6 +10,7 @@ input[type="button"] {
     color: #fff;
     border: 0px;
     font-weight: 200;
+    padding: 0px 20px;
 }
 
 input[type="submit"]:hover,

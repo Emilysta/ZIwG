@@ -3,7 +3,7 @@ import './UserEventCard.scss';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import { Link } from 'react-router-dom';
 import { EventDataSimple } from 'Utils/EventData';
-import { longDateFormat } from 'Utils/DateFormatter';
+import { longLocaleDateFormat } from 'Utils/DateFormatter';
 import { Image } from 'Components/Image';
 
 type UserEventCardProps = {
@@ -15,7 +15,7 @@ export function UserEventCard(props: UserEventCardProps) {
 
     function formatDateIfExists(date: string): string {
         if (date)
-            return longDateFormat(date);
+            return longLocaleDateFormat(date);
         return '';
     }
 
@@ -32,13 +32,13 @@ export function UserEventCard(props: UserEventCardProps) {
                     <h1 className='title'>
                         {props.loading ?
                             <ZiwgSkeleton width={200} /> :
-                            'Test name ' + props.eventData?.name
+                            props.eventData?.name
                         }
                     </h1>
                     <p className='location date'>
                         {props.loading ?
                             <ZiwgSkeleton width={400} /> :
-                            'Blah ' + formatDateIfExists(props.eventData?.startDate) + '-' + formatDateIfExists(props.eventData?.endDate)}
+                            formatDateIfExists(props.eventData?.startDate) + '-' + formatDateIfExists(props.eventData?.endDate)}
                     </p>
                 </div>
             </div>

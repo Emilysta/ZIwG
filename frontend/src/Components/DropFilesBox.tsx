@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Download } from 'react-bootstrap-icons';
 import './DropFilesBox.scss'
 import { useDropzone as useDropZone } from 'react-dropzone'
-import { render } from '@testing-library/react';
 
 type DropFilesProps = {
     className: string,
@@ -12,14 +11,16 @@ type DropFilesProps = {
 export function DropFilesBox(props: DropFilesProps) {
     const onDrop = React.useCallback((acceptedFiles: File[]) => {
         if (props.onImageUpload) {
-
-            for (const file of acceptedFiles) {
-                props.onImageUpload(file)
-            }
+            console.log(typeof (acceptedFiles[0]));
+            props.onImageUpload(acceptedFiles[0]);
         }
-    }, [])
+    }, [props])
 
-    const { getRootProps, getInputProps, isDragActive } = useDropZone({ onDrop })
+    const { getRootProps, getInputProps } = useDropZone({
+        onDrop,
+        accept: ['.png', '.jpeg', '.jpg'
+        ]
+    })
 
     return (
         <div className={`dropFiles ${props.className}`} {...getRootProps()}>
@@ -27,7 +28,7 @@ export function DropFilesBox(props: DropFilesProps) {
             <span className='dropCenter'>
                 <Download />
                 <span>
-                    <a>Choose files</a> or <br />drop it here
+                    <p>Choose files</p> or <br />drop it here
                 </span>
             </span>
         </div>

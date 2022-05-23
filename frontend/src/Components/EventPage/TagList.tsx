@@ -17,7 +17,6 @@ export type TagListProps = {
 
 export default function TagList(props: TagListProps) {
     const [tags, setTags] = useState(props.tags);
-    const [isAddButtonVisible, setIsAddButtonVisible] = useState(!props.isReadOnly);
     const [isTagInputVisible, setIsTagInputVisible] = useState(false);
     const [tagInputValue, setTagInputValue] = useState("");
     const [tagPage, setTagPage] = useState(0);
@@ -29,7 +28,6 @@ export default function TagList(props: TagListProps) {
     }
 
     function showInput() {
-        setIsAddButtonVisible(false);
         setIsTagInputVisible(true);
     }
 
@@ -41,6 +39,8 @@ export default function TagList(props: TagListProps) {
         if (event.key === 'Enter') //enter
         {
             let arr = tags;
+            if (arr === undefined || !Array.isArray(arr))
+                arr = [];
             arr.push({ name: tagInputValue });
             setTags(arr);
             setTagPage(Math.floor((arr?.length - 1) / 3));
@@ -81,7 +81,7 @@ export default function TagList(props: TagListProps) {
                         </ul>
                         {tagPage < ((tags?.length - 1) / 3 - 1) && <ChevronRight onClick={tagIndexRight} />}
                     </div>}
-                {!props.isReadOnly && isAddButtonVisible && <Plus className='addTagButton' onClick={showInput} />}
+                {!props.isReadOnly && <Plus className='addTagButton' onClick={showInput} />}
                 {!props.isReadOnly && isTagInputVisible && <SimpleEditableInput id='tagInput' inputClassName='tagInput' onChangeAction={tagInputChange} onKeyDownAction={tagInputKeyDetection} isClearOnEnter={true} defaultValue="Tag name" />}
             </div>
         )

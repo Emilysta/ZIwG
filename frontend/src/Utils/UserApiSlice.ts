@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { login, updateUserData } from './UserSlice';
+import { login, logout, updateUserData } from './UserSlice';
 
 export type LoginData = {
     email: string,
@@ -31,18 +31,12 @@ export type EditableUserData = {
     location: string,
 }
 
-export const updateUserThunk = () => async (dispatch) => {
-    let resultData = await fetch(`/api/User/currentUserData`)
-    let userData: UserData = await resultData.json();
-    dispatch(updateUserData(userData))
-}
-
 export const loginUserThunk = () => async (dispatch) => {
     let result = await fetch(`/api/User/currentUserId`)
     let id = await result.text();
     let resultData = await fetch(`/api/User/currentUserData`)
     let userData: UserData = await resultData.json();
-    console.log(userData);
+
     dispatch(login({ userId: id, userData: userData }));
 }
 
@@ -81,11 +75,27 @@ export const userApi = createApi({
                 url: 'logout',
                 method: 'GET',
             }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(logout());
+                } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
         }),
 
         register: build.mutation<null, RegisterData>({
             query: (body) => ({
                 url: 'register',
+                method: 'POST',
+                body,
+            }),
+        }),
+
+        resetPassword: build.mutation<null, string>({
+            query: (body) => ({
+                url: 'resetPassword',
                 method: 'POST',
                 body,
             }),
@@ -112,35 +122,15 @@ export const userApi = createApi({
                 method: 'PATCH',
                 body,
             }),
+            async onQueryStarted(body, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(updateUserData(body))
+                } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
         }),
-
-        subscribeToEvent: build.mutation<null, string>({
-            query: (body) => ({
-                url: `sign/${body}`,
-                method: 'POST',
-            })
-        }),
-
-        unsubscribeFromEvent: build.mutation<null, string>({
-            query: (body) => ({
-                url: `signout/${body}`,
-                method: 'DELETE',
-            })
-        }),
-
-        joinRide: build.mutation<null, string>({
-            query: (body) => ({
-                url: `joinRide/${body}`,
-                method: 'POST',
-            })
-        }),
-
-        leaveRide: build.mutation<null, string>({
-            query: (body) => ({
-                url: `leaveRide/${body}`,
-                method: 'DELETE',
-            })
-        }),
-    }),
+    })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation } = userApi;

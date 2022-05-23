@@ -17,6 +17,7 @@ export const MarkerIcon = L.icon({
 
 export const useMap = () => {
     const mapParams = {
+        center: [52.237049, 21.017532],
         zoom: 10,
         zoomControl: true,
         dragging: true,
@@ -25,43 +26,33 @@ export const useMap = () => {
         doubleClickZoom: false,
     }
 
-    const readonlyProperties = {
-        dragging: false,
-        boxZoom: false,
-        touchZoom: false,
-        doubleClickZoom: false,
-        scrollWheelZoom: false,
-        keyboard: false,
-        zoomControl: false,
-    }
-
     const [map, setMap] = useState(undefined);
-    const initializeMap = (id: string) => {
+    const [layerGroup, setLayerGroup] = useState(undefined);
+    const initializeMap = (id: string, options?: any) => {
         try {
-            let tempMap = L.map(id, mapParams);
+            let tempMap = L.map(id, { ...mapParams, ...options });
             L.tileLayer(`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`, {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
             }).addTo(tempMap);
             const resizeObserver = new ResizeObserver(() => tempMap.invalidateSize());
             resizeObserver.observe(document.getElementById(id));
+            let lGroup = L.layerGroup().addTo(tempMap);
             setMap(tempMap);
+            setLayerGroup(lGroup);
         }
         catch (e) { console.log(e) }
     }
     const setViewMap = (options: any) => setMap(map.setView(options));
     const locateOnMap = (onLocationFound?: (e: any) => void, onLocationError?: (e: any) => void) => {
-        let tempMap = map;
-        if (onLocationFound) tempMap.on('locationfound', onLocationFound);
-        if (onLocationError) tempMap.on('locationerror', onLocationError);
-        setMap(tempMap.locate({ setView: true }))
+        if (onLocationFound) map.on('locationfound', onLocationFound);
+        if (onLocationError) map.on('locationerror', onLocationError);
+        map.locate({ setView: true })
     };
-    const panToMap = (center: [number, number]) => setMap(map.panTo(center));
-    const removeMarkerMap = (marker: any) => setMap(map.removeLayer(marker));
+    const panToMap = (center: [number, number]) => map.panTo(center);
+    const removeMarkerMap = () => layerGroup.clearLayers();
     const addMarkerMap = (marker: any) => {
-        let tempMap = map;
-        tempMap.panTo(marker.getLatLng());
-        tempMap.addLayer(marker);
-        setMap(tempMap);
+        map.panTo(marker.getLatLng());
+        layerGroup.addLayer(marker);
     }
-    return [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map] as const;
+    return [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map, panToMap] as const;
 }

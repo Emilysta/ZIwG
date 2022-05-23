@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
 }
 
 .LoginSection>* {
@@ -13,7 +14,7 @@
 
 .LoginSection h1,
 .LoginSection p {
-    padding: auto;
+    padding: 0;
 }
 
 .LoginSection h1 {
@@ -34,21 +35,35 @@
 }
 
 .LoginForm input {
-    margin: 12px auto;
+    margin: 12px 0;
     font-size: 18px;
     height: 36px;
 }
 
 .LoginForm input[type="text"],
 .LoginForm input[type="password"] {
-    width: 320px;
+    min-width: 250px;
 }
 
-.LoginForm input[type="button"],
-.LoginForm input[type="submit"] {
+.loginButtonBox input[type="button"],
+.loginButtonBox input[type="submit"] {
     min-width: 30%;
 }
 
 .buttonLink {
     display: contents;
+}
+
+.loginButtonBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+    width: 100%;
+}
+
+.loginThrobber {
+    height: 20px !important;
+    margin-right: 0px;
 }

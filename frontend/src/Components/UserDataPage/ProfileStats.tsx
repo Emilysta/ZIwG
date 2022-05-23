@@ -12,7 +12,7 @@ export function ProfileStats(props: any) {
             <div className='statsContainer'>
                 {stats.map(stat => <div key={stat.name}>
                     <label>{stat.name}</label>
-                    <a>{stat.num}</a>
+                    <h1>{stat.num}</h1>
                 </div>)}
             </div>
         </>

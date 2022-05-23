@@ -2,20 +2,17 @@ import CalendarCard, { CalendarCardStyle } from 'Components/Calendar/CalendarCar
 import * as React from 'react'
 import './Calendar.scss'
 import * as dateFns from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import CalendarEventStack from './CalendarEventStack';
 import { useMediaQuery } from 'react-responsive'
-
-export type EventData = {
-    name: string,
-    date: Date,
-    organizator: string,
-}
+import { useLazyGetUserEventsQuery } from 'Utils/EventAPISlice';
+import { RootState, useAppSelector } from 'Utils/Store';
+import { EventDataSimple } from 'Utils/EventData';
 
 type DayData = {
     day: Date,
-    events: EventData[];
+    events: EventDataSimple[];
 }
 
 function isSameDate(date1: Date, date2: Date): boolean {
@@ -30,7 +27,44 @@ export default function Calendar() {
     const isBigScreen = useMediaQuery({ query: '(min-width: 980px)' })
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedCard, setSelectedCard] = useState<number>(null);
-    const [currentEvents, setCurrentEvents] = useState<EventData[]>(new Array<EventData>());
+    const [currentEvents, setCurrentEvents] = useState<EventDataSimple[]>(new Array<EventDataSimple>());
+    const userId = useAppSelector((state: RootState) => state.userLogin.userId)
+    const [trigger] = useLazyGetUserEventsQuery();
+    const [mappedData, setMappedData] = useState<DayData[]>(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            if (currentMonth) {
+                try {
+                    let monthAndYear = `${currentMonth.getMonth() + 1}/${currentMonth.getFullYear()}`;
+
+                    let result = await trigger({ userId: userId, monthAndYear: monthAndYear });
+
+                    mapData(result.data);
+                } catch (error) {
+                    console.error('rejected', error);
+                }
+            }
+        }
+        fetchData();
+    }, [currentMonth]);
+
+    function mapData(data: EventDataSimple[]) {
+        let newArray: DayData[] = [];
+
+        let day = dateFns.startOfMonth(currentMonth);
+        for (let i: number = 0; i < dateFns.endOfMonth(currentMonth).getDate(); i++) {
+            let tempDay = day;
+            let list = data.filter(function (e) { return isSameDate(new Date(e.startDate), tempDay) });
+
+            if (list.length > 0)
+                newArray.push({ day: tempDay, events: list })
+
+            day = dateFns.addDays(day, 1);
+        }
+
+        setMappedData(newArray);
+    }
 
     const getNextMonth = () => {
         setCurrentMonth(dateFns.addMonths(currentMonth, 1));
@@ -42,7 +76,7 @@ export default function Calendar() {
         setSelectedCard(null);
     }
 
-    const selectedCardChanged = (event: React.MouseEvent<HTMLDivElement>, day: number, events: EventData[]) => {
+    const selectedCardChanged = (event: React.MouseEvent<HTMLDivElement>, day: number, events: EventDataSimple[]) => {
         event.preventDefault();
 
         if (selectedCard === day)
@@ -54,7 +88,7 @@ export default function Calendar() {
 
 
     const generateCards = () => {
-        let daysEventsList: DayData[] = [{ day: new Date(), events: [{ name: "dvcbhdv", date: new Date(), organizator: "dcvbhvb" }] }];
+        let daysEventsList: DayData[] = mappedData;
         let calendarCards = [];
         let startOfMmonth = dateFns.startOfMonth(currentMonth);
         let enfOfMonth = dateFns.endOfMonth(currentMonth);
@@ -63,9 +97,10 @@ export default function Calendar() {
         let day = startWeekOfMonth;
         let j = 0;
         while (day < endWeekOfMonth) {
-            let tasks: EventData[] = [];
-
-            let dayData = daysEventsList.filter((element) => isSameDate(element.day, day));
+            let tasks: EventDataSimple[] = [];
+            let dayData: DayData[] = [];
+            if (daysEventsList)
+                dayData = daysEventsList.filter((element) => isSameDate(element.day, day));
 
             if (dayData.length > 0) {
                 tasks = dayData.at(0).events;
@@ -78,7 +113,6 @@ export default function Calendar() {
             else {
                 let styleCard: CalendarCardStyle;
                 if (selectedCard === dayNumber) {
-
                     styleCard = CalendarCardStyle.Selected
                 }
                 else if (tasks.length === 0) {

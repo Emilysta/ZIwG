@@ -2,7 +2,7 @@ import * as React from 'react';
 import LeafletMap from 'Components/LeafletMap';
 import SimpleEditableInput from './Input/SimpleEditableInput';
 import './LocationPicker.scss';
-import { Compass, Search } from 'react-bootstrap-icons';
+import { Compass, Search, Record } from 'react-bootstrap-icons';
 import { nominatimApi } from 'Utils/NominatimAPISlice';
 import { useAppDispatch } from 'Utils/Store';
 import { ShortNominatimPlace } from 'Utils/NominatimPlace';
@@ -18,11 +18,11 @@ type LocationPickerProps = {
 
 export default function LocationPicker(props: LocationPickerProps) {
     const [resultsList, setResultsList] = React.useState<ShortNominatimPlace[]>(undefined);
-    const [initializeMap, setViewMap, locateOnMap, removeMarkerMap, addMarkerMap, map] = useMap();
-    const [currentMarker, setCurrentMarker] = React.useState(undefined);
+    const [initializeMap, _, locateOnMap, removeMarker, addMarker, map, panToMap] = useMap();
     const [throbberVisibility, setThrobberVisibility] = React.useState(false);
     const dispatch = useAppDispatch();
     const delayCallApi = useCallback(debounce(search => callApi(search), 2000), []);
+    const [currentMarker, setCurrentMarker] = React.useState<{ lat: number, lon: number }>(undefined);
 
     useEffect(() => {
         initializeMap('locationPickerMap');
@@ -33,13 +33,6 @@ export default function LocationPicker(props: LocationPickerProps) {
             map.on('dblclick', updatePoint);
         }
     }, [map]);
-
-    useEffect(() => {
-        if (currentMarker) {
-            currentMarker.on('dragend', updateCurrentPoint);
-        }
-    }, [currentMarker])
-
 
     async function callApi(search: string) {
         let promise = dispatch(nominatimApi.endpoints.getLocationBy.initiate({ q: search, format: "json" }));
@@ -72,58 +65,41 @@ export default function LocationPicker(props: LocationPickerProps) {
         });
     }
 
+    function onCenterClick() {
+        let location = currentMarker;
+
+        panToMap([location.lat, location.lon]);
+    }
+
     function positionMe() {
         locateOnMap(onLocationFound);
     }
 
     function onLocationFound(e: any) {
         setThrobberVisibility(false);
-        //var radius = e.accuracy;
-        if (currentMarker)
-            removeMarkerMap(currentMarker);
-        let marker = L.marker(e.latlng, { icon: MarkerIcon, draggable: 'true' })
-            .bindPopup("Your location").openPopup();
-        setCurrentMarker(marker);
+        createNewMarker(e.latlng.lat, e.latlng.lng);
+    }
+
+    function createNewMarker(lat: number, lon: number) {
+        let current = L.marker({ lat: lat, lng: lon }, { icon: MarkerIcon, draggable: 'true' })
+            .bindPopup("Your location");
+        removeMarker();
+
+        addMarker(current);
+        setCurrentMarker({ lat: lat, lon: lon })
+
         if (props.onPinnedLocationChange) {
-            let loc = marker.getLatLng();
-            props.onPinnedLocationChange(loc.lat, loc.lng);
+            props.onPinnedLocationChange(lat, lon);
         }
-        addMarkerMap(marker);
-        //L.circle(e.latlng, radius).addTo(map);
     }
 
     function showPoint(event: React.MouseEvent<HTMLDivElement>, item: ShortNominatimPlace) {
-        if (currentMarker) {
-            removeMarkerMap(currentMarker);
-        }
-        let marker = L.marker({ lat: item.lat, lng: item.lon }, { icon: MarkerIcon, draggable: 'true' })
-            .bindPopup(item.display_name);
-        addMarkerMap(marker);
-        setCurrentMarker(marker);
-        if (props.onPinnedLocationChange) {
-            let loc = marker.getLatLng();
-            props.onPinnedLocationChange(loc.lat, loc.lng);
-        }
-    }
-    function updateCurrentPoint(e: any) {
-        let loc = e.target._latlng;
-        if (currentMarker) {
-            currentMarker.setLatLng(loc);
-            if (props.onPinnedLocationChange) {
-                props.onPinnedLocationChange(loc.lat, loc.lng);
-            }
-        }
+        createNewMarker(parseFloat(item.lat), parseFloat(item.lon));
     }
 
     function updatePoint(e: any) {
         let loc = e.latlng;
-        console.log(loc);
-        if (currentMarker) {
-            currentMarker.setLatLng(loc);
-            if (props.onPinnedLocationChange) {
-                props.onPinnedLocationChange(loc.lat, loc.lng);
-            }
-        }
+        createNewMarker(loc.lat, loc.lng);
     }
 
     return (
@@ -132,7 +108,7 @@ export default function LocationPicker(props: LocationPickerProps) {
             <div className='locationPickerBox'>
                 <div className='searchColumn'>
                     <div className='addressSearchFieldBox'>
-                        <SimpleEditableInput id='addressSearchField' onChangeAction={onSearchFieldChange} isClearOnEnter={true} inputClassName='addressSearchField' />
+                        <SimpleEditableInput id='addressSearchField' onChangeAction={onSearchFieldChange} inputClassName='addressSearchField' />
                         <Search />
                     </div>
                     <p className='addressResultsText'>Results</p>
@@ -153,6 +129,9 @@ export default function LocationPicker(props: LocationPickerProps) {
 
                         {!throbberVisibility && <Compass />}
                         {throbberVisibility && <Throbber className='locateMeThrobber' />}
+                    </div>
+                    <div className='centerButton' title='Center' onClick={onCenterClick}>
+                        <Record />
                     </div>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { EventData } from './Calendar'
+import { EventDataSimple } from 'Utils/EventData'
 import './CalendarEvent.scss'
 export type CalendarEventProps = {
-    eventData: EventData
+    eventData: EventDataSimple
 }
 
 export default function CalendarEvent(props: CalendarEventProps) {
-
-    const dateString = `${props.eventData.date.getHours() + ':' + props.eventData.date.getMinutes()}`;
+    //${props.eventData.date.getHours() + ':' + props.eventData.date.getMinutes()}
+    const dateString = ``;
     return (
         <>
             <p className='hoursElement'>{dateString}</p>

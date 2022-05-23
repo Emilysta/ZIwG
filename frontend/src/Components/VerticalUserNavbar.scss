@@ -1,3 +1,5 @@
+@use '_lib' as *;
+
 .userNavbarBox {
     width: 200px;
 }
@@ -12,4 +14,26 @@
     width: fit-content;
     margin: 0px;
     padding: 0px;
+}
+
+.userNavbarList li .buttonActive,
+.userNavbarList li .buttonActive * {
+    font-weight: 600;
+    text-decoration: underline;
+
+    @include customize() {
+        color: getValue(second-main-color) !important;
+        fill: getValue(second-main-color) !important;
+    }
+}
+
+.userNavbarList li .buttonIsntActive,
+.userNavbarList li .buttonIsntActive * {
+    font-weight: 400;
+
+    @include customize() {
+        border-color: getValue(main-color) !important;
+        color: getValue(main-color) !important;
+        fill: getValue(main-color) !important;
+    }
 }

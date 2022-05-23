@@ -9,7 +9,10 @@ export type TextInputProps = {
   name?: string,
   overrideType?: string,
   onChange?: (value: string) => void,
-  validate?: Validator
+  validate?: Validator,
+  required?: boolean,
+  autoComplete?: string,
+  additionalError?: string,
 }
 
 export function TextInput(props: TextInputProps) {
@@ -24,14 +27,21 @@ export function TextInput(props: TextInputProps) {
     if (value && value.length > 0) setError(props.validate?.validate())
   }, [value])
 
+  React.useEffect(() => {
+    if (props.additionalError) {
+      if (error === '')
+        setError(props.additionalError);
+    }
+  }, [props.additionalError])
+
   React.useEffect(() => props.defaultValue && setValue(props.defaultValue), [props.defaultValue])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
 
   const renderInput = () => {
-    return <div className="inputBox">
-      <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} />
-      {props.validate && <ErrorMsg>{error}</ErrorMsg>}
+    return <div className="inputBox" >
+      <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} autoComplete={props.autoComplete} required={props.required} />
+      {<ErrorMsg className={'textInputError'}>{error}</ErrorMsg>}
     </div>
   }
 

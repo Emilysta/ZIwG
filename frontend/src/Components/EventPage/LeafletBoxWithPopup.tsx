@@ -13,7 +13,8 @@ import L from "leaflet";
 interface LeafletBoxWithPopupProps extends LeafletMapProps {
     className?: string,
     isLoading?: boolean,
-    point?: { lat: number, lon: number };
+    point?: string;
+    eventName?: string
 }
 
 export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
@@ -21,22 +22,47 @@ export default function LeafletBoxWithPopup(props: LeafletBoxWithPopupProps) {
     const [initializeMap, , , , addMarkerMap, map] = useMap();
     const [initializeMap2, , , , addMarkerMap2, map2] = useMap();
 
+    const readonlyPropertiesForMap = {
+        dragging: false,
+        boxZoom: false,
+        touchZoom: false,
+        doubleClickZoom: false,
+        scrollWheelZoom: false,
+        keyboard: false,
+        zoomControl: false,
+    }
+
     useEffect(() => {
         if (!props.isLoading && !map) {
             try {
-                initializeMap(props.mapID);
+                initializeMap(props.mapID, readonlyPropertiesForMap);
                 initializeMap2(`${props.mapID}Popup`);
             } catch (e) { console.error(e); }
         }
-        if (props.point && map && map2) {
-            let marker1 = L.marker([props.point.lat, props.point.lon], { icon: MarkerIcon })
-                .bindPopup("").openPopup();
-            let marker2 = L.marker([props.point.lat, props.point.lon], { icon: MarkerIcon })
-                .bindPopup("").openPopup();
-            addMarkerMap(marker1);
-            addMarkerMap2(marker2);
+
+    }, [props.isLoading]);
+
+    useEffect(() => {
+
+        if (!props.point || !map || !map2) return;
+        let location: any;
+        try {
+            location = JSON.parse(props.point);
         }
-    }, [props.isLoading, props.point]);
+        catch (e) {
+            console.warn(e);
+        }
+
+        if (location === undefined) return;
+        let marker1 = L.marker([location.lat, location.lon], { icon: MarkerIcon })
+            .bindPopup(props.eventName).openPopup();
+        let marker2 = L.marker([location.lat, location.lon], { icon: MarkerIcon })
+            .bindPopup(props.eventName).openPopup();
+        addMarkerMap(marker1);
+        addMarkerMap2(marker2);
+
+    }, [props.point, map, map2])
+
 
     if (props.isLoading)
         return (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { longDateFormat } from 'Utils/DateFormatter';
+import { longLocaleDateFormat, longLocaleDateFormatForDate } from 'Utils/DateFormatter';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import "./DatePicker.scss";
 
@@ -17,8 +17,8 @@ type EventDatePickerProps = {
 }
 
 export default function EventDatePicker(props: EventDatePickerProps) {
-    const [startDate, setStartDate] = useState(undefined);
-    const [endDate, setEndDate] = useState(undefined);
+    const [startDate, setStartDate]: [Date, (s: Date) => void] = useState(undefined);
+    const [endDate, setEndDate]: [Date, (s: Date) => void] = useState(undefined);
 
     React.useEffect(() => {
         let startTemp = new Date(props.startDate);
@@ -27,7 +27,19 @@ export default function EventDatePicker(props: EventDatePickerProps) {
             return
 
         setStartDate(startTemp);
-        onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
+        setEndDate(endTemp);
+    }, []);
+
+    React.useEffect(() => {
+        let startTemp = new Date(props.startDate);
+        let endTemp = new Date(props.endDate);
+        if (isNaN(startTemp.getTime()) || isNaN(endTemp.getTime()))
+            return
+
+        setStartDate(startTemp);
+        let change = startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp;
+        if (change !== endTemp)
+            onEndDateChange(startTemp.getTime() > endTemp.getTime() ? startTemp : endTemp)
     }, [props.startDate]);
 
     const filterPassedTime = (time: Date) => {
@@ -51,13 +63,7 @@ export default function EventDatePicker(props: EventDatePickerProps) {
     if (props.isLoading) {
         return (<div className='datePickerBox'><ZiwgSkeleton /><p> — </p><ZiwgSkeleton /></div>)
     }
-    else if (props.isReadOnly) {
-        if (startDate === null)
-            return (<p className='noPaddingMargin'>No date selected</p>)
-        else
-            return (<p className='noPaddingMargin'>{longDateFormat(startDate)} — {longDateFormat(endDate)}</p>)
-    }
-    else {
+    else if (!props.isReadOnly) {
         return (
             <div className='datePickerBox'>
                 <ReactDatePicker

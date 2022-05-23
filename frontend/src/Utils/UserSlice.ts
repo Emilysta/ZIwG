@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UserData } from './UserApiSlice';
+import { EditableUserData, UserData } from './UserApiSlice';
 
 // Define a type for the slice state
 interface UserLoginState {
@@ -48,9 +48,8 @@ export const userLoginSlice = createSlice({
 
             localStorage.removeItem("userData");
         },
-        updateUserData: (state, action: PayloadAction<UserData>) => {
-            state.userData = action.payload;
-
+        updateUserData: (state, action: PayloadAction<EditableUserData>) => {
+            state.userData = { ...state.userData, ...action.payload };
             localStorage.setItem("userData", JSON.stringify(state));
         },
     },

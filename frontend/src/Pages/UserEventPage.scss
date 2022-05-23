@@ -8,16 +8,16 @@
     height: 100%;
 }
 
-.eventPage {
+.userEventPage {
     align-self: center;
     justify-self: center;
 
     width: 85%;
     max-width: 1400px;
-    height: 75vh;
+    height: 70vh;
 
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
     border-radius: 10px;
 
     @include customize() {
@@ -29,13 +29,13 @@
     grid-column-gap: 10px;
 }
 
-.mainBox {
+.userEventPage .mainBox {
     width: calc(100% - 20px);
     padding: 10px;
     grid-column: 1;
 }
 
-.eventPage .sideBox {
+.userEventPage .sideBox {
     width: calc(100% - 40px);
     margin: 20px;
     grid-column: 2;
@@ -45,14 +45,14 @@
     justify-content: flex-start;
 }
 
-.togglesBox {
+.userEventPage .togglesBox {
     padding-right: 10px;
     display: flex;
     flex-direction: column;
     row-gap: 5px;
 }
 
-.finishAddingButtonBox {
+.userEventPage .finishAddingButtonBox {
     padding-right: 10px;
     display: flex;
     flex-direction: row;
@@ -60,13 +60,13 @@
     column-gap: 10px;
 }
 
-.errorText {
+.userEventPage .errorText {
     align-self: center;
     text-align: center;
     grid-column: span 2;
 }
 
-.eventPage .save {
+.userEventPage .cancel {
     font-weight: 600 !important;
 
     @include customize() {
@@ -74,4 +74,16 @@
         color: getValue(main-color);
         background-color: #fff;
     }
+}
+
+.userEventPage .strech {
+    flex: 1;
+}
+
+.modifyButtonsBox {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    column-gap: 10px;
+    padding-bottom: 20px;
 }

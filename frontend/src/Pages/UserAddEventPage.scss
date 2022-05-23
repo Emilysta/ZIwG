@@ -1,4 +1,4 @@
-@use 'lib'as *;
+@use 'lib' as *;
 
 .userAddEventPage {
     width: 100%;
@@ -6,8 +6,8 @@
     grid-template-columns: 2fr 1fr;
     grid-column-gap: 10px;
 
-    height: 70vh;
-    overflow-y: auto;
+    height: 75vh;
+    overflow: hidden;
     border-radius: 10px;
 
     @include customize() {
@@ -21,7 +21,7 @@
     grid-column: 1;
 }
 
-.sideBox {
+.userAddEventPage .sideBox {
     width: calc(100% - 20px);
     margin: 20px;
     grid-column: 2;
