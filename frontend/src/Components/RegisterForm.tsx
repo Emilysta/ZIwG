@@ -20,11 +20,20 @@ export function RegisterForm() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState('')
     const [throbber, setThrobber] = React.useState(false);
+    const [errorConfirmPass, setErrorConfirmPass] = useState('')
 
     const checkConfirm = (value: string) =>
-        password.length !== 0 && value.length !== 0 && password !== value
+        password.length !== 0 && password !== value
             ? 'Passwords do not match'
-            : null
+            : ''
+
+    React.useEffect(() => {
+        if (password.length !== 0 && password !== confirmPassword) {
+            setErrorConfirmPass('Passwords do not match');
+        }
+        else
+            setErrorConfirmPass('');
+    }, [password, confirmPassword]);
 
     const navigate = useNavigate();
     const [registerRequest] = userApi.useRegisterMutation();
@@ -50,7 +59,7 @@ export function RegisterForm() {
             <TextInput placeHolder='Display name' onChange={(v) => setDisplayName(v)} validate={userNameCheck} autoComplete={'username'} required />
             <TextInput placeHolder='E-mail' onChange={(v) => setEmail(v)} validate={emailCheck} autoComplete={'email'} required />
             <TextInput placeHolder='Password' overrideType="password" onChange={(v) => setPassword(v)} validate={passwdCheck} autoComplete={'new-password'} required />
-            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(v) => setConfirmPassword(v)} validate={confirmedPasswdCheck} autoComplete={'new-password'} required />
+            <TextInput placeHolder='Confirm password' overrideType="password" onChange={(v) => setConfirmPassword(v)} validate={confirmedPasswdCheck} autoComplete={'new-password'} required additionalError={errorConfirmPass} />
             <>
                 <StateButton type="submit" value="Create account" />
                 {throbber && <Throbber className='registerThrobber' />}

@@ -12,6 +12,7 @@ export type TextInputProps = {
   validate?: Validator,
   required?: boolean,
   autoComplete?: string,
+  additionalError?: string,
 }
 
 export function TextInput(props: TextInputProps) {
@@ -25,6 +26,13 @@ export function TextInput(props: TextInputProps) {
     if (props.onChange) props.onChange(value)
     if (value && value.length > 0) setError(props.validate?.validate())
   }, [value])
+
+  React.useEffect(() => {
+    if (props.additionalError) {
+      if (error === '')
+        setError(props.additionalError);
+    }
+  }, [props.additionalError])
 
   React.useEffect(() => props.defaultValue && setValue(props.defaultValue), [props.defaultValue])
 
