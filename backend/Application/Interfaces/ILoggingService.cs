@@ -11,6 +11,8 @@ namespace Application.Interfaces
         public Task<bool> GetGoogleResponse();
         public AuthenticationProperties LoginWithGoogle(string redirectUrl);
         public Task<bool> Logout();
+        public Task<bool> ResetPassword(ReserPasswordDTO resetPasswordDTO);
+        public Task<bool> SendPasswordRecoveryEmail(string userEmail);
         public Task<bool> SaveChangesAsync();
     }
 }
