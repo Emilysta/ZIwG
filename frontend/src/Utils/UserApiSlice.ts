@@ -93,11 +93,18 @@ export const userApi = createApi({
             }),
         }),
 
-        resetPassword: build.mutation<null, string>({
+        resetPassword: build.query<null, { userEmail: string, password: string, tokemn: string }>({
             query: (body) => ({
                 url: 'resetPassword',
                 method: 'POST',
                 body,
+            }),
+        }),
+
+        sendPasswordRecoveryEmail: build.query<null, { userEmail: string }>({
+            query: (body) => ({
+                url: `sendPasswordRecoveryEmail/${body.userEmail}`,
+                method: 'POST',
             }),
         }),
 
@@ -133,4 +140,4 @@ export const userApi = createApi({
         }),
     })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery } = userApi;
