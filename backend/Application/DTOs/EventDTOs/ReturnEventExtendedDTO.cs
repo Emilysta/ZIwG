@@ -20,8 +20,6 @@ namespace Application.DTOs.EventDTOs
         public string OrganiserId { get; set; }
         public byte[] OrganiserImage { get; set; }
         public bool IsPublicEvent { get; set; }
-        public bool IsPaidTicket { get; set; }
-        public double TicketPrice { get; set; }
         public bool IsTicketLimit { get; set; }
         public int TicketLimit { get; set; }
         public List<TagDTO> Tags { get; set; }

@@ -71,7 +71,7 @@ namespace Infrastructure.Services
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                string redirectLink = "https://ziwg.toadres.pl/reset/" + token;
+                string redirectLink = "https://ziwg.toadres.pl/reset?email=" + userEmail + "&token=" + token;
                 MailMessage mailMessage = new MailMessage("eventcollabteam@gmail.com", userEmail);
                 mailMessage.IsBodyHtml = true;
                 mailMessage.Subject = "ZIWG Password reset";
