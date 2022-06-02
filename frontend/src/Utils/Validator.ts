@@ -23,6 +23,6 @@ export class Validator {
     }
 
     isValid(): boolean {
-        return this.validate() == null;
+        return !this.validate();
     }
 }
