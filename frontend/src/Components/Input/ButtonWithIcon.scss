@@ -77,6 +77,12 @@
     }
 }
 
+.boxBorder:hover {
+    @include customize() {
+        box-shadow: 0 0 1em getValue(main-color);
+    }
+}
+
 .boxBorder * {
     @include customize() {
         fill: getValue(main-color);

@@ -1,15 +1,23 @@
 @use 'lib' as *;
+
 .Logotype {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
-.Logotype:hover
-{
-    @include customize() {
-        color: getValue(main-lighter-color); 
-        fill: getValue(main-lighter-color);
-      }
+.Logotype:hover {
+    .logoTypeText {
+        @include customize() {
+            color: getValue(main-lighter-color);
+        }
+    }
+
+    .iconStyle {
+        @include customize() {
+            fill: getValue(main-lighter-color);
+        }
+    }
 }
 
 .logoTypeText {
@@ -17,11 +25,12 @@
     font-size: 20px;
 }
 
-.iconStyle{
+.iconStyle {
     width: 20px;
     height: 20px;
     padding: 0.3em;
+
     @include customize() {
         fill: getValue(main-color);
-      }
+    }
 }
