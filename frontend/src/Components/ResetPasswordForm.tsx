@@ -2,7 +2,7 @@ import * as React from "react";
 import './ResetPasswordForm.scss';
 import { TextInput } from "./Input/TextInput";
 import { StateButton } from "./Input/StateButton";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { userApi } from "Utils/UserApiSlice";
 import { passwordValidate } from "Utils/TextInputValidation";
 import { ArrowRight } from 'react-bootstrap-icons';
@@ -12,12 +12,13 @@ import { Validator } from "Utils/Validator";
 import { ErrorMsg } from "./Input/ErrorMsg";
 
 export function ResetPasswordForm() {
-    const { token } = useParams();
+    const [searchParams] = useSearchParams();
     const [error, setError] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [throbber, setThrobber] = React.useState(false);
     const [errorConfirmPass, setErrorConfirmPass] = useState('')
+    const navigate = useNavigate();
 
     const [sendResetPasswordRequest] = userApi.useLazyResetPasswordQuery();
 
@@ -32,15 +33,7 @@ export function ResetPasswordForm() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        let i = 5;
-        const interval = setInterval(() => {
-            setError(`Password has been reset. Redirection to Login page in... ${i}s`);
-            i--;
-        }, 1000)
-        setTimeout(() => {
-            clearInterval(interval);
-        }, 5000);
-        //validateAndSend();
+        validateAndSend();
     }
 
     React.useEffect(() => {
@@ -61,7 +54,11 @@ export function ResetPasswordForm() {
 
     async function sendRequest() {
         setThrobber(true);
-        await sendResetPasswordRequest({ userEmail: '', password: password, token: token }).unwrap()
+        const email = searchParams.get('email');
+        const token = searchParams.get('token');
+        const encodedToken = encodeURI(token);
+        const encodedToken2 = encodedToken.replace(/%20/g, '+');
+        await sendResetPasswordRequest({ userEmail: email, password: password, token: encodedToken2 }).unwrap()
             .then(_ => {
                 let i = 5;
                 const interval = setInterval(() => {
@@ -70,12 +67,13 @@ export function ResetPasswordForm() {
                 }, 1000)
                 setTimeout(() => {
                     clearInterval(interval);
+                    navigate('/logIn', { replace: true });
                 }, 5000);
 
             })
             .catch(err => {
                 console.log(err);
-                setError('Something went wrong during sending');
+                setError('Link expired. Please try sending reset mail again.');
                 setThrobber(false);
             });
     }
