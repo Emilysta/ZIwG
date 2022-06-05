@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Interfaces;
-using Domain.Entities;
-using Application.DTOs.EventDTOs;
-using AutoMapper;
-using Domain.Contexts;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+using AutoMapper;
+using Domain.Contexts;
+using Domain.Entities;
+using Application.Interfaces;
+using QuestPDF.Fluent;
 
 namespace Infrastructure.Services
 {
@@ -58,6 +58,24 @@ namespace Infrastructure.Services
             userToSign.ParticipatedEvents.Remove(eventToSign);
             _context.Users.Update(userToSign);
             return _context.SaveChanges() > 0;
+        }
+
+        public byte[] GeneratePDF(int eventId)
+        {
+            var user = GetCurrentUser();
+            var @event = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).Include(x => x.Organiser).SingleOrDefault();
+            if (@event.Users.Contains(user)){
+                var filePath = @"C:\Users\kacpe\Desktop\invoice.pdf";
+                TicketDTO model = new TicketDTO();
+                model = _mapper.Map<Event, TicketDTO> (@event);
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.DateOfBirth= user.DateOfBirth;
+                var document = new InvoiceDocument(model);
+                var pdf = document.GeneratePdf();
+                return pdf;
+            }
+            return null;
         }
     }
 }
