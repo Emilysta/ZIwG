@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.EventDTOs;
 using Application.Interfaces;
-using System;
-using System.Collections.Generic;
+
 using Application.DTOs.UserDTOs;
 
 namespace WebApi.Controllers
@@ -16,12 +17,10 @@ namespace WebApi.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
-        private readonly IEventUsersService _eventUserService;
 
-        public EventController(IEventService eventService, IEventUsersService eventUsersService)
+        public EventController(IEventService eventService)
         {
             _eventService = eventService;
-            _eventUserService = eventUsersService;
         }
         /// <summary>
         /// Add event main image
@@ -131,24 +130,6 @@ namespace WebApi.Controllers
                 return BadRequest();
             else
                 return Ok(foundEvent);
-        }
-        /// <summary>
-        /// Get ticket in pdf
-        /// </summary>
-        /// <param name="id"></param>
-        /// <response code="200">Success, ticket returned</response>
-        /// <response code="400">Something went wrong</response>
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("generateTicket/{id}")]
-        public IActionResult GeneratePDF([FromRoute] int id)
-        {
-            var pdf = _eventUserService.GeneratePDF(id);
-
-            if (pdf == null)
-                return BadRequest();
-            else
-                return File(pdf, "application/pdf", "ticket.pdf");
         }
     }
 }
