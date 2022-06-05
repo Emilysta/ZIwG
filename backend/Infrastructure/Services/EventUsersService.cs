@@ -65,7 +65,6 @@ namespace Infrastructure.Services
             var user = GetCurrentUser();
             var @event = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).Include(x => x.Organiser).SingleOrDefault();
             if (@event.Users.Contains(user)){
-                var filePath = @"C:\Users\kacpe\Desktop\invoice.pdf";
                 TicketDTO model = new TicketDTO();
                 model = _mapper.Map<Event, TicketDTO> (@event);
                 model.FirstName = user.FirstName;
