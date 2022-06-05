@@ -16,10 +16,12 @@ namespace WebApi.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
+        private readonly IEventUsersService _eventUserService;
 
-        public EventController(IEventService eventService)
+        public EventController(IEventService eventService, IEventUsersService eventUsersService)
         {
             _eventService = eventService;
+            _eventUserService = eventUsersService;
         }
         /// <summary>
         /// Add event main image
@@ -129,6 +131,24 @@ namespace WebApi.Controllers
                 return BadRequest();
             else
                 return Ok(foundEvent);
+        }
+        /// <summary>
+        /// Get ticket in pdf
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">Success, ticket returned</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("generatePDF/{id}")]
+        public IActionResult GeneratePDF([FromRoute] int id)
+        {
+            var pdf = _eventUserService.GeneratePDF(id);
+
+            if (pdf == null)
+                return BadRequest();
+            else
+                return File(pdf, "application/pdf", "ticket.pdf");
         }
     }
 }
