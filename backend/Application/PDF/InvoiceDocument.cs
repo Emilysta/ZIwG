@@ -1,8 +1,9 @@
-﻿using Domain.Entities;
+﻿using System.IO;
+using Domain.Entities;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+
 
 public class InvoiceDocument : IDocument
 {
@@ -59,7 +60,8 @@ public class InvoiceDocument : IDocument
                 });
             });
 
-            row.ConstantItem(100).Height(50).Placeholder();
+            byte[] imageData = File.ReadAllBytes(@"C:\Users\kacpe\source\repos\projektZIWG\backend\Domain\Images\eventCollabLogo.png");
+            row.ConstantItem(140).Height(50).Image(imageData);
         });
     }
 
