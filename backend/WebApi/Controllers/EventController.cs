@@ -140,7 +140,7 @@ namespace WebApi.Controllers
         /// <response code="400">Something went wrong</response>
         [HttpGet]
         [AllowAnonymous]
-        [Route("generatePDF/{id}")]
+        [Route("generateTicket/{id}")]
         public IActionResult GeneratePDF([FromRoute] int id)
         {
             var pdf = _eventUserService.GeneratePDF(id);
