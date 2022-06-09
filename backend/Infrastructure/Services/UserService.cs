@@ -10,6 +10,7 @@ using Application.DTOs.UserDTOs;
 using Domain.Entities;
 using Domain.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Infrastructure.Services
 {
@@ -96,8 +97,25 @@ namespace Infrastructure.Services
         public async Task<ReturnUserDataDTO> GetCurrenUserData()
         {
             var UserMail = _accessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-            var user = await _context.Users.Where(x => x.Email == UserMail).SingleOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Email == UserMail).Include(u => u.OrganisedEvents).Include(p => p.ParticipatedEvents).SingleOrDefaultAsync();
             ReturnUserDataDTO userData = _mapper.Map<User, ReturnUserDataDTO>(user);
+            int attends = 0;
+            if (user.ParticipatedEvents != null)
+                foreach (var participatedEvent in user.ParticipatedEvents)
+                {
+                    if (participatedEvent.StartDate > DateTime.Now)
+                        attends++;
+                }
+            int organises = 0;
+            if (user.OrganisedEvents != null)
+                foreach (var organisedEvent in user.OrganisedEvents)
+                {
+                    if (organisedEvent.StartDate > DateTime.Now)
+                        organises++;
+                }
+            userData.Organises = organises;
+            userData.Attends = attends;
+               
             return userData;
         }
 

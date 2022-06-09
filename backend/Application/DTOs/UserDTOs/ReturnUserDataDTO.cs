@@ -13,5 +13,7 @@ namespace Domain.Entities
         public string Location { get; set; }
         public byte[] Photo { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public int Organises { get; set; }
+        public int Attends { get; set; }
     }
 }
