@@ -5,6 +5,7 @@ import { EventDataSimple } from 'Utils/EventData';
 import ZiwgSkeleton from 'Utils/Skeletons';
 import { FileEarmarkPdf } from 'react-bootstrap-icons';
 import './Ticket.scss'
+import { userApi } from 'Utils/UserApiSlice';
 
 type TicketProps = {
     event?: EventDataSimple,
@@ -12,6 +13,20 @@ type TicketProps = {
 }
 
 export function Ticket(props: TicketProps) {
+    const [getTicketRequest] = userApi.useLazyGetTicketQuery();
+
+    async function getTicket() {
+        await getTicketRequest({ id: props.event.id })
+            .then(data => {
+                console.log(data);
+                const newWindow = window.open('/', '_blank', 'noopener,noreferrer')
+                if (newWindow) newWindow.opener = null
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     if (props.isLoading)
         return (
             <div className='ticket'>
@@ -34,7 +49,8 @@ export function Ticket(props: TicketProps) {
                     <span className='date'><strong>end:</strong> {longLocaleDateFormat(props.event.endDate)}</span>
                 </div>
                 <div className='secondaryCon'>
-                    <ButtonWithIcon style={ButtonStyle.Border} text='Show ticket' isActive={true} icon={<FileEarmarkPdf />} />
+                    <ButtonWithIcon style={ButtonStyle.Border} text='Show ticket' isActive={true}
+                        icon={<FileEarmarkPdf />} onClickAction={getTicket} />
                 </div>
             </div>
         );

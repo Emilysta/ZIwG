@@ -108,6 +108,12 @@ export const userApi = createApi({
             }),
         }),
 
+        getTicket: build.query<null, { id: string }>({
+            query: (body) => ({
+                url: `generateTicket/${body.id}`
+            }),
+        }),
+
         deleteUser: build.mutation<null, void>({
             query: () => ({
                 url: `deleteUser`,
@@ -140,4 +146,4 @@ export const userApi = createApi({
         }),
     })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery, useLazyGetTicketQuery } = userApi;
