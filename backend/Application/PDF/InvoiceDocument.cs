@@ -60,7 +60,7 @@ public class InvoiceDocument : IDocument
                 });
             });
 
-            byte[] imageData = File.ReadAllBytes(@"C:\Users\kacpe\source\repos\projektZIWG\backend\Domain\Images\eventCollabLogo.png");
+            byte[] imageData = File.ReadAllBytes(@"..\Domain\Images\eventCollabLogo.png");
             row.ConstantItem(140).Height(50).Image(imageData);
         });
     }
