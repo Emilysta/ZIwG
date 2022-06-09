@@ -109,7 +109,12 @@ export const userApi = createApi({
         }),
 
         googleLogin: build.mutation({
-            query: () => 'google-login',
+            query: () => ({
+                url: 'google-login',
+                method: 'GET',
+                mode: 'no-cors',
+                headers: {'Access-Control-Allow-Origin': '*'}
+            })
         }),
 
         googleRegister: build.mutation({
