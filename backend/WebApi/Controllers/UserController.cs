@@ -271,5 +271,23 @@ namespace WebApi.Controllers
             else
                 return BadRequest();
         }
+        /// <summary>
+        /// Get ticket in pdf
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">Success, ticket returned</response>
+        /// <response code="400">Something went wrong</response>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("generateTicket/{id}")]
+        public IActionResult GeneratePDF([FromRoute] int id)
+        {
+            var pdf = _eventUsersService.GeneratePDF(id);
+
+            if (pdf == null)
+                return BadRequest();
+            else
+                return File(pdf, "application/pdf", "ticket.pdf");
+        }
     }
 }

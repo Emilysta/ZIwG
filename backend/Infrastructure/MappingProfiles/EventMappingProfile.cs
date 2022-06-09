@@ -27,6 +27,13 @@ namespace Infrastructure.MappingProfiles
                 opt => opt.MapFrom(src => src.Organiser.DisplayName))
                 .ForMember(dest => dest.OrganiserId,
                 opt => opt.MapFrom(src => src.Organiser.Id));
+            CreateMap<Event, TicketDTO>()
+                .ForMember(dest => dest.OrganiserName,
+                opt => opt.MapFrom(src => src.Organiser.DisplayName))
+                .ForMember(dest => dest.OrganiserEmail,
+                opt => opt.MapFrom(src => src.Organiser.Email))
+                .ForMember(dest => dest.EventName,
+                opt => opt.MapFrom(src => src.Name));
         }
     }
 }
