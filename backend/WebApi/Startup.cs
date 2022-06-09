@@ -72,6 +72,18 @@ namespace ziwg
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowAll",
+                    policy  =>
+                    {
+                        policy.AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
+                    });
+            });
+
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<DataBaseContext>()
                 .AddDefaultTokenProviders();
@@ -91,6 +103,8 @@ namespace ziwg
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();

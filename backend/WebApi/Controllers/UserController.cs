@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.DTOs.UserDTOs;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Cors;
 
 namespace WebApi.Controllers
 {
-
+    [EnableCors("AllowAll")]
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
