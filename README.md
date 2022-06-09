@@ -48,18 +48,18 @@ ___
 
 ## Flow testowe
 - [ ] Rejestracja
-  -> Join Us -> No account? -> Create Account -> Log in
+  - Join Us -> No account? -> Create Account -> Log in
 - [ ] Logowanie
-  -> Join Us -> Log in
+  - Join Us -> Log in
 - [ ] Edycja profilu
-  -> (Po zalogowaniu) -> Edit profile -> Save 
+  - (Po zalogowaniu) -> Edit profile -> Save 
 - [ ] Przeglądanie dostępnych Eventów
-  -> Events
+  - Events
 - [ ] Tworzenie eventu
-  -> (Po zalogowaniu) -> My events -> Add event -> Create Event
+  - (Po zalogowaniu) -> My events -> Add event -> Create Event
 - [ ] Modyfikowanie eventu
-  -> (Po zalogowaniu) -> My events -> Modify -> Save
-- [ ] 
+  - (Po zalogowaniu) -> My events -> Modify -> Save
+
 
 <!--
 ## License
