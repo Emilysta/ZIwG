@@ -46,6 +46,21 @@ ___
 - Backend: ASP.NET Core,
 - Frontend: React
 
+## Flow testowe
+- [ ] Rejestracja
+  -> Join Us -> No account? -> Create Account -> Log in
+- [ ] Logowanie
+  -> Join Us -> Log in
+- [ ] Edycja profilu
+  -> (Po zalogowaniu) -> Edit profile -> Save 
+- [ ] Przeglądanie dostępnych Eventów
+  -> Events
+- [ ] Tworzenie eventu
+  -> (Po zalogowaniu) -> My events -> Add event -> Create Event
+- [ ] Modyfikowanie eventu
+  -> (Po zalogowaniu) -> My events -> Modify -> Save
+- [ ] 
+
 <!--
 ## License
 See a file [LICENSE.md](LICENSE.md).
