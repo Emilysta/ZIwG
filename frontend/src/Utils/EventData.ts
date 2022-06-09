@@ -19,4 +19,5 @@ export interface EventData extends EventDataSimple {
     signed: number,
     available: number,
     place: string,
+    isInterested: boolean,
 }

@@ -51,12 +51,14 @@ export const eventApi = createApi({
           organiserName: rawResult.organiserName,
           organiserId: rawResult.organiserId,
           organiserImage: rawResult.organiserImage,
+          isInterested: rawResult.isInterested,
         };
 
         return data;
       },
+      providesTags: ['Event'],
     }),
-    addEvent: build.mutation<string, Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id' | 'mainImage'>>({
+    addEvent: build.mutation<string, Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id' | 'mainImage' | 'isInterested'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',

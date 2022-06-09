@@ -15,8 +15,7 @@ type DropdownItem = {
 }
 type DropdownProps = {
     items: DropdownItem[],
-    initialState?: boolean,
-    initialSelected?: number,
+    initialSelected: number,
     isLoading?: boolean,
     onSelectionChange?: (selectedIndex: number) => void;
 }
@@ -27,6 +26,11 @@ export default function Dropdown(props: DropdownProps) {
     const [selectedItem, setSelectedItem] = useState(items.at(0));
     const [display, , toggleDisplay] = useModal(false);
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        setSelectedIndex(props.initialSelected);
+        setSelectedItem(items.at(props.initialSelected));
+    }, [props.isLoading])
 
     function changeSelection(index: number, item: DropdownItem) {
         setSelectedIndex(index);

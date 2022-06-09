@@ -7,10 +7,23 @@ import Dropdown from 'Components/Dropdown';
 import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
 import { StarFill, X } from 'react-bootstrap-icons';
 import Stat from 'Components/Stat';
+import { userApi } from 'Utils/UserApiSlice';
+
+const dropdownList = [{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }];
 
 export default function EventPage() {
     const { id } = useParams();
     const { data, error, isLoading } = useGetEventQuery(id);
+
+    const [subscribeToEvent] = userApi.useSubscribeToEventMutation();
+    const [unsubscribeFromEvent] = userApi.useUnsubscribeFromEventMutation();
+
+    async function onDropdownSelectionChange(selectedIndex: number) {
+        if (selectedIndex === 0)
+            await unsubscribeFromEvent({ eventId: id });
+        else
+            await subscribeToEvent({ eventId: id });
+    }
 
     if (error)
         return <div className='eventPage'>
@@ -23,7 +36,7 @@ export default function EventPage() {
                 <div className='eventPage'>
                     <MainEventBox className="mainBox" values={data ?? {}} isReadOnly={true} isLoading={isLoading} />
                     <div className='sideBox'>
-                        <Dropdown items={[{ text: 'Not interested', icon: <X /> }, { text: 'Going', icon: <StarFill /> }]} initialSelected={-1} initialState={false} isLoading={isLoading} />
+                        <Dropdown items={dropdownList} initialSelected={data?.isInterested ? 1 : 0} isLoading={isLoading} onSelectionChange={onDropdownSelectionChange} />
 
                         <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={data?.place} eventName={data?.name} />
                     </div>
