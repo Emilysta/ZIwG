@@ -136,7 +136,7 @@ namespace Infrastructure.Services
 
         public async Task<ReturnEventExtendedDTO> GetEventById(int id)
         {
-            var foundEvent = await _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).Include(t => t.Tags).SingleOrDefaultAsync();
+            var foundEvent = await _context.Events.Where(x => x.Id == id).Include(o => o.Organiser).Include(t => t.Tags).Include(u => u.Users).SingleOrDefaultAsync();
             if(foundEvent == null)
             {
                 return null;
@@ -144,6 +144,16 @@ namespace Infrastructure.Services
             ReturnEventExtendedDTO eventToReturn = _mapper.Map<Event, ReturnEventExtendedDTO>(foundEvent);
             eventToReturn.StartDate = eventToReturn.StartDate.ToLocalTime().ToUniversalTime();
             eventToReturn.EndDate = eventToReturn.EndDate.ToLocalTime().ToUniversalTime();
+            int signed = 0;
+            if (foundEvent.Users != null)
+                signed = foundEvent.Users.Count;
+            int available = 0;
+            if (foundEvent.IsTicketLimit)
+                available = foundEvent.TicketLimit - signed;
+            else
+                available = int.MaxValue;
+            eventToReturn.Signed = signed;
+            eventToReturn.Available = available;
             return eventToReturn;
         }
     }

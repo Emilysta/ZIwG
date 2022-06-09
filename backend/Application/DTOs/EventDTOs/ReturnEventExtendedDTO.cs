@@ -24,6 +24,8 @@ namespace Application.DTOs.EventDTOs
         public int TicketLimit { get; set; }
         public List<TagDTO> Tags { get; set; }
         public List<Image> Images { get; set; }
+        public int Signed { get; set; }
+        public int Available { get; set; }
         
     }
 }
