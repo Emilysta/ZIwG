@@ -26,6 +26,7 @@ namespace Application.DTOs.EventDTOs
         public List<Image> Images { get; set; }
         public int Signed { get; set; }
         public int Available { get; set; }
+        public bool IsInterested {get; set;}
         
     }
 }
