@@ -59,6 +59,8 @@ ___
   - (Po zalogowaniu) -> My events -> Add event -> Create Event
 - [ ] Modyfikowanie eventu
   - (Po zalogowaniu) -> My events -> Modify -> Save
+- [ ] Przeglądanie eventów do których użytkownik jest zapisany
+  - (Po zalogowaniu) -> Calendar -> Wybór danego dnia
 
 
 <!--
