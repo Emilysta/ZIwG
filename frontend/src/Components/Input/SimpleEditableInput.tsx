@@ -71,7 +71,7 @@ export default function SimpleEditableInput(props: SimpleEditableInputProps) {
 
                 <textarea className={`${props.inputClassName ?? ''} simpleInput`} readOnly={props.isReadOnly} maxLength={props.maxChars} value={text} required={props.required} onKeyDown={e => { onKeyDown(e) }} onChange={event => { onChange(event) }} rows={props.rows ?? 1} minLength={props.minChars} ref={textAreaRef} />
 
-                {validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
+                {!props.isReadOnly && validationText.length > 0 && <p className='simpleInputError'>{validationText}</p>}
             </div>
         )
 

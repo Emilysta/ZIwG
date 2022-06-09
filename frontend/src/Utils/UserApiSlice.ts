@@ -81,8 +81,6 @@ export const userApi = createApi({
             async onQueryStarted(body, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log('lolkiii');
-                    console.log(data);
                     await dispatch(updateUserData(data));
                 } catch (err) {
                     console.log(err)
@@ -186,4 +184,4 @@ export const userApi = createApi({
         }),
     })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery, useLazyGetTicketQuery, useSubscribeToEventMutation, useUnsubscribeFromEventMutation, useGetUserDataQuery } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery, useLazyGetTicketQuery, useSubscribeToEventMutation, useUnsubscribeFromEventMutation, useLazyGetUserDataQuery } = userApi;

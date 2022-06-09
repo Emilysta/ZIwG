@@ -79,13 +79,13 @@ export default function EventPage() {
         return (<Navigate replace to="/home" />);
     else {
         return (
-            <>
+            <form onSubmit={save}>
                 <div className='userEventPage'>
                     <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                     <div className='sideBox'>
                         <div className='modifyButtonsBox'>
                             {isReadOnly && <MenuButton onClick={edit} value="Modify" className='strech' />}
-                            {!isReadOnly && <MenuButton onClick={save} value="Save" className='strech' />}
+                            {!isReadOnly && <MenuButton value="Save" className='strech' type='submit'/>}
                             {!isReadOnly && <MenuButton onClick={cancel} value="Cancel" className="cancel strech" />}
                         </div>
                         <div className='togglesBox'>
@@ -94,11 +94,11 @@ export default function EventPage() {
 
                             <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values?.isTicketLimit} id='isTicketLimit' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
 
-                            {(values?.isTicketLimit) && <SimpleEditableInput id="ticketLimit" defaultValue={values?.ticketLimit?.toString()} onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isLoading={isLoading} isNumber isReadOnly={isReadOnly} />}
+                            {(values?.isTicketLimit) && <SimpleEditableInput id="ticketLimit" defaultValue={values?.ticketLimit?.toString()} onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isLoading={isLoading} isNumber isReadOnly={isReadOnly} required={values?.isTicketLimit} />}
                         </div>
                     </div>
                 </div>
-            </>
+            </form>
         )
     }
 }

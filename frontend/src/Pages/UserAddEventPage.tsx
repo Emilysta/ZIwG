@@ -1,5 +1,6 @@
 import MainEventBox from 'Components/EventPage/MainEventBox';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
+import { MenuButton } from 'Components/Input/MenuButton';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import * as React from 'react';
@@ -29,8 +30,6 @@ export default function UserAddEventPage() {
         endDate: new Date().toISOString(),
         tags: [],
         isPublicEvent: true,
-        isPaidTicket: false,
-        ticketPrice: 0,
         isTicketLimit: false,
         ticketLimit: 0,
         place: '',
@@ -39,8 +38,10 @@ export default function UserAddEventPage() {
 
     const [addEventRequest] = eventApi.useAddEventMutation();
     const [addEventMainImageRequest] = eventApi.useAddEventMainImageMutation();
+    const [getUserData] = userApi.useLazyGetUserDataQuery();
 
-    async function addEvent() {
+    async function addEvent(ev: React.FormEvent<HTMLFormElement>) {
+        ev.preventDefault();
         console.log("added event");
 
         try {
@@ -52,7 +53,7 @@ export default function UserAddEventPage() {
                 eventId: response,
                 image: formData,
             });
-            userApi.util.invalidateTags(["User"]);
+            await getUserData();
             navigate('/user/userEvents', { replace: true });
         }
         catch (error) {
@@ -77,24 +78,27 @@ export default function UserAddEventPage() {
             }
         return error;
     }
-    console.dir(values);
+
     return (
-        <div className='userAddEventPage'>
-            <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} isReadOnly={false} />
-            <div className='sideBox'>
-                <div className='togglesBox'>
-                    <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.isPublicEvent} id='isPublicEvent' onValueChange={valueChange} />
+        <form onSubmit={addEvent}>
+            <div className='userAddEventPage'>
 
-                    <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values.isTicketLimit} id='isTicketLimit' onValueChange={valueChange} />
-                    {values.isTicketLimit && <SimpleEditableInput id="ticketLimit"
-                        onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isNumber />}
-                </div>
+                <MainEventBox className="mainBox" values={values} onValuesChange={valueChange} isReadOnly={false} />
+                <div className='sideBox'>
+                    <div className='togglesBox'>
+                        <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.isPublicEvent} id='isPublicEvent' onValueChange={valueChange} />
 
-                <div className="finishAddingButtonBox">
-                    <ButtonWithIcon text="Cancel" isActive={true} icon={<XLg fill='white' />} style={ButtonStyle.Border} link='/user/userEvents' replaceLink={true} />
-                    <ButtonWithIcon text="Create event" isActive={true} icon={<PlusLg fill='white' />} style={ButtonStyle.Filled} onClickAction={addEvent} />
+                        <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values.isTicketLimit} id='isTicketLimit' onValueChange={valueChange} />
+                        {values.isTicketLimit && <SimpleEditableInput id="ticketLimit"
+                            onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isNumber required={values?.isTicketLimit} />}
+                    </div>
+
+                    <div className="finishAddingButtonBox">
+                        <ButtonWithIcon text="Cancel" isActive={true} icon={<XLg fill='white' />} style={ButtonStyle.Border} link='/user/userEvents' replaceLink={true} />
+                        <MenuButton type='submit' value='+ Create event' />
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     )
 }
