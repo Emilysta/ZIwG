@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             _signInManager = signInManager;
             _context = context;
         }
-        public async Task<bool> Login(LoginDTO model)
+        public async Task<User> Login(LoginDTO model)
         {
             var user = await _userManager.FindByNameAsync(model.Email);
 
@@ -38,21 +38,23 @@ namespace Infrastructure.Services
 
                 if (signInResult.Succeeded)
                 {
-                    return true;
+                    return user;
                 }
             }
-            return false;
+            return null;
         }
 
         public async Task<bool> Register(RegisterDTO model)
         {
-            var userToRegister = new User {
+            var userToRegister = new User
+            {
                 UserName = model.Email
             };
             userToRegister = _mapper.Map(model, userToRegister);
 
             var createAccountResult = await _userManager.CreateAsync(userToRegister, model.Password);
-            if (createAccountResult.Succeeded) {
+            if (createAccountResult.Succeeded)
+            {
                 await _signInManager.SignInAsync(userToRegister, isPersistent: false);
                 return true;
             }

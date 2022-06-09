@@ -92,8 +92,9 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginDTO model)
         {
-            if (await _loggingService.Login(model))
-                return Ok();
+            var user = await _loggingService.Login(model);
+            if (user != null)
+                return Ok(user.Id);
             return BadRequest();
         }
         /// <summary>
