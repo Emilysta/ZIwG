@@ -7,6 +7,7 @@ import { useReducer } from 'react';
 import { XLg, PlusLg } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { eventApi } from 'Utils/EventAPISlice';
+import { userApi } from 'Utils/UserApiSlice';
 import './UserAddEventPage.scss';
 
 const reducer = (state, action) => {
@@ -51,6 +52,7 @@ export default function UserAddEventPage() {
                 eventId: response,
                 image: formData,
             });
+            userApi.util.invalidateTags(["User"]);
             navigate('/user/userEvents', { replace: true });
         }
         catch (error) {

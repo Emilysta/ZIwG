@@ -42,7 +42,7 @@ export function LoginForm() {
     setThrobber(true);
     await loginRequest({ email: email, password: password }).unwrap()
       .then(async data => {
-        await dispatch(loginUserThunk());
+        await dispatch(loginUserThunk(data));
         navigate('/user', { replace: true });
       })
       .catch(err => {

@@ -38,20 +38,18 @@ export const userLoginSlice = createSlice({
             state.isLoggedIn = true;
             state.userId = action.payload.userId;
             state.userData = action.payload.userData;
-
             localStorage.setItem("userData", JSON.stringify(state));
         },
         logout: (state) => {
             state.isLoggedIn = false;
             state.userId = null;
             state.userData = null;
-
             localStorage.removeItem("userData");
         },
         updateUserData: (state, action: PayloadAction<EditableUserData>) => {
             state.userData = { ...state.userData, ...action.payload };
             localStorage.setItem("userData", JSON.stringify(state));
-        },
+        }
     },
 })
 

@@ -24,6 +24,8 @@ export type UserData = {
     description: string,
     dateOfBirth: Date,
     location: string,
+    organises: number,
+    attends: number,
 }
 
 export type EditableUserData = {
@@ -32,9 +34,7 @@ export type EditableUserData = {
     location: string,
 }
 
-export const loginUserThunk = () => async (dispatch) => {
-    let result = await fetch(`/api/User/currentUserId`)
-    let id = await result.text();
+export const loginUserThunk = (id: string) => async (dispatch) => {
     let resultData = await fetch(`/api/User/currentUserData`)
     let userData: UserData = await resultData.json();
 
@@ -46,13 +46,16 @@ export const userApi = createApi({
         baseUrl: '/api/User/',
     }),
     reducerPath: 'userApi',
+    tagTypes: ['User'],
     endpoints: (build) => ({
-        login: build.mutation<null, LoginData>({
+        login: build.mutation<string, LoginData>({
             query: (body) => ({
                 url: 'login',
                 method: 'POST',
                 body,
-            })
+                responseHandler: (response) => response.text()
+            }),
+            invalidatesTags: ['User'],
         }),
 
         logout: build.mutation<void, void>({
@@ -65,6 +68,24 @@ export const userApi = createApi({
                     await queryFulfilled;
                     dispatch(logout());
                 } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
+        }),
+
+        getUserData: build.query<UserData, void>({
+            query: () => ({
+                url: 'currentUserData',
+            }),
+            providesTags: ['User'],
+            async onQueryStarted(body, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log('lolkiii');
+                    console.log(data);
+                    await dispatch(updateUserData(data));
+                } catch (err) {
+                    console.log(err)
                     console.log('Error while updating data!');
                 }
             },
@@ -165,4 +186,4 @@ export const userApi = createApi({
         }),
     })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery, useLazyGetTicketQuery, useSubscribeToEventMutation, useUnsubscribeFromEventMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery, useLazyGetTicketQuery, useSubscribeToEventMutation, useUnsubscribeFromEventMutation, useGetUserDataQuery } = userApi;
