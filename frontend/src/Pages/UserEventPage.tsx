@@ -8,6 +8,7 @@ import { MenuButton } from 'Components/Input/MenuButton';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import { useReducer } from 'react';
+import { useLazyGetUserDataQuery } from 'Utils/UserApiSlice';
 
 const reducer = (state, action) => {
     if (action.type === "set") {
@@ -31,6 +32,7 @@ export default function EventPage() {
     const userId = useAppSelector((state: RootState) => state.userLogin.userId)
     const [editRequest] = useModifyEventMutation()
     const [pushImageRequest] = useAddEventMainImageMutation()
+    const [getUserData] = useLazyGetUserDataQuery();
 
     const isOrganiser = values && values.organiserId === userId;
 
@@ -51,6 +53,7 @@ export default function EventPage() {
                     }).then((_) => {
                         setReadOnly(true)
                     })
+                    getUserData();
                 }
                 else {
                     setReadOnly(true)

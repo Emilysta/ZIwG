@@ -17,12 +17,16 @@ export default function EventPage() {
 
     const [subscribeToEvent] = userApi.useSubscribeToEventMutation();
     const [unsubscribeFromEvent] = userApi.useUnsubscribeFromEventMutation();
+    const [getUserData] = userApi.useLazyGetUserDataQuery();
 
     async function onDropdownSelectionChange(selectedIndex: number) {
-        if (selectedIndex === 0)
+        if (selectedIndex === 0) {
             await unsubscribeFromEvent({ eventId: id });
+            await getUserData();
+        }
         else
             await subscribeToEvent({ eventId: id });
+            await getUserData();
     }
 
     if (error)
