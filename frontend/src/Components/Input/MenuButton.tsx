@@ -4,7 +4,7 @@ import './MenuButton.scss'
 type MenuButtonProps = {
   type?: string,
   value: string,
-  onClick: React.MouseEventHandler<HTMLInputElement>
+  onClick?: React.MouseEventHandler<HTMLInputElement>
   className?: string
 }
 

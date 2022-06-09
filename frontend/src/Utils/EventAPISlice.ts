@@ -43,20 +43,22 @@ export const eventApi = createApi({
           startDate: rawResult.startDate,
           endDate: rawResult.endDate,
           isPublicEvent: rawResult.isPublicEvent,
-          isPaidTicket: rawResult.isPaidTicket,
-          ticketPrice: rawResult.ticketPrice,
           isTicketLimit: rawResult.isTicketLimit,
+          signed: rawResult.signed,
+          available: rawResult.available,
           ticketLimit: rawResult.ticketLimit,
           mainImage: rawResult.mainImage,
           organiserName: rawResult.organiserName,
           organiserId: rawResult.organiserId,
           organiserImage: rawResult.organiserImage,
+          isInterested: rawResult.isInterested,
         };
 
         return data;
       },
+      providesTags: ['Event'],
     }),
-    addEvent: build.mutation<string, Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id' | 'mainImage'>>({
+    addEvent: build.mutation<string, Omit<EventData, 'organiserName' | 'organiserImage' | 'organiserId' | 'id' | 'mainImage' | 'isInterested'>>({
       query: (body) => ({
         url: 'add',
         method: 'POST',
@@ -84,8 +86,6 @@ export const eventApi = createApi({
           startDate: body.data.startDate,
           endDate: body.data.endDate,
           isPublicEvent: body.data.isPublicEvent,
-          isPaidTicket: body.data.isPaidTicket,
-          ticketPrice: body.data.ticketPrice,
           isTicketLimit: body.data.isTicketLimit,
           ticketLimit: body.data.ticketLimit,
         },

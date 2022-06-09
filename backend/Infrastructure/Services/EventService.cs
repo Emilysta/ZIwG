@@ -141,12 +141,16 @@ namespace Infrastructure.Services
             {
                 return null;
             }
+            User user = _eventUsersService.GetCurrentUser();
             ReturnEventExtendedDTO eventToReturn = _mapper.Map<Event, ReturnEventExtendedDTO>(foundEvent);
             eventToReturn.StartDate = eventToReturn.StartDate.ToLocalTime().ToUniversalTime();
             eventToReturn.EndDate = eventToReturn.EndDate.ToLocalTime().ToUniversalTime();
             int signed = 0;
-            if (foundEvent.Users != null)
+            if (foundEvent.Users != null){
                 signed = foundEvent.Users.Count;
+                if (user != null)
+                    eventToReturn.IsInterested = foundEvent.Users.Any(x => x == user);
+            }
             int available = 0;
             if (foundEvent.IsTicketLimit)
                 available = foundEvent.TicketLimit - signed;

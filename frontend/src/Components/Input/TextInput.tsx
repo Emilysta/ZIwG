@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Validator } from "Utils/Validator";
-import { ErrorMsg } from "./ErrorMsg";
+import { ErrorMsg } from './ErrorMsg';
 import './TextInput.scss'
 
 export type TextInputProps = {
@@ -13,6 +13,7 @@ export type TextInputProps = {
   required?: boolean,
   autoComplete?: string,
   additionalError?: string,
+  hidden?: boolean,
 }
 
 export function TextInput(props: TextInputProps) {
@@ -29,7 +30,7 @@ export function TextInput(props: TextInputProps) {
 
   React.useEffect(() => {
     if (props.additionalError) {
-      if (error === '')
+      if (error === null)
         setError(props.additionalError);
     }
   }, [props.additionalError])
@@ -40,8 +41,8 @@ export function TextInput(props: TextInputProps) {
 
   const renderInput = () => {
     return <div className="inputBox" >
-      <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} autoComplete={props.autoComplete} required={props.required} />
-      {<ErrorMsg className={'textInputError'}>{error}</ErrorMsg>}
+      <input type={props.overrideType ?? "text"} defaultValue={value} placeholder={props.placeHolder} onChange={handleChange} autoComplete={props.autoComplete} required={props.required} hidden={props.hidden} />
+      {!props.hidden && <ErrorMsg className={'textInputError'}>{error}</ErrorMsg>}
     </div>
   }
 

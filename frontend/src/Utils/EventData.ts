@@ -14,9 +14,10 @@ export interface EventData extends EventDataSimple {
     description: string,
     tags: TagType[],
     isPublicEvent: boolean,
-    isPaidTicket: boolean,
-    ticketPrice: number,
     isTicketLimit: boolean,
     ticketLimit: number,
+    signed: number,
+    available: number,
     place: string,
+    isInterested: boolean,
 }

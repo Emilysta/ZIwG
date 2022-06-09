@@ -8,6 +8,8 @@ import RegisterPage from 'Pages/RegisterPage';
 import UserPage from "Pages/UserPage";
 import EventPage from "Pages/EventPage";
 import { NotFound } from "Pages/NotFound";
+import ForgotPasswordPage from "Pages/ForgotPasswordPage";
+import ResetPasswordPage from "Pages/ResetPasswordPage";
 
 function App() {
   const [padding, setPadding] = React.useState('0px');
@@ -37,6 +39,8 @@ function App() {
             <Route path="events/:id" element={<EventPage />} />
             <Route path="logIn" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="forgotPassword" element={<ForgotPasswordPage />} />
+            <Route path="reset" element={<ResetPasswordPage />} />
             <Route path="user/*" element={<UserPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>

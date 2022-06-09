@@ -98,11 +98,6 @@ export default function MainEventBox(props: MainEventBoxProps) {
             </Popup>)
     }
 
-    function validateName(value: string): string {
-        if (value.length <= 0)
-            return 'Event must have a name';
-        return '';
-    }
 
     return (
         <div className={`mainEventBox ${props.className}`}>
@@ -120,7 +115,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             {returnLocationPickerPopup()}
 
             <div className='inputEventStack'>
-                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} validationAction={validateName} inputClassName='eventNameInput' isReadOnly={props.isReadOnly} isLoading={props.isLoading} />
+                <SimpleEditableInput defaultValue={props.values.name} id={"name"} onChangeAction={handleInputChange} inputDescription={"Event Name"} inputClassName='eventNameInput' isReadOnly={props.isReadOnly} isLoading={props.isLoading} required />
 
                 <div>
                     <p className='descText'>Tags</p>
@@ -139,8 +134,13 @@ export default function MainEventBox(props: MainEventBoxProps) {
                                     {!localizationText ? <Throbber className='localizationThrobber' /> : <></>}
                                     <p className='sizedText'>{localizationText ? localizationText : 'Loading'}</p>
                                 </>}
-                                {!props.isReadOnly && <p className='sizedText'>{localizationText ? localizationText : 'No localization'}</p>}
-                                {!props.isReadOnly && <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />}
+                                {!props.isReadOnly &&
+                                    <p>{localizationText ? localizationText : 'No localization'}</p>
+                                }
+                                {!props.isReadOnly && <div className='buttonWithInput'>
+                                    <ButtonWithIcon text="Pick place" icon={<PinMapFill fill='white' />} style={ButtonStyle.Filled} isActive={true} isLoading={props.isLoading} onClickAction={togglePopup} />
+                                    <input className='sizedText' defaultValue={localizationText} required />
+                                </div>}
                             </div>
                             {!props.isReadOnly && localizationText === '' && <ErrorMsg className='localizationError'>Must contain localization</ErrorMsg>}
                         </>

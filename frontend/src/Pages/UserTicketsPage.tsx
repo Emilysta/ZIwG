@@ -1,32 +1,18 @@
 import * as React from 'react'
-import { Link, useParams } from 'react-router-dom'
 import { TicketsList } from 'Components/UserTicketPage/TicketsList'
 import './UserTicketPage.scss'
+import { useGetUserEventsQuery } from 'Utils/EventAPISlice'
+import { RootState, useAppSelector } from 'Utils/Store'
 
 export default function UserTicketsPage() {
-    const params = useParams()
-    let typeString: string = params.type ?? "validated"
-
+    const userId = useAppSelector((state: RootState) => state.userLogin.userId)
+    const { data, isLoading } = useGetUserEventsQuery({ userId: userId });
     return (
-        <div className='ticketPage'>
-            <header>
-                <nav>
-                    <LinkAbc to="validated" selected> Validated ticket </LinkAbc>
-                    <LinkAbc to="archived"> Archived ticket </LinkAbc>
-                </nav>
-            </header>
-            <main>
-                <TicketsList type={typeString} />
-            </main>
-        </div>
+        <>
+            <div className='headerBox'>
+                <h1>Tickets</h1>
+            </div>
+            <TicketsList list={data} isLoading={isLoading} />
+        </>
     )
-}
-
-type LinkAbcProps = { to: string, selected?: boolean, children: string }
-
-function LinkAbc(props: LinkAbcProps) {
-    const to = props.to
-    const urlParam = useParams()
-    const selected = urlParam.type ? urlParam.type === to : props.selected
-    return <Link to={"/user/tickets/" + to} className={selected ? "selected" : ""}> {props.children}</Link>
 }

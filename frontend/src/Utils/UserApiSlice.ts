@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { eventApi } from './EventAPISlice';
 import { login, logout, updateUserData } from './UserSlice';
 
 export type LoginData = {
@@ -23,6 +24,8 @@ export type UserData = {
     description: string,
     dateOfBirth: Date,
     location: string,
+    organises: number,
+    attends: number,
 }
 
 export type EditableUserData = {
@@ -31,27 +34,11 @@ export type EditableUserData = {
     location: string,
 }
 
-export const loginUserThunk = () => async (dispatch) => {
-    let result = await fetch(`/api/User/currentUserId`)
-    let id = await result.text();
+export const loginUserThunk = (id: string) => async (dispatch) => {
     let resultData = await fetch(`/api/User/currentUserData`)
     let userData: UserData = await resultData.json();
 
     dispatch(login({ userId: id, userData: userData }));
-}
-
-export const subscribeToEvent = async (eventId: string) => {
-    let result = await fetch(`/api/User/sign/${eventId}`, { method: "POST" })
-    console.log(result)
-    if (result.status !== 204)
-        console.log('error while subscribing');
-}
-
-export const unsubscribeFromEvent = async (eventId: string) => {
-    let result = await fetch(`/api/User/signout/${eventId}`, { method: "DELETE" })
-    console.log(result)
-    if (result.status !== 204)
-        console.log('error while subscribing');
 }
 
 export const userApi = createApi({
@@ -59,13 +46,14 @@ export const userApi = createApi({
         baseUrl: '/api/User/',
     }),
     reducerPath: 'userApi',
-    tagTypes: ['Event', 'User'],
+    tagTypes: ['User'],
     endpoints: (build) => ({
-        login: build.mutation<null, LoginData>({
+        login: build.mutation<string, LoginData>({
             query: (body) => ({
                 url: 'login',
                 method: 'POST',
                 body,
+                responseHandler: (response) => response.text()
             }),
             invalidatesTags: ['User'],
         }),
@@ -85,6 +73,22 @@ export const userApi = createApi({
             },
         }),
 
+        getUserData: build.query<UserData, void>({
+            query: () => ({
+                url: 'currentUserData',
+            }),
+            providesTags: ['User'],
+            async onQueryStarted(body, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    await dispatch(updateUserData(data));
+                } catch (err) {
+                    console.log(err)
+                    console.log('Error while updating data!');
+                }
+            },
+        }),
+
         register: build.mutation<null, RegisterData>({
             query: (body) => ({
                 url: 'register',
@@ -93,11 +97,26 @@ export const userApi = createApi({
             }),
         }),
 
-        resetPassword: build.mutation<null, string>({
+        resetPassword: build.query<null, { userEmail: string, password: string, token: string }>({
             query: (body) => ({
                 url: 'resetPassword',
                 method: 'POST',
                 body,
+            }),
+        }),
+
+        sendPasswordRecoveryEmail: build.query<null, { userEmail: string }>({
+            query: (body) => ({
+                url: `sendPasswordRecoveryEmail/${body.userEmail}`,
+                method: 'POST',
+            }),
+        }),
+
+        getTicket: build.query<Blob, { id: string }>({
+            query: (body) => ({
+                url: `generateTicket/${body.id}`,
+                responseHandler: (response) => response.blob(),
+
             }),
         }),
 
@@ -113,7 +132,7 @@ export const userApi = createApi({
                 url: 'google-login',
                 method: 'GET',
                 mode: 'no-cors',
-                headers: {'Access-Control-Allow-Origin': '*'}
+                headers: { 'Access-Control-Allow-Origin': '*' }
             })
         }),
 
@@ -136,6 +155,35 @@ export const userApi = createApi({
                 }
             },
         }),
+
+        subscribeToEvent: build.mutation<null, { eventId: string }>({
+            query: (body) => ({
+                url: `sign/${body.eventId}`,
+                method: 'POST',
+            }),
+            async onQueryStarted(body, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(eventApi.util.invalidateTags(["Event"]));
+                } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
+        }),
+        unsubscribeFromEvent: build.mutation<null, { eventId: string }>({
+            query: (body) => ({
+                url: `signout/${body.eventId}`,
+                method: 'DELETE',
+            }),
+            async onQueryStarted(body, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(eventApi.util.invalidateTags(["Event"]));
+                } catch (err) {
+                    console.log('Error while updating data!');
+                }
+            },
+        }),
     })
 })
-export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation } = userApi;
+export const { useLoginMutation, useRegisterMutation, useGoogleLoginMutation, useGoogleRegisterMutation, useChangeUserDataMutation, useLazyResetPasswordQuery, useLazySendPasswordRecoveryEmailQuery, useLazyGetTicketQuery, useSubscribeToEventMutation, useUnsubscribeFromEventMutation, useLazyGetUserDataQuery } = userApi;

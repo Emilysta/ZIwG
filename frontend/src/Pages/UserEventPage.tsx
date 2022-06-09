@@ -8,6 +8,7 @@ import { MenuButton } from 'Components/Input/MenuButton';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import ToggleButtonWithText from 'Components/Input/ToggleButtonWithText';
 import { useReducer } from 'react';
+import { useLazyGetUserDataQuery } from 'Utils/UserApiSlice';
 
 const reducer = (state, action) => {
     if (action.type === "set") {
@@ -31,12 +32,14 @@ export default function EventPage() {
     const userId = useAppSelector((state: RootState) => state.userLogin.userId)
     const [editRequest] = useModifyEventMutation()
     const [pushImageRequest] = useAddEventMainImageMutation()
+    const [getUserData] = useLazyGetUserDataQuery();
 
     const isOrganiser = values && values.organiserId === userId;
 
     const edit = () => isOrganiser && setReadOnly(false)
-    const save = () => {
-        editRequest({
+    async function save(ev: React.FormEvent<HTMLFormElement>) {
+        ev.preventDefault();
+        await editRequest({
             eventId: values.id,
             data: values
         }).unwrap()
@@ -47,9 +50,14 @@ export default function EventPage() {
                     pushImageRequest({
                         eventId: values.id,
                         image: formData
-                    }).then((_) => setReadOnly(true))
+                    }).then((_) => {
+                        setReadOnly(true)
+                    })
+                    getUserData();
                 }
-                setReadOnly(true)
+                else {
+                    setReadOnly(true)
+                }
             })
             .catch((err) => console.error(err))
     }
@@ -79,31 +87,26 @@ export default function EventPage() {
         return (<Navigate replace to="/home" />);
     else {
         return (
-            <>
+            <form onSubmit={save}>
                 <div className='userEventPage'>
                     <MainEventBox className="mainBox" values={values ?? {}} isReadOnly={isReadOnly} isLoading={isLoading} onValuesChange={onEdit} />
                     <div className='sideBox'>
                         <div className='modifyButtonsBox'>
                             {isReadOnly && <MenuButton onClick={edit} value="Modify" className='strech' />}
-                            {!isReadOnly && <MenuButton onClick={save} value="Save" className='strech' />}
+                            {!isReadOnly && <MenuButton value="Save" className='strech' type='submit' />}
                             {!isReadOnly && <MenuButton onClick={cancel} value="Cancel" className="cancel strech" />}
                         </div>
                         <div className='togglesBox'>
 
                             <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values?.isPublicEvent} id='isPublicEvent' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
 
-                            <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values?.isPaidTicket} id='isPaidTicket' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
-
-                            {(values?.isPaidTicket) && <SimpleEditableInput id="ticketPrice"
-                                onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} isLoading={isLoading} isNumber defaultValue={values?.ticketPrice?.toString()} isReadOnly={isReadOnly} />}
-
                             <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values?.isTicketLimit} id='isTicketLimit' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
 
-                            {(values?.isTicketLimit) && <SimpleEditableInput id="ticketLimit" defaultValue={values?.ticketLimit?.toString()} onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isLoading={isLoading} isNumber isReadOnly={isReadOnly} />}
+                            {(values?.isTicketLimit) && <SimpleEditableInput id="ticketLimit" defaultValue={values?.ticketLimit?.toString()} onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isLoading={isLoading} isNumber isReadOnly={isReadOnly} required={values?.isTicketLimit} />}
                         </div>
                     </div>
                 </div>
-            </>
+            </form>
         )
     }
 }
