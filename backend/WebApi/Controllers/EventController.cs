@@ -103,7 +103,7 @@ namespace WebApi.Controllers
         /// <param name="location"></param>
         /// <param name="monthAndYear"></param> 
         /// <param name="userId"></param> 
-        /// <param name="organiserID"></param> 
+        /// <param name="organiserId"></param> 
         /// <response code="200">Success, events returned</response>
         /// <response code="400">Something went wrong</response>
         [HttpGet]
