@@ -35,8 +35,9 @@ export default function EventPage() {
     const isOrganiser = values && values.organiserId === userId;
 
     const edit = () => isOrganiser && setReadOnly(false)
-    const save = () => {
-        editRequest({
+    async function save(ev: React.FormEvent<HTMLFormElement>) {
+        ev.preventDefault();
+        await editRequest({
             eventId: values.id,
             data: values
         }).unwrap()
@@ -47,9 +48,13 @@ export default function EventPage() {
                     pushImageRequest({
                         eventId: values.id,
                         image: formData
-                    }).then((_) => setReadOnly(true))
+                    }).then((_) => {
+                        setReadOnly(true)
+                    })
                 }
-                setReadOnly(true)
+                else {
+                    setReadOnly(true)
+                }
             })
             .catch((err) => console.error(err))
     }
@@ -85,7 +90,7 @@ export default function EventPage() {
                     <div className='sideBox'>
                         <div className='modifyButtonsBox'>
                             {isReadOnly && <MenuButton onClick={edit} value="Modify" className='strech' />}
-                            {!isReadOnly && <MenuButton value="Save" className='strech' type='submit'/>}
+                            {!isReadOnly && <MenuButton value="Save" className='strech' type='submit' />}
                             {!isReadOnly && <MenuButton onClick={cancel} value="Cancel" className="cancel strech" />}
                         </div>
                         <div className='togglesBox'>
