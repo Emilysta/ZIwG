@@ -6,6 +6,7 @@ import { useGetEventQuery } from 'Utils/EventAPISlice';
 import Dropdown from 'Components/Dropdown';
 import LeafletBoxWithPopup from 'Components/EventPage/LeafletBoxWithPopup';
 import { StarFill, X } from 'react-bootstrap-icons';
+import Stat from 'Components/Stat';
 
 export default function EventPage() {
     const { id } = useParams();
@@ -26,6 +27,12 @@ export default function EventPage() {
 
                         <LeafletBoxWithPopup mapID='mapEvent' isLoading={isLoading} point={data?.place} eventName={data?.name} />
                     </div>
+                </div>
+                <div className='eventStatsContainer'>
+
+                    <Stat name='Attending users' value={data?.signed.toString()} />
+                    <Stat name='Available tickets' value={data?.isTicketLimit ? data.available.toString() : 'No limit'} />
+                    <Stat name='Capacity' value={data?.isTicketLimit ? data.ticketLimit.toString() : 'No limit'} />
                 </div>
             </div>
         )
