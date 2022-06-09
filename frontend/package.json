@@ -63,5 +63,5 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "^4.6.2"
   },
-  "proxy": "http://ziwg.toadres.pl"
+  "proxy": "https://ziwg.toadres.pl"
 }
