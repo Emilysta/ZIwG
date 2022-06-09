@@ -47,7 +47,7 @@ export default function EventsPage() {
                         </div>
                     </div>
                     <div className='eventList'>
-                        {events.map((e, i) => <EventTile key={i} data={e} isLoading={isLoading} />)}
+                        {events?.map((e, i) => <EventTile key={i} data={e} isLoading={isLoading} />)}
                     </div>
                 </div>
             </div>
