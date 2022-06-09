@@ -112,9 +112,11 @@ export const userApi = createApi({
             }),
         }),
 
-        getTicket: build.query<null, { id: string }>({
+        getTicket: build.query<Blob, { id: string }>({
             query: (body) => ({
-                url: `generateTicket/${body.id}`
+                url: `generateTicket/${body.id}`,
+                responseHandler: (response) => response.blob(),
+
             }),
         }),
 
