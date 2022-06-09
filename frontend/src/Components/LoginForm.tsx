@@ -51,12 +51,13 @@ export function LoginForm() {
       });
   }
 
+  const displayGoogleAuth = false;
+
   const googleAuth = () => {
     // bug CORS issue
     googleLoginRequest({}).unwrap()
       .then(data => {
         console.log(data)
-        window.location.replace(data)
       })
       .catch(err => console.error(err))
   }
@@ -78,8 +79,9 @@ export function LoginForm() {
 
     <p><Link to='/register' className='highlighted'>No account?</Link></p>
 
-    <Divider text='Or' size={360} />
-
-    <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} onClickAction={googleAuth} />
+    {displayGoogleAuth && <>
+      <Divider text='Or' size={360} />
+      <ButtonWithIcon text="Login with Google" isActive={true} link="" icon={<Google />} style={ButtonStyle.Background} onClickAction={googleAuth} />
+    </>}
   </div >;
 }
