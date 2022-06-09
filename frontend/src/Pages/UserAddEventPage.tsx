@@ -82,9 +82,7 @@ export default function UserAddEventPage() {
             <div className='sideBox'>
                 <div className='togglesBox'>
                     <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values.isPublicEvent} id='isPublicEvent' onValueChange={valueChange} />
-                    <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values.isPaidTicket} id='isPaidTicket' onValueChange={valueChange} />
-                    {values.isPaidTicket && <SimpleEditableInput id="ticketPrice"
-                        onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} isNumber />}
+
                     <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values.isTicketLimit} id='isTicketLimit' onValueChange={valueChange} />
                     {values.isTicketLimit && <SimpleEditableInput id="ticketLimit"
                         onChangeAction={valueChange} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isNumber />}

@@ -92,11 +92,6 @@ export default function EventPage() {
 
                             <ToggleButtonWithText fieldDesc='Public event' startIsToggled={values?.isPublicEvent} id='isPublicEvent' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
 
-                            <ToggleButtonWithText fieldDesc='Paid ticket' startIsToggled={values?.isPaidTicket} id='isPaidTicket' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
-
-                            {(values?.isPaidTicket) && <SimpleEditableInput id="ticketPrice"
-                                onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /^[1-9]{1}\d*(\.\d{1,2})?$/, 'Only Floating point number with max two decimals', true)} isLoading={isLoading} isNumber defaultValue={values?.ticketPrice?.toString()} isReadOnly={isReadOnly} />}
-
                             <ToggleButtonWithText fieldDesc='Limit tickets' startIsToggled={values?.isTicketLimit} id='isTicketLimit' onValueChange={onEdit} isReadOnly={isReadOnly} loading={isLoading} />
 
                             {(values?.isTicketLimit) && <SimpleEditableInput id="ticketLimit" defaultValue={values?.ticketLimit?.toString()} onChangeAction={onEdit} validationAction={(value: string) => checkInput(value, /\D/, 'Only Integer')} isLoading={isLoading} isNumber isReadOnly={isReadOnly} />}
