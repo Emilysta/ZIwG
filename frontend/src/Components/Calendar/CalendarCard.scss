@@ -1,6 +1,7 @@
 @use 'lib'as *;
 
 .calendarCardBase {
+  overflow: hidden;
   border-radius: 5px;
   border-style: solid;
   box-sizing: border-box;

@@ -55,7 +55,7 @@ export default function Calendar() {
         let day = dateFns.startOfMonth(currentMonth);
         for (let i: number = 0; i < dateFns.endOfMonth(currentMonth).getDate(); i++) {
             let tempDay = day;
-            let list = data.filter(function (e) { return isSameDate(new Date(e.startDate), tempDay) });
+            let list = data?.filter(function (e) { return isSameDate(new Date(e.startDate), tempDay) });
 
             if (list.length > 0)
                 newArray.push({ day: tempDay, events: list })
