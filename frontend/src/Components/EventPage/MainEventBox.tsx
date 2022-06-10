@@ -3,7 +3,7 @@ import './MainEventBox.scss';
 import { Images } from 'react-bootstrap-icons';
 import SimpleEditableInput from 'Components/Input/SimpleEditableInput';
 import { useEffect, useState } from 'react';
-import TagList from './TagList';
+import TagList, { TagType } from './TagList';
 import ButtonWithIcon, { ButtonStyle } from 'Components/Input/ButtonWithIcon';
 import { PinMapFill } from 'react-bootstrap-icons';
 import EventDatePicker from 'Components/DatePicker';
@@ -82,6 +82,12 @@ export default function MainEventBox(props: MainEventBoxProps) {
         }
     }
 
+    function handleTagsChange(tags: TagType[]) {
+        if (props.onValuesChange) {
+            props.onValuesChange('tags', tags);
+        }
+    }
+
     async function callApi(location: number[]) {
         let promise = dispatch(nominatimApi.endpoints.getLocationByLatLon.initiate({ lat: location[0].toString(), lon: location[1].toString(), format: "json" }));
         let result = await promise;
@@ -98,7 +104,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
             </Popup>)
     }
 
-
+    console.log(props.values.tags);
     return (
         <div className={`mainEventBox ${props.className}`}>
             <div className='galleryBox' onClick={(event) => onDropBoxClick(event)}>
@@ -119,7 +125,7 @@ export default function MainEventBox(props: MainEventBoxProps) {
 
                 <div>
                     <p className='descText'>Tags</p>
-                    <TagList isLoading={props.isLoading} tags={props.values.tags} isReadOnly={props.isReadOnly} />
+                    <TagList isLoading={props.isLoading} tags={props.values.tags} isReadOnly={props.isReadOnly} onTagsChange={handleTagsChange} />
                 </div>
                 <div>
                     <p className='descText'>Localization</p>

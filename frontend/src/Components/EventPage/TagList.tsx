@@ -12,6 +12,7 @@ export type TagListProps = {
     tags: TagType[],
     isReadOnly: boolean,
     onClick?: (value: string, id: number) => void
+    onTagsChange?: (tags: TagType[]) => void;
     isLoading?: boolean,
 }
 
@@ -20,6 +21,11 @@ export default function TagList(props: TagListProps) {
     const [isTagInputVisible, setIsTagInputVisible] = useState(false);
     const [tagInputValue, setTagInputValue] = useState("");
     const [tagPage, setTagPage] = useState(0);
+
+    React.useEffect(() => {
+        if (props.onTagsChange)
+            props.onTagsChange(tags);
+    }, [tags])
 
     function onTagClose(id: number) {
         setTags(tags.filter(function (value, index, arr) {
