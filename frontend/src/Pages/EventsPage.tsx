@@ -23,7 +23,7 @@ export default function EventsPage() {
 
     React.useEffect(() => {
         if (!isLoading) {
-            setSearch(data.map((e) => e.name))
+            setSearch(data?.map((e) => e.name))
             setEvents(data)
         }
     }, [isLoading])
