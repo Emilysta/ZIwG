@@ -4,26 +4,40 @@ Repository created for the purpose of academic course "Zastosowanie Informatyki 
 ## Table of contents
 - [ZIwG](#ziwg)
   - [Table of contents](#table-of-contents)
-  - [Główne funkcjonalności aplikacji](#główne-funkcjonalności-aplikacji)
-  - [Lista pomysłów](#lista-pomysłów)
   - [Authors](#authors)
   - [Specification](#specification)
+- [University course notes [PL]](#university-course-notes-pl)
+  - [Główne funkcjonalności aplikacji](#główne-funkcjonalności-aplikacji)
+  - [Lista pomysłów](#lista-pomysłów)
   - [Flow testowe](#flow-testowe)
 
-___
-[PL]
+
+## Authors
+- [Emilia Starczyk](https://github.com/Emilysta),
+- [Arek Kacperski](https://github.com/ArkadiuszK99),
+- [Michał Łopatka](https://github.com/MichalLopatka),
+- [Mateusz Górka](https://github.com/goorkamateusz)
+
+
+## Specification
+- Backend: ASP.NET Core,
+- Frontend: React,
+- Relation Database (MariaDB)
+
+
+# University course notes [PL]
 
 Projekt ma na celu stworzenie aplikacji pozwalającej na tworzenie i zarządzanie wydarzeniami oraz organizację społeczności wokół nich.
 
 ## Główne funkcjonalności aplikacji
-- [ ] Tworzenie wydarzeń publicznych przez zalogowanych użytkowników.
-- [ ] Przypisywanie kategorii wydarzeniom.
-- [ ] Lista zapisanych wydarzeń użytkownika.
-- [ ] Obsługa ograniczonej ilości miejsc na wydarzeniach.
-- [ ] Obsługa kalendarza wydarzeń.
+- [x] Tworzenie wydarzeń publicznych przez zalogowanych użytkowników.
+- [x] Przypisywanie kategorii wydarzeniom.
+- [x] Lista zapisanych wydarzeń użytkownika.
+- [x] Obsługa ograniczonej ilości miejsc na wydarzeniach.
+- [x] Obsługa kalendarza wydarzeń.
 - [ ] Możliwość organizacji wspólnych wyjazdów do wydarzeń.
-- [ ] Dodawanie opisu oraz szczegółowych informacji do wydarzeń.
-- [ ] Dodawanie miejsca wydarzeń.
+- [x] Dodawanie opisu oraz szczegółowych informacji do wydarzeń.
+- [x] Dodawanie miejsca wydarzeń.
 
 ## Lista pomysłów
 - [ ] Powiadomienia użytkownika o dostępności miejsc.
@@ -32,20 +46,6 @@ Projekt ma na celu stworzenie aplikacji pozwalającej na tworzenie i zarządzani
 - [ ] Możliwość zadawania pytań organizatorom (wydarzeń i przejazdów).
 - [ ] Możliwość subskrypcji organizatorów wydarzeń.
 - [ ] Dodawanie zdjęć do wydarzeń.
-
-___
-
-
-## Authors
-- [Emilia Starczyk](https://github.com/Emilysta),
-- [Arek Kacperski](https://github.com/),
-- [Michał Łopatka](https://github.com/MichalLopatka),
-- [Mateusz Górka](https://github.com/goorkamateusz)
-
-
-## Specification
-- Backend: ASP.NET Core,
-- Frontend: React
 
 ## Flow testowe
 - [ ] Rejestracja
@@ -75,7 +75,7 @@ ___
     - możliwość przeciągnięcia plików na box
     - możliwość wybrania poprzez naciśnięcie na box
 - [ ] Dodawanie daty 
-  - (Po zalogowaniu) -> My events -> Add event -> Naciśnięcie na input z datą 
+  - (Po zalogowaniu) -> My events -> Add event -> Naciśnięcie na input z datą
     - możliwość wyboru dnia, miesiąca, roku
     - możliwość wyboru godziny co do minuty
     - filtracja dat wstecz (blokada)
